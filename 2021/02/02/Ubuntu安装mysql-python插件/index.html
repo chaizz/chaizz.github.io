@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    CDN的工作原理 |
+    Ubuntu安装mysql-python插件 |
     
     八方</title>
   
@@ -30,7 +30,7 @@
 <body>
   <main class="content">
     <section class="outer">
-  <article id="post-CDN工作原理" class="article article-type-post" itemscope
+  <article id="post-Ubuntu安装mysql-python插件" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -39,7 +39,7 @@
       
 
 <h1 class="article-title" itemprop="name">
-  CDN的工作原理
+  Ubuntu安装mysql-python插件
 </h1>
 
 
@@ -49,8 +49,8 @@
 
     
     <div class="article-meta">
-      <a href="/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="article-date">
-  <time datetime="2021-02-01T06:45:39.000Z" itemprop="datePublished">2021-02-01</time>
+      <a href="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/" class="article-date">
+  <time datetime="2021-02-02T08:04:56.000Z" itemprop="datePublished">2021-02-02</time>
 </a>
       
     </div>
@@ -66,31 +66,21 @@
       
       
       
-      <a id="more"></a>
+      <h4 id="运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb"><a href="#运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb" class="headerlink" title="运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb"></a>运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb</h4><h3 id="1-安装-mysql-python"><a href="#1-安装-mysql-python" class="headerlink" title="1.安装 mysql-python"></a>1.安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure>
+<h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu安装mysql-python插件/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p>
+<h3 id="接下来安装依赖包"><a href="#接下来安装依赖包" class="headerlink" title="接下来安装依赖包"></a>接下来安装依赖包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure>
+<h3 id="如果还是不行安装依赖"><a href="#如果还是不行安装依赖" class="headerlink" title="如果还是不行安装依赖"></a>如果还是不行安装依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-dev</span><br><span class="line">sudo apt-get install python-MySQLdb</span><br></pre></td></tr></table></figure>
 
-<h3 id="CDN访问的两个阶段"><a href="#CDN访问的两个阶段" class="headerlink" title="CDN访问的两个阶段"></a>CDN访问的两个阶段</h3><ul>
-<li>1.域名解析</li>
-<li>2.内容请求</li>
-</ul>
-<h3 id="使用CDN得两种方式："><a href="#使用CDN得两种方式：" class="headerlink" title="使用CDN得两种方式："></a>使用CDN得两种方式：</h3><ul>
-<li>手工上传静态资源文件到CDN</li>
-<li>tongguo Tengine 把本机的静态资源开放发哦web上，CDN自动回流到Tengine。</li>
-</ul>
-<h4 id="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"><a href="#以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。" class="headerlink" title="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"></a>以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。</h4><ul>
-<li>生成静态文件上传到阿里元OSS。</li>
-<li>配置CDN域名，回源地址指向OSS Bucket，配置Referer 防盗链的白名单。</li>
-<li>配置OSS Buket 的匿名可以读。</li>
-<li>设置STATIC_URL， 直接指向CDN地址，同时注释掉 OssStaticStorage。</li>
-</ul>
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="wttps://www.chaizz.com/2021/02/01/CDN工作原理/" data-id="ckknq8say0001fsvm6yz55ahz" class="article-share-link">
+      <a data-url="wttps://www.chaizz.com/2021/02/02/Ubuntu安装mysql-python插件/" data-id="ckknq8sb7000cfsvmh1bwcmb4" class="article-share-link">
         分享
       </a>
       
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP%E3%80%81%E5%89%8D%E7%AB%AF/" rel="tag">HTTP、前端</a></li></ul>
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Ubuntu%E3%80%81Mysql-Python/" rel="tag">Ubuntu、Mysql-Python</a></li></ul>
 
     </footer>
 
@@ -100,19 +90,19 @@
   
 <nav class="article-nav">
   
-  <a href="/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" class="article-nav-link">
+  <a href="/2021/02/02/Linux%20%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/" class="article-nav-link">
     <strong class="article-nav-caption">前一篇</strong>
     <div class="article-nav-title">
       
-      两台linux 互相传输文件
+      Linux文件目录
       
     </div>
   </a>
   
   
-  <a href="/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/" class="article-nav-link">
+  <a href="/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/" class="article-nav-link">
     <strong class="article-nav-caption">后一篇</strong>
-    <div class="article-nav-title">Django之美：dajngo的常用插件</div>
+    <div class="article-nav-title">Centos7.5源码安装postgresql-12</div>
   </a>
   
 </nav>
