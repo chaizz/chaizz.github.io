@@ -1,487 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search>
-  <entry>
-    <title>CDN的工作原理</title>
-    <url>/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h3 id="CDN访问的两个阶段"><a href="#CDN访问的两个阶段" class="headerlink" title="CDN访问的两个阶段"></a>CDN访问的两个阶段</h3><ul>
-<li>1.域名解析</li>
-<li>2.内容请求</li>
-</ul>
-<a id="more"></a>
-
-<h3 id="使用CDN得两种方式："><a href="#使用CDN得两种方式：" class="headerlink" title="使用CDN得两种方式："></a>使用CDN得两种方式：</h3><ul>
-<li>手工上传静态资源文件到CDN</li>
-<li>tongguo Tengine 把本机的静态资源开放发哦web上，CDN自动回流到Tengine。</li>
-</ul>
-<h4 id="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"><a href="#以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。" class="headerlink" title="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"></a>以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。</h4><ul>
-<li>生成静态文件上传到阿里元OSS。</li>
-<li>配置CDN域名，回源地址指向OSS Bucket，配置Referer 防盗链的白名单。</li>
-<li>配置OSS Buket 的匿名可以读。</li>
-<li>设置STATIC_URL， 直接指向CDN地址，同时注释掉 OssStaticStorage。</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>HTTP、前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Centos7.5源码安装postgresql-12</title>
-    <url>/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/</url>
-    <content><![CDATA[<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><ol>
-<li><p>首先安装readline 和readline-devel</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install readline </span><br><span class="line">yum install readline-devel</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-</li>
-</ol>
-<p>虽然已经安装了readline，但是不安装readlene-devel 在执行 <code>./configure --prefix=/opt/postgresql</code> 的时候会提示，<code>configure: error: readline library not found</code>。</p>
-<ol start="2">
-<li><p>接下来在执行 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/opt/postgresql</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></li>
-<li><p>将postgresql 加入环境变量，打开文件 /etc/profile  在末尾添加</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export PG_HOME=/opt/postgresql  #为安装postgresql的地址</span><br><span class="line">export PATH=$PG_HOME/bin:$PATH</span><br><span class="line">source /etc/profile    #更新环境变量</span><br></pre></td></tr></table></figure></li>
-<li><p>创建postgresql 的用户以及用户组 可创建可不创建</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">groupadd postgresql   #创建用户组</span><br><span class="line">useradd -G postgresql postgresql   #创建用户</span><br><span class="line">passwd ********    #设置密码  </span><br></pre></td></tr></table></figure>
-</li>
-<li><p>初始数据库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl -D /opt/postgresdata initdb&#x27; #初始化数据库</span><br><span class="line">su postgresql   ：使用这个用户进行操作</span><br><span class="line">/opt/postgresdata：地址为存放初始化的文件路径可自定义，   这个文件的用户权限要为 postgresql可操作</span><br><span class="line">pg_ctl  ：postgresql 的控制器，可以对postgresql 进行启动停止等操作</span><br></pre></td></tr></table></figure>
-<p>执行以上语句后会再  /opt/postgresdata 路径下生成一些文件</p>
-<p><img src="/2021/02/02/Centos7-5源码安装postgresql-12/postgresql0.jpg"></p>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>文件</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>postmaster.pid</td>
-<td>首行记录了进程PID</td>
-</tr>
-<tr>
-<td>serverlog</td>
-<td>数据库日志</td>
-</tr>
-<tr>
-<td>postgresql.conf</td>
-<td>主配置文件(可做定制</td>
-</tr>
-<tr>
-<td>pg_hba.conf</td>
-<td>鉴权相关文件</td>
-</tr>
-<tr>
-<td>PG_VERSION</td>
-<td>当前主版本号</td>
-</tr>
-</tbody></table>
-<ol start="6">
-<li><p>启动数据库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl start -D /opt/postgredata -l serverlog&#x27;</span><br></pre></td></tr></table></figure>
-
-</li>
-<li><p>设置远程访问,在 pg_hba.conf文文件末尾加上：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">host all all 0.0.0.0/0 md5</span><br></pre></td></tr></table></figure></li>
-<li><p>为了让 postgresql用户可以远程访问，可以通过 psql 设置密码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter user postgresql with password &#39;*********&#39;;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ol>
-<ol start="9">
-<li><p>开启远程访问，默认情况下 postgresql 仅仅监听本机的端口，需要编辑 <strong>/opt/postgredata/ postgresql.conf</strong> 文件开启远程IP的访问</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">listen_addresses &#x3D; &#39;*&#39;</span><br></pre></td></tr></table></figure></li>
-<li><p>常用命令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果需要定制端口，可以执行脚本：</span></span><br><span class="line">postgres -p 5430 -D /opt/postgredata &gt;serverlog 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash">检查进程是否存活：</span></span><br><span class="line">netstat -nlp |grep `head -1 /opt/postgredata/postmaster.pid`</span><br><span class="line"><span class="meta">#</span><span class="bash">停止数据库进程</span></span><br><span class="line">kill -INT `head -1 /opt/postgredata/postmaster.pid`</span><br></pre></td></tr></table></figure></li>
-<li><p>配置自启动</p>
-<p>找到源码目录中 <strong><em>contrib/start-scripts/linux\</em></strong>脚本文件，拷贝为 <strong>/etc/init.d/postgressql</strong>。修改内容如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 程序所在目录</span></span><br><span class="line">prefix=/opt/postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 数据目录</span></span><br><span class="line">PGDATA=&quot;/opt/postgredata&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行用户</span></span><br><span class="line">PGUSER=postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 日志文件</span></span><br><span class="line">PGLOG=&quot;$PGDATA/serverlog&quot;</span><br></pre></td></tr></table></figure>
-<p>设置执行权限</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x /etc/init.d/postgressql		</span><br></pre></td></tr></table></figure>
-
-<p>此后，执行以下命令可以方便的启停服务</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//手动启动服务</span><br><span class="line">    service postgressql start</span><br><span class="line">    </span><br><span class="line">    //查看服务状态</span><br><span class="line">    service postgressql status</span><br><span class="line">    </span><br><span class="line">    //手动停止服务</span><br><span class="line">    service postgressql stop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>设置开机启动 ,执行以下命令：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chkconfig --add postgressql</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ol>
-<h3 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h3><p> <a href="https://www.postgresql.org/download/linux/redhat/">官网安装教程地址</a></p>
-<p>安装完成会自动创建一个用户为：postgres  </p>
-<p>首先使用管理员用户修改密码，然后登录以后，运行psql 即可使用，</p>
-<p>允许远程访问，yum安装的ppostgresql 的配置文件在<code>/var/lib/pgsql/12/data</code> 目录下</p>
-<p>修改配置文件 <code>postgresql.conf</code> 将 <code>listen_addresses = &#39;localhost&#39; </code>改为 <code>listen_addresses = &#39;*&#39; </code></p>
-<p>然后在修改 <code>pg_hba_conf</code> 在最后一行添加 <code>host all  all  0.0.0.0/0  md5</code>  允许所有IIP访问， 如果限定IP,将0.0.0.0 改为指定IP。</p>
-<p>重启命令postgresql  ：<code>systemctl restart postgresql-12</code></p>
-<p>参考材料：<a href> https://www.cnblogs.com/littleatp/p/10542137.html </a></p>
-]]></content>
-      <tags>
-        <tag>Centos、Postgresql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Django之美：dajngo的常用插件</title>
-    <url>/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<ul>
-<li><p><a href="https://django-debug-toolbar.readthedocs.io/en/latest/">django_debug_toolbar </a>：提供一个可以查看debug信息的面板（包括SQL执行时间，页面耗时）</p>
-</li>
-<li><p><a href="https://github.com/jazzband/django-silk">django-silk</a>：django性能瓶颈分析</p>
-</li>
-</ul>
-<a id="more"></a>
-
-<ul>
-<li><a href="https://simpleui.72wo.com/docs/simpleui/doc.html">Simple-UI</a> ：于Element UI 和 VUE 的django admin 主题。</li>
-</ul>
-<ul>
-<li><a href="https://django-haystack.readthedocs.io/en/master/">haystack django</a> ：模块化搜索方案</li>
-</ul>
-<ul>
-<li><a href="https://github.com/django-notifications/django-notifications">django-notifications</a>：发送消息通知插件</li>
-</ul>
-<ul>
-<li><a href="https://github.com/agusmakmun/django-markdown-editor">django markdown editor</a> ：Markdown 编辑器</li>
-</ul>
-<ul>
-<li><a href="https://github.com/django-crispy-forms/django-crispy-forms">django-crispy-forms</a>：Crispy 表单，以一种非常优雅的、干净的方式来创建表单。</li>
-</ul>
-<ul>
-<li><a href="https://github.com/mbi/django-simple-captcha">django-simple-captcha</a>：Django验证码</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Django、后端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mysql 8.0 连接数据库错误</title>
-    <url>/2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</url>
-    <content><![CDATA[<h4 id="Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist"><a href="#Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist" class="headerlink" title="Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist"></a>Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist</h4><a id="more"></a>
-
-<p>解决办法：</p>
-<ol>
-<li><p>重新创建该用户（mysql.infoschema）：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;mysql.infoschema&#x27;</span> @ <span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;password &#x27;</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p>给用户赋予权限</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;mysql.infoschema&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p>刷新数据库</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>Mysql、后端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python + Elestatcsearch</title>
-    <url>/2021/02/02/Python-Elestatcsearch/</url>
-    <content><![CDATA[<blockquote>
-<h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><p> ElasticSearch是一个基于<a href="https://baike.baidu.com/item/Lucene/6753302">Lucene</a>的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。ElasticSearch用于<a href="https://baike.baidu.com/item/%E4%BA%91%E8%AE%A1%E7%AE%97/9969353">云计算</a>中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。官方客户端在Java、.NET（C#）、PHP、Python、Apache Groovy、Ruby和许多其他语言中都是可用的。根据DB-Engines的排名显示，Elasticsearch是最受欢迎的企业搜索引擎，其次是Apache Solr，也是基于Lucene。 </p>
-<a id="more"></a>
-
-<h2 id="有关概念"><a href="#有关概念" class="headerlink" title="有关概念"></a>有关概念</h2><p>cluster：代表一个<a href="https://baike.baidu.com/item/%E9%9B%86%E7%BE%A4">集群</a>，集群中有多个节点，其中有一个为主节点，这个主节点是可以通过选举产生的，主从节点是对于集群内部来说的。es的一个概念就是去中心化，字面上理解就是无中心节点，这是对于集群外部来说的，因为从外部来看es集群，在逻辑上是个整体，你与任何一个节点的通信和与整个es集群通信是等价的。</p>
-<p>shards：代表索引分片，es可以把一个完整的索引分成多个分片，这样的好处是可以把一个大的索引拆分成多个，分布到不同的节点上。构成分布式搜索。分片的数量只能在索引创建前指定，并且索引创建后不能更改。</p>
-<p>replicas：代表索引副本，es可以设置多个索引的副本，副本的作用一是提高系统的<a href="https://baike.baidu.com/item/%E5%AE%B9%E9%94%99%E6%80%A7">容错性</a>，当某个节点某个分片损坏或丢失时可以从副本中恢复。二是提高es的查询效率，es会自动对搜索请求进行负载均衡。</p>
-<p>recovery：代表数据恢复或叫数据重新分布，es在有节点加入或退出时会根据机器的负载对索引分片进行重新分配，挂掉的节点重新启动时也会进行数据恢复。</p>
-<p>river：代表es的一个数据源，也是其它存储方式（如：数据库）同步数据到es的一个方法。它是以插件方式存在的一个es服务，通过读取river中的数据并把它索引到es中，官方的river有couchDB的，RabbitMQ的，Twitter的，Wikipedia的。</p>
-<p>gateway：代表es索引快照的存储方式，es默认是先把索引存放到内存中，当内存满了时再持久化到本地硬盘。gateway对索引快照进行存储，当这个es集群关闭再重新启动时就会从gateway中读取索引备份数据。es支持多种类型的gateway，有本地文件系统（默认），<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">分布式文件系统</a>，Hadoop的HDFS和amazon的s3<a href="https://baike.baidu.com/item/%E4%BA%91%E5%AD%98%E5%82%A8">云存储</a>服务。</p>
-<p>discovery.zen：代表es的自动发现节点机制，es是一个基于p2p的系统，它先通过广播寻找存在的节点，再通过<a href="https://baike.baidu.com/item/%E5%A4%9A%E6%92%AD">多播</a>协议来进行节点之间的通信，同时也支持<a href="https://baike.baidu.com/item/%E7%82%B9%E5%AF%B9%E7%82%B9">点对点</a>的交互。</p>
-<p>Transport：代表es内部节点或集群与客户端的交互方式，默认内部是使用tcp协议进行交互，同时它支持http协议（json格式）、<a href="https://baike.baidu.com/item/thrift">thrift</a>、servlet、memcached、zeroMQ等的<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE">传输协议</a>（通过<a href="https://baike.baidu.com/item/%E6%8F%92%E4%BB%B6">插件</a>方式集成）。</p>
-</blockquote>
-]]></content>
-      <tags>
-        <tag>Elestaticsearch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python压缩图片作为缩略图</title>
-    <url>/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/</url>
-    <content><![CDATA[<p>将图片压缩，作为缩略图，代码如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> shutil</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageFile</span><br><span class="line">ImageFile.LOAD_TRUNCATED_IMAGES = <span class="literal">True</span>    <span class="comment">#   OSError: image file is truncated   图像被截断错误</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resize_by_size</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;</span></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>]:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">        outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">        im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">        size_tmp = os.path.getsize(infile)</span><br><span class="line">        q = <span class="number">100</span></span><br><span class="line">        <span class="keyword">while</span> size_tmp &gt; <span class="number">10240</span> <span class="keyword">and</span> q &gt; <span class="number">0</span>:</span><br><span class="line">            out = im.resize(im.size, Image.ANTIALIAS)</span><br><span class="line">            out.save(outfile, quality=q)</span><br><span class="line">            size_tmp = os.path.getsize(outfile)</span><br><span class="line">            q -= <span class="number">10</span></span><br><span class="line">        <span class="keyword">if</span> q == <span class="number">100</span>:</span><br><span class="line">            shutil.copy(infile,outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">equal_img</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    修改大小</span></span><br><span class="line"><span class="string">    :param cls:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.startswith(<span class="string">&#x27;thumbnail&#x27;</span>) <span class="keyword">or</span> file_name.startswith(<span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 判断是不是图片。不是的话，忽略</span></span><br><span class="line">        <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;jpeg&#x27;</span>,<span class="string">&#x27;JPEG&#x27;</span>]:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">            <span class="comment"># print(&#x27;file_name：&#x27;,outfilename)</span></span><br><span class="line">            outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">            <span class="comment"># print(u&#x27;path：&#x27;,outfile)</span></span><br><span class="line">            im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">            width = im.size[<span class="number">0</span>]   <span class="comment"># 获取宽度</span></span><br><span class="line">            height = im.size[<span class="number">1</span>]   <span class="comment"># 获取高度</span></span><br><span class="line">            print(<span class="string">u&#x27;width：height：&#x27;</span>,width,height)</span><br><span class="line">            <span class="keyword">if</span> width &lt;= <span class="number">200</span>:</span><br><span class="line">                shutil.copy(infile,outfile)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                coe = <span class="built_in">float</span>(<span class="string">&#x27;%.2f&#x27;</span>%(<span class="number">200</span>/width))   <span class="comment">#保留两位小数可能是0.00，</span></span><br><span class="line">                print(<span class="string">u&#x27;coe：&#x27;</span>,coe)</span><br><span class="line">                <span class="keyword">if</span> coe &lt;= <span class="number">0</span>:</span><br><span class="line">                    coe = <span class="number">0.15</span></span><br><span class="line">                <span class="keyword">if</span> im.mode == <span class="string">&quot;P&quot;</span>:</span><br><span class="line">                    im = im.convert(<span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">                out = im.resize((<span class="built_in">int</span>(width*coe), <span class="built_in">int</span>(height*coe)), Image.ANTIALIAS)</span><br><span class="line"></span><br><span class="line">                out.save(outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gci</span>(<span class="params">filepath</span>):</span></span><br><span class="line">    <span class="comment">#遍历filepath下所有文件，包括子目录</span></span><br><span class="line">    files = os.listdir(filepath)</span><br><span class="line">    <span class="keyword">for</span> fi <span class="keyword">in</span> files:</span><br><span class="line">        fi_d = os.path.join(filepath,fi)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(fi_d):</span><br><span class="line">            gci(fi_d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># resize_by_size(os.path.join(filepath,fi_d))</span></span><br><span class="line">            equal_img(os.path.join(filepath,fi_d))</span><br><span class="line"></span><br><span class="line"><span class="comment">#递归遍历/root目录下所有文件</span></span><br><span class="line"><span class="comment"># gci(&#x27;/var/local/www/edu_online1/media/works&#x27;)</span></span><br><span class="line"><span class="comment"># gci(&#x27;/root/www/edu_online1/media/works/13360067818/tradition&#x27;)  #正式</span></span><br><span class="line">gci(<span class="string">&#x27;/root/www/edu_online1/media/works/13265647342/udict/1552525240000/䤋&#x27;</span>)  <span class="comment">#正式</span></span><br><span class="line"><span class="comment"># gci(r&#x27;F:\desktop\䤋&#x27;)</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Python、压缩图片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ubuntu安装mysql-python插件</title>
-    <url>/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<h4 id="运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb"><a href="#运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb" class="headerlink" title="运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb"></a>运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb</h4><a id="more"></a>
-
-<h3 id="1-安装-mysql-python"><a href="#1-安装-mysql-python" class="headerlink" title="1.安装 mysql-python"></a>1.安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure>
-<h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu安装mysql-python插件/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p>
-<h3 id="接下来安装依赖包"><a href="#接下来安装依赖包" class="headerlink" title="接下来安装依赖包"></a>接下来安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure>
-<h3 id="如果还是不行安装依赖"><a href="#如果还是不行安装依赖" class="headerlink" title="如果还是不行安装依赖"></a>如果还是不行安装依赖</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install python-dev</span><br><span class="line">sudo apt-get install python-MySQLdb</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>Ubuntu、Mysql-Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>flaskshell创建索引出错</title>
-    <url>/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/</url>
-    <content><![CDATA[<p>遇到的问题：flask 环境中使用 flask shell  使用flask Whoosh 创建索引失败</p>
-<a id="more"></a>
-
-<h3 id="解决办法-："><a href="#解决办法-：" class="headerlink" title="解决办法 ："></a>解决办法 ：</h3><pre><code>export FLASK_APP=manage.py
-flask shell 
-</code></pre>
-<p>然后导出 flask 创建的whoosh的whoosh对象</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from 项目内的文件 import whoosh</span><br><span class="line">whoosh.create_index()</span><br></pre></td></tr></table></figure>
-
-<p>​    </p>
-]]></content>
-      <tags>
-        <tag>Flask、shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>两台linux 互相传输文件</title>
-    <url>/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<blockquote>
-<h4 id="百度百科"><a href="#百度百科" class="headerlink" title="百度百科"></a>百度百科</h4><h6 id="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"><a href="#rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。" class="headerlink" title="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"></a>rsync是linux系统下的数据<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a><a href="https://baike.baidu.com/item/%E5%A4%87%E4%BB%BD">备份</a>工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。</h6><h5 id="它的特性如下："><a href="#它的特性如下：" class="headerlink" title="它的特性如下："></a>它的特性如下：</h5><ul>
-<li>可以<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a>保存整个目录树和文件系统。</li>
-<li>可以很容易做到保持原来文件的权限、时间、软硬链接等等。</li>
-<li>无须特殊权限即可安装。</li>
-</ul>
-<a id="more"></a>
-
-<ul>
-<li>快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改过的文件。rsync 在传输数据的过程中可以实行压缩及<a href="https://baike.baidu.com/item/%E8%A7%A3%E5%8E%8B%E7%BC%A9">解压缩</a>操作，因此可以使用更少的带宽。</li>
-<li>安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</li>
-<li>支持匿名传输，以方便进行网站镜像。 </li>
-</ul>
-</blockquote>
-<h4 id="1、Rsync参数说明"><a href="#1、Rsync参数说明" class="headerlink" title="1、Rsync参数说明"></a>1、Rsync参数说明</h4><ol>
-<li><p>使用 rsync + ssh 进行加密传输  </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rsync -avzhe ssh /home/ubuntu/remote_test ubuntu@193.112.102.63:/home/ubuntu/remote_test</span><br></pre></td></tr></table></figure></li>
-<li><p>参数设置  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-v, --verbose 详细模式输出</span><br><span class="line">   -q, --quiet 精简输出模式</span><br><span class="line">   -c, --checksum 打开校验开关，强制对文件传输进行校验</span><br><span class="line">   -a, --archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD</span><br><span class="line">   -r, --recursive 对子目录以递归模式处理</span><br><span class="line">   -R, --relative 使用相对路径信息</span><br><span class="line">   -b, --backup 创建备份，也就是对于目的已经存在有同样的文件名时，将老的文件重新命名为~filename。可以使用--suffix选项来指定不同的备份文件前缀。</span><br><span class="line">   --backup-dir 将备份文件(如~filename)存放在在目录下。</span><br><span class="line">   -suffix&#x3D;SUFFIX 定义备份文件前缀</span><br><span class="line">   -u, --update 仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)</span><br><span class="line">   -l, --links 保留软链结</span><br><span class="line">   -L, --copy-links 像对待常规文件一样处理软链接</span><br><span class="line">   --copy-unsafe-links 仅仅拷贝指向SRC路径目录树以外的链接</span><br><span class="line">   --safe-links 忽略指向SRC路径目录树以外的链接</span><br><span class="line">   -H, --hard-links 保留硬链接</span><br><span class="line">   -p, --perms 保持文件权限</span><br><span class="line">   -o, --owner 保持文件属主信息</span><br><span class="line">   -g, --group 保持文件属组信息</span><br><span class="line">   -D, --devices 保持设备文件信息</span><br><span class="line">   -t, --times 保持文件时间信息</span><br><span class="line">   -S, --sparse 对稀疏文件进行特殊处理以节省DST的空间</span><br><span class="line">   -n, --dry-run显示哪些文件将被传输</span><br><span class="line">   -W, --whole-file 拷贝文件，不进行增量检测</span><br><span class="line">   -x, --one-file-system 不要跨越文件系统边界</span><br><span class="line">   -B, --block-size&#x3D;SIZE 检验算法使用的块尺寸，默认是700字节</span><br><span class="line">   -e, --rsh&#x3D;COMMAND 指定使用rsh、ssh方式进行数据同步</span><br><span class="line">   --rsync-path&#x3D;PATH 指定远程服务器上的rsync命令所在路径信息</span><br><span class="line">   -C, --cvs-exclude 使用和CVS一样的方法自动忽略文件，用来排除那些不希望传输的文件</span><br><span class="line">   --existing 仅仅更新那些已经存在于DST的文件，而不备份那些新创建的文件</span><br><span class="line">   --delete 删除那些DST中SRC没有的文件</span><br><span class="line">   --delete-excluded 同样删除接收端那些被该选项指定排除的文件</span><br><span class="line">   --delete-after 传输结束以后再删除</span><br><span class="line">   --ignore-errors 即使出现IO错误也进行删除</span><br><span class="line">   --max-delete&#x3D;NUM 最多删除NUM个文件</span><br><span class="line">   --partial 保留那些因故没有完全传输的文件，以是加快随后的再次传输</span><br><span class="line">   --force 强制删除目录，即使不为空</span><br><span class="line">   --numeric-ids 不将数字的用户和组ID匹配为用户名和组名</span><br><span class="line">   --timeout&#x3D;TIME IP超时时间，单位为秒</span><br><span class="line">   -I, --ignore-times 不跳过那些有同样的时间和长度的文件</span><br><span class="line">   --size-only 当决定是否要备份文件时，仅仅察看文件大小而不考虑文件时间</span><br><span class="line">   --modify-window&#x3D;NUM 决定文件是否时间相同时使用的时间戳窗口，默认为0</span><br><span class="line">   -T --temp-dir&#x3D;DIR 在DIR中创建临时文件</span><br><span class="line">   --compare-dest&#x3D;DIR 同样比较DIR中的文件来决定是否需要备份</span><br><span class="line">   -P 等同于 --partial</span><br><span class="line">   --progress 显示备份过程</span><br><span class="line">   -z, --compress 对备份的文件在传输时进行压缩处理</span><br><span class="line">   --exclude&#x3D;PATTERN 指定排除不需要传输的文件模式</span><br><span class="line">   --include&#x3D;PATTERN 指定不排除而需要传输的文件模式</span><br><span class="line">   --exclude-from&#x3D;FILE 排除FILE中指定模式的文件</span><br><span class="line">   --include-from&#x3D;FILE 不排除FILE指定模式匹配的文件</span><br><span class="line">   --version 打印版本信息</span><br><span class="line">   --address 绑定到特定的地址</span><br><span class="line">   --config&#x3D;FILE 指定其他的配置文件，不使用默认的rsyncd.conf文件</span><br><span class="line">   --port&#x3D;PORT 指定其他的rsync服务端口</span><br><span class="line">   --blocking-io 对远程shell使用阻塞IO</span><br><span class="line">   -stats 给出某些文件的传输状态</span><br><span class="line">   --progress 在传输时显示传输过程</span><br><span class="line">   --log-format&#x3D;formAT 指定日志文件格式</span><br><span class="line">   --password-file&#x3D;FILE 从FILE中得到密码</span><br><span class="line">   --bwlimit&#x3D;KBPS 限制I&#x2F;O带宽，KBytes per second</span><br><span class="line">   -h, --help 显示帮助信息</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="2、目的"><a href="#2、目的" class="headerlink" title="2、目的"></a>2、目的</h4><ul>
-<li><p>实现两台服务器之间做增量备份。A服务器作为服务端，B服务器作为客户端。</p>
-</li>
-<li><p>B服务器每天定时将某个目录下产生的文件发送到A服务器中。</p>
-</li>
-</ul>
-<h4 id="3、操作方法"><a href="#3、操作方法" class="headerlink" title="3、操作方法"></a>3、操作方法</h4><p>在A服务器中安装 rsync ，查看服务器是否安装rsync。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rsync --version</span><br><span class="line">#显示如下  代表已经安装  版本为：3.1.1  (确保两台服务器之前安装的版本的一致，不一致可能造成无法同步数据)</span><br><span class="line">rsync  version 3.1.2  protocol version 31</span><br><span class="line">Copyright (C) 1996-2015 by Andrew Tridgell, Wayne Davison, and others.</span><br><span class="line">Web site: http:&#x2F;&#x2F;rsync.samba.org&#x2F;</span><br><span class="line">Capabilities:</span><br><span class="line">    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,</span><br><span class="line">    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,</span><br><span class="line">    append, ACLs, xattrs, iconv, symtimes, prealloc</span><br><span class="line"></span><br><span class="line">rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you</span><br><span class="line">are welcome to redistribute it under certain conditions.  See the GNU</span><br><span class="line">General Public Licence for details.</span><br></pre></td></tr></table></figure>
-<p>两边都安装完成了以后，就可以使用了。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rsync -avzhe ssh 001 ubuntu@193.112.102.63:/home/ubuntu/remote_test   </span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用ssh模式连接 需要输入密码</span></span><br></pre></td></tr></table></figure>
-<h5 id="1-将A服务器作为服务端"><a href="#1-将A服务器作为服务端" class="headerlink" title="1. 将A服务器作为服务端"></a>1. 将A服务器作为服务端</h5><p>编辑文件 <code>/etc/vi /etc/rsyncd.conf</code>默认不存在， 直接创建 。编辑输入如下内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">服务端配置文件 (和上面一样)</span></span><br><span class="line">motd file = /etc/rsyncd.motd</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsyncd.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line"></span><br><span class="line">[workspace]  #模块名 在客户端需要用到</span><br><span class="line">path = /devdata/backres   #需要备份的路径</span><br><span class="line">comment = Test</span><br><span class="line">uid = root   #使用的用户</span><br><span class="line">gid = root   #同上 </span><br><span class="line">read only = false   #是否可写</span><br><span class="line">auth users = root   #验证的用户</span><br><span class="line">secrets file = /etc/rsyncd.pass   #密码文件  文件的权限：600</span><br><span class="line">transfer logging = yes   #日志输出</span><br><span class="line">hosts allow=123.207.165.19   #允许的可短的IP地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>新建密码文件 在上述的conf文件中，倒数第三行。内容为当前用户名以及密码 。格式：user：password。密码文件拥有用户必须为当前用户 ubuntu 且权限必须为 600</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ubuntu:123456</span><br></pre></td></tr></table></figure>
-<p>查看rsync 状态 ： <code>service rsync status</code>。 重启rsync服务： <code>service rsync restart</code></p>
-<h5 id="2-将b服务器作为客户端"><a href="#2-将b服务器作为客户端" class="headerlink" title="2. 将b服务器作为客户端"></a>2. 将b服务器作为客户端</h5><p>客户端不需要设置太多内容可直接运行命令，不过需要手动输入密码，可将密码存在一个文件内，使用<code>--password-file=FILE</code> 进行从文件中读取密码。这个文件路径任意。文件内容只包含服务端密码即可。但是必须为root用户拥有且权限为600。</p>
-<p>使用命令 ：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo rsync -aqr --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">参数解释：</span></span><br><span class="line">-a：--archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，</span><br><span class="line">-q：--quiet 精简输出模式</span><br><span class="line">-r：--recursive 对子目录以递归模式处理</span><br><span class="line">workspace：即服务端的模块名</span><br></pre></td></tr></table></figure>
-<h5 id="3-设置定时任务"><a href="#3-设置定时任务" class="headerlink" title="3. 设置定时任务"></a>3. 设置定时任务</h5><p>使用ubuntu 的crontab </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
-<p>第一次打开会选择的编辑器，一般选择vim,输入数字即可。如下所示：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Select an editor.  To change later, run &#x27;select-editor&#x27;.</span><br><span class="line">  1. /bin/ed</span><br><span class="line">  2. /bin/nano        &lt;---- easiest</span><br><span class="line">  3. /usr/bin/vim.basic</span><br><span class="line">  4. /usr/bin/vim.tiny</span><br></pre></td></tr></table></figure>
-<p>定时任务格式：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* * * * * command    </span><br><span class="line">用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</span><br><span class="line">minute hour day month week command</span><br><span class="line">其中：</span><br><span class="line">minute：表示分钟，可以是从0到59之间的任何整数。</span><br><span class="line">hour：表示小时，可以是从0到23之间的任何整数。</span><br><span class="line">day：表示日期，可以是从1到31之间的任何整数。</span><br><span class="line">month：表示月份，可以是从1到12之间的任何整数。</span><br><span class="line">week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。</span><br><span class="line">command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件</span><br><span class="line">/ 斜杠代表频率 例如：</span><br><span class="line">如果想每分钟都执行一次的话就采用默认的 * * * * *</span><br><span class="line">如果想每五分钟执行一次可以 */5 * * * * </span><br><span class="line">如果是每两个小时执行一次的话 那就是 *  */2 * * *来设置;</span><br></pre></td></tr></table></figure>
-<p>在定时任务中输入：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">30 23 * * * sudo rsync -r --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br><span class="line"><span class="meta">#</span><span class="bash">表示 在每天的23:30 进行数据备份</span></span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python 面试题</title>
-    <url>/2021/02/01/%E8%AF%95%E9%A2%98/</url>
-    <content><![CDATA[<p>1、对字典d = {‘a’: 24, ‘b’: 53, ‘d’: 56, ‘h’: 7}  按照字典中的value值排序。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sorted(d.items(), key&#x3D;lambda x: x[0])</span><br></pre></td></tr></table></figure>
-<p>2、反转字符串 “aSter”</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">print(&#39;aSter&#39;[::-1])</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p>3、按照list1 中的元素的由从大到小排序</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1 = [&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;b&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">20</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;a&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">10</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;d&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">50</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;c&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">7</span>&#125;]</span><br><span class="line"><span class="built_in">sorted</span>(list1, key=<span class="keyword">lambda</span> x: x[<span class="string">&#x27;age&#x27;</span>], reverse=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># reverse=True   由大到小  sorted排序默认由小到大</span></span><br></pre></td></tr></table></figure>
-<p>4、常用的字符串格式化有哪些？</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">name = <span class="string">&quot;张三&quot;</span></span><br><span class="line"><span class="comment"># 1.占位符 %s</span></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&quot;%s，你好!&quot;</span> % name</span><br><span class="line"><span class="comment"># 2. format</span></span><br><span class="line">str2 = <span class="string">&quot;&#123;&#125;， 你好!&quot;</span>.<span class="built_in">format</span>(name)</span><br><span class="line">print(str2)</span><br></pre></td></tr></table></figure>
-<p>5、 下面代码的输出结果是什么 ？</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">list</span> = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>]	</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print(<span class="built_in">list</span>[<span class="number">10</span>:])    </span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
-<p>输出结果是空  不会产生IndexError错误，尝试用超出成员个数的Index来获取某个列表的成员，</p>
-<p>6、写一个列表生成式产生一个等差为11的等差数列。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print([x*<span class="number">11</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)])</span><br></pre></td></tr></table></figure>
-<p>7、给定两个列表怎么找出他们相同的元素和不同的元素</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">list2 = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">set1 = <span class="built_in">set</span>(list1)</span><br><span class="line">set2 = <span class="built_in">set</span>(list2)</span><br><span class="line">print(set1 &amp; set2)</span><br><span class="line">print(set1 ^ set2)</span><br></pre></td></tr></table></figure>
-<p>8、python代码实现删除一个list的重复的元素</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1 = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;r&#x27;</span>]</span><br><span class="line">print(<span class="built_in">set</span>(list1))</span><br></pre></td></tr></table></figure>
-<p>9、列举字符串、列表、元祖、字典的五个常用的用法。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#字符串：replace、strip、split、reverse、upper、lower、join</span></span><br><span class="line"><span class="comment">#列表：append、pop、insert、remove、count、index</span></span><br><span class="line"><span class="comment"># 元祖：index、count、len()、dir()</span></span><br><span class="line"><span class="comment"># 字典：get、keys、values、popitems、clear、uodate、items</span></span><br></pre></td></tr></table></figure>
-<p>10、什么是反射 ？ 以及他的应用场景。</p>
-<p>反射就是通过字符串的形式式去对象中访问或操作这个未知的属性或变量，是一种基于字符串的事件驱动。</p>
-<p>在面向对象中把对象能够访问、查询、修改自身的状态或者行为称之为反射。</p>
-<p>在python中，可以通过字符串的的形式来操作对象的属性。这种行为称之为python中的反射。</p>
-<p>python 实现反射的手段：</p>
-<p>是通过四个内置函数来实现：<strong>hasattr(object,name)</strong>  <strong>getattr(object,name,default=None) ** **setattr(x,y,v) ** **delattr(x,y)</strong></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#判断对象中是否有这个方法或变量</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,name</span>):</span></span><br><span class="line">        self.name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">talk</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&quot;%s正在交谈&quot;</span>%self.name)</span><br><span class="line"></span><br><span class="line">p = Person(<span class="string">&quot;laowang&quot;</span>)        </span><br><span class="line">print(<span class="built_in">hasattr</span>(p,<span class="string">&quot;talk&quot;</span>))    <span class="comment"># True。因为存在talk方法</span></span><br><span class="line">print(<span class="built_in">hasattr</span>(p,<span class="string">&quot;name&quot;</span>))    <span class="comment"># True。因为存在name变量</span></span><br><span class="line">print(<span class="built_in">hasattr</span>(p,<span class="string">&quot;abc&quot;</span>))     <span class="comment"># False。因为不存在abc方法或变量</span></span><br></pre></td></tr></table></figure>
-<p>反射的好处 ：</p>
-<p>实现可插拔机制、动态导入模块（基于反射原理，获取当前的模块的成员）</p>
-<p>11、简述Python的深浅拷贝 ，详细见<a href="https://zhuanlan.zhihu.com/p/54011712">链接</a>。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># copy() ： 浅拷贝，仅仅拷贝数据集合的第一层</span></span><br><span class="line"><span class="comment"># deepcopy() : 深拷贝，拷贝数据集合的所有层</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="number">1</span>:<span class="number">2</span>&#125;]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;=====赋值=====&quot;</span>)</span><br><span class="line">b=a</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="built_in">id</span>(b))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;=====浅拷贝=====&quot;</span>)</span><br><span class="line">b=copy.copy(a)</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="built_in">id</span>(b))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;=====深拷贝=====&quot;</span>)</span><br><span class="line">b=copy.deepcopy(a)</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="built_in">id</span>(b))</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#结果：</span></span><br><span class="line">=====赋值=====</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line">=====浅拷贝=====</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line"><span class="number">2145919592320</span></span><br><span class="line">=====深拷贝=====</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line"><span class="number">2145919532928</span></span><br></pre></td></tr></table></figure>
-<p>12、Python的垃圾回收机制。  <a href="https://zhuanlan.zhihu.com/p/83251959">链接</a></p>
-<ul>
-<li><p>引用计数</p>
-<p>在python中每一个对象的的核心就是一个结构体PyObject，他的内部有有一个引用计数器（（ob_refcnt）），程序在运行的过程中他会湿湿的更新 引用计数器（ob_refcnt）的值，来反映当前对象的名称数量，当某个对象的引用计数为零的时候，那么他的内存就会被释放掉。</p>
-<ul>
-<li>导致引用计数加一的情况有 ：对象被创建、对象被引用、对象被作为参数传入一个函数中、对象存储在容器中。</li>
-<li>导致引用计数减一的情况有：对象别名被显示销毁 del、对象别名被赋予新的对象、一个对象离开他的作用域、对象所在的容器被销毁或者是从容器中删除对象<br>我们可以通过sys包中的getrefcount()来获取一个名称所引用的对象当前的引用计数(注意，这里getrefcount()本身会使得引用计数加一)</li>
-</ul>
-<p>我们还可以通过sys包中的getrefcount()来获取一个名称所引用的对象当前的引用计数(注意，这里getrefcount()本身会使得引用计数加一)</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">sys.getrefcount(a)</span><br></pre></td></tr></table></figure>
-<p>引用计数的优点：</p>
-<ul>
-<li><p>高效、实现逻辑简单、具备实时性，一旦一个对象的引用计数归零，内存就直接释放了。</p>
-<p>引用计数的缺点：</p>
-</li>
-<li><p>逻辑简单，但实现有些麻烦。每个对象需要分配单独的空间来统计引用计数，这无形中加大的空间的负担，并且需要对引用计数进行维护，在维护的时候很容易会出错。</p>
-</li>
-<li><p>可能会比较慢。正常来说垃圾回收会比较平稳运行，但是当需要释放一个大的对象时，比如字典，需要对引用的所有对象循环嵌套调用，从而可能会花费比较长的时间。</p>
-</li>
-<li><p>循环引用。这将是引用计数的致命伤，引用计数对此是无解的，因此必须要使用其它的垃圾回收算法对其进行补充。</p>
-</li>
-</ul>
-</li>
-<li><p>标记-清除</p>
-<p>他是解决容器对象可能产生的循环引用的问题。</p>
-<p>不改动真实的而引用计数，而是将引用计数复制一份副本，改动改对象引用的副本，对于副本做得任何改动都不影响生命对象整体的维护。</p>
-<p>标记清除的步骤：</p>
-<ul>
-<li>标记阶段：遍历所有的对象，如果是科可达的（reachable）也就是说还有对象在引用他，那么就标记该对象可达。</li>
-</ul>
-</li>
-<li><p>清除阶段：再次遍历对象，如果发现某个对象不是可达的，就将其回收。</p>
-</li>
-<li><p>分代回收</p>
-<p>在循环引用对象的回收中，整个应用程序会被暂停，为了减少应用程序暂停的时间，Python 通过**“分代回收”(Generational Collection)**以空间换时间的方法提高垃圾回收效率。</p>
-<p>分代回收是基于这样的一个统计事实，<strong>对于程序，存在一定比例的内存块的生存周期比较短；而剩下的内存块，生存周期会比较长，甚至会从程序开始一直持续到程序结束。生存期较短对象的比例通常在 80%～90% 之间，这种思想简单点说就是：对象存在时间越长，越可能不是垃圾，应该越少去收集。这样在执行标记-清除算法时可以有效减小遍历的对象数，从而提高垃圾回收的速度。</strong></p>
-<p><strong>总体来说，在Python中，主要通过引用计数进行垃圾回收；通过 “标记-清除” 解决容器对象可能产生的循环引用问题；通过 “分代回收” 以空间换时间的方法提高垃圾回收效率。</strong></p>
-</li>
-</ul>
-<p>13、如何打乱一个排好序的lisit对象</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">alist = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">random.shuffle(alist)</span><br><span class="line">print(alist)</span><br></pre></td></tr></table></figure>
-<p>14、从0-99这100个数中随即取出十个数字 要求不能重复。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">print(random.sample(<span class="built_in">range</span>(<span class="number">0</span>,<span class="number">99</span>),k=<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-<p>15、Python如何捕获异常、处理异常 、抛出异常</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#捕获异常：</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#处理异常：</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#else:不发生异常执行的语句</span></span><br><span class="line"><span class="comment">#finally：无论是否发生异常都执行的语句</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># raise Exception   抛出异常</span></span><br></pre></td></tr></table></figure>
-<p>16、python递归的大层数</p>
-<p>最大为998</p>
-<p>17、列表推导式和生成器表达式[i% 2 for iinrange(10)] 和 [i%2 for i in range(10)] 输出的结果分别是什么？</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">print([i%<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)])</span><br><span class="line">print((i%<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)))</span><br></pre></td></tr></table></figure>
-<p>18、 什么是闭包？</p>
-<p>指的是定义在一个函数内部的函数 ，被外层函数包裹着。其特点是可以访问到外层函数的名字。<br>闭包”有两种不同的方式，第一种是在函数内部就“直接调用了”；第二种是“返回一个函数名称</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 第一种形式  在外层函数中直接调用内层函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mark</span>(<span class="params">name</span>):</span></span><br><span class="line">    num = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">weight</span>):</span></span><br><span class="line">        weight += <span class="number">1</span></span><br><span class="line">        print(name, weight)</span><br><span class="line"></span><br><span class="line">    func(<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mark(<span class="string">&#x27;塞拉斯&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二种形式:在外层函数中返回内层函数对象</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maker</span>(<span class="params">name</span>):</span></span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">height</span>):</span></span><br><span class="line">        height += <span class="number">1</span></span><br><span class="line">        print(name, num, height)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a = maker(<span class="string">&#x27;张三&#x27;</span>)</span><br><span class="line">a(<span class="number">999</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># “闭包”的作用——保存函数的状态信息，使函数的局部变量信息依然可以保存下来</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Maker</span>(<span class="params">step</span>):</span>  <span class="comment"># 包装器</span></span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun1</span>():</span>  <span class="comment"># 内部函数</span></span><br><span class="line">        <span class="keyword">nonlocal</span> num  <span class="comment"># nonlocal关键字的作用和前面的local是一样的，如果不使用该关键字，则不能在中内部函数改变“外部变量”的值</span></span><br><span class="line">        num = num + step  <span class="comment"># 改变外部变量的值（如果只是访问外部变量，则不需要适用nonlocal）</span></span><br><span class="line">        print(num)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fun1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># =====================================#</span></span><br><span class="line">j = <span class="number">1</span></span><br><span class="line">func2 = Maker(<span class="number">3</span>)  <span class="comment"># 调用外部包装器</span></span><br><span class="line"><span class="keyword">while</span> (j &lt; <span class="number">5</span>):</span><br><span class="line">    func2()  <span class="comment"># 调用内部函数4次 输出的结果是 4、7、10、13</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这就是“闭包”的最大的作用——保存局部信息不被销毁。</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Python、后端、面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>迭代思维与MVP产品的规划方法</title>
-    <url>/2021/02/01/%E8%BF%AD%E4%BB%A3%E6%80%9D%E7%BB%B4%E4%B8%8EMVP%E4%BA%A7%E5%93%81%E7%9A%84%E8%A7%84%E5%88%92%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<ul>
-<li>MVP：minimum viable product 最小可用产品</li>
-</ul>
-<a id="more"></a>
-
-<ul>
-<li>OOPD：Online&amp;Offline Product Development  线上线下相结合的产品开发方法<ul>
-<li>内裤原则 ： MVP 包括了产品的轮廓，核心的功能，让业务可以运转。</li>
-<li>优先线下：能够走线下的 优先走线下的流程，让核心的功能先跑起来，快速的做用户验证和方案验证。</li>
-<li>MVP的核心：忽略掉一切技术的细枝末节，做最合适的假设和简化，使用最短的时间开发出来。</li>
-</ul>
-</li>
-<li>迭代思维最强大的是产品思维逻辑，互联网唯快不破的秘诀。</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>架构、后端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux文件目录</title>
-    <url>/2021/02/02/Linux%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/</url>
-    <content><![CDATA[<ul>
-<li><strong>/bin</strong>：<br>bin是Binary的缩写, 这个目录存放着最经常使用的命令。</li>
-<li><strong>/boot：</strong><br>这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。</li>
-</ul>
-<a id="more"></a>
-
-<ul>
-<li><p><strong>/dev ：</strong><br>dev是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。</p>
-</li>
-<li><p><strong>/etc：</strong><br>这个目录用来存放所有的系统管理所需要的配置文件和子目录。</p>
-</li>
-<li><p><strong>/home</strong>：<br>用户的主目录，在Linux中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的。</p>
-</li>
-<li><p><strong>/lib</strong>：<br>这个目录里存放着系统最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库。</p>
-</li>
-<li><p><strong>/lost+found</strong>：<br>这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。</p>
-</li>
-<li><p><strong>/media</strong>：<br>linux系统会自动识别一些设备，例如U盘、光驱等等，当识别后，linux会把识别的设备挂载到这个目录下。</p>
-</li>
-<li><p><strong>/mnt</strong>：<br>系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在/mnt/上，然后进入该目录就可以查看光驱里的内容了。</p>
-</li>
-<li><p><strong>/opt</strong>：<br> 这是给主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。</p>
-</li>
-<li><p><strong>/proc</strong>：<br>这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。<br>这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件，比如可以通过下面的命令来屏蔽主机的ping命令，使别人无法ping你的机器：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">echo 1 &gt; &#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;icmp_echo_ignore_all</span><br></pre></td></tr></table></figure></li>
-<li><p><strong>/root</strong>：<br>该目录为系统管理员，也称作超级权限者的用户主目录。</p>
-</li>
-<li><p><strong>/sbin</strong>：<br>s就是Super User的意思，这里存放的是系统管理员使用的系统管理程序。</p>
-</li>
-<li><p><strong>/selinux</strong>：<br> 这个目录是Redhat/CentOS所特有的目录，Selinux是一个安全机制，类似于windows的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。</p>
-</li>
-<li><p><strong>/srv</strong>：<br> 该目录存放一些服务启动之后需要提取的数据。</p>
-</li>
-<li><p><strong>/sys</strong>：</p>
-<p> 这是linux2.6内核的一个很大的变化。该目录下安装了2.6内核中新出现的一个文件系统 sysfs 。</p>
-<p>sysfs文件系统集成了下面3种文件系统的信息：针对进程信息的proc文件系统、针对设备的devfs文件系统以及针对伪终端的devpts文件系统。</p>
-<p>该文件系统是内核设备树的一个直观反映。</p>
-<p>当一个内核对象被创建的时候，对应的文件和目录也在内核对象子系统中被创建。</p>
-</li>
-<li><p><strong>/tmp</strong>：<br>这个目录是用来存放一些临时文件的。</p>
-</li>
-<li><p><strong>/usr</strong>：<br> 这是一个非常重要的目录，用户的很多应用程序和文件都放在这个目录下，类似于windows下的program files目录。</p>
-</li>
-<li><p><strong>/usr/bin：</strong><br>系统用户使用的应用程序。</p>
-</li>
-<li><p><strong>/usr/sbin：</strong><br>超级用户使用的比较高级的管理程序和系统守护程序。</p>
-</li>
-<li><p><strong>/usr/src：</strong><br>内核源代码默认的放置目录。</p>
-</li>
-<li><p><strong>/var</strong>：<br>这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p>
-</li>
-<li><p><strong>/run</strong>：<br>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 /var/run 目录，应该让它指向 run。</p>
-</li>
-</ul>
-<p><img src="/2021/02/02/Linux文件目录/linuxfile.jpg"></p>
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
+<search> 
+  
+  
+    
+    <entry>
+      <title>迭代思维与MVP产品的规划方法</title>
+      <link href="2021/02/04/%E8%BF%AD%E4%BB%A3%E6%80%9D%E7%BB%B4%E4%B8%8EMVP%E4%BA%A7%E5%93%81%E7%9A%84%E8%A7%84%E5%88%92%E6%96%B9%E6%B3%95/"/>
+      <url>2021/02/04/%E8%BF%AD%E4%BB%A3%E6%80%9D%E7%BB%B4%E4%B8%8EMVP%E4%BA%A7%E5%93%81%E7%9A%84%E8%A7%84%E5%88%92%E6%96%B9%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<h3 id="快速迭代的价值与挑战"><a href="#快速迭代的价值与挑战" class="headerlink" title="快速迭代的价值与挑战"></a>快速迭代的价值与挑战</h3><p>快速迭代：以天或者小时为单位，持续的完善产品，交付到用户的循环过程</p><a id="more"></a><h4 id="快速迭代的价值："><a href="#快速迭代的价值：" class="headerlink" title="快速迭代的价值："></a>快速迭代的价值：</h4><ul><li>时间是最大的成本，机会转瞬即逝，赢得市场先机。</li><li>快速验证需求，减少不对用户产生价值的投入（Fail fast, Fail better）。</li><li>快速验证方案，提高研发效率。</li><li>加速反馈回路，给到团队和自己及时的激励。</li></ul><h4 id="快速迭代的挑战："><a href="#快速迭代的挑战：" class="headerlink" title="快速迭代的挑战："></a>快速迭代的挑战：</h4><ul><li>产品设计者：能梳理清楚业务流程，抓住用户的重点需求，能把客户需求转换为系统的需求。</li><li>开发者：充分理解用户需求，有足够的能力，能用简洁的方案来设计出易维护的系统。</li></ul><h4 id="根本挑战："><a href="#根本挑战：" class="headerlink" title="根本挑战："></a>根本挑战：</h4><ul><li><p>市场、用户、技术、环境变化太快，产品开发跟不上节奏。</p></li><li><p>几乎不能从一开始就设计一个完美的，能够使用未来长时间变化的方案</p></li><li><p>几乎没有人愿意承认，自己没有足够的力（或条件）设计一个完美的产品（系统）。</p></li></ul><h3 id="OOPD-方法识别产品的核心功能"><a href="#OOPD-方法识别产品的核心功能" class="headerlink" title="OOPD 方法识别产品的核心功能"></a>OOPD 方法识别产品的核心功能</h3><p>OOPD：Online and Offline integrated Product Development  </p><p><img src="/2021/02/04/迭代思维与MVP产品的规划方法/OOPD.png"></p><p>OOPD迭代的原则：</p><ul><li>自助原则：做自己的产品，自己用自己的产品，吃自己的狗食。</li><li>0day：找到明确的核心问题，拆解目标，抓住核心的问题，忽略掉一切细节，0day发布。</li><li>时限原则：设定时限，挑战自我，不给自己写BUG的时间。</li><li>不完美原则：不做完美的产品。（没有完美的产品，不去为了完美而浪费宝贵的资源）</li><li>谦卑原则：能够看到自己的局限性，获取用户反馈，持续迭代，听取用户的声音。</li></ul><p>MVP：minimum viable product 最小可用产品</p><ul><li>内裤原则 ： MVP 包括了产品的轮廓，核心的功能，让业务可以运转。</li><li>优先线下：能够走线下的 优先走线下的流程，让核心的功能先跑起来，快速的做用户验证和方案验证。</li><li>MVP的核心：忽略掉一切技术的细枝末节，做最合适的假设和简化，使用最短的时间开发出来。</li></ul><p>迭代思维最强大的是产品思维逻辑，互联网唯快不破的秘诀。</p><h3 id="如何做好技术方案设计与工作拆解"><a href="#如何做好技术方案设计与工作拆解" class="headerlink" title="如何做好技术方案设计与工作拆解"></a>如何做好技术方案设计与工作拆解</h3><h4 id="技术方案"><a href="#技术方案" class="headerlink" title="技术方案"></a>技术方案</h4><ul><li>做技术方案设计的前提条件<ul><li>有明确的的用户场景，用户如何和产品进行交互，期望拿到什么预期结果。</li><li>有清晰定义的业务流程</li></ul></li></ul><p><img src="/2021/02/04/迭代思维与MVP产品的规划方法/%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B.png"></p><ul><li><p>用什么工具设计？</p><ul><li>Visual Paradigm</li><li>Lucid Chart</li><li>Visio</li><li>Gliffy</li><li>Draw.io</li><li>Astash</li><li>StarUML</li><li>…..</li></ul><p>推荐使用<strong>白纸</strong>，不用工具就是最好的工具。</p></li><li><p>产出的技术方案文档要素</p><ul><li>产品背景（用户场景、产品目标、引用到的业务流畅、产品需求文档）</li><li>要解决的问题列表，系统不解决的问题列表，系统的限制。</li><li>对于问题的不同的解决方案的对比，阐述各个主要的问题如何被解决。</li><li>所选的整体的流程图（序列图），模块关系图，重要的接口，实体的概念定义。</li><li>除了功能之外的其他方面的设计，包括安全、性能、可维护性、稳定性、监控、扩展性、易用性等。</li></ul></li></ul><h4 id="工作拆解"><a href="#工作拆解" class="headerlink" title="工作拆解"></a>工作拆解</h4><p>​    任何事情，只要把它拆解的够细，都能够完成它。</p><ul><li>工作拆解的原则：<ul><li>优先级：主流程上，不确定的工作先完成（建议提前一个迭代做调研）。</li><li>核心流程优先：核心工作优先，先把主流程跑通。</li><li>依赖：减少不同人之间的工作依赖，并且保持团队工作拆解的透明，预留20%Buffer。</li><li>拆解粒度：拆解到每项子任务0.5-1天的粒度，最长不要超过两天。</li></ul></li></ul><h3 id="如何保证交付质量和可持续迭代"><a href="#如何保证交付质量和可持续迭代" class="headerlink" title="如何保证交付质量和可持续迭代"></a>如何保证交付质量和可持续迭代</h3><p>定义好产品需求，产品需求从根本上决定了产品的质量。</p><p>系统上有整体架构方案的设计，评估，评审，系统决定了软件实现的质量。</p><p>工程的角度持续交付的最佳实践推荐：</p><ul><li> Code Review：每一次提交都有CR，每次commit 代码量控制在200行y以内。尽量频繁的commit。</li><li>单元集成：项目开始简历单元测试的机制，在持续集成中自动运行。</li><li>自动化回归：对预发/线上系统做KPI/页面自动化测试（Postman/Robot Framework）</li><li>使用CICD机制对心痛进行自动化的打包，测试，部署，线上验证。</li><li>发布过程做到可监控，可回滚。</li><li>对于大量用户使用的产品，使用灰度机制。</li><li>架构上对于意外的并发访问，进行限流，降级。</li><li>架构上使用配置开关，对系统功能能提供实时的开启/关闭的服务。</li><li>对产品简历A/B Test 机制，通过数据快速对比不同的版本，不同的方案。</li><li>自动化所有的事情，代码化所有过程：代码化配置，代码化部署流程，代码化基础设置。<ul><li>声明式API，CICD Pipeline，K8S，Helm , Terraform</li></ul></li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 快速迭代、OOPD </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Linux文件目录</title>
+      <link href="2021/02/02/Linux%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/"/>
+      <url>2021/02/02/Linux%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/</url>
+      
+        <content type="html"><![CDATA[<ul><li><strong>/bin</strong>：<br>bin是Binary的缩写, 这个目录存放着最经常使用的命令。</li><li><strong>/boot：</strong><br>这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。</li></ul><a id="more"></a><ul><li><p><strong>/dev ：</strong><br>dev是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。</p></li><li><p><strong>/etc：</strong><br>这个目录用来存放所有的系统管理所需要的配置文件和子目录。</p></li><li><p><strong>/home</strong>：<br>用户的主目录，在Linux中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的。</p></li><li><p><strong>/lib</strong>：<br>这个目录里存放着系统最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库。</p></li><li><p><strong>/lost+found</strong>：<br>这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。</p></li><li><p><strong>/media</strong>：<br>linux系统会自动识别一些设备，例如U盘、光驱等等，当识别后，linux会把识别的设备挂载到这个目录下。</p></li><li><p><strong>/mnt</strong>：<br>系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在/mnt/上，然后进入该目录就可以查看光驱里的内容了。</p></li><li><p><strong>/opt</strong>：<br> 这是给主机额外安装软件所摆放的目录。比如你安装一个ORACLE数据库则就可以放到这个目录下。默认是空的。</p></li><li><p><strong>/proc</strong>：<br>这个目录是一个虚拟的目录，它是系统内存的映射，我们可以通过直接访问这个目录来获取系统信息。<br>这个目录的内容不在硬盘上而是在内存里，我们也可以直接修改里面的某些文件，比如可以通过下面的命令来屏蔽主机的ping命令，使别人无法ping你的机器：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; &#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;icmp_echo_ignore_all</span><br></pre></td></tr></table></figure></li><li><p><strong>/root</strong>：<br>该目录为系统管理员，也称作超级权限者的用户主目录。</p></li><li><p><strong>/sbin</strong>：<br>s就是Super User的意思，这里存放的是系统管理员使用的系统管理程序。</p></li><li><p><strong>/selinux</strong>：<br> 这个目录是Redhat/CentOS所特有的目录，Selinux是一个安全机制，类似于windows的防火墙，但是这套机制比较复杂，这个目录就是存放selinux相关的文件的。</p></li><li><p><strong>/srv</strong>：<br> 该目录存放一些服务启动之后需要提取的数据。</p></li><li><p><strong>/sys</strong>：</p><p> 这是linux2.6内核的一个很大的变化。该目录下安装了2.6内核中新出现的一个文件系统 sysfs 。</p><p>sysfs文件系统集成了下面3种文件系统的信息：针对进程信息的proc文件系统、针对设备的devfs文件系统以及针对伪终端的devpts文件系统。</p><p>该文件系统是内核设备树的一个直观反映。</p><p>当一个内核对象被创建的时候，对应的文件和目录也在内核对象子系统中被创建。</p></li><li><p><strong>/tmp</strong>：<br>这个目录是用来存放一些临时文件的。</p></li><li><p><strong>/usr</strong>：<br> 这是一个非常重要的目录，用户的很多应用程序和文件都放在这个目录下，类似于windows下的program files目录。</p></li><li><p><strong>/usr/bin：</strong><br>系统用户使用的应用程序。</p></li><li><p><strong>/usr/sbin：</strong><br>超级用户使用的比较高级的管理程序和系统守护程序。</p></li><li><p><strong>/usr/src：</strong><br>内核源代码默认的放置目录。</p></li><li><p><strong>/var</strong>：<br>这个目录中存放着在不断扩充着的东西，我们习惯将那些经常被修改的目录放在这个目录下。包括各种日志文件。</p></li><li><p><strong>/run</strong>：<br>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 /var/run 目录，应该让它指向 run。</p></li></ul><p><img src="/2021/02/02/Linux文件目录/linuxfile.jpg"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Ubuntu安装mysql-python插件</title>
+      <link href="2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/"/>
+      <url>2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<h4 id="运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb"><a href="#运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb" class="headerlink" title="运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb"></a>运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb</h4><a id="more"></a><h3 id="1-安装-mysql-python"><a href="#1-安装-mysql-python" class="headerlink" title="1.安装 mysql-python"></a>1.安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure><h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu安装mysql-python插件/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p><h3 id="接下来安装依赖包"><a href="#接下来安装依赖包" class="headerlink" title="接下来安装依赖包"></a>接下来安装依赖包</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure><h3 id="如果还是不行安装依赖"><a href="#如果还是不行安装依赖" class="headerlink" title="如果还是不行安装依赖"></a>如果还是不行安装依赖</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-dev</span><br><span class="line">sudo apt-get install python-MySQLdb</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Ubuntu、Mysql-Python </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Centos7.5源码安装postgresql-12</title>
+      <link href="2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/"/>
+      <url>2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/</url>
+      
+        <content type="html"><![CDATA[<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><ol><li><p>首先安装readline 和readline-devel</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install readline </span><br><span class="line">yum install readline-devel</span><br></pre></td></tr></table></figure><a id="more"></a></li></ol><p>虽然已经安装了readline，但是不安装readlene-devel 在执行 <code>./configure --prefix=/opt/postgresql</code> 的时候会提示，<code>configure: error: readline library not found</code>。</p><ol start="2"><li><p>接下来在执行 </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure --prefix=/opt/postgresql</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></li><li><p>将postgresql 加入环境变量，打开文件 /etc/profile  在末尾添加</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export PG_HOME=/opt/postgresql  #为安装postgresql的地址</span><br><span class="line">export PATH=$PG_HOME/bin:$PATH</span><br><span class="line">source /etc/profile    #更新环境变量</span><br></pre></td></tr></table></figure></li><li><p>创建postgresql 的用户以及用户组 可创建可不创建</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">groupadd postgresql   #创建用户组</span><br><span class="line">useradd -G postgresql postgresql   #创建用户</span><br><span class="line">passwd ********    #设置密码  </span><br></pre></td></tr></table></figure></li><li><p>初始数据库</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl -D /opt/postgresdata initdb&#x27; #初始化数据库</span><br><span class="line">su postgresql   ：使用这个用户进行操作</span><br><span class="line">/opt/postgresdata：地址为存放初始化的文件路径可自定义，   这个文件的用户权限要为 postgresql可操作</span><br><span class="line">pg_ctl  ：postgresql 的控制器，可以对postgresql 进行启动停止等操作</span><br></pre></td></tr></table></figure><p>执行以上语句后会再  /opt/postgresdata 路径下生成一些文件</p><p><img src="/2021/02/02/Centos7-5源码安装postgresql-12/postgresql0.jpg"></p></li></ol><table><thead><tr><th>文件</th><th>描述</th></tr></thead><tbody><tr><td>postmaster.pid</td><td>首行记录了进程PID</td></tr><tr><td>serverlog</td><td>数据库日志</td></tr><tr><td>postgresql.conf</td><td>主配置文件(可做定制</td></tr><tr><td>pg_hba.conf</td><td>鉴权相关文件</td></tr><tr><td>PG_VERSION</td><td>当前主版本号</td></tr></tbody></table><ol start="6"><li><p>启动数据库</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl start -D /opt/postgredata -l serverlog&#x27;</span><br></pre></td></tr></table></figure></li><li><p>设置远程访问,在 pg_hba.conf文文件末尾加上：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host all all 0.0.0.0/0 md5</span><br></pre></td></tr></table></figure></li><li><p>为了让 postgresql用户可以远程访问，可以通过 psql 设置密码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter user postgresql with password &#39;*********&#39;;</span><br></pre></td></tr></table></figure></li></ol><ol start="9"><li><p>开启远程访问，默认情况下 postgresql 仅仅监听本机的端口，需要编辑 <strong>/opt/postgredata/ postgresql.conf</strong> 文件开启远程IP的访问</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">listen_addresses &#x3D; &#39;*&#39;</span><br></pre></td></tr></table></figure></li><li><p>常用命令</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果需要定制端口，可以执行脚本：</span></span><br><span class="line">postgres -p 5430 -D /opt/postgredata &gt;serverlog 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash">检查进程是否存活：</span></span><br><span class="line">netstat -nlp |grep `head -1 /opt/postgredata/postmaster.pid`</span><br><span class="line"><span class="meta">#</span><span class="bash">停止数据库进程</span></span><br><span class="line">kill -INT `head -1 /opt/postgredata/postmaster.pid`</span><br></pre></td></tr></table></figure></li><li><p>配置自启动</p><p>找到源码目录中 <strong><em>contrib/start-scripts/linux\</em></strong>脚本文件，拷贝为 <strong>/etc/init.d/postgressql</strong>。修改内容如下：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 程序所在目录</span></span><br><span class="line">prefix=/opt/postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 数据目录</span></span><br><span class="line">PGDATA=&quot;/opt/postgredata&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行用户</span></span><br><span class="line">PGUSER=postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 日志文件</span></span><br><span class="line">PGLOG=&quot;$PGDATA/serverlog&quot;</span><br></pre></td></tr></table></figure><p>设置执行权限</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x /etc/init.d/postgressql</span><br></pre></td></tr></table></figure><p>此后，执行以下命令可以方便的启停服务</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//手动启动服务</span><br><span class="line">    service postgressql start</span><br><span class="line">    </span><br><span class="line">    //查看服务状态</span><br><span class="line">    service postgressql status</span><br><span class="line">    </span><br><span class="line">    //手动停止服务</span><br><span class="line">    service postgressql stop</span><br></pre></td></tr></table></figure></li><li><p>设置开机启动 ,执行以下命令：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chkconfig --add postgressql</span><br></pre></td></tr></table></figure></li></ol><h3 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h3><p> <a href="https://www.postgresql.org/download/linux/redhat/">官网安装教程地址</a></p><p>安装完成会自动创建一个用户为：postgres  </p><p>首先使用管理员用户修改密码，然后登录以后，运行psql 即可使用，</p><p>允许远程访问，yum安装的ppostgresql 的配置文件在<code>/var/lib/pgsql/12/data</code> 目录下</p><p>修改配置文件 <code>postgresql.conf</code> 将 <code>listen_addresses = &#39;localhost&#39; </code>改为 <code>listen_addresses = &#39;*&#39; </code></p><p>然后在修改 <code>pg_hba_conf</code> 在最后一行添加 <code>host all  all  0.0.0.0/0  md5</code>  允许所有IIP访问， 如果限定IP,将0.0.0.0 改为指定IP。</p><p>重启命令postgresql  ：<code>systemctl restart postgresql-12</code></p><p>参考材料：<a href> https://www.cnblogs.com/littleatp/p/10542137.html </a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Centos、Postgresql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Python压缩图片作为缩略图</title>
+      <link href="2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/"/>
+      <url>2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/</url>
+      
+        <content type="html"><![CDATA[<p>将图片压缩，作为缩略图，代码如下</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> shutil</span><br></pre></td></tr></table></figure><a id="more"></a><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageFile</span><br><span class="line">ImageFile.LOAD_TRUNCATED_IMAGES = <span class="literal">True</span>    <span class="comment">#   OSError: image file is truncated   图像被截断错误</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resize_by_size</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;</span></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>]:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">        outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">        im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">        size_tmp = os.path.getsize(infile)</span><br><span class="line">        q = <span class="number">100</span></span><br><span class="line">        <span class="keyword">while</span> size_tmp &gt; <span class="number">10240</span> <span class="keyword">and</span> q &gt; <span class="number">0</span>:</span><br><span class="line">            out = im.resize(im.size, Image.ANTIALIAS)</span><br><span class="line">            out.save(outfile, quality=q)</span><br><span class="line">            size_tmp = os.path.getsize(outfile)</span><br><span class="line">            q -= <span class="number">10</span></span><br><span class="line">        <span class="keyword">if</span> q == <span class="number">100</span>:</span><br><span class="line">            shutil.copy(infile,outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">equal_img</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    修改大小</span></span><br><span class="line"><span class="string">    :param cls:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.startswith(<span class="string">&#x27;thumbnail&#x27;</span>) <span class="keyword">or</span> file_name.startswith(<span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 判断是不是图片。不是的话，忽略</span></span><br><span class="line">        <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;jpeg&#x27;</span>,<span class="string">&#x27;JPEG&#x27;</span>]:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">            <span class="comment"># print(&#x27;file_name：&#x27;,outfilename)</span></span><br><span class="line">            outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">            <span class="comment"># print(u&#x27;path：&#x27;,outfile)</span></span><br><span class="line">            im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">            width = im.size[<span class="number">0</span>]   <span class="comment"># 获取宽度</span></span><br><span class="line">            height = im.size[<span class="number">1</span>]   <span class="comment"># 获取高度</span></span><br><span class="line">            print(<span class="string">u&#x27;width：height：&#x27;</span>,width,height)</span><br><span class="line">            <span class="keyword">if</span> width &lt;= <span class="number">200</span>:</span><br><span class="line">                shutil.copy(infile,outfile)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                coe = <span class="built_in">float</span>(<span class="string">&#x27;%.2f&#x27;</span>%(<span class="number">200</span>/width))   <span class="comment">#保留两位小数可能是0.00，</span></span><br><span class="line">                print(<span class="string">u&#x27;coe：&#x27;</span>,coe)</span><br><span class="line">                <span class="keyword">if</span> coe &lt;= <span class="number">0</span>:</span><br><span class="line">                    coe = <span class="number">0.15</span></span><br><span class="line">                <span class="keyword">if</span> im.mode == <span class="string">&quot;P&quot;</span>:</span><br><span class="line">                    im = im.convert(<span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">                out = im.resize((<span class="built_in">int</span>(width*coe), <span class="built_in">int</span>(height*coe)), Image.ANTIALIAS)</span><br><span class="line"></span><br><span class="line">                out.save(outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gci</span>(<span class="params">filepath</span>):</span></span><br><span class="line">    <span class="comment">#遍历filepath下所有文件，包括子目录</span></span><br><span class="line">    files = os.listdir(filepath)</span><br><span class="line">    <span class="keyword">for</span> fi <span class="keyword">in</span> files:</span><br><span class="line">        fi_d = os.path.join(filepath,fi)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(fi_d):</span><br><span class="line">            gci(fi_d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># resize_by_size(os.path.join(filepath,fi_d))</span></span><br><span class="line">            equal_img(os.path.join(filepath,fi_d))</span><br><span class="line"></span><br><span class="line"><span class="comment">#递归遍历/root目录下所有文件</span></span><br><span class="line"><span class="comment"># gci(&#x27;/var/local/www/edu_online1/media/works&#x27;)</span></span><br><span class="line"><span class="comment"># gci(&#x27;/root/www/edu_online1/media/works/13360067818/tradition&#x27;)  #正式</span></span><br><span class="line">gci(<span class="string">&#x27;/root/www/edu_online1/media/works/13265647342/udict/1552525240000/䤋&#x27;</span>)  <span class="comment">#正式</span></span><br><span class="line"><span class="comment"># gci(r&#x27;F:\desktop\䤋&#x27;)</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Python、压缩图片 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>flaskshell创建索引出错</title>
+      <link href="2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/"/>
+      <url>2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/</url>
+      
+        <content type="html"><![CDATA[<p>遇到的问题：flask 环境中使用 flask shell  使用flask Whoosh 创建索引失败</p><a id="more"></a><h3 id="解决办法-："><a href="#解决办法-：" class="headerlink" title="解决办法 ："></a>解决办法 ：</h3><pre><code>export FLASK_APP=manage.pyflask shell </code></pre><p>然后导出 flask 创建的whoosh的whoosh对象</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from 项目内的文件 import whoosh</span><br><span class="line">whoosh.create_index()</span><br></pre></td></tr></table></figure><p>​    </p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Flask、shell </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Python + Elestatcsearch</title>
+      <link href="2021/02/02/Python-Elestatcsearch/"/>
+      <url>2021/02/02/Python-Elestatcsearch/</url>
+      
+        <content type="html"><![CDATA[<blockquote><h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><p> ElasticSearch是一个基于<a href="https://baike.baidu.com/item/Lucene/6753302">Lucene</a>的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。ElasticSearch用于<a href="https://baike.baidu.com/item/%E4%BA%91%E8%AE%A1%E7%AE%97/9969353">云计算</a>中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。官方客户端在Java、.NET（C#）、PHP、Python、Apache Groovy、Ruby和许多其他语言中都是可用的。根据DB-Engines的排名显示，Elasticsearch是最受欢迎的企业搜索引擎，其次是Apache Solr，也是基于Lucene。 </p><a id="more"></a><h2 id="有关概念"><a href="#有关概念" class="headerlink" title="有关概念"></a>有关概念</h2><p>cluster：代表一个<a href="https://baike.baidu.com/item/%E9%9B%86%E7%BE%A4">集群</a>，集群中有多个节点，其中有一个为主节点，这个主节点是可以通过选举产生的，主从节点是对于集群内部来说的。es的一个概念就是去中心化，字面上理解就是无中心节点，这是对于集群外部来说的，因为从外部来看es集群，在逻辑上是个整体，你与任何一个节点的通信和与整个es集群通信是等价的。</p><p>shards：代表索引分片，es可以把一个完整的索引分成多个分片，这样的好处是可以把一个大的索引拆分成多个，分布到不同的节点上。构成分布式搜索。分片的数量只能在索引创建前指定，并且索引创建后不能更改。</p><p>replicas：代表索引副本，es可以设置多个索引的副本，副本的作用一是提高系统的<a href="https://baike.baidu.com/item/%E5%AE%B9%E9%94%99%E6%80%A7">容错性</a>，当某个节点某个分片损坏或丢失时可以从副本中恢复。二是提高es的查询效率，es会自动对搜索请求进行负载均衡。</p><p>recovery：代表数据恢复或叫数据重新分布，es在有节点加入或退出时会根据机器的负载对索引分片进行重新分配，挂掉的节点重新启动时也会进行数据恢复。</p><p>river：代表es的一个数据源，也是其它存储方式（如：数据库）同步数据到es的一个方法。它是以插件方式存在的一个es服务，通过读取river中的数据并把它索引到es中，官方的river有couchDB的，RabbitMQ的，Twitter的，Wikipedia的。</p><p>gateway：代表es索引快照的存储方式，es默认是先把索引存放到内存中，当内存满了时再持久化到本地硬盘。gateway对索引快照进行存储，当这个es集群关闭再重新启动时就会从gateway中读取索引备份数据。es支持多种类型的gateway，有本地文件系统（默认），<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">分布式文件系统</a>，Hadoop的HDFS和amazon的s3<a href="https://baike.baidu.com/item/%E4%BA%91%E5%AD%98%E5%82%A8">云存储</a>服务。</p><p>discovery.zen：代表es的自动发现节点机制，es是一个基于p2p的系统，它先通过广播寻找存在的节点，再通过<a href="https://baike.baidu.com/item/%E5%A4%9A%E6%92%AD">多播</a>协议来进行节点之间的通信，同时也支持<a href="https://baike.baidu.com/item/%E7%82%B9%E5%AF%B9%E7%82%B9">点对点</a>的交互。</p><p>Transport：代表es内部节点或集群与客户端的交互方式，默认内部是使用tcp协议进行交互，同时它支持http协议（json格式）、<a href="https://baike.baidu.com/item/thrift">thrift</a>、servlet、memcached、zeroMQ等的<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE">传输协议</a>（通过<a href="https://baike.baidu.com/item/%E6%8F%92%E4%BB%B6">插件</a>方式集成）。</p></blockquote>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Elestaticsearch </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>两台linux 互相传输文件</title>
+      <link href="2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/"/>
+      <url>2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<blockquote><h4 id="百度百科"><a href="#百度百科" class="headerlink" title="百度百科"></a>百度百科</h4><h6 id="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"><a href="#rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。" class="headerlink" title="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"></a>rsync是linux系统下的数据<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a><a href="https://baike.baidu.com/item/%E5%A4%87%E4%BB%BD">备份</a>工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。</h6><h5 id="它的特性如下："><a href="#它的特性如下：" class="headerlink" title="它的特性如下："></a>它的特性如下：</h5><ul><li>可以<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a>保存整个目录树和文件系统。</li><li>可以很容易做到保持原来文件的权限、时间、软硬链接等等。</li><li>无须特殊权限即可安装。</li></ul><a id="more"></a><ul><li>快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改过的文件。rsync 在传输数据的过程中可以实行压缩及<a href="https://baike.baidu.com/item/%E8%A7%A3%E5%8E%8B%E7%BC%A9">解压缩</a>操作，因此可以使用更少的带宽。</li><li>安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</li><li>支持匿名传输，以方便进行网站镜像。 </li></ul></blockquote><h4 id="1、Rsync参数说明"><a href="#1、Rsync参数说明" class="headerlink" title="1、Rsync参数说明"></a>1、Rsync参数说明</h4><ol><li><p>使用 rsync + ssh 进行加密传输  </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rsync -avzhe ssh /home/ubuntu/remote_test ubuntu@193.112.102.63:/home/ubuntu/remote_test</span><br></pre></td></tr></table></figure></li><li><p>参数设置  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">-v, --verbose 详细模式输出</span><br><span class="line">   -q, --quiet 精简输出模式</span><br><span class="line">   -c, --checksum 打开校验开关，强制对文件传输进行校验</span><br><span class="line">   -a, --archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD</span><br><span class="line">   -r, --recursive 对子目录以递归模式处理</span><br><span class="line">   -R, --relative 使用相对路径信息</span><br><span class="line">   -b, --backup 创建备份，也就是对于目的已经存在有同样的文件名时，将老的文件重新命名为~filename。可以使用--suffix选项来指定不同的备份文件前缀。</span><br><span class="line">   --backup-dir 将备份文件(如~filename)存放在在目录下。</span><br><span class="line">   -suffix&#x3D;SUFFIX 定义备份文件前缀</span><br><span class="line">   -u, --update 仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)</span><br><span class="line">   -l, --links 保留软链结</span><br><span class="line">   -L, --copy-links 像对待常规文件一样处理软链接</span><br><span class="line">   --copy-unsafe-links 仅仅拷贝指向SRC路径目录树以外的链接</span><br><span class="line">   --safe-links 忽略指向SRC路径目录树以外的链接</span><br><span class="line">   -H, --hard-links 保留硬链接</span><br><span class="line">   -p, --perms 保持文件权限</span><br><span class="line">   -o, --owner 保持文件属主信息</span><br><span class="line">   -g, --group 保持文件属组信息</span><br><span class="line">   -D, --devices 保持设备文件信息</span><br><span class="line">   -t, --times 保持文件时间信息</span><br><span class="line">   -S, --sparse 对稀疏文件进行特殊处理以节省DST的空间</span><br><span class="line">   -n, --dry-run显示哪些文件将被传输</span><br><span class="line">   -W, --whole-file 拷贝文件，不进行增量检测</span><br><span class="line">   -x, --one-file-system 不要跨越文件系统边界</span><br><span class="line">   -B, --block-size&#x3D;SIZE 检验算法使用的块尺寸，默认是700字节</span><br><span class="line">   -e, --rsh&#x3D;COMMAND 指定使用rsh、ssh方式进行数据同步</span><br><span class="line">   --rsync-path&#x3D;PATH 指定远程服务器上的rsync命令所在路径信息</span><br><span class="line">   -C, --cvs-exclude 使用和CVS一样的方法自动忽略文件，用来排除那些不希望传输的文件</span><br><span class="line">   --existing 仅仅更新那些已经存在于DST的文件，而不备份那些新创建的文件</span><br><span class="line">   --delete 删除那些DST中SRC没有的文件</span><br><span class="line">   --delete-excluded 同样删除接收端那些被该选项指定排除的文件</span><br><span class="line">   --delete-after 传输结束以后再删除</span><br><span class="line">   --ignore-errors 即使出现IO错误也进行删除</span><br><span class="line">   --max-delete&#x3D;NUM 最多删除NUM个文件</span><br><span class="line">   --partial 保留那些因故没有完全传输的文件，以是加快随后的再次传输</span><br><span class="line">   --force 强制删除目录，即使不为空</span><br><span class="line">   --numeric-ids 不将数字的用户和组ID匹配为用户名和组名</span><br><span class="line">   --timeout&#x3D;TIME IP超时时间，单位为秒</span><br><span class="line">   -I, --ignore-times 不跳过那些有同样的时间和长度的文件</span><br><span class="line">   --size-only 当决定是否要备份文件时，仅仅察看文件大小而不考虑文件时间</span><br><span class="line">   --modify-window&#x3D;NUM 决定文件是否时间相同时使用的时间戳窗口，默认为0</span><br><span class="line">   -T --temp-dir&#x3D;DIR 在DIR中创建临时文件</span><br><span class="line">   --compare-dest&#x3D;DIR 同样比较DIR中的文件来决定是否需要备份</span><br><span class="line">   -P 等同于 --partial</span><br><span class="line">   --progress 显示备份过程</span><br><span class="line">   -z, --compress 对备份的文件在传输时进行压缩处理</span><br><span class="line">   --exclude&#x3D;PATTERN 指定排除不需要传输的文件模式</span><br><span class="line">   --include&#x3D;PATTERN 指定不排除而需要传输的文件模式</span><br><span class="line">   --exclude-from&#x3D;FILE 排除FILE中指定模式的文件</span><br><span class="line">   --include-from&#x3D;FILE 不排除FILE指定模式匹配的文件</span><br><span class="line">   --version 打印版本信息</span><br><span class="line">   --address 绑定到特定的地址</span><br><span class="line">   --config&#x3D;FILE 指定其他的配置文件，不使用默认的rsyncd.conf文件</span><br><span class="line">   --port&#x3D;PORT 指定其他的rsync服务端口</span><br><span class="line">   --blocking-io 对远程shell使用阻塞IO</span><br><span class="line">   -stats 给出某些文件的传输状态</span><br><span class="line">   --progress 在传输时显示传输过程</span><br><span class="line">   --log-format&#x3D;formAT 指定日志文件格式</span><br><span class="line">   --password-file&#x3D;FILE 从FILE中得到密码</span><br><span class="line">   --bwlimit&#x3D;KBPS 限制I&#x2F;O带宽，KBytes per second</span><br><span class="line">   -h, --help 显示帮助信息</span><br></pre></td></tr></table></figure></li></ol><h4 id="2、目的"><a href="#2、目的" class="headerlink" title="2、目的"></a>2、目的</h4><ul><li><p>实现两台服务器之间做增量备份。A服务器作为服务端，B服务器作为客户端。</p></li><li><p>B服务器每天定时将某个目录下产生的文件发送到A服务器中。</p></li></ul><h4 id="3、操作方法"><a href="#3、操作方法" class="headerlink" title="3、操作方法"></a>3、操作方法</h4><p>在A服务器中安装 rsync ，查看服务器是否安装rsync。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">rsync --version</span><br><span class="line">#显示如下  代表已经安装  版本为：3.1.1  (确保两台服务器之前安装的版本的一致，不一致可能造成无法同步数据)</span><br><span class="line">rsync  version 3.1.2  protocol version 31</span><br><span class="line">Copyright (C) 1996-2015 by Andrew Tridgell, Wayne Davison, and others.</span><br><span class="line">Web site: http:&#x2F;&#x2F;rsync.samba.org&#x2F;</span><br><span class="line">Capabilities:</span><br><span class="line">    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,</span><br><span class="line">    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,</span><br><span class="line">    append, ACLs, xattrs, iconv, symtimes, prealloc</span><br><span class="line"></span><br><span class="line">rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you</span><br><span class="line">are welcome to redistribute it under certain conditions.  See the GNU</span><br><span class="line">General Public Licence for details.</span><br></pre></td></tr></table></figure><p>两边都安装完成了以后，就可以使用了。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rsync -avzhe ssh 001 ubuntu@193.112.102.63:/home/ubuntu/remote_test   </span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用ssh模式连接 需要输入密码</span></span><br></pre></td></tr></table></figure><h5 id="1-将A服务器作为服务端"><a href="#1-将A服务器作为服务端" class="headerlink" title="1. 将A服务器作为服务端"></a>1. 将A服务器作为服务端</h5><p>编辑文件 <code>/etc/vi /etc/rsyncd.conf</code>默认不存在， 直接创建 。编辑输入如下内容：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">服务端配置文件 (和上面一样)</span></span><br><span class="line">motd file = /etc/rsyncd.motd</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsyncd.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line"></span><br><span class="line">[workspace]  #模块名 在客户端需要用到</span><br><span class="line">path = /devdata/backres   #需要备份的路径</span><br><span class="line">comment = Test</span><br><span class="line">uid = root   #使用的用户</span><br><span class="line">gid = root   #同上 </span><br><span class="line">read only = false   #是否可写</span><br><span class="line">auth users = root   #验证的用户</span><br><span class="line">secrets file = /etc/rsyncd.pass   #密码文件  文件的权限：600</span><br><span class="line">transfer logging = yes   #日志输出</span><br><span class="line">hosts allow=123.207.165.19   #允许的可短的IP地址</span><br><span class="line"></span><br></pre></td></tr></table></figure><p>新建密码文件 在上述的conf文件中，倒数第三行。内容为当前用户名以及密码 。格式：user：password。密码文件拥有用户必须为当前用户 ubuntu 且权限必须为 600</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ubuntu:123456</span><br></pre></td></tr></table></figure><p>查看rsync 状态 ： <code>service rsync status</code>。 重启rsync服务： <code>service rsync restart</code></p><h5 id="2-将b服务器作为客户端"><a href="#2-将b服务器作为客户端" class="headerlink" title="2. 将b服务器作为客户端"></a>2. 将b服务器作为客户端</h5><p>客户端不需要设置太多内容可直接运行命令，不过需要手动输入密码，可将密码存在一个文件内，使用<code>--password-file=FILE</code> 进行从文件中读取密码。这个文件路径任意。文件内容只包含服务端密码即可。但是必须为root用户拥有且权限为600。</p><p>使用命令 ：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rsync -aqr --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">参数解释：</span></span><br><span class="line">-a：--archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，</span><br><span class="line">-q：--quiet 精简输出模式</span><br><span class="line">-r：--recursive 对子目录以递归模式处理</span><br><span class="line">workspace：即服务端的模块名</span><br></pre></td></tr></table></figure><h5 id="3-设置定时任务"><a href="#3-设置定时任务" class="headerlink" title="3. 设置定时任务"></a>3. 设置定时任务</h5><p>使用ubuntu 的crontab </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure><p>第一次打开会选择的编辑器，一般选择vim,输入数字即可。如下所示：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Select an editor.  To change later, run &#x27;select-editor&#x27;.</span><br><span class="line">  1. /bin/ed</span><br><span class="line">  2. /bin/nano        &lt;---- easiest</span><br><span class="line">  3. /usr/bin/vim.basic</span><br><span class="line">  4. /usr/bin/vim.tiny</span><br></pre></td></tr></table></figure><p>定时任务格式：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">* * * * * command    </span><br><span class="line">用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</span><br><span class="line">minute hour day month week command</span><br><span class="line">其中：</span><br><span class="line">minute：表示分钟，可以是从0到59之间的任何整数。</span><br><span class="line">hour：表示小时，可以是从0到23之间的任何整数。</span><br><span class="line">day：表示日期，可以是从1到31之间的任何整数。</span><br><span class="line">month：表示月份，可以是从1到12之间的任何整数。</span><br><span class="line">week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。</span><br><span class="line">command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件</span><br><span class="line">/ 斜杠代表频率 例如：</span><br><span class="line">如果想每分钟都执行一次的话就采用默认的 * * * * *</span><br><span class="line">如果想每五分钟执行一次可以 */5 * * * * </span><br><span class="line">如果是每两个小时执行一次的话 那就是 *  */2 * * *来设置;</span><br></pre></td></tr></table></figure><p>在定时任务中输入：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">30 23 * * * sudo rsync -r --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br><span class="line"><span class="meta">#</span><span class="bash">表示 在每天的23:30 进行数据备份</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Python 面试题</title>
+      <link href="2021/02/01/%E8%AF%95%E9%A2%98/"/>
+      <url>2021/02/01/%E8%AF%95%E9%A2%98/</url>
+      
+        <content type="html"><![CDATA[<p>1、对字典d = {‘a’: 24, ‘b’: 53, ‘d’: 56, ‘h’: 7}  按照字典中的value值排序。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sorted(d.items(), key&#x3D;lambda x: x[0])</span><br></pre></td></tr></table></figure><p>2、反转字符串 “aSter”</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(&#39;aSter&#39;[::-1])</span><br></pre></td></tr></table></figure><a id="more"></a><p>3、按照list1 中的元素的由从大到小排序</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list1 = [&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;b&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">20</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;a&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">10</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;d&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">50</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;c&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">7</span>&#125;]</span><br><span class="line"><span class="built_in">sorted</span>(list1, key=<span class="keyword">lambda</span> x: x[<span class="string">&#x27;age&#x27;</span>], reverse=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># reverse=True   由大到小  sorted排序默认由小到大</span></span><br></pre></td></tr></table></figure><p>4、常用的字符串格式化有哪些？</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">&quot;张三&quot;</span></span><br><span class="line"><span class="comment"># 1.占位符 %s</span></span><br><span class="line"><span class="built_in">str</span> = <span class="string">&quot;%s，你好!&quot;</span> % name</span><br><span class="line"><span class="comment"># 2. format</span></span><br><span class="line">str2 = <span class="string">&quot;&#123;&#125;， 你好!&quot;</span>.<span class="built_in">format</span>(name)</span><br><span class="line">print(str2)</span><br></pre></td></tr></table></figure><p>5、 下面代码的输出结果是什么 ？</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span> = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;e&#x27;</span>]</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="built_in">list</span>[<span class="number">10</span>:])    </span><br><span class="line">[]</span><br></pre></td></tr></table></figure><p>输出结果是空  不会产生IndexError错误，尝试用超出成员个数的Index来获取某个列表的成员，</p><p>6、写一个列表生成式产生一个等差为11的等差数列。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print([x*<span class="number">11</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)])</span><br></pre></td></tr></table></figure><p>7、给定两个列表怎么找出他们相同的元素和不同的元素</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">list2 = [<span class="number">3</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set1 = <span class="built_in">set</span>(list1)</span><br><span class="line">set2 = <span class="built_in">set</span>(list2)</span><br><span class="line">print(set1 &amp; set2)</span><br><span class="line">print(set1 ^ set2)</span><br></pre></td></tr></table></figure><p>8、python代码实现删除一个list的重复的元素</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;c&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;f&#x27;</span>, <span class="string">&#x27;d&#x27;</span>, <span class="string">&#x27;v&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, <span class="string">&#x27;s&#x27;</span>, <span class="string">&#x27;r&#x27;</span>]</span><br><span class="line">print(<span class="built_in">set</span>(list1))</span><br></pre></td></tr></table></figure><p>9、列举字符串、列表、元祖、字典的五个常用的用法。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#字符串：replace、strip、split、reverse、upper、lower、join</span></span><br><span class="line"><span class="comment">#列表：append、pop、insert、remove、count、index</span></span><br><span class="line"><span class="comment"># 元祖：index、count、len()、dir()</span></span><br><span class="line"><span class="comment"># 字典：get、keys、values、popitems、clear、uodate、items</span></span><br></pre></td></tr></table></figure><p>10、什么是反射 ？ 以及他的应用场景。</p><p>反射就是通过字符串的形式式去对象中访问或操作这个未知的属性或变量，是一种基于字符串的事件驱动。</p><p>在面向对象中把对象能够访问、查询、修改自身的状态或者行为称之为反射。</p><p>在python中，可以通过字符串的的形式来操作对象的属性。这种行为称之为python中的反射。</p><p>python 实现反射的手段：</p><p>是通过四个内置函数来实现：<strong>hasattr(object,name)</strong>  <strong>getattr(object,name,default=None) ** **setattr(x,y,v) ** **delattr(x,y)</strong></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#判断对象中是否有这个方法或变量</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,name</span>):</span></span><br><span class="line">        self.name = name</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">talk</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&quot;%s正在交谈&quot;</span>%self.name)</span><br><span class="line"></span><br><span class="line">p = Person(<span class="string">&quot;laowang&quot;</span>)        </span><br><span class="line">print(<span class="built_in">hasattr</span>(p,<span class="string">&quot;talk&quot;</span>))    <span class="comment"># True。因为存在talk方法</span></span><br><span class="line">print(<span class="built_in">hasattr</span>(p,<span class="string">&quot;name&quot;</span>))    <span class="comment"># True。因为存在name变量</span></span><br><span class="line">print(<span class="built_in">hasattr</span>(p,<span class="string">&quot;abc&quot;</span>))     <span class="comment"># False。因为不存在abc方法或变量</span></span><br></pre></td></tr></table></figure><p>反射的好处 ：</p><p>实现可插拔机制、动态导入模块（基于反射原理，获取当前的模块的成员）</p><p>11、简述Python的深浅拷贝 ，详细见<a href="https://zhuanlan.zhihu.com/p/54011712">链接</a>。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># copy() ： 浅拷贝，仅仅拷贝数据集合的第一层</span></span><br><span class="line"><span class="comment"># deepcopy() : 深拷贝，拷贝数据集合的所有层</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line">a=[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,&#123;<span class="number">1</span>:<span class="number">2</span>&#125;]</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;=====赋值=====&quot;</span>)</span><br><span class="line">b=a</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="built_in">id</span>(b))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;=====浅拷贝=====&quot;</span>)</span><br><span class="line">b=copy.copy(a)</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="built_in">id</span>(b))</span><br><span class="line"></span><br><span class="line">print(<span class="string">&quot;=====深拷贝=====&quot;</span>)</span><br><span class="line">b=copy.deepcopy(a)</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br><span class="line">print(<span class="built_in">id</span>(a))</span><br><span class="line">print(<span class="built_in">id</span>(b))</span><br></pre></td></tr></table></figure><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#结果：</span></span><br><span class="line">=====赋值=====</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line">=====浅拷贝=====</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line"><span class="number">2145919592320</span></span><br><span class="line">=====深拷贝=====</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line">[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, &#123;<span class="number">1</span>: <span class="number">2</span>&#125;]</span><br><span class="line"><span class="number">2145919592448</span></span><br><span class="line"><span class="number">2145919532928</span></span><br></pre></td></tr></table></figure><p>12、Python的垃圾回收机制。  <a href="https://zhuanlan.zhihu.com/p/83251959">链接</a></p><ul><li><p>引用计数</p><p>在python中每一个对象的的核心就是一个结构体PyObject，他的内部有有一个引用计数器（（ob_refcnt）），程序在运行的过程中他会湿湿的更新 引用计数器（ob_refcnt）的值，来反映当前对象的名称数量，当某个对象的引用计数为零的时候，那么他的内存就会被释放掉。</p><ul><li>导致引用计数加一的情况有 ：对象被创建、对象被引用、对象被作为参数传入一个函数中、对象存储在容器中。</li><li>导致引用计数减一的情况有：对象别名被显示销毁 del、对象别名被赋予新的对象、一个对象离开他的作用域、对象所在的容器被销毁或者是从容器中删除对象<br>我们可以通过sys包中的getrefcount()来获取一个名称所引用的对象当前的引用计数(注意，这里getrefcount()本身会使得引用计数加一)</li></ul><p>我们还可以通过sys包中的getrefcount()来获取一个名称所引用的对象当前的引用计数(注意，这里getrefcount()本身会使得引用计数加一)</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sys.getrefcount(a)</span><br></pre></td></tr></table></figure><p>引用计数的优点：</p><ul><li><p>高效、实现逻辑简单、具备实时性，一旦一个对象的引用计数归零，内存就直接释放了。</p><p>引用计数的缺点：</p></li><li><p>逻辑简单，但实现有些麻烦。每个对象需要分配单独的空间来统计引用计数，这无形中加大的空间的负担，并且需要对引用计数进行维护，在维护的时候很容易会出错。</p></li><li><p>可能会比较慢。正常来说垃圾回收会比较平稳运行，但是当需要释放一个大的对象时，比如字典，需要对引用的所有对象循环嵌套调用，从而可能会花费比较长的时间。</p></li><li><p>循环引用。这将是引用计数的致命伤，引用计数对此是无解的，因此必须要使用其它的垃圾回收算法对其进行补充。</p></li></ul></li><li><p>标记-清除</p><p>他是解决容器对象可能产生的循环引用的问题。</p><p>不改动真实的而引用计数，而是将引用计数复制一份副本，改动改对象引用的副本，对于副本做得任何改动都不影响生命对象整体的维护。</p><p>标记清除的步骤：</p><ul><li>标记阶段：遍历所有的对象，如果是科可达的（reachable）也就是说还有对象在引用他，那么就标记该对象可达。</li></ul></li><li><p>清除阶段：再次遍历对象，如果发现某个对象不是可达的，就将其回收。</p></li><li><p>分代回收</p><p>在循环引用对象的回收中，整个应用程序会被暂停，为了减少应用程序暂停的时间，Python 通过**“分代回收”(Generational Collection)**以空间换时间的方法提高垃圾回收效率。</p><p>分代回收是基于这样的一个统计事实，<strong>对于程序，存在一定比例的内存块的生存周期比较短；而剩下的内存块，生存周期会比较长，甚至会从程序开始一直持续到程序结束。生存期较短对象的比例通常在 80%～90% 之间，这种思想简单点说就是：对象存在时间越长，越可能不是垃圾，应该越少去收集。这样在执行标记-清除算法时可以有效减小遍历的对象数，从而提高垃圾回收的速度。</strong></p><p><strong>总体来说，在Python中，主要通过引用计数进行垃圾回收；通过 “标记-清除” 解决容器对象可能产生的循环引用问题；通过 “分代回收” 以空间换时间的方法提高垃圾回收效率。</strong></p></li></ul><p>13、如何打乱一个排好序的lisit对象</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">alist = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line">random.shuffle(alist)</span><br><span class="line">print(alist)</span><br></pre></td></tr></table></figure><p>14、从0-99这100个数中随即取出十个数字 要求不能重复。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line">print(random.sample(<span class="built_in">range</span>(<span class="number">0</span>,<span class="number">99</span>),k=<span class="number">10</span>))</span><br></pre></td></tr></table></figure><p>15、Python如何捕获异常、处理异常 、抛出异常</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#捕获异常：</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#处理异常：</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment">#else:不发生异常执行的语句</span></span><br><span class="line"><span class="comment">#finally：无论是否发生异常都执行的语句</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># raise Exception   抛出异常</span></span><br></pre></td></tr></table></figure><p>16、python递归的大层数</p><p>最大为998</p><p>17、列表推导式和生成器表达式[i% 2 for iinrange(10)] 和 [i%2 for i in range(10)] 输出的结果分别是什么？</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print([i%<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)])</span><br><span class="line">print((i%<span class="number">2</span> <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>)))</span><br></pre></td></tr></table></figure><p>18、 什么是闭包？</p><p>指的是定义在一个函数内部的函数 ，被外层函数包裹着。其特点是可以访问到外层函数的名字。<br>闭包”有两种不同的方式，第一种是在函数内部就“直接调用了”；第二种是“返回一个函数名称</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一种形式  在外层函数中直接调用内层函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mark</span>(<span class="params">name</span>):</span></span><br><span class="line">    num = <span class="number">100</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">weight</span>):</span></span><br><span class="line">        weight += <span class="number">1</span></span><br><span class="line">        print(name, weight)</span><br><span class="line"></span><br><span class="line">    func(<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">mark(<span class="string">&#x27;塞拉斯&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二种形式:在外层函数中返回内层函数对象</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maker</span>(<span class="params">name</span>):</span></span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">height</span>):</span></span><br><span class="line">        height += <span class="number">1</span></span><br><span class="line">        print(name, num, height)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a = maker(<span class="string">&#x27;张三&#x27;</span>)</span><br><span class="line">a(<span class="number">999</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># “闭包”的作用——保存函数的状态信息，使函数的局部变量信息依然可以保存下来</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Maker</span>(<span class="params">step</span>):</span>  <span class="comment"># 包装器</span></span><br><span class="line">    num = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">fun1</span>():</span>  <span class="comment"># 内部函数</span></span><br><span class="line">        <span class="keyword">nonlocal</span> num  <span class="comment"># nonlocal关键字的作用和前面的local是一样的，如果不使用该关键字，则不能在中内部函数改变“外部变量”的值</span></span><br><span class="line">        num = num + step  <span class="comment"># 改变外部变量的值（如果只是访问外部变量，则不需要适用nonlocal）</span></span><br><span class="line">        print(num)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fun1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># =====================================#</span></span><br><span class="line">j = <span class="number">1</span></span><br><span class="line">func2 = Maker(<span class="number">3</span>)  <span class="comment"># 调用外部包装器</span></span><br><span class="line"><span class="keyword">while</span> (j &lt; <span class="number">5</span>):</span><br><span class="line">    func2()  <span class="comment"># 调用内部函数4次 输出的结果是 4、7、10、13</span></span><br><span class="line">    j += <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这就是“闭包”的最大的作用——保存局部信息不被销毁。</span></span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Python、后端、面试 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>CDN的工作原理</title>
+      <link href="2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/"/>
+      <url>2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
+      
+        <content type="html"><![CDATA[<h3 id="CDN访问的两个阶段"><a href="#CDN访问的两个阶段" class="headerlink" title="CDN访问的两个阶段"></a>CDN访问的两个阶段</h3><ul><li>1.域名解析</li><li>2.内容请求</li></ul><a id="more"></a><h3 id="使用CDN得两种方式："><a href="#使用CDN得两种方式：" class="headerlink" title="使用CDN得两种方式："></a>使用CDN得两种方式：</h3><ul><li>手工上传静态资源文件到CDN</li><li>tongguo Tengine 把本机的静态资源开放发哦web上，CDN自动回流到Tengine。</li></ul><h4 id="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"><a href="#以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。" class="headerlink" title="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"></a>以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。</h4><ul><li>生成静态文件上传到阿里元OSS。</li><li>配置CDN域名，回源地址指向OSS Bucket，配置Referer 防盗链的白名单。</li><li>配置OSS Buket 的匿名可以读。</li><li>设置STATIC_URL， 直接指向CDN地址，同时注释掉 OssStaticStorage。</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> HTTP、前端 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Django之美：dajngo的常用插件</title>
+      <link href="2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/"/>
+      <url>2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p><a href="https://django-debug-toolbar.readthedocs.io/en/latest/">django_debug_toolbar </a>：提供一个可以查看debug信息的面板（包括SQL执行时间，页面耗时）</p></li><li><p><a href="https://github.com/jazzband/django-silk">django-silk</a>：django性能瓶颈分析</p></li></ul><a id="more"></a><ul><li><a href="https://simpleui.72wo.com/docs/simpleui/doc.html">Simple-UI</a> ：于Element UI 和 VUE 的django admin 主题。</li></ul><ul><li><a href="https://django-haystack.readthedocs.io/en/master/">haystack django</a> ：模块化搜索方案</li></ul><ul><li><a href="https://github.com/django-notifications/django-notifications">django-notifications</a>：发送消息通知插件</li></ul><ul><li><a href="https://github.com/agusmakmun/django-markdown-editor">django markdown editor</a> ：Markdown 编辑器</li></ul><ul><li><a href="https://github.com/django-crispy-forms/django-crispy-forms">django-crispy-forms</a>：Crispy 表单，以一种非常优雅的、干净的方式来创建表单。</li></ul><ul><li><a href="https://github.com/mbi/django-simple-captcha">django-simple-captcha</a>：Django验证码</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Django、后端 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mysql 8.0 连接数据库错误</title>
+      <link href="2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/"/>
+      <url>2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</url>
+      
+        <content type="html"><![CDATA[<h4 id="Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist"><a href="#Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist" class="headerlink" title="Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist"></a>Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist</h4><a id="more"></a><p>解决办法：</p><ol><li><p>重新创建该用户（mysql.infoschema）：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;mysql.infoschema&#x27;</span> @ <span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;password &#x27;</span>;</span><br></pre></td></tr></table></figure></li><li><p>给用户赋予权限</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;mysql.infoschema&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure></li><li><p>刷新数据库</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure></li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Mysql、后端 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+  
+  
 </search>
