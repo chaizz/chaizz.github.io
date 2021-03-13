@@ -1,6 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CDN的工作原理</title>
+    <url>/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h3 id="CDN访问的两个阶段"><a href="#CDN访问的两个阶段" class="headerlink" title="CDN访问的两个阶段"></a>CDN访问的两个阶段</h3><ul>
+<li>1.域名解析</li>
+<li>2.内容请求</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="使用CDN得两种方式："><a href="#使用CDN得两种方式：" class="headerlink" title="使用CDN得两种方式："></a>使用CDN得两种方式：</h3><ul>
+<li>手工上传静态资源文件到CDN</li>
+<li>tongguo Tengine 把本机的静态资源开放发哦web上，CDN自动回流到Tengine。</li>
+</ul>
+<h4 id="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"><a href="#以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。" class="headerlink" title="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"></a>以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。</h4><ul>
+<li>生成静态文件上传到阿里元OSS。</li>
+<li>配置CDN域名，回源地址指向OSS Bucket，配置Referer 防盗链的白名单。</li>
+<li>配置OSS Buket 的匿名可以读。</li>
+<li>设置STATIC_URL， 直接指向CDN地址，同时注释掉 OssStaticStorage。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>HTTP、前端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Centos7.5源码安装postgresql-12</title>
+    <url>/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/</url>
+    <content><![CDATA[<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><ol>
+<li><p>首先安装readline 和readline-devel</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install readline </span><br><span class="line">yum install readline-devel</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+</li>
+</ol>
+<p>虽然已经安装了readline，但是不安装readlene-devel 在执行 <code>./configure --prefix=/opt/postgresql</code> 的时候会提示，<code>configure: error: readline library not found</code>。</p>
+<ol start="2">
+<li><p>接下来在执行 </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/opt/postgresql</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></li>
+<li><p>将postgresql 加入环境变量，打开文件 /etc/profile  在末尾添加</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export PG_HOME=/opt/postgresql  #为安装postgresql的地址</span><br><span class="line">export PATH=$PG_HOME/bin:$PATH</span><br><span class="line">source /etc/profile    #更新环境变量</span><br></pre></td></tr></table></figure></li>
+<li><p>创建postgresql 的用户以及用户组 可创建可不创建</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">groupadd postgresql   #创建用户组</span><br><span class="line">useradd -G postgresql postgresql   #创建用户</span><br><span class="line">passwd ********    #设置密码  </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>初始数据库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl -D /opt/postgresdata initdb&#x27; #初始化数据库</span><br><span class="line">su postgresql   ：使用这个用户进行操作</span><br><span class="line">/opt/postgresdata：地址为存放初始化的文件路径可自定义，   这个文件的用户权限要为 postgresql可操作</span><br><span class="line">pg_ctl  ：postgresql 的控制器，可以对postgresql 进行启动停止等操作</span><br></pre></td></tr></table></figure>
+<p>执行以上语句后会再  /opt/postgresdata 路径下生成一些文件</p>
+<p><img src="/2021/02/02/Centos7-5源码安装postgresql-12/postgresql0.jpg"></p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>postmaster.pid</td>
+<td>首行记录了进程PID</td>
+</tr>
+<tr>
+<td>serverlog</td>
+<td>数据库日志</td>
+</tr>
+<tr>
+<td>postgresql.conf</td>
+<td>主配置文件(可做定制</td>
+</tr>
+<tr>
+<td>pg_hba.conf</td>
+<td>鉴权相关文件</td>
+</tr>
+<tr>
+<td>PG_VERSION</td>
+<td>当前主版本号</td>
+</tr>
+</tbody></table>
+<ol start="6">
+<li><p>启动数据库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl start -D /opt/postgredata -l serverlog&#x27;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>设置远程访问,在 pg_hba.conf文文件末尾加上：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">host all all 0.0.0.0/0 md5</span><br></pre></td></tr></table></figure></li>
+<li><p>为了让 postgresql用户可以远程访问，可以通过 psql 设置密码：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter user postgresql with password &#39;*********&#39;;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="9">
+<li><p>开启远程访问，默认情况下 postgresql 仅仅监听本机的端口，需要编辑 <strong>/opt/postgredata/ postgresql.conf</strong> 文件开启远程IP的访问</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">listen_addresses &#x3D; &#39;*&#39;</span><br></pre></td></tr></table></figure></li>
+<li><p>常用命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果需要定制端口，可以执行脚本：</span></span><br><span class="line">postgres -p 5430 -D /opt/postgredata &gt;serverlog 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash">检查进程是否存活：</span></span><br><span class="line">netstat -nlp |grep `head -1 /opt/postgredata/postmaster.pid`</span><br><span class="line"><span class="meta">#</span><span class="bash">停止数据库进程</span></span><br><span class="line">kill -INT `head -1 /opt/postgredata/postmaster.pid`</span><br></pre></td></tr></table></figure></li>
+<li><p>配置自启动</p>
+<p>找到源码目录中 <strong><em>contrib/start-scripts/linux\</em></strong>脚本文件，拷贝为 <strong>/etc/init.d/postgressql</strong>。修改内容如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 程序所在目录</span></span><br><span class="line">prefix=/opt/postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 数据目录</span></span><br><span class="line">PGDATA=&quot;/opt/postgredata&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行用户</span></span><br><span class="line">PGUSER=postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 日志文件</span></span><br><span class="line">PGLOG=&quot;$PGDATA/serverlog&quot;</span><br></pre></td></tr></table></figure>
+<p>设置执行权限</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x /etc/init.d/postgressql		</span><br></pre></td></tr></table></figure>
+
+<p>此后，执行以下命令可以方便的启停服务</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//手动启动服务</span><br><span class="line">    service postgressql start</span><br><span class="line">    </span><br><span class="line">    //查看服务状态</span><br><span class="line">    service postgressql status</span><br><span class="line">    </span><br><span class="line">    //手动停止服务</span><br><span class="line">    service postgressql stop</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置开机启动 ,执行以下命令：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chkconfig --add postgressql</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h3 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h3><p> <a href="https://www.postgresql.org/download/linux/redhat/">官网安装教程地址</a></p>
+<p>安装完成会自动创建一个用户为：postgres  </p>
+<p>首先使用管理员用户修改密码，然后登录以后，运行psql 即可使用，</p>
+<p>允许远程访问，yum安装的ppostgresql 的配置文件在<code>/var/lib/pgsql/12/data</code> 目录下</p>
+<p>修改配置文件 <code>postgresql.conf</code> 将 <code>listen_addresses = &#39;localhost&#39; </code>改为 <code>listen_addresses = &#39;*&#39; </code></p>
+<p>然后在修改 <code>pg_hba_conf</code> 在最后一行添加 <code>host all  all  0.0.0.0/0  md5</code>  允许所有IIP访问， 如果限定IP,将0.0.0.0 改为指定IP。</p>
+<p>重启命令postgresql  ：<code>systemctl restart postgresql-12</code></p>
+<p>参考材料：<a href> https://www.cnblogs.com/littleatp/p/10542137.html </a></p>
+]]></content>
+      <tags>
+        <tag>Centos、Postgresql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Django之美：dajngo的常用插件</title>
+    <url>/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<ul>
+<li><p><a href="https://django-debug-toolbar.readthedocs.io/en/latest/">django_debug_toolbar </a>：提供一个可以查看debug信息的面板（包括SQL执行时间，页面耗时）</p>
+</li>
+<li><p><a href="https://github.com/jazzband/django-silk">django-silk</a>：django性能瓶颈分析</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li><a href="https://simpleui.72wo.com/docs/simpleui/doc.html">Simple-UI</a> ：于Element UI 和 VUE 的django admin 主题。</li>
+</ul>
+<ul>
+<li><a href="https://django-haystack.readthedocs.io/en/master/">haystack django</a> ：模块化搜索方案</li>
+</ul>
+<ul>
+<li><a href="https://github.com/django-notifications/django-notifications">django-notifications</a>：发送消息通知插件</li>
+</ul>
+<ul>
+<li><a href="https://github.com/agusmakmun/django-markdown-editor">django markdown editor</a> ：Markdown 编辑器</li>
+</ul>
+<ul>
+<li><a href="https://github.com/django-crispy-forms/django-crispy-forms">django-crispy-forms</a>：Crispy 表单，以一种非常优雅的、干净的方式来创建表单。</li>
+</ul>
+<ul>
+<li><a href="https://github.com/mbi/django-simple-captcha">django-simple-captcha</a>：Django验证码</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>Django、后端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Mysql 8.0 连接数据库错误</title>
+    <url>/2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</url>
+    <content><![CDATA[<h4 id="Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist"><a href="#Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist" class="headerlink" title="Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist"></a>Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist</h4><a id="more"></a>
+
+<p>解决办法：</p>
+<ol>
+<li><p>重新创建该用户（mysql.infoschema）：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;mysql.infoschema&#x27;</span> @ <span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;password &#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>给用户赋予权限</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;mysql.infoschema&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>刷新数据库</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>Mysql、后端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python + Elestatcsearch</title>
+    <url>/2021/02/02/Python-Elestatcsearch/</url>
+    <content><![CDATA[<blockquote>
+<h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><p> ElasticSearch是一个基于<a href="https://baike.baidu.com/item/Lucene/6753302">Lucene</a>的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。ElasticSearch用于<a href="https://baike.baidu.com/item/%E4%BA%91%E8%AE%A1%E7%AE%97/9969353">云计算</a>中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。官方客户端在Java、.NET（C#）、PHP、Python、Apache Groovy、Ruby和许多其他语言中都是可用的。根据DB-Engines的排名显示，Elasticsearch是最受欢迎的企业搜索引擎，其次是Apache Solr，也是基于Lucene。 </p>
+<a id="more"></a>
+
+<h2 id="有关概念"><a href="#有关概念" class="headerlink" title="有关概念"></a>有关概念</h2><p>cluster：代表一个<a href="https://baike.baidu.com/item/%E9%9B%86%E7%BE%A4">集群</a>，集群中有多个节点，其中有一个为主节点，这个主节点是可以通过选举产生的，主从节点是对于集群内部来说的。es的一个概念就是去中心化，字面上理解就是无中心节点，这是对于集群外部来说的，因为从外部来看es集群，在逻辑上是个整体，你与任何一个节点的通信和与整个es集群通信是等价的。</p>
+<p>shards：代表索引分片，es可以把一个完整的索引分成多个分片，这样的好处是可以把一个大的索引拆分成多个，分布到不同的节点上。构成分布式搜索。分片的数量只能在索引创建前指定，并且索引创建后不能更改。</p>
+<p>replicas：代表索引副本，es可以设置多个索引的副本，副本的作用一是提高系统的<a href="https://baike.baidu.com/item/%E5%AE%B9%E9%94%99%E6%80%A7">容错性</a>，当某个节点某个分片损坏或丢失时可以从副本中恢复。二是提高es的查询效率，es会自动对搜索请求进行负载均衡。</p>
+<p>recovery：代表数据恢复或叫数据重新分布，es在有节点加入或退出时会根据机器的负载对索引分片进行重新分配，挂掉的节点重新启动时也会进行数据恢复。</p>
+<p>river：代表es的一个数据源，也是其它存储方式（如：数据库）同步数据到es的一个方法。它是以插件方式存在的一个es服务，通过读取river中的数据并把它索引到es中，官方的river有couchDB的，RabbitMQ的，Twitter的，Wikipedia的。</p>
+<p>gateway：代表es索引快照的存储方式，es默认是先把索引存放到内存中，当内存满了时再持久化到本地硬盘。gateway对索引快照进行存储，当这个es集群关闭再重新启动时就会从gateway中读取索引备份数据。es支持多种类型的gateway，有本地文件系统（默认），<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">分布式文件系统</a>，Hadoop的HDFS和amazon的s3<a href="https://baike.baidu.com/item/%E4%BA%91%E5%AD%98%E5%82%A8">云存储</a>服务。</p>
+<p>discovery.zen：代表es的自动发现节点机制，es是一个基于p2p的系统，它先通过广播寻找存在的节点，再通过<a href="https://baike.baidu.com/item/%E5%A4%9A%E6%92%AD">多播</a>协议来进行节点之间的通信，同时也支持<a href="https://baike.baidu.com/item/%E7%82%B9%E5%AF%B9%E7%82%B9">点对点</a>的交互。</p>
+<p>Transport：代表es内部节点或集群与客户端的交互方式，默认内部是使用tcp协议进行交互，同时它支持http协议（json格式）、<a href="https://baike.baidu.com/item/thrift">thrift</a>、servlet、memcached、zeroMQ等的<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE">传输协议</a>（通过<a href="https://baike.baidu.com/item/%E6%8F%92%E4%BB%B6">插件</a>方式集成）。</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>Elestaticsearch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python压缩图片作为缩略图</title>
+    <url>/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/</url>
+    <content><![CDATA[<p>将图片压缩，作为缩略图，代码如下</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> shutil</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageFile</span><br><span class="line">ImageFile.LOAD_TRUNCATED_IMAGES = <span class="literal">True</span>    <span class="comment">#   OSError: image file is truncated   图像被截断错误</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resize_by_size</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;</span></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>]:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">        outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">        im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">        size_tmp = os.path.getsize(infile)</span><br><span class="line">        q = <span class="number">100</span></span><br><span class="line">        <span class="keyword">while</span> size_tmp &gt; <span class="number">10240</span> <span class="keyword">and</span> q &gt; <span class="number">0</span>:</span><br><span class="line">            out = im.resize(im.size, Image.ANTIALIAS)</span><br><span class="line">            out.save(outfile, quality=q)</span><br><span class="line">            size_tmp = os.path.getsize(outfile)</span><br><span class="line">            q -= <span class="number">10</span></span><br><span class="line">        <span class="keyword">if</span> q == <span class="number">100</span>:</span><br><span class="line">            shutil.copy(infile,outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">equal_img</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    修改大小</span></span><br><span class="line"><span class="string">    :param cls:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.startswith(<span class="string">&#x27;thumbnail&#x27;</span>) <span class="keyword">or</span> file_name.startswith(<span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 判断是不是图片。不是的话，忽略</span></span><br><span class="line">        <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;jpeg&#x27;</span>,<span class="string">&#x27;JPEG&#x27;</span>]:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">            <span class="comment"># print(&#x27;file_name：&#x27;,outfilename)</span></span><br><span class="line">            outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">            <span class="comment"># print(u&#x27;path：&#x27;,outfile)</span></span><br><span class="line">            im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">            width = im.size[<span class="number">0</span>]   <span class="comment"># 获取宽度</span></span><br><span class="line">            height = im.size[<span class="number">1</span>]   <span class="comment"># 获取高度</span></span><br><span class="line">            print(<span class="string">u&#x27;width：height：&#x27;</span>,width,height)</span><br><span class="line">            <span class="keyword">if</span> width &lt;= <span class="number">200</span>:</span><br><span class="line">                shutil.copy(infile,outfile)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                coe = <span class="built_in">float</span>(<span class="string">&#x27;%.2f&#x27;</span>%(<span class="number">200</span>/width))   <span class="comment">#保留两位小数可能是0.00，</span></span><br><span class="line">                print(<span class="string">u&#x27;coe：&#x27;</span>,coe)</span><br><span class="line">                <span class="keyword">if</span> coe &lt;= <span class="number">0</span>:</span><br><span class="line">                    coe = <span class="number">0.15</span></span><br><span class="line">                <span class="keyword">if</span> im.mode == <span class="string">&quot;P&quot;</span>:</span><br><span class="line">                    im = im.convert(<span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">                out = im.resize((<span class="built_in">int</span>(width*coe), <span class="built_in">int</span>(height*coe)), Image.ANTIALIAS)</span><br><span class="line"></span><br><span class="line">                out.save(outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gci</span>(<span class="params">filepath</span>):</span></span><br><span class="line">    <span class="comment">#遍历filepath下所有文件，包括子目录</span></span><br><span class="line">    files = os.listdir(filepath)</span><br><span class="line">    <span class="keyword">for</span> fi <span class="keyword">in</span> files:</span><br><span class="line">        fi_d = os.path.join(filepath,fi)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(fi_d):</span><br><span class="line">            gci(fi_d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># resize_by_size(os.path.join(filepath,fi_d))</span></span><br><span class="line">            equal_img(os.path.join(filepath,fi_d))</span><br><span class="line"></span><br><span class="line"><span class="comment">#递归遍历/root目录下所有文件</span></span><br><span class="line"><span class="comment"># gci(&#x27;/var/local/www/edu_online1/media/works&#x27;)</span></span><br><span class="line"><span class="comment"># gci(&#x27;/root/www/edu_online1/media/works/13360067818/tradition&#x27;)  #正式</span></span><br><span class="line">gci(<span class="string">&#x27;/root/www/edu_online1/media/works/13265647342/udict/1552525240000/䤋&#x27;</span>)  <span class="comment">#正式</span></span><br><span class="line"><span class="comment"># gci(r&#x27;F:\desktop\䤋&#x27;)</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Python、压缩图片</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu安装mysql-python插件</title>
+    <url>/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/</url>
+    <content><![CDATA[<h4 id="运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb"><a href="#运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb" class="headerlink" title="运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb"></a>运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb</h4><a id="more"></a>
+
+<h3 id="1-安装-mysql-python"><a href="#1-安装-mysql-python" class="headerlink" title="1.安装 mysql-python"></a>1.安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure>
+<h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu安装mysql-python插件/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p>
+<h3 id="接下来安装依赖包"><a href="#接下来安装依赖包" class="headerlink" title="接下来安装依赖包"></a>接下来安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure>
+<h3 id="如果还是不行安装依赖"><a href="#如果还是不行安装依赖" class="headerlink" title="如果还是不行安装依赖"></a>如果还是不行安装依赖</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install python-dev</span><br><span class="line">sudo apt-get install python-MySQLdb</span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>Ubuntu、Mysql-Python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>flaskshell创建索引出错</title>
+    <url>/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/</url>
+    <content><![CDATA[<p>遇到的问题：flask 环境中使用 flask shell  使用flask Whoosh 创建索引失败</p>
+<a id="more"></a>
+
+<h3 id="解决办法-："><a href="#解决办法-：" class="headerlink" title="解决办法 ："></a>解决办法 ：</h3><pre><code>export FLASK_APP=manage.py
+flask shell 
+</code></pre>
+<p>然后导出 flask 创建的whoosh的whoosh对象</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from 项目内的文件 import whoosh</span><br><span class="line">whoosh.create_index()</span><br></pre></td></tr></table></figure>
+
+<p>​    </p>
+]]></content>
+      <tags>
+        <tag>Flask、shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>两台linux 互相传输文件</title>
+    <url>/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<blockquote>
+<h4 id="百度百科"><a href="#百度百科" class="headerlink" title="百度百科"></a>百度百科</h4><h6 id="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"><a href="#rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。" class="headerlink" title="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"></a>rsync是linux系统下的数据<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a><a href="https://baike.baidu.com/item/%E5%A4%87%E4%BB%BD">备份</a>工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。</h6><h5 id="它的特性如下："><a href="#它的特性如下：" class="headerlink" title="它的特性如下："></a>它的特性如下：</h5><ul>
+<li>可以<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a>保存整个目录树和文件系统。</li>
+<li>可以很容易做到保持原来文件的权限、时间、软硬链接等等。</li>
+<li>无须特殊权限即可安装。</li>
+</ul>
+<a id="more"></a>
+
+<ul>
+<li>快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改过的文件。rsync 在传输数据的过程中可以实行压缩及<a href="https://baike.baidu.com/item/%E8%A7%A3%E5%8E%8B%E7%BC%A9">解压缩</a>操作，因此可以使用更少的带宽。</li>
+<li>安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</li>
+<li>支持匿名传输，以方便进行网站镜像。 </li>
+</ul>
+</blockquote>
+<h4 id="1、Rsync参数说明"><a href="#1、Rsync参数说明" class="headerlink" title="1、Rsync参数说明"></a>1、Rsync参数说明</h4><ol>
+<li><p>使用 rsync + ssh 进行加密传输  </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rsync -avzhe ssh /home/ubuntu/remote_test ubuntu@193.112.102.63:/home/ubuntu/remote_test</span><br></pre></td></tr></table></figure></li>
+<li><p>参数设置  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-v, --verbose 详细模式输出</span><br><span class="line">   -q, --quiet 精简输出模式</span><br><span class="line">   -c, --checksum 打开校验开关，强制对文件传输进行校验</span><br><span class="line">   -a, --archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD</span><br><span class="line">   -r, --recursive 对子目录以递归模式处理</span><br><span class="line">   -R, --relative 使用相对路径信息</span><br><span class="line">   -b, --backup 创建备份，也就是对于目的已经存在有同样的文件名时，将老的文件重新命名为~filename。可以使用--suffix选项来指定不同的备份文件前缀。</span><br><span class="line">   --backup-dir 将备份文件(如~filename)存放在在目录下。</span><br><span class="line">   -suffix&#x3D;SUFFIX 定义备份文件前缀</span><br><span class="line">   -u, --update 仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)</span><br><span class="line">   -l, --links 保留软链结</span><br><span class="line">   -L, --copy-links 像对待常规文件一样处理软链接</span><br><span class="line">   --copy-unsafe-links 仅仅拷贝指向SRC路径目录树以外的链接</span><br><span class="line">   --safe-links 忽略指向SRC路径目录树以外的链接</span><br><span class="line">   -H, --hard-links 保留硬链接</span><br><span class="line">   -p, --perms 保持文件权限</span><br><span class="line">   -o, --owner 保持文件属主信息</span><br><span class="line">   -g, --group 保持文件属组信息</span><br><span class="line">   -D, --devices 保持设备文件信息</span><br><span class="line">   -t, --times 保持文件时间信息</span><br><span class="line">   -S, --sparse 对稀疏文件进行特殊处理以节省DST的空间</span><br><span class="line">   -n, --dry-run显示哪些文件将被传输</span><br><span class="line">   -W, --whole-file 拷贝文件，不进行增量检测</span><br><span class="line">   -x, --one-file-system 不要跨越文件系统边界</span><br><span class="line">   -B, --block-size&#x3D;SIZE 检验算法使用的块尺寸，默认是700字节</span><br><span class="line">   -e, --rsh&#x3D;COMMAND 指定使用rsh、ssh方式进行数据同步</span><br><span class="line">   --rsync-path&#x3D;PATH 指定远程服务器上的rsync命令所在路径信息</span><br><span class="line">   -C, --cvs-exclude 使用和CVS一样的方法自动忽略文件，用来排除那些不希望传输的文件</span><br><span class="line">   --existing 仅仅更新那些已经存在于DST的文件，而不备份那些新创建的文件</span><br><span class="line">   --delete 删除那些DST中SRC没有的文件</span><br><span class="line">   --delete-excluded 同样删除接收端那些被该选项指定排除的文件</span><br><span class="line">   --delete-after 传输结束以后再删除</span><br><span class="line">   --ignore-errors 即使出现IO错误也进行删除</span><br><span class="line">   --max-delete&#x3D;NUM 最多删除NUM个文件</span><br><span class="line">   --partial 保留那些因故没有完全传输的文件，以是加快随后的再次传输</span><br><span class="line">   --force 强制删除目录，即使不为空</span><br><span class="line">   --numeric-ids 不将数字的用户和组ID匹配为用户名和组名</span><br><span class="line">   --timeout&#x3D;TIME IP超时时间，单位为秒</span><br><span class="line">   -I, --ignore-times 不跳过那些有同样的时间和长度的文件</span><br><span class="line">   --size-only 当决定是否要备份文件时，仅仅察看文件大小而不考虑文件时间</span><br><span class="line">   --modify-window&#x3D;NUM 决定文件是否时间相同时使用的时间戳窗口，默认为0</span><br><span class="line">   -T --temp-dir&#x3D;DIR 在DIR中创建临时文件</span><br><span class="line">   --compare-dest&#x3D;DIR 同样比较DIR中的文件来决定是否需要备份</span><br><span class="line">   -P 等同于 --partial</span><br><span class="line">   --progress 显示备份过程</span><br><span class="line">   -z, --compress 对备份的文件在传输时进行压缩处理</span><br><span class="line">   --exclude&#x3D;PATTERN 指定排除不需要传输的文件模式</span><br><span class="line">   --include&#x3D;PATTERN 指定不排除而需要传输的文件模式</span><br><span class="line">   --exclude-from&#x3D;FILE 排除FILE中指定模式的文件</span><br><span class="line">   --include-from&#x3D;FILE 不排除FILE指定模式匹配的文件</span><br><span class="line">   --version 打印版本信息</span><br><span class="line">   --address 绑定到特定的地址</span><br><span class="line">   --config&#x3D;FILE 指定其他的配置文件，不使用默认的rsyncd.conf文件</span><br><span class="line">   --port&#x3D;PORT 指定其他的rsync服务端口</span><br><span class="line">   --blocking-io 对远程shell使用阻塞IO</span><br><span class="line">   -stats 给出某些文件的传输状态</span><br><span class="line">   --progress 在传输时显示传输过程</span><br><span class="line">   --log-format&#x3D;formAT 指定日志文件格式</span><br><span class="line">   --password-file&#x3D;FILE 从FILE中得到密码</span><br><span class="line">   --bwlimit&#x3D;KBPS 限制I&#x2F;O带宽，KBytes per second</span><br><span class="line">   -h, --help 显示帮助信息</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="2、目的"><a href="#2、目的" class="headerlink" title="2、目的"></a>2、目的</h4><ul>
+<li><p>实现两台服务器之间做增量备份。A服务器作为服务端，B服务器作为客户端。</p>
+</li>
+<li><p>B服务器每天定时将某个目录下产生的文件发送到A服务器中。</p>
+</li>
+</ul>
+<h4 id="3、操作方法"><a href="#3、操作方法" class="headerlink" title="3、操作方法"></a>3、操作方法</h4><p>在A服务器中安装 rsync ，查看服务器是否安装rsync。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rsync --version</span><br><span class="line">#显示如下  代表已经安装  版本为：3.1.1  (确保两台服务器之前安装的版本的一致，不一致可能造成无法同步数据)</span><br><span class="line">rsync  version 3.1.2  protocol version 31</span><br><span class="line">Copyright (C) 1996-2015 by Andrew Tridgell, Wayne Davison, and others.</span><br><span class="line">Web site: http:&#x2F;&#x2F;rsync.samba.org&#x2F;</span><br><span class="line">Capabilities:</span><br><span class="line">    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,</span><br><span class="line">    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,</span><br><span class="line">    append, ACLs, xattrs, iconv, symtimes, prealloc</span><br><span class="line"></span><br><span class="line">rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you</span><br><span class="line">are welcome to redistribute it under certain conditions.  See the GNU</span><br><span class="line">General Public Licence for details.</span><br></pre></td></tr></table></figure>
+<p>两边都安装完成了以后，就可以使用了。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rsync -avzhe ssh 001 ubuntu@193.112.102.63:/home/ubuntu/remote_test   </span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用ssh模式连接 需要输入密码</span></span><br></pre></td></tr></table></figure>
+<h5 id="1-将A服务器作为服务端"><a href="#1-将A服务器作为服务端" class="headerlink" title="1. 将A服务器作为服务端"></a>1. 将A服务器作为服务端</h5><p>编辑文件 <code>/etc/vi /etc/rsyncd.conf</code>默认不存在， 直接创建 。编辑输入如下内容：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">服务端配置文件 (和上面一样)</span></span><br><span class="line">motd file = /etc/rsyncd.motd</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsyncd.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line"></span><br><span class="line">[workspace]  #模块名 在客户端需要用到</span><br><span class="line">path = /devdata/backres   #需要备份的路径</span><br><span class="line">comment = Test</span><br><span class="line">uid = root   #使用的用户</span><br><span class="line">gid = root   #同上 </span><br><span class="line">read only = false   #是否可写</span><br><span class="line">auth users = root   #验证的用户</span><br><span class="line">secrets file = /etc/rsyncd.pass   #密码文件  文件的权限：600</span><br><span class="line">transfer logging = yes   #日志输出</span><br><span class="line">hosts allow=123.207.165.19   #允许的可短的IP地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>新建密码文件 在上述的conf文件中，倒数第三行。内容为当前用户名以及密码 。格式：user：password。密码文件拥有用户必须为当前用户 ubuntu 且权限必须为 600</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ubuntu:123456</span><br></pre></td></tr></table></figure>
+<p>查看rsync 状态 ： <code>service rsync status</code>。 重启rsync服务： <code>service rsync restart</code></p>
+<h5 id="2-将b服务器作为客户端"><a href="#2-将b服务器作为客户端" class="headerlink" title="2. 将b服务器作为客户端"></a>2. 将b服务器作为客户端</h5><p>客户端不需要设置太多内容可直接运行命令，不过需要手动输入密码，可将密码存在一个文件内，使用<code>--password-file=FILE</code> 进行从文件中读取密码。这个文件路径任意。文件内容只包含服务端密码即可。但是必须为root用户拥有且权限为600。</p>
+<p>使用命令 ：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo rsync -aqr --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">参数解释：</span></span><br><span class="line">-a：--archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，</span><br><span class="line">-q：--quiet 精简输出模式</span><br><span class="line">-r：--recursive 对子目录以递归模式处理</span><br><span class="line">workspace：即服务端的模块名</span><br></pre></td></tr></table></figure>
+<h5 id="3-设置定时任务"><a href="#3-设置定时任务" class="headerlink" title="3. 设置定时任务"></a>3. 设置定时任务</h5><p>使用ubuntu 的crontab </p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+<p>第一次打开会选择的编辑器，一般选择vim,输入数字即可。如下所示：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Select an editor.  To change later, run &#x27;select-editor&#x27;.</span><br><span class="line">  1. /bin/ed</span><br><span class="line">  2. /bin/nano        &lt;---- easiest</span><br><span class="line">  3. /usr/bin/vim.basic</span><br><span class="line">  4. /usr/bin/vim.tiny</span><br></pre></td></tr></table></figure>
+<p>定时任务格式：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* * * * * command    </span><br><span class="line">用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</span><br><span class="line">minute hour day month week command</span><br><span class="line">其中：</span><br><span class="line">minute：表示分钟，可以是从0到59之间的任何整数。</span><br><span class="line">hour：表示小时，可以是从0到23之间的任何整数。</span><br><span class="line">day：表示日期，可以是从1到31之间的任何整数。</span><br><span class="line">month：表示月份，可以是从1到12之间的任何整数。</span><br><span class="line">week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。</span><br><span class="line">command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件</span><br><span class="line">/ 斜杠代表频率 例如：</span><br><span class="line">如果想每分钟都执行一次的话就采用默认的 * * * * *</span><br><span class="line">如果想每五分钟执行一次可以 */5 * * * * </span><br><span class="line">如果是每两个小时执行一次的话 那就是 *  */2 * * *来设置;</span><br></pre></td></tr></table></figure>
+<p>在定时任务中输入：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">30 23 * * * sudo rsync -r --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br><span class="line"><span class="meta">#</span><span class="bash">表示 在每天的23:30 进行数据备份</span></span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Python 面试题</title>
     <url>/2021/02/01/%E8%AF%95%E9%A2%98/</url>
     <content><![CDATA[<p>1、对字典d = {‘a’: 24, ‘b’: 53, ‘d’: 56, ‘h’: 7}  按照字典中的value值排序。</p>
@@ -93,88 +397,6 @@
 ]]></content>
       <tags>
         <tag>Python、后端、面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Jupyter-notebook的安装与基本使用</title>
-    <url>/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<blockquote>
-<h4 id="The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more"><a href="#The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more" class="headerlink" title="The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more."></a>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</h4></blockquote>
-<p>以上为Jupyter notebook 的官方解释。</p>
-<blockquote>
-<p>Jupyter Notebook是一个开源Web应用程序，可让您创建和共享包含实时代码，方程式，可视化效果和叙述文本的文档。 用途包括：数据清理和转换，数值模拟，统计建模，数据可视化，机器学习等.</p>
-</blockquote>
-<a id="more"></a>
-
-<h2 id="一、windows下安装Jupyter-notebook"><a href="#一、windows下安装Jupyter-notebook" class="headerlink" title="一、windows下安装Jupyter notebook"></a>一、windows下安装Jupyter notebook</h2><p>Jupyter notebook 是基于Python 的首先要安装Python环境，或者直接安装Anaconda（直接包含Python和Jupyter notebook）。以上环境省略自行安装。</p>
-<ol>
-<li>在Python环境下直接安装。（最好是新版本Python）</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter</span><br></pre></td></tr></table></figure>
-<p>等待命令安装完毕，如果比较慢的话，建议更换Python的源为清华或者淘宝网易的源下载安装速度会快很多。</p>
-<ol start="2">
-<li>启动Jupyter notebook , 系统会自动启动浏览器，打开本地的8888端口。（端口没有被占用的情况下。如果被占用端口号会自动加一，启动多个Jupyter notebook应用，端口号也会自动向后加一来启动多个应用。）</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook </span><br></pre></td></tr></table></figure>
-<p>如果在使用过程中关闭了当前终端，应用也会随之无法连接，无法使用Jupyter notebook应用。</p>
-<ol start="3">
-<li>如果要以不同的端口号启动Jupyter notebook应用，使用一下的方式启动。</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook --port 8899</span><br></pre></td></tr></table></figure>
-<h2 id="二、Jupyter-notebook-界面"><a href="#二、Jupyter-notebook-界面" class="headerlink" title="二、Jupyter notebook 界面"></a>二、Jupyter notebook 界面</h2><ol>
-<li><p>如图所示打开Jupyter notebook 的初始界面为：</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-08-09.png"></p>
-<p>Jupyter notebook 的默认存储文件的地址为当前用户的文件路径。里面的文件每个的都不太一样。</p>
-</li>
-<li><p>更改默认的存储路径。</p>
-<p>Jupyter notebook  的默认的配置文件在当前用户下的一个隐藏文件（以.jupyter开头的文件）文件下名为jupyter_notebook_config.py 即为jupyter notebook 的配置文件。</p>
-<p>打开文件搜索找到 <code>c.NotebookApp.notebook_dir</code> 开头的配置，即是存储文件路径的配置。只需要将你想要修改的路径添加并取消注释即可。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">c.NotebookApp.notebook_dir &#x3D; &#39;C:&#x2F;Users&#x2F;xxx&#x2F;Desktop&#x2F;Project&#x2F;Jupyter Notebook&#39;</span><br></pre></td></tr></table></figure>
-<p>重启启动 Jupyter notebook。此时页面文件目录是空的。</p>
-</li>
-</ol>
-<h2 id="三、使用-Jupyter-notebook"><a href="#三、使用-Jupyter-notebook" class="headerlink" title="三、使用 Jupyter notebook"></a>三、使用 Jupyter notebook</h2><ol>
-<li><p>新建一个页面。 点击右上角的 new 按钮可以新建一个工程文件或者文本文件或者文件夹。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-23-24.png"></p>
-<p>例如 新建一个python3文件。新页面样式如图所示。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-25-08.png"></p>
-<p>可在单元格（cell）中输入代码并执行。</p>
-</li>
-</ol>
-<h2 id="四、Jupyter-notebook-快捷键"><a href="#四、Jupyter-notebook-快捷键" class="headerlink" title="四、Jupyter notebook 快捷键"></a>四、Jupyter notebook 快捷键</h2><p>A：在当前单元格的上方添加一行单元格</p>
-<p>B：在当前单元格的下方添加一行单元格</p>
-<p>M：选中单元格将单元格代码格式改为Markdown格式</p>
-<p>Y：选中单元格将单元格代码格式改为代码格式</p>
-<p>X：剪切当前单元格</p>
-<p>V：在当前单元格下方粘贴复制或者剪切的单元格</p>
-<p>shift+V：在当前单元格上方粘贴复制或者剪切的单元格</p>
-<p>D D ：连续两个D 删除当前单元格</p>
-<p>Z：撤销删除单元格</p>
-<p>还有很多快捷键按H都可以找到。</p>
-<h2 id="五、Jupyter-notebook-插件"><a href="#五、Jupyter-notebook-插件" class="headerlink" title="五、Jupyter notebook 插件"></a>五、Jupyter notebook 插件</h2><ol>
-<li><p>在安装插件之前首先需要安装<strong>jupyter_contrib_nbextensions</strong>。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter_contrib_nbextensions</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启用 jupyter_contrib_nbextensions</span></span><br><span class="line">jupyter contrib nbextension install --user</span><br></pre></td></tr></table></figure>
-<p>此时 Jupyter notebook 界面就会出现一个新的菜单栏。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-06-58.png"></p>
-<p>选中此按钮进入配置插件的页面。</p>
-<p>取消勾选此按钮。否则无法选择插件。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-08-31.png"></p>
-<p>推荐插件：</p>
-<ul>
-<li><strong>Notify</strong> ：能在任务处理完后及时向你发送通知</li>
-<li><strong>Hinterland</strong> ：自动补全代码</li>
-<li><strong>Codefolding</strong>  ：折叠代码</li>
-<li><strong>Table of Contents(2)</strong>  ：自动生成导航目录</li>
-<li><strong>Autopep8</strong> ：自动格式化代码。（需要安装python库：autopep8）</li>
-<li><strong>ExecuteTime</strong> ：显示单元格的运行时间和耗时 </li>
-<li><strong>Split Cells Notebook</strong> ：类似于多窗口编辑，将单行排列的单元格放置为多行排列。</li>
-<li><strong>Collapsible Headings</strong> ：折叠单元格</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <tags>
-        <tag>Jupyter notebook、Python</tag>
       </tags>
   </entry>
   <entry>
@@ -347,307 +569,85 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu安装mysql-python插件</title>
-    <url>/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<h4 id="运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb"><a href="#运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb" class="headerlink" title="运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb"></a>运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb</h4><a id="more"></a>
-
-<h3 id="1-安装-mysql-python"><a href="#1-安装-mysql-python" class="headerlink" title="1.安装 mysql-python"></a>1.安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure>
-<h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu安装mysql-python插件/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p>
-<h3 id="接下来安装依赖包"><a href="#接下来安装依赖包" class="headerlink" title="接下来安装依赖包"></a>接下来安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure>
-<h3 id="如果还是不行安装依赖"><a href="#如果还是不行安装依赖" class="headerlink" title="如果还是不行安装依赖"></a>如果还是不行安装依赖</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install python-dev</span><br><span class="line">sudo apt-get install python-MySQLdb</span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>Ubuntu、Mysql-Python</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Centos7.5源码安装postgresql-12</title>
-    <url>/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/</url>
-    <content><![CDATA[<h3 id="源码安装"><a href="#源码安装" class="headerlink" title="源码安装"></a>源码安装</h3><ol>
-<li><p>首先安装readline 和readline-devel</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install readline </span><br><span class="line">yum install readline-devel</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-</li>
-</ol>
-<p>虽然已经安装了readline，但是不安装readlene-devel 在执行 <code>./configure --prefix=/opt/postgresql</code> 的时候会提示，<code>configure: error: readline library not found</code>。</p>
-<ol start="2">
-<li><p>接下来在执行 </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">./configure --prefix=/opt/postgresql</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></li>
-<li><p>将postgresql 加入环境变量，打开文件 /etc/profile  在末尾添加</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">export PG_HOME=/opt/postgresql  #为安装postgresql的地址</span><br><span class="line">export PATH=$PG_HOME/bin:$PATH</span><br><span class="line">source /etc/profile    #更新环境变量</span><br></pre></td></tr></table></figure></li>
-<li><p>创建postgresql 的用户以及用户组 可创建可不创建</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">groupadd postgresql   #创建用户组</span><br><span class="line">useradd -G postgresql postgresql   #创建用户</span><br><span class="line">passwd ********    #设置密码  </span><br></pre></td></tr></table></figure>
-</li>
-<li><p>初始数据库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl -D /opt/postgresdata initdb&#x27; #初始化数据库</span><br><span class="line">su postgresql   ：使用这个用户进行操作</span><br><span class="line">/opt/postgresdata：地址为存放初始化的文件路径可自定义，   这个文件的用户权限要为 postgresql可操作</span><br><span class="line">pg_ctl  ：postgresql 的控制器，可以对postgresql 进行启动停止等操作</span><br></pre></td></tr></table></figure>
-<p>执行以上语句后会再  /opt/postgresdata 路径下生成一些文件</p>
-<p><img src="/2021/02/02/Centos7-5源码安装postgresql-12/postgresql0.jpg"></p>
-</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>文件</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>postmaster.pid</td>
-<td>首行记录了进程PID</td>
-</tr>
-<tr>
-<td>serverlog</td>
-<td>数据库日志</td>
-</tr>
-<tr>
-<td>postgresql.conf</td>
-<td>主配置文件(可做定制</td>
-</tr>
-<tr>
-<td>pg_hba.conf</td>
-<td>鉴权相关文件</td>
-</tr>
-<tr>
-<td>PG_VERSION</td>
-<td>当前主版本号</td>
-</tr>
-</tbody></table>
-<ol start="6">
-<li><p>启动数据库</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl start -D /opt/postgredata -l serverlog&#x27;</span><br></pre></td></tr></table></figure>
-
-</li>
-<li><p>设置远程访问,在 pg_hba.conf文文件末尾加上：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">host all all 0.0.0.0/0 md5</span><br></pre></td></tr></table></figure></li>
-<li><p>为了让 postgresql用户可以远程访问，可以通过 psql 设置密码：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">alter user postgresql with password &#39;*********&#39;;</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ol>
-<ol start="9">
-<li><p>开启远程访问，默认情况下 postgresql 仅仅监听本机的端口，需要编辑 <strong>/opt/postgredata/ postgresql.conf</strong> 文件开启远程IP的访问</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">listen_addresses &#x3D; &#39;*&#39;</span><br></pre></td></tr></table></figure></li>
-<li><p>常用命令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">如果需要定制端口，可以执行脚本：</span></span><br><span class="line">postgres -p 5430 -D /opt/postgredata &gt;serverlog 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="meta">#</span><span class="bash">检查进程是否存活：</span></span><br><span class="line">netstat -nlp |grep `head -1 /opt/postgredata/postmaster.pid`</span><br><span class="line"><span class="meta">#</span><span class="bash">停止数据库进程</span></span><br><span class="line">kill -INT `head -1 /opt/postgredata/postmaster.pid`</span><br></pre></td></tr></table></figure></li>
-<li><p>配置自启动</p>
-<p>找到源码目录中 <strong><em>contrib/start-scripts/linux\</em></strong>脚本文件，拷贝为 <strong>/etc/init.d/postgressql</strong>。修改内容如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 程序所在目录</span></span><br><span class="line">prefix=/opt/postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 数据目录</span></span><br><span class="line">PGDATA=&quot;/opt/postgredata&quot;</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 运行用户</span></span><br><span class="line">PGUSER=postgresql</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 日志文件</span></span><br><span class="line">PGLOG=&quot;$PGDATA/serverlog&quot;</span><br></pre></td></tr></table></figure>
-<p>设置执行权限</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x /etc/init.d/postgressql		</span><br></pre></td></tr></table></figure>
-
-<p>此后，执行以下命令可以方便的启停服务</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//手动启动服务</span><br><span class="line">    service postgressql start</span><br><span class="line">    </span><br><span class="line">    //查看服务状态</span><br><span class="line">    service postgressql status</span><br><span class="line">    </span><br><span class="line">    //手动停止服务</span><br><span class="line">    service postgressql stop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>设置开机启动 ,执行以下命令：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chkconfig --add postgressql</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ol>
-<h3 id="yum安装"><a href="#yum安装" class="headerlink" title="yum安装"></a>yum安装</h3><p> <a href="https://www.postgresql.org/download/linux/redhat/">官网安装教程地址</a></p>
-<p>安装完成会自动创建一个用户为：postgres  </p>
-<p>首先使用管理员用户修改密码，然后登录以后，运行psql 即可使用，</p>
-<p>允许远程访问，yum安装的ppostgresql 的配置文件在<code>/var/lib/pgsql/12/data</code> 目录下</p>
-<p>修改配置文件 <code>postgresql.conf</code> 将 <code>listen_addresses = &#39;localhost&#39; </code>改为 <code>listen_addresses = &#39;*&#39; </code></p>
-<p>然后在修改 <code>pg_hba_conf</code> 在最后一行添加 <code>host all  all  0.0.0.0/0  md5</code>  允许所有IIP访问， 如果限定IP,将0.0.0.0 改为指定IP。</p>
-<p>重启命令postgresql  ：<code>systemctl restart postgresql-12</code></p>
-<p>参考材料：<a href> https://www.cnblogs.com/littleatp/p/10542137.html </a></p>
-]]></content>
-      <tags>
-        <tag>Centos、Postgresql</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python压缩图片作为缩略图</title>
-    <url>/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/</url>
-    <content><![CDATA[<p>将图片压缩，作为缩略图，代码如下</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> shutil</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageFile</span><br><span class="line">ImageFile.LOAD_TRUNCATED_IMAGES = <span class="literal">True</span>    <span class="comment">#   OSError: image file is truncated   图像被截断错误</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resize_by_size</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;</span></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>]:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">        outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">        im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">        size_tmp = os.path.getsize(infile)</span><br><span class="line">        q = <span class="number">100</span></span><br><span class="line">        <span class="keyword">while</span> size_tmp &gt; <span class="number">10240</span> <span class="keyword">and</span> q &gt; <span class="number">0</span>:</span><br><span class="line">            out = im.resize(im.size, Image.ANTIALIAS)</span><br><span class="line">            out.save(outfile, quality=q)</span><br><span class="line">            size_tmp = os.path.getsize(outfile)</span><br><span class="line">            q -= <span class="number">10</span></span><br><span class="line">        <span class="keyword">if</span> q == <span class="number">100</span>:</span><br><span class="line">            shutil.copy(infile,outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">equal_img</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    修改大小</span></span><br><span class="line"><span class="string">    :param cls:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.startswith(<span class="string">&#x27;thumbnail&#x27;</span>) <span class="keyword">or</span> file_name.startswith(<span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 判断是不是图片。不是的话，忽略</span></span><br><span class="line">        <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;jpeg&#x27;</span>,<span class="string">&#x27;JPEG&#x27;</span>]:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">            <span class="comment"># print(&#x27;file_name：&#x27;,outfilename)</span></span><br><span class="line">            outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">            <span class="comment"># print(u&#x27;path：&#x27;,outfile)</span></span><br><span class="line">            im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">            width = im.size[<span class="number">0</span>]   <span class="comment"># 获取宽度</span></span><br><span class="line">            height = im.size[<span class="number">1</span>]   <span class="comment"># 获取高度</span></span><br><span class="line">            print(<span class="string">u&#x27;width：height：&#x27;</span>,width,height)</span><br><span class="line">            <span class="keyword">if</span> width &lt;= <span class="number">200</span>:</span><br><span class="line">                shutil.copy(infile,outfile)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                coe = <span class="built_in">float</span>(<span class="string">&#x27;%.2f&#x27;</span>%(<span class="number">200</span>/width))   <span class="comment">#保留两位小数可能是0.00，</span></span><br><span class="line">                print(<span class="string">u&#x27;coe：&#x27;</span>,coe)</span><br><span class="line">                <span class="keyword">if</span> coe &lt;= <span class="number">0</span>:</span><br><span class="line">                    coe = <span class="number">0.15</span></span><br><span class="line">                <span class="keyword">if</span> im.mode == <span class="string">&quot;P&quot;</span>:</span><br><span class="line">                    im = im.convert(<span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">                out = im.resize((<span class="built_in">int</span>(width*coe), <span class="built_in">int</span>(height*coe)), Image.ANTIALIAS)</span><br><span class="line"></span><br><span class="line">                out.save(outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gci</span>(<span class="params">filepath</span>):</span></span><br><span class="line">    <span class="comment">#遍历filepath下所有文件，包括子目录</span></span><br><span class="line">    files = os.listdir(filepath)</span><br><span class="line">    <span class="keyword">for</span> fi <span class="keyword">in</span> files:</span><br><span class="line">        fi_d = os.path.join(filepath,fi)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(fi_d):</span><br><span class="line">            gci(fi_d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># resize_by_size(os.path.join(filepath,fi_d))</span></span><br><span class="line">            equal_img(os.path.join(filepath,fi_d))</span><br><span class="line"></span><br><span class="line"><span class="comment">#递归遍历/root目录下所有文件</span></span><br><span class="line"><span class="comment"># gci(&#x27;/var/local/www/edu_online1/media/works&#x27;)</span></span><br><span class="line"><span class="comment"># gci(&#x27;/root/www/edu_online1/media/works/13360067818/tradition&#x27;)  #正式</span></span><br><span class="line">gci(<span class="string">&#x27;/root/www/edu_online1/media/works/13265647342/udict/1552525240000/䤋&#x27;</span>)  <span class="comment">#正式</span></span><br><span class="line"><span class="comment"># gci(r&#x27;F:\desktop\䤋&#x27;)</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <tags>
-        <tag>Python、压缩图片</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>flaskshell创建索引出错</title>
-    <url>/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/</url>
-    <content><![CDATA[<p>遇到的问题：flask 环境中使用 flask shell  使用flask Whoosh 创建索引失败</p>
-<a id="more"></a>
-
-<h3 id="解决办法-："><a href="#解决办法-：" class="headerlink" title="解决办法 ："></a>解决办法 ：</h3><pre><code>export FLASK_APP=manage.py
-flask shell 
-</code></pre>
-<p>然后导出 flask 创建的whoosh的whoosh对象</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from 项目内的文件 import whoosh</span><br><span class="line">whoosh.create_index()</span><br></pre></td></tr></table></figure>
-
-<p>​    </p>
-]]></content>
-      <tags>
-        <tag>Flask、shell</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python + Elestatcsearch</title>
-    <url>/2021/02/02/Python-Elestatcsearch/</url>
+    <title>Jupyter-notebook的安装与基本使用</title>
+    <url>/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
     <content><![CDATA[<blockquote>
-<h2 id="Elasticsearch"><a href="#Elasticsearch" class="headerlink" title="Elasticsearch"></a>Elasticsearch</h2><p> ElasticSearch是一个基于<a href="https://baike.baidu.com/item/Lucene/6753302">Lucene</a>的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。ElasticSearch用于<a href="https://baike.baidu.com/item/%E4%BA%91%E8%AE%A1%E7%AE%97/9969353">云计算</a>中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。官方客户端在Java、.NET（C#）、PHP、Python、Apache Groovy、Ruby和许多其他语言中都是可用的。根据DB-Engines的排名显示，Elasticsearch是最受欢迎的企业搜索引擎，其次是Apache Solr，也是基于Lucene。 </p>
-<a id="more"></a>
-
-<h2 id="有关概念"><a href="#有关概念" class="headerlink" title="有关概念"></a>有关概念</h2><p>cluster：代表一个<a href="https://baike.baidu.com/item/%E9%9B%86%E7%BE%A4">集群</a>，集群中有多个节点，其中有一个为主节点，这个主节点是可以通过选举产生的，主从节点是对于集群内部来说的。es的一个概念就是去中心化，字面上理解就是无中心节点，这是对于集群外部来说的，因为从外部来看es集群，在逻辑上是个整体，你与任何一个节点的通信和与整个es集群通信是等价的。</p>
-<p>shards：代表索引分片，es可以把一个完整的索引分成多个分片，这样的好处是可以把一个大的索引拆分成多个，分布到不同的节点上。构成分布式搜索。分片的数量只能在索引创建前指定，并且索引创建后不能更改。</p>
-<p>replicas：代表索引副本，es可以设置多个索引的副本，副本的作用一是提高系统的<a href="https://baike.baidu.com/item/%E5%AE%B9%E9%94%99%E6%80%A7">容错性</a>，当某个节点某个分片损坏或丢失时可以从副本中恢复。二是提高es的查询效率，es会自动对搜索请求进行负载均衡。</p>
-<p>recovery：代表数据恢复或叫数据重新分布，es在有节点加入或退出时会根据机器的负载对索引分片进行重新分配，挂掉的节点重新启动时也会进行数据恢复。</p>
-<p>river：代表es的一个数据源，也是其它存储方式（如：数据库）同步数据到es的一个方法。它是以插件方式存在的一个es服务，通过读取river中的数据并把它索引到es中，官方的river有couchDB的，RabbitMQ的，Twitter的，Wikipedia的。</p>
-<p>gateway：代表es索引快照的存储方式，es默认是先把索引存放到内存中，当内存满了时再持久化到本地硬盘。gateway对索引快照进行存储，当这个es集群关闭再重新启动时就会从gateway中读取索引备份数据。es支持多种类型的gateway，有本地文件系统（默认），<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">分布式文件系统</a>，Hadoop的HDFS和amazon的s3<a href="https://baike.baidu.com/item/%E4%BA%91%E5%AD%98%E5%82%A8">云存储</a>服务。</p>
-<p>discovery.zen：代表es的自动发现节点机制，es是一个基于p2p的系统，它先通过广播寻找存在的节点，再通过<a href="https://baike.baidu.com/item/%E5%A4%9A%E6%92%AD">多播</a>协议来进行节点之间的通信，同时也支持<a href="https://baike.baidu.com/item/%E7%82%B9%E5%AF%B9%E7%82%B9">点对点</a>的交互。</p>
-<p>Transport：代表es内部节点或集群与客户端的交互方式，默认内部是使用tcp协议进行交互，同时它支持http协议（json格式）、<a href="https://baike.baidu.com/item/thrift">thrift</a>、servlet、memcached、zeroMQ等的<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE">传输协议</a>（通过<a href="https://baike.baidu.com/item/%E6%8F%92%E4%BB%B6">插件</a>方式集成）。</p>
+<h4 id="The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more"><a href="#The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more" class="headerlink" title="The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more."></a>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</h4></blockquote>
+<p>以上为Jupyter notebook 的官方解释。</p>
+<blockquote>
+<p>Jupyter Notebook是一个开源Web应用程序，可让您创建和共享包含实时代码，方程式，可视化效果和叙述文本的文档。 用途包括：数据清理和转换，数值模拟，统计建模，数据可视化，机器学习等.</p>
 </blockquote>
-]]></content>
-      <tags>
-        <tag>Elestaticsearch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>两台linux 互相传输文件</title>
-    <url>/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<blockquote>
-<h4 id="百度百科"><a href="#百度百科" class="headerlink" title="百度百科"></a>百度百科</h4><h6 id="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"><a href="#rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。" class="headerlink" title="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"></a>rsync是linux系统下的数据<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a><a href="https://baike.baidu.com/item/%E5%A4%87%E4%BB%BD">备份</a>工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。</h6><h5 id="它的特性如下："><a href="#它的特性如下：" class="headerlink" title="它的特性如下："></a>它的特性如下：</h5><ul>
-<li>可以<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a>保存整个目录树和文件系统。</li>
-<li>可以很容易做到保持原来文件的权限、时间、软硬链接等等。</li>
-<li>无须特殊权限即可安装。</li>
-</ul>
 <a id="more"></a>
 
-<ul>
-<li>快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改过的文件。rsync 在传输数据的过程中可以实行压缩及<a href="https://baike.baidu.com/item/%E8%A7%A3%E5%8E%8B%E7%BC%A9">解压缩</a>操作，因此可以使用更少的带宽。</li>
-<li>安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</li>
-<li>支持匿名传输，以方便进行网站镜像。 </li>
-</ul>
-</blockquote>
-<h4 id="1、Rsync参数说明"><a href="#1、Rsync参数说明" class="headerlink" title="1、Rsync参数说明"></a>1、Rsync参数说明</h4><ol>
-<li><p>使用 rsync + ssh 进行加密传输  </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rsync -avzhe ssh /home/ubuntu/remote_test ubuntu@193.112.102.63:/home/ubuntu/remote_test</span><br></pre></td></tr></table></figure></li>
-<li><p>参数设置  </p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-v, --verbose 详细模式输出</span><br><span class="line">   -q, --quiet 精简输出模式</span><br><span class="line">   -c, --checksum 打开校验开关，强制对文件传输进行校验</span><br><span class="line">   -a, --archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，等于-rlptgoD</span><br><span class="line">   -r, --recursive 对子目录以递归模式处理</span><br><span class="line">   -R, --relative 使用相对路径信息</span><br><span class="line">   -b, --backup 创建备份，也就是对于目的已经存在有同样的文件名时，将老的文件重新命名为~filename。可以使用--suffix选项来指定不同的备份文件前缀。</span><br><span class="line">   --backup-dir 将备份文件(如~filename)存放在在目录下。</span><br><span class="line">   -suffix&#x3D;SUFFIX 定义备份文件前缀</span><br><span class="line">   -u, --update 仅仅进行更新，也就是跳过所有已经存在于DST，并且文件时间晚于要备份的文件。(不覆盖更新的文件)</span><br><span class="line">   -l, --links 保留软链结</span><br><span class="line">   -L, --copy-links 像对待常规文件一样处理软链接</span><br><span class="line">   --copy-unsafe-links 仅仅拷贝指向SRC路径目录树以外的链接</span><br><span class="line">   --safe-links 忽略指向SRC路径目录树以外的链接</span><br><span class="line">   -H, --hard-links 保留硬链接</span><br><span class="line">   -p, --perms 保持文件权限</span><br><span class="line">   -o, --owner 保持文件属主信息</span><br><span class="line">   -g, --group 保持文件属组信息</span><br><span class="line">   -D, --devices 保持设备文件信息</span><br><span class="line">   -t, --times 保持文件时间信息</span><br><span class="line">   -S, --sparse 对稀疏文件进行特殊处理以节省DST的空间</span><br><span class="line">   -n, --dry-run显示哪些文件将被传输</span><br><span class="line">   -W, --whole-file 拷贝文件，不进行增量检测</span><br><span class="line">   -x, --one-file-system 不要跨越文件系统边界</span><br><span class="line">   -B, --block-size&#x3D;SIZE 检验算法使用的块尺寸，默认是700字节</span><br><span class="line">   -e, --rsh&#x3D;COMMAND 指定使用rsh、ssh方式进行数据同步</span><br><span class="line">   --rsync-path&#x3D;PATH 指定远程服务器上的rsync命令所在路径信息</span><br><span class="line">   -C, --cvs-exclude 使用和CVS一样的方法自动忽略文件，用来排除那些不希望传输的文件</span><br><span class="line">   --existing 仅仅更新那些已经存在于DST的文件，而不备份那些新创建的文件</span><br><span class="line">   --delete 删除那些DST中SRC没有的文件</span><br><span class="line">   --delete-excluded 同样删除接收端那些被该选项指定排除的文件</span><br><span class="line">   --delete-after 传输结束以后再删除</span><br><span class="line">   --ignore-errors 即使出现IO错误也进行删除</span><br><span class="line">   --max-delete&#x3D;NUM 最多删除NUM个文件</span><br><span class="line">   --partial 保留那些因故没有完全传输的文件，以是加快随后的再次传输</span><br><span class="line">   --force 强制删除目录，即使不为空</span><br><span class="line">   --numeric-ids 不将数字的用户和组ID匹配为用户名和组名</span><br><span class="line">   --timeout&#x3D;TIME IP超时时间，单位为秒</span><br><span class="line">   -I, --ignore-times 不跳过那些有同样的时间和长度的文件</span><br><span class="line">   --size-only 当决定是否要备份文件时，仅仅察看文件大小而不考虑文件时间</span><br><span class="line">   --modify-window&#x3D;NUM 决定文件是否时间相同时使用的时间戳窗口，默认为0</span><br><span class="line">   -T --temp-dir&#x3D;DIR 在DIR中创建临时文件</span><br><span class="line">   --compare-dest&#x3D;DIR 同样比较DIR中的文件来决定是否需要备份</span><br><span class="line">   -P 等同于 --partial</span><br><span class="line">   --progress 显示备份过程</span><br><span class="line">   -z, --compress 对备份的文件在传输时进行压缩处理</span><br><span class="line">   --exclude&#x3D;PATTERN 指定排除不需要传输的文件模式</span><br><span class="line">   --include&#x3D;PATTERN 指定不排除而需要传输的文件模式</span><br><span class="line">   --exclude-from&#x3D;FILE 排除FILE中指定模式的文件</span><br><span class="line">   --include-from&#x3D;FILE 不排除FILE指定模式匹配的文件</span><br><span class="line">   --version 打印版本信息</span><br><span class="line">   --address 绑定到特定的地址</span><br><span class="line">   --config&#x3D;FILE 指定其他的配置文件，不使用默认的rsyncd.conf文件</span><br><span class="line">   --port&#x3D;PORT 指定其他的rsync服务端口</span><br><span class="line">   --blocking-io 对远程shell使用阻塞IO</span><br><span class="line">   -stats 给出某些文件的传输状态</span><br><span class="line">   --progress 在传输时显示传输过程</span><br><span class="line">   --log-format&#x3D;formAT 指定日志文件格式</span><br><span class="line">   --password-file&#x3D;FILE 从FILE中得到密码</span><br><span class="line">   --bwlimit&#x3D;KBPS 限制I&#x2F;O带宽，KBytes per second</span><br><span class="line">   -h, --help 显示帮助信息</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
-<h4 id="2、目的"><a href="#2、目的" class="headerlink" title="2、目的"></a>2、目的</h4><ul>
-<li><p>实现两台服务器之间做增量备份。A服务器作为服务端，B服务器作为客户端。</p>
-</li>
-<li><p>B服务器每天定时将某个目录下产生的文件发送到A服务器中。</p>
-</li>
-</ul>
-<h4 id="3、操作方法"><a href="#3、操作方法" class="headerlink" title="3、操作方法"></a>3、操作方法</h4><p>在A服务器中安装 rsync ，查看服务器是否安装rsync。</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rsync --version</span><br><span class="line">#显示如下  代表已经安装  版本为：3.1.1  (确保两台服务器之前安装的版本的一致，不一致可能造成无法同步数据)</span><br><span class="line">rsync  version 3.1.2  protocol version 31</span><br><span class="line">Copyright (C) 1996-2015 by Andrew Tridgell, Wayne Davison, and others.</span><br><span class="line">Web site: http:&#x2F;&#x2F;rsync.samba.org&#x2F;</span><br><span class="line">Capabilities:</span><br><span class="line">    64-bit files, 64-bit inums, 64-bit timestamps, 64-bit long ints,</span><br><span class="line">    socketpairs, hardlinks, symlinks, IPv6, batchfiles, inplace,</span><br><span class="line">    append, ACLs, xattrs, iconv, symtimes, prealloc</span><br><span class="line"></span><br><span class="line">rsync comes with ABSOLUTELY NO WARRANTY.  This is free software, and you</span><br><span class="line">are welcome to redistribute it under certain conditions.  See the GNU</span><br><span class="line">General Public Licence for details.</span><br></pre></td></tr></table></figure>
-<p>两边都安装完成了以后，就可以使用了。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">rsync -avzhe ssh 001 ubuntu@193.112.102.63:/home/ubuntu/remote_test   </span><br><span class="line"><span class="meta">#</span><span class="bash"> 使用ssh模式连接 需要输入密码</span></span><br></pre></td></tr></table></figure>
-<h5 id="1-将A服务器作为服务端"><a href="#1-将A服务器作为服务端" class="headerlink" title="1. 将A服务器作为服务端"></a>1. 将A服务器作为服务端</h5><p>编辑文件 <code>/etc/vi /etc/rsyncd.conf</code>默认不存在， 直接创建 。编辑输入如下内容：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">服务端配置文件 (和上面一样)</span></span><br><span class="line">motd file = /etc/rsyncd.motd</span><br><span class="line">pid file = /var/run/rsyncd.pid</span><br><span class="line">lock file = /var/run/rsyncd.lock</span><br><span class="line">log file = /var/log/rsyncd.log</span><br><span class="line"></span><br><span class="line">[workspace]  #模块名 在客户端需要用到</span><br><span class="line">path = /devdata/backres   #需要备份的路径</span><br><span class="line">comment = Test</span><br><span class="line">uid = root   #使用的用户</span><br><span class="line">gid = root   #同上 </span><br><span class="line">read only = false   #是否可写</span><br><span class="line">auth users = root   #验证的用户</span><br><span class="line">secrets file = /etc/rsyncd.pass   #密码文件  文件的权限：600</span><br><span class="line">transfer logging = yes   #日志输出</span><br><span class="line">hosts allow=123.207.165.19   #允许的可短的IP地址</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>新建密码文件 在上述的conf文件中，倒数第三行。内容为当前用户名以及密码 。格式：user：password。密码文件拥有用户必须为当前用户 ubuntu 且权限必须为 600</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">ubuntu:123456</span><br></pre></td></tr></table></figure>
-<p>查看rsync 状态 ： <code>service rsync status</code>。 重启rsync服务： <code>service rsync restart</code></p>
-<h5 id="2-将b服务器作为客户端"><a href="#2-将b服务器作为客户端" class="headerlink" title="2. 将b服务器作为客户端"></a>2. 将b服务器作为客户端</h5><p>客户端不需要设置太多内容可直接运行命令，不过需要手动输入密码，可将密码存在一个文件内，使用<code>--password-file=FILE</code> 进行从文件中读取密码。这个文件路径任意。文件内容只包含服务端密码即可。但是必须为root用户拥有且权限为600。</p>
-<p>使用命令 ：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo rsync -aqr --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">参数解释：</span></span><br><span class="line">-a：--archive 归档模式，表示以递归方式传输文件，并保持所有文件属性，</span><br><span class="line">-q：--quiet 精简输出模式</span><br><span class="line">-r：--recursive 对子目录以递归模式处理</span><br><span class="line">workspace：即服务端的模块名</span><br></pre></td></tr></table></figure>
-<h5 id="3-设置定时任务"><a href="#3-设置定时任务" class="headerlink" title="3. 设置定时任务"></a>3. 设置定时任务</h5><p>使用ubuntu 的crontab </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
-<p>第一次打开会选择的编辑器，一般选择vim,输入数字即可。如下所示：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">Select an editor.  To change later, run &#x27;select-editor&#x27;.</span><br><span class="line">  1. /bin/ed</span><br><span class="line">  2. /bin/nano        &lt;---- easiest</span><br><span class="line">  3. /usr/bin/vim.basic</span><br><span class="line">  4. /usr/bin/vim.tiny</span><br></pre></td></tr></table></figure>
-<p>定时任务格式：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">* * * * * command    </span><br><span class="line">用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</span><br><span class="line">minute hour day month week command</span><br><span class="line">其中：</span><br><span class="line">minute：表示分钟，可以是从0到59之间的任何整数。</span><br><span class="line">hour：表示小时，可以是从0到23之间的任何整数。</span><br><span class="line">day：表示日期，可以是从1到31之间的任何整数。</span><br><span class="line">month：表示月份，可以是从1到12之间的任何整数。</span><br><span class="line">week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。</span><br><span class="line">command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件</span><br><span class="line">/ 斜杠代表频率 例如：</span><br><span class="line">如果想每分钟都执行一次的话就采用默认的 * * * * *</span><br><span class="line">如果想每五分钟执行一次可以 */5 * * * * </span><br><span class="line">如果是每两个小时执行一次的话 那就是 *  */2 * * *来设置;</span><br></pre></td></tr></table></figure>
-<p>在定时任务中输入：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">30 23 * * * sudo rsync -r --password-file=/home/ubuntu/remote_test/rsyncd.pass /home/ubuntu/remote_test ubuntu@193.112.22.194::workspace</span><br><span class="line"><span class="meta">#</span><span class="bash">表示 在每天的23:30 进行数据备份</span></span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CDN的工作原理</title>
-    <url>/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/</url>
-    <content><![CDATA[<h3 id="CDN访问的两个阶段"><a href="#CDN访问的两个阶段" class="headerlink" title="CDN访问的两个阶段"></a>CDN访问的两个阶段</h3><ul>
-<li>1.域名解析</li>
-<li>2.内容请求</li>
-</ul>
-<a id="more"></a>
-
-<h3 id="使用CDN得两种方式："><a href="#使用CDN得两种方式：" class="headerlink" title="使用CDN得两种方式："></a>使用CDN得两种方式：</h3><ul>
-<li>手工上传静态资源文件到CDN</li>
-<li>tongguo Tengine 把本机的静态资源开放发哦web上，CDN自动回流到Tengine。</li>
-</ul>
-<h4 id="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"><a href="#以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。" class="headerlink" title="以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。"></a>以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。</h4><ul>
-<li>生成静态文件上传到阿里元OSS。</li>
-<li>配置CDN域名，回源地址指向OSS Bucket，配置Referer 防盗链的白名单。</li>
-<li>配置OSS Buket 的匿名可以读。</li>
-<li>设置STATIC_URL， 直接指向CDN地址，同时注释掉 OssStaticStorage。</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>HTTP、前端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Django之美：dajngo的常用插件</title>
-    <url>/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<ul>
-<li><p><a href="https://django-debug-toolbar.readthedocs.io/en/latest/">django_debug_toolbar </a>：提供一个可以查看debug信息的面板（包括SQL执行时间，页面耗时）</p>
-</li>
-<li><p><a href="https://github.com/jazzband/django-silk">django-silk</a>：django性能瓶颈分析</p>
-</li>
-</ul>
-<a id="more"></a>
-
-<ul>
-<li><a href="https://simpleui.72wo.com/docs/simpleui/doc.html">Simple-UI</a> ：于Element UI 和 VUE 的django admin 主题。</li>
-</ul>
-<ul>
-<li><a href="https://django-haystack.readthedocs.io/en/master/">haystack django</a> ：模块化搜索方案</li>
-</ul>
-<ul>
-<li><a href="https://github.com/django-notifications/django-notifications">django-notifications</a>：发送消息通知插件</li>
-</ul>
-<ul>
-<li><a href="https://github.com/agusmakmun/django-markdown-editor">django markdown editor</a> ：Markdown 编辑器</li>
-</ul>
-<ul>
-<li><a href="https://github.com/django-crispy-forms/django-crispy-forms">django-crispy-forms</a>：Crispy 表单，以一种非常优雅的、干净的方式来创建表单。</li>
-</ul>
-<ul>
-<li><a href="https://github.com/mbi/django-simple-captcha">django-simple-captcha</a>：Django验证码</li>
-</ul>
-]]></content>
-      <tags>
-        <tag>Django、后端</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Mysql 8.0 连接数据库错误</title>
-    <url>/2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</url>
-    <content><![CDATA[<h4 id="Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist"><a href="#Mysql-8-0-连接数据库出现-The-user-specified-as-a-definer-‘mysql-infoschema‘-‘localhost‘-does-not-exist" class="headerlink" title="Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist"></a>Mysql 8.0 连接数据库出现 The user specified as a definer (‘mysql.infoschema‘@‘localhost‘) does not exist</h4><a id="more"></a>
-
-<p>解决办法：</p>
+<h2 id="一、windows下安装Jupyter-notebook"><a href="#一、windows下安装Jupyter-notebook" class="headerlink" title="一、windows下安装Jupyter notebook"></a>一、windows下安装Jupyter notebook</h2><p>Jupyter notebook 是基于Python 的首先要安装Python环境，或者直接安装Anaconda（直接包含Python和Jupyter notebook）。以上环境省略自行安装。</p>
 <ol>
-<li><p>重新创建该用户（mysql.infoschema）：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">&#x27;mysql.infoschema&#x27;</span> @ <span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;password &#x27;</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p>给用户赋予权限</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> <span class="operator">*</span>.<span class="operator">*</span> <span class="keyword">to</span> <span class="string">&#x27;mysql.infoschema&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br></pre></td></tr></table></figure></li>
-<li><p>刷新数据库</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<li>在Python环境下直接安装。（最好是新版本Python）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter</span><br></pre></td></tr></table></figure>
+<p>等待命令安装完毕，如果比较慢的话，建议更换Python的源为清华或者淘宝网易的源下载安装速度会快很多。</p>
+<ol start="2">
+<li>启动Jupyter notebook , 系统会自动启动浏览器，打开本地的8888端口。（端口没有被占用的情况下。如果被占用端口号会自动加一，启动多个Jupyter notebook应用，端口号也会自动向后加一来启动多个应用。）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook </span><br></pre></td></tr></table></figure>
+<p>如果在使用过程中关闭了当前终端，应用也会随之无法连接，无法使用Jupyter notebook应用。</p>
+<ol start="3">
+<li>如果要以不同的端口号启动Jupyter notebook应用，使用一下的方式启动。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook --port 8899</span><br></pre></td></tr></table></figure>
+<h2 id="二、Jupyter-notebook-界面"><a href="#二、Jupyter-notebook-界面" class="headerlink" title="二、Jupyter notebook 界面"></a>二、Jupyter notebook 界面</h2><ol>
+<li><p>如图所示打开Jupyter notebook 的初始界面为：</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-08-09.png"></p>
+<p>Jupyter notebook 的默认存储文件的地址为当前用户的文件路径。里面的文件每个的都不太一样。</p>
+</li>
+<li><p>更改默认的存储路径。</p>
+<p>Jupyter notebook  的默认的配置文件在当前用户下的一个隐藏文件（以.jupyter开头的文件）文件下名为jupyter_notebook_config.py 即为jupyter notebook 的配置文件。</p>
+<p>打开文件搜索找到 <code>c.NotebookApp.notebook_dir</code> 开头的配置，即是存储文件路径的配置。只需要将你想要修改的路径添加并取消注释即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">c.NotebookApp.notebook_dir &#x3D; &#39;C:&#x2F;Users&#x2F;xxx&#x2F;Desktop&#x2F;Project&#x2F;Jupyter Notebook&#39;</span><br></pre></td></tr></table></figure>
+<p>重启启动 Jupyter notebook。此时页面文件目录是空的。</p>
+</li>
+</ol>
+<h2 id="三、使用-Jupyter-notebook"><a href="#三、使用-Jupyter-notebook" class="headerlink" title="三、使用 Jupyter notebook"></a>三、使用 Jupyter notebook</h2><ol>
+<li><p>新建一个页面。 点击右上角的 new 按钮可以新建一个工程文件或者文本文件或者文件夹。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-23-24.png"></p>
+<p>例如 新建一个python3文件。新页面样式如图所示。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-25-08.png"></p>
+<p>可在单元格（cell）中输入代码并执行。</p>
+</li>
+</ol>
+<h2 id="四、Jupyter-notebook-快捷键"><a href="#四、Jupyter-notebook-快捷键" class="headerlink" title="四、Jupyter notebook 快捷键"></a>四、Jupyter notebook 快捷键</h2><p>A：在当前单元格的上方添加一行单元格</p>
+<p>B：在当前单元格的下方添加一行单元格</p>
+<p>M：选中单元格将单元格代码格式改为Markdown格式</p>
+<p>Y：选中单元格将单元格代码格式改为代码格式</p>
+<p>X：剪切当前单元格</p>
+<p>V：在当前单元格下方粘贴复制或者剪切的单元格</p>
+<p>shift+V：在当前单元格上方粘贴复制或者剪切的单元格</p>
+<p>D D ：连续两个D 删除当前单元格</p>
+<p>Z：撤销删除单元格</p>
+<p>还有很多快捷键按H都可以找到。</p>
+<h2 id="五、Jupyter-notebook-插件"><a href="#五、Jupyter-notebook-插件" class="headerlink" title="五、Jupyter notebook 插件"></a>五、Jupyter notebook 插件</h2><ol>
+<li><p>在安装插件之前首先需要安装<strong>jupyter_contrib_nbextensions</strong>。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter_contrib_nbextensions</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启用 jupyter_contrib_nbextensions</span></span><br><span class="line">jupyter contrib nbextension install --user</span><br></pre></td></tr></table></figure>
+<p>此时 Jupyter notebook 界面就会出现一个新的菜单栏。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-06-58.png"></p>
+<p>选中此按钮进入配置插件的页面。</p>
+<p>取消勾选此按钮。否则无法选择插件。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-08-31.png"></p>
+<p>推荐插件：</p>
+<ul>
+<li><strong>Notify</strong> ：能在任务处理完后及时向你发送通知</li>
+<li><strong>Hinterland</strong> ：自动补全代码</li>
+<li><strong>Codefolding</strong>  ：折叠代码</li>
+<li><strong>Table of Contents(2)</strong>  ：自动生成导航目录</li>
+<li><strong>Autopep8</strong> ：自动格式化代码。（需要安装python库：autopep8）</li>
+<li><strong>ExecuteTime</strong> ：显示单元格的运行时间和耗时 </li>
+<li><strong>Split Cells Notebook</strong> ：类似于多窗口编辑，将单行排列的单元格放置为多行排列。</li>
+<li><strong>Collapsible Headings</strong> ：折叠单元格</li>
+</ul>
 </li>
 </ol>
 ]]></content>
       <tags>
-        <tag>Mysql、后端</tag>
+        <tag>Jupyter notebook、Python</tag>
       </tags>
   </entry>
 </search>
