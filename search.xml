@@ -96,6 +96,88 @@
       </tags>
   </entry>
   <entry>
+    <title>Jupyter-notebook的安装与基本使用</title>
+    <url>/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<blockquote>
+<h4 id="The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more"><a href="#The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more" class="headerlink" title="The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more."></a>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</h4></blockquote>
+<p>以上为Jupyter notebook 的官方解释。</p>
+<blockquote>
+<p>Jupyter Notebook是一个开源Web应用程序，可让您创建和共享包含实时代码，方程式，可视化效果和叙述文本的文档。 用途包括：数据清理和转换，数值模拟，统计建模，数据可视化，机器学习等.</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="一、windows下安装Jupyter-notebook"><a href="#一、windows下安装Jupyter-notebook" class="headerlink" title="一、windows下安装Jupyter notebook"></a>一、windows下安装Jupyter notebook</h2><p>Jupyter notebook 是基于Python 的首先要安装Python环境，或者直接安装Anaconda（直接包含Python和Jupyter notebook）。以上环境省略自行安装。</p>
+<ol>
+<li>在Python环境下直接安装。（最好是新版本Python）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter</span><br></pre></td></tr></table></figure>
+<p>等待命令安装完毕，如果比较慢的话，建议更换Python的源为清华或者淘宝网易的源下载安装速度会快很多。</p>
+<ol start="2">
+<li>启动Jupyter notebook , 系统会自动启动浏览器，打开本地的8888端口。（端口没有被占用的情况下。如果被占用端口号会自动加一，启动多个Jupyter notebook应用，端口号也会自动向后加一来启动多个应用。）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook </span><br></pre></td></tr></table></figure>
+<p>如果在使用过程中关闭了当前终端，应用也会随之无法连接，无法使用Jupyter notebook应用。</p>
+<ol start="3">
+<li>如果要以不同的端口号启动Jupyter notebook应用，使用一下的方式启动。</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook --port 8899</span><br></pre></td></tr></table></figure>
+<h2 id="二、Jupyter-notebook-界面"><a href="#二、Jupyter-notebook-界面" class="headerlink" title="二、Jupyter notebook 界面"></a>二、Jupyter notebook 界面</h2><ol>
+<li><p>如图所示打开Jupyter notebook 的初始界面为：</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-08-09.png"></p>
+<p>Jupyter notebook 的默认存储文件的地址为当前用户的文件路径。里面的文件每个的都不太一样。</p>
+</li>
+<li><p>更改默认的存储路径。</p>
+<p>Jupyter notebook  的默认的配置文件在当前用户下的一个隐藏文件（以.jupyter开头的文件）文件下名为jupyter_notebook_config.py 即为jupyter notebook 的配置文件。</p>
+<p>打开文件搜索找到 <code>c.NotebookApp.notebook_dir</code> 开头的配置，即是存储文件路径的配置。只需要将你想要修改的路径添加并取消注释即可。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">c.NotebookApp.notebook_dir &#x3D; &#39;C:&#x2F;Users&#x2F;xxx&#x2F;Desktop&#x2F;Project&#x2F;Jupyter Notebook&#39;</span><br></pre></td></tr></table></figure>
+<p>重启启动 Jupyter notebook。此时页面文件目录是空的。</p>
+</li>
+</ol>
+<h2 id="三、使用-Jupyter-notebook"><a href="#三、使用-Jupyter-notebook" class="headerlink" title="三、使用 Jupyter notebook"></a>三、使用 Jupyter notebook</h2><ol>
+<li><p>新建一个页面。 点击右上角的 new 按钮可以新建一个工程文件或者文本文件或者文件夹。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-23-24.png"></p>
+<p>例如 新建一个python3文件。新页面样式如图所示。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-25-08.png"></p>
+<p>可在单元格（cell）中输入代码并执行。</p>
+</li>
+</ol>
+<h2 id="四、Jupyter-notebook-快捷键"><a href="#四、Jupyter-notebook-快捷键" class="headerlink" title="四、Jupyter notebook 快捷键"></a>四、Jupyter notebook 快捷键</h2><p>A：在当前单元格的上方添加一行单元格</p>
+<p>B：在当前单元格的下方添加一行单元格</p>
+<p>M：选中单元格将单元格代码格式改为Markdown格式</p>
+<p>Y：选中单元格将单元格代码格式改为代码格式</p>
+<p>X：剪切当前单元格</p>
+<p>V：在当前单元格下方粘贴复制或者剪切的单元格</p>
+<p>shift+V：在当前单元格上方粘贴复制或者剪切的单元格</p>
+<p>D D ：连续两个D 删除当前单元格</p>
+<p>Z：撤销删除单元格</p>
+<p>还有很多快捷键按H都可以找到。</p>
+<h2 id="五、Jupyter-notebook-插件"><a href="#五、Jupyter-notebook-插件" class="headerlink" title="五、Jupyter notebook 插件"></a>五、Jupyter notebook 插件</h2><ol>
+<li><p>在安装插件之前首先需要安装<strong>jupyter_contrib_nbextensions</strong>。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter_contrib_nbextensions</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启用 jupyter_contrib_nbextensions</span></span><br><span class="line">jupyter contrib nbextension install --user</span><br></pre></td></tr></table></figure>
+<p>此时 Jupyter notebook 界面就会出现一个新的菜单栏。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-06-58.png"></p>
+<p>选中此按钮进入配置插件的页面。</p>
+<p>取消勾选此按钮。否则无法选择插件。</p>
+<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-08-31.png"></p>
+<p>推荐插件：</p>
+<ul>
+<li><strong>Notify</strong> ：能在任务处理完后及时向你发送通知</li>
+<li><strong>Hinterland</strong> ：自动补全代码</li>
+<li><strong>Codefolding</strong>  ：折叠代码</li>
+<li><strong>Table of Contents(2)</strong>  ：自动生成导航目录</li>
+<li><strong>Autopep8</strong> ：自动格式化代码。（需要安装python库：autopep8）</li>
+<li><strong>ExecuteTime</strong> ：显示单元格的运行时间和耗时 </li>
+<li><strong>Split Cells Notebook</strong> ：类似于多窗口编辑，将单行排列的单元格放置为多行排列。</li>
+<li><strong>Collapsible Headings</strong> ：折叠单元格</li>
+</ul>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>Jupyter notebook、Python</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>迭代思维与MVP产品的规划方法</title>
     <url>/2021/02/04/%E8%BF%AD%E4%BB%A3%E6%80%9D%E7%BB%B4%E4%B8%8EMVP%E4%BA%A7%E5%93%81%E7%9A%84%E8%A7%84%E5%88%92%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h3 id="快速迭代的价值与挑战"><a href="#快速迭代的价值与挑战" class="headerlink" title="快速迭代的价值与挑战"></a>快速迭代的价值与挑战</h3><p>快速迭代：以天或者小时为单位，持续的完善产品，交付到用户的循环过程</p>
