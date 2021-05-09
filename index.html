@@ -161,42 +161,12 @@
 </div>
 
       
-      <a id="more"></a>
-
-<p>创建虚拟环境</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n [name] python=版本 -y </span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 激活环境</span></span><br><span class="line">conda activate name</span><br><span class="line"><span class="meta">#</span><span class="bash"> 关闭环境</span></span><br><span class="line">deactivate </span><br></pre></td></tr></table></figure>
-<p>在对应的环境中安装包 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install xxx</span><br><span class="line">conda install xxx</span><br></pre></td></tr></table></figure>
-<p>运行jupyter notebook 遇到错误 </p>
-<ul>
-<li>提示无法导入某个包</li>
-</ul>
-<p>问题原因：</p>
-<p>jupyter notebook 使用的还是原来的python 包，无法使用新的虚拟环境的包。</p>
-<p>点击 jupyter notebook 的new 查看是否能够找到新创建的环境。</p>
-<p><img src="https://tc.chaizz.com/Snipaste_2021-05-08_18-59-42.png"></p>
-<p>解决办法：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> ipykernel在虚拟环境下安装 ipykernel。</span></span><br><span class="line">conda install -n 环境名称 ipykernel</span><br><span class="line"><span class="meta">#</span><span class="bash"> 将创建的新的虚拟环境，添加到核心。</span></span><br><span class="line">python -m ipykernel install --user --name 环境名称 --display-name &quot;环境名称&quot;</span><br><span class="line"><span class="meta">#</span><span class="bash"> 接下来重新打开 jupyter notebook即可。</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>运行代码时提示：内核似乎已经死了 . 它会自动重启 。</li>
-</ul>
-<p>问题原因：</p>
-<p>再学习DIVE INTO DEEP LEARNING 这本书中的代码时，运行某一段输出图表的内容的时候，提示内核似乎已经死了 . 它会自动重启 。 无法输出图表。</p>
-<p>在Pycharm 上提示的错误为 ：</p>
-<p><img src="https://tc.chaizz.com/Snipaste_2021-05-08_19-10-19.png"></p>
-<p>解决办法：</p>
-<p>在代码前导入以下代码即可</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">&#x27;KMP_DUPLICATE_LIB_OK&#x27;</span>] = <span class="string">&#x27;TRUE&#x27;</span></span><br></pre></td></tr></table></figure>
-
-
-<blockquote>
-<p><a href="https://blog.csdn.net/qq_43382616/article/details/108642590">jupyter notebook无法使用conda环境的模块</a></p>
-</blockquote>
-<blockquote>
-<p><a href="https://blog.csdn.net/scar2016/article/details/115710308">jupyter notebook内核挂掉了，需要重启</a></p>
-</blockquote>
-
+      <p>​                   </p>
+      
+      <a class="article-more-link" href="/2021/05/09/Miniconda3%E5%AE%89%E8%A3%85%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83/">
+        阅读更多...
+      </a>
+      
       
     </div>
     <footer class="article-footer">
