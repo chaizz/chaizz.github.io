@@ -117,64 +117,6 @@
 
 </article>
     
-    <article id="navicat-连接Oracle数据库" class="article article-type-navicat" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/07/10/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">连接Oracle数据库</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/07/10/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" class="article-date">
-  <time datetime="2021-07-10T07:38:13.000Z" itemprop="datePublished">2021-07-10</time>
-</a>
-      
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-      
-      <p>出现错误信息 ：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oracle library is not loaded</span><br></pre></td></tr></table></figure>
-      
-      <a class="article-more-link" href="/2021/07/10/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="wttps://www.chaizz.com/2021/07/10/连接Oracle数据库/" data-id="ckqxgnjbz0000p8vm7etuflwg" class="article-share-link">
-        分享
-      </a>
-      
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Navicat%E3%80%81oracle/" rel="tag">Navicat、oracle</a></li></ul>
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
     <article id="ubuntu-部署YoloV5" class="article article-type-ubuntu" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -219,86 +161,12 @@
 </div>
 
       
-      <a id="more"></a>
-
-<p>一、安装Ubuntu 20.04 系统。</p>
-<p>二、更换Ubuntu 源为国内源。（尽量不要用阿里源）</p>
-<p>三、升级包</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update	</span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
-<p>四、下载Nvidia 驱动。<a href="https://www.nvidia.cn/content/DriverDownload-March2009/confirmation.php?url=/XFree86/Linux-x86_64/460.84/NVIDIA-Linux-x86_64-460.84.run&lang=cn&type=TITAN">下载地址</a>。根据自己的显卡查找驱动。</p>
-<ul>
-<li><p>禁用nouveau驱动</p>
-<ul>
-<li><p>编辑 /etc/modprobe.d/blacklist-nouveau.conf </p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">blacklist lbm-nouveau</span><br><span class="line">options nouveau modeset&#x3D;0</span><br><span class="line">alias nouveau off</span><br><span class="line">alias lbm-nouveau off</span><br></pre></td></tr></table></figure></li>
-<li><p>接下来然后执行：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf</span><br></pre></td></tr></table></figure></li>
-<li><p>然后重启</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
-<p>提示gcc 问题：</p>
-</li>
-</ul>
-</li>
-<li><p>直接安装  <code>sudo apt-get install gcc g++</code></p>
-</li>
-</ul>
-<p>提示make问题：</p>
-<ul>
-<li>直接安装 <code>sudo apt-get install  make</code></li>
-</ul>
-<p>五、安装CUDA。（需要根据pytorch 的版本选择CUDA版本。这里选择的是CUDA 11.1）  下载地址：<a href="https://developer.nvidia.com/cuda-11.1.0-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=2004&target_type=runfilelocal">CUDA地址</a>。</p>
-<p>官网安装步骤：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://developer.download.nvidia.com/compute/cuda/11.1.0/local_installers/cuda_11.1.0_455.23.05_linux.run</span><br><span class="line">sudo sh cuda_11.1.0_455.23.05_linux.run</span><br></pre></td></tr></table></figure>
-<p>接下来按照提示输入。</p>
-<p>选择安装界面：因为上面已经安装过驱动，所以取消选择第一个 driver ，然后选中 按下回车。</p>
-<p>配置CUDA环境变量</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.1/lib64</span><br><span class="line">export PATH=$PATH:/usr/local/cuda-11.1/bin</span><br><span class="line">export CUDA_HOME=$CUDA_HOME:/usr/local/cuda-11.1</span><br><span class="line">source  ~/.bashrc</span><br></pre></td></tr></table></figure>
-<p>验证是CUDA否安装成功</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvcc -V</span><br><span class="line">输出CUDA版本即安装成功</span><br></pre></td></tr></table></figure>
-<p>六、安装CUDNN。 下载地址：<a href>CUDNN</a> 。 需要登录账户 。</p>
-<p>七、配置Python 虚拟环境 （Pyenv）</p>
-<ul>
-<li><p>安装步骤</p>
-<ul>
-<li><p>安装git</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git	</span><br><span class="line">git clone https://github.com/yyuu/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure></li>
-<li><p>打开环境变量</p>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br><span class="line"><span class="meta">#</span><span class="bash">输入以下内容：</span></span><br><span class="line">export PATH=~/.pyenv/bin:$PATH</span><br><span class="line">export PYENV_ROOT=~/.pyenv</span><br><span class="line">eval &quot;$(pyenv init -)&quot;</span><br></pre></td></tr></table></figure>
- <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">刷新环境变量</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure></li>
-<li><p>查看可安装的Python版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install --list</span><br></pre></td></tr></table></figure></li>
-<li><p>安装指定版本的Python</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.8.5</span><br></pre></td></tr></table></figure></li>
-<li><p>更新数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure></li>
-<li><p>切换python版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># xxx表示要切换的版本</span><br><span class="line">**有三种切换方式 glocal local shell**</span><br><span class="line">　　1. glocal 全局环境,在未再次使用 glocal切换环境之前，一直使用此环境。</span><br><span class="line">　　2. local 本次登录环境。重启后，则环境失效，并返回当前glocal的环境。</span><br><span class="line">　　3. shell 局部（临时）环境。关闭命令行窗口，则环境失效，并返回当前glocal的环境。</span><br><span class="line">pyenv glocal xxx  </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li><p>查看已经安装的版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv versions</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-<li><p>卸载已经安装的版本</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv uninstall xxx</span><br></pre></td></tr></table></figure></li>
-<li><p>安装virtualenv   创建虚拟环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;pyenv&#x2F;pyenv-virtualenv.git $(pyenv root)&#x2F;plugins&#x2F;pyenv-virtualenv</span><br></pre></td></tr></table></figure></li>
-<li><p>添加环境变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cho &#39;eval &quot;$(pyenv virtualenv-init -)&quot;&#39; &gt;&gt; ~&#x2F;.bashrc</span><br><span class="line"></span><br><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure></li>
-<li><p>创建虚拟环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenv 3.7.0 yolo385</span><br></pre></td></tr></table></figure></li>
-<li><p>删除虚拟环境</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~&#x2F;.pyenv&#x2F;versions&#x2F;env370</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-</li>
-</ul>
-<p>八、安装pytorch</p>
-<p>torch 官网 ：<a href="https://pytorch.org/">torch</a></p>
-<p>按照自己的配置选择：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install torch&#x3D;&#x3D;1.9.0+cu111 torchvision&#x3D;&#x3D;0.10.0+cu111 torchaudio&#x3D;&#x3D;0.9.0 -f https:&#x2F;&#x2F;download.pytorch.org&#x2F;whl&#x2F;torch_stable.html</span><br></pre></td></tr></table></figure>
-<p>出现 not import _lzma :</p>
-<p>解决办法 ：重新安装pandas</p>
-
+      <p>​                                    </p>
+      
+      <a class="article-more-link" href="/2021/07/10/%E9%83%A8%E7%BD%B2YoloV5/">
+        阅读更多...
+      </a>
+      
       
     </div>
     <footer class="article-footer">
@@ -362,40 +230,12 @@
 </div>
 
       
-      <a id="more"></a>
-
-<p>安装前提：首先需要安装Erlang</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install erlang-nox</span><br></pre></td></tr></table></figure>
-<p>1、 使用apt-get 安装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install rabbitmq-server</span><br></pre></td></tr></table></figure>
-<p>2、安装完毕配置文件默认在：/etc/rabbitmq/ 下。</p>
-<p><strong>如果已经安装了redis ,再启动之前现将redis 启动。</strong></p>
-<p>操作命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmq-server start</span><br><span class="line">sudo rabbitmq-server stop</span><br><span class="line">sudo rabbitmq-server restart</span><br><span class="line">sudo rabbitmqctl status</span><br></pre></td></tr></table></figure>
-<p>3、创建用户</p>
-<p>创建用户名为： admin  密码：admin</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmqctl add_user  admin  admin  </span><br></pre></td></tr></table></figure>
-<p>设置用户标签 为：administrator  （添加远程访问必须为 ：administrator  ）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
-<p>设置当前 / 虚拟主机下的权限：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 第一个“.*”用于配置资产实体的权限</span></span><br><span class="line"><span class="meta">#</span><span class="bash">第二个“.*”表示对实体的写权限</span></span><br><span class="line"><span class="meta">#</span><span class="bash">第三个“.*” 用于读取物理的权限</span></span><br><span class="line">sudo rabbitmqctl  set_permissions -p / admin &#x27;.*&#x27; &#x27;.*&#x27; &#x27;.*&#x27;</span><br></pre></td></tr></table></figure>
-<p>4、列出集群中的用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_users</span><br></pre></td></tr></table></figure>
-<p>5、删除用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl delete_user &#39;用户名&#39;</span><br></pre></td></tr></table></figure>
-<p>6、撤销用户在虚拟主机中的权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl clear_permissions -p &quot;custom-vhost&quot;  &quot;用户名&quot;</span><br></pre></td></tr></table></figure>
-<p>7、看虚拟主机列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_vhosts</span><br></pre></td></tr></table></figure>
-<p>8、每个rabbitmqctl权限管理操作的范围仅限于单个虚拟主机。</p>
-<p>授予用户对所有虚拟主机的权限。</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for v in $(rabbitmqctl list_vhosts --silent); do rabbitmqctl set_permissions -p $v &quot;a-user&quot; &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;; done</span><br></pre></td></tr></table></figure>
-
-
-<p>设置RabbitMQ可以远程访问</p>
-<p>在/etc/rabbitmq/rabbitmq-env.conf 中添加以下命令：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">loopback_users=none</span><br></pre></td></tr></table></figure>
-
+      <p>​                                            </p>
+      
+      <a class="article-more-link" href="/2021/07/10/Ubuntu%E5%AE%89%E8%A3%85RabbitMQ/">
+        阅读更多...
+      </a>
+      
       
     </div>
     <footer class="article-footer">
@@ -473,6 +313,64 @@
       </a>
       
 <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Miniconda/" rel="tag">Miniconda</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-连接Oracle数据库" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/05/09/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">Navicat连接Oracle数据库</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/05/09/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/" class="article-date">
+  <time datetime="2021-05-09T08:04:46.000Z" itemprop="datePublished">2021-05-09</time>
+</a>
+      
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <p>Navicat连接Oracle出现错误信息 ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oracle library is not loaded</span><br></pre></td></tr></table></figure>
+      
+      <a class="article-more-link" href="/2021/05/09/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/">
+        阅读更多...
+      </a>
+      
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="wttps://www.chaizz.com/2021/05/09/连接Oracle数据库/" data-id="ckqxgnjbz0000p8vm7etuflwg" class="article-share-link">
+        分享
+      </a>
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Navicat%E3%80%81Oracle/" rel="tag">Navicat、Oracle</a></li></ul>
 
     </footer>
 

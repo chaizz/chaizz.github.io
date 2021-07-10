@@ -107,27 +107,10 @@
       </tags>
   </entry>
   <entry>
-    <title>连接Oracle数据库</title>
-    <url>/2021/07/10/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
-    <content><![CDATA[<p>出现错误信息 ：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">oracle library is not loaded</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
-<p>Navicat版本 ：12.1.11</p>
-<p>Navicat 连接Oracle数据库需要配下载Oracle 官方提供的插件 ：<a href="https://www.oracle.com/database/technologies/instant-client/downloads.html">instantclient_19_9</a>，选择自己的系统（我的是windows），将此文件下载解压后放在Navicat安装文件路径下。</p>
-<p>然后打开Navicat 的 ：工具-&gt;选项-&gt;环境-&gt;OCI 如下图所示。</p>
-<p><img src="https://tc.chaizz.com/3b0b7af0e15211eb9d7c5254006b8f1d.png"></p>
-<p>将instantclient_19_9 路径下的oci.dll 文件路径复制到此路径下。</p>
-<p>接下来重启Navicat 即可。</p>
-]]></content>
-      <tags>
-        <tag>Navicat、oracle</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>部署YoloV5</title>
     <url>/2021/07/10/%E9%83%A8%E7%BD%B2YoloV5/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p>​                                    </p>
+<a id="more"></a>
 
 <p>一、安装Ubuntu 20.04 系统。</p>
 <p>二、更换Ubuntu 源为国内源。（尽量不要用阿里源）</p>
@@ -214,7 +197,8 @@
   <entry>
     <title>Ubuntu安装RabbitMQ</title>
     <url>/2021/07/10/Ubuntu%E5%AE%89%E8%A3%85RabbitMQ/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p>​                                            </p>
+<a id="more"></a>
 
 <p>安装前提：首先需要安装Erlang</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install erlang-nox</span><br></pre></td></tr></table></figure>
@@ -294,6 +278,24 @@
 ]]></content>
       <tags>
         <tag>Miniconda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Navicat连接Oracle数据库</title>
+    <url>/2021/05/09/%E8%BF%9E%E6%8E%A5Oracle%E6%95%B0%E6%8D%AE%E5%BA%93/</url>
+    <content><![CDATA[<p>Navicat连接Oracle出现错误信息 ：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">oracle library is not loaded</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+
+<p>Navicat版本 ：12.1.11</p>
+<p>Navicat 连接Oracle数据库需要配下载Oracle 官方提供的插件 ：<a href="https://www.oracle.com/database/technologies/instant-client/downloads.html">instantclient_19_9</a>，选择自己的系统（我的是windows），将此文件下载解压后放在Navicat安装文件路径下。</p>
+<p>然后打开Navicat 的 ：工具-&gt;选项-&gt;环境-&gt;OCI 如下图所示。</p>
+<p><img src="https://tc.chaizz.com/3b0b7af0e15211eb9d7c5254006b8f1d.png"></p>
+<p>将instantclient_19_9 路径下的oci.dll 文件路径复制到此路径下。</p>
+<p>接下来重启Navicat 即可。</p>
+]]></content>
+      <tags>
+        <tag>Navicat、Oracle</tag>
       </tags>
   </entry>
   <entry>
