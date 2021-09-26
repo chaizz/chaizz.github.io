@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    部署YoloV5 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="ubuntu-部署YoloV5" class="article article-type-ubuntu" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  部署YoloV5
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/07/10/%E9%83%A8%E7%BD%B2YoloV5/" class="article-date">
+  <time datetime="2021-07-10T07:33:25.000Z" itemprop="datePublished">2021-07-10</time>
+</a>
+      
+    </div>
+    
+
+    
+    
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/5e4e19f6e15111eb9d7c5254006b8f1d.jpeg" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​                                    </p>
+<a id="more"></a>
+
+<p>一、安装Ubuntu 20.04 系统。</p>
+<p>二、更换Ubuntu 源为国内源。（尽量不要用阿里源）</p>
+<p>三、升级包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update	</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>四、下载Nvidia 驱动。<a href="https://www.nvidia.cn/content/DriverDownload-March2009/confirmation.php?url=/XFree86/Linux-x86_64/460.84/NVIDIA-Linux-x86_64-460.84.run&lang=cn&type=TITAN">下载地址</a>。根据自己的显卡查找驱动。</p>
+<ul>
+<li><p>禁用nouveau驱动</p>
+<ul>
+<li><p>编辑 /etc/modprobe.d/blacklist-nouveau.conf </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">blacklist nouveau</span><br><span class="line">blacklist lbm-nouveau</span><br><span class="line">options nouveau modeset&#x3D;0</span><br><span class="line">alias nouveau off</span><br><span class="line">alias lbm-nouveau off</span><br></pre></td></tr></table></figure></li>
+<li><p>接下来然后执行：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo options nouveau modeset=0 | sudo tee -a /etc/modprobe.d/nouveau-kms.conf</span><br></pre></td></tr></table></figure></li>
+<li><p>然后重启</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo reboot</span><br></pre></td></tr></table></figure>
+<p>提示gcc 问题：</p>
+</li>
+</ul>
+</li>
+<li><p>直接安装  <code>sudo apt-get install gcc g++</code></p>
+</li>
+</ul>
+<p>提示make问题：</p>
+<ul>
+<li>直接安装 <code>sudo apt-get install  make</code></li>
+</ul>
+<p>五、安装CUDA。（需要根据pytorch 的版本选择CUDA版本。这里选择的是CUDA 11.1）  下载地址：<a href="https://developer.nvidia.com/cuda-11.1.0-download-archive?target_os=Linux&target_arch=x86_64&target_distro=Ubuntu&target_version=2004&target_type=runfilelocal">CUDA地址</a>。</p>
+<p>官网安装步骤：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://developer.download.nvidia.com/compute/cuda/11.1.0/local_installers/cuda_11.1.0_455.23.05_linux.run</span><br><span class="line">sudo sh cuda_11.1.0_455.23.05_linux.run</span><br></pre></td></tr></table></figure>
+<p>接下来按照提示输入。</p>
+<p>选择安装界面：因为上面已经安装过驱动，所以取消选择第一个 driver ，然后选中 按下回车。</p>
+<p>配置CUDA环境变量</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-11.1/lib64</span><br><span class="line">export PATH=$PATH:/usr/local/cuda-11.1/bin</span><br><span class="line">export CUDA_HOME=$CUDA_HOME:/usr/local/cuda-11.1</span><br><span class="line">source  ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>验证是CUDA否安装成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvcc -V</span><br><span class="line">输出CUDA版本即安装成功</span><br></pre></td></tr></table></figure>
+<p>六、安装CUDNN。 下载地址：<a href>CUDNN</a> 。 需要登录账户 。</p>
+<p>七、配置Python 虚拟环境 （Pyenv）</p>
+<ul>
+<li><p>安装步骤</p>
+<ul>
+<li><p>安装git</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install git	</span><br><span class="line">git clone https://github.com/yyuu/pyenv.git ~/.pyenv</span><br></pre></td></tr></table></figure></li>
+<li><p>打开环境变量</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim ~/.bashrc</span><br><span class="line"><span class="meta">#</span><span class="bash">输入以下内容：</span></span><br><span class="line">export PATH=~/.pyenv/bin:$PATH</span><br><span class="line">export PYENV_ROOT=~/.pyenv</span><br><span class="line">eval &quot;$(pyenv init -)&quot;</span><br></pre></td></tr></table></figure>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">刷新环境变量</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure></li>
+<li><p>查看可安装的Python版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install --list</span><br></pre></td></tr></table></figure></li>
+<li><p>安装指定版本的Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv install 3.8.5</span><br></pre></td></tr></table></figure></li>
+<li><p>更新数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv rehash</span><br></pre></td></tr></table></figure></li>
+<li><p>切换python版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># xxx表示要切换的版本</span><br><span class="line">**有三种切换方式 glocal local shell**</span><br><span class="line">　　1. glocal 全局环境,在未再次使用 glocal切换环境之前，一直使用此环境。</span><br><span class="line">　　2. local 本次登录环境。重启后，则环境失效，并返回当前glocal的环境。</span><br><span class="line">　　3. shell 局部（临时）环境。关闭命令行窗口，则环境失效，并返回当前glocal的环境。</span><br><span class="line">pyenv glocal xxx  </span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>查看已经安装的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pyenv versions</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>卸载已经安装的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv uninstall xxx</span><br></pre></td></tr></table></figure></li>
+<li><p>安装virtualenv   创建虚拟环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;pyenv&#x2F;pyenv-virtualenv.git $(pyenv root)&#x2F;plugins&#x2F;pyenv-virtualenv</span><br></pre></td></tr></table></figure></li>
+<li><p>添加环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cho &#39;eval &quot;$(pyenv virtualenv-init -)&quot;&#39; &gt;&gt; ~&#x2F;.bashrc</span><br><span class="line"></span><br><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure></li>
+<li><p>创建虚拟环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pyenv virtualenv 3.7.0 yolo385</span><br></pre></td></tr></table></figure></li>
+<li><p>删除虚拟环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -rf ~&#x2F;.pyenv&#x2F;versions&#x2F;env370</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+</li>
+</ul>
+<p>八、安装pytorch</p>
+<p>torch 官网 ：<a href="https://pytorch.org/">torch</a></p>
+<p>按照自己的配置选择：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install torch&#x3D;&#x3D;1.9.0+cu111 torchvision&#x3D;&#x3D;0.10.0+cu111 torchaudio&#x3D;&#x3D;0.9.0 -f https:&#x2F;&#x2F;download.pytorch.org&#x2F;whl&#x2F;torch_stable.html</span><br></pre></td></tr></table></figure>
+<p>出现 not import _lzma :</p>
+<p>解决办法 ：重新安装pandas</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="wttps://www.chaizz.com/2021/07/10/部署YoloV5/" data-id="cku170dgq001i9svm8qg4d96p" class="article-share-link">
+        分享
+      </a>
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/YoloV5/" rel="tag">YoloV5</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/09/26/Redis%E7%9F%A5%E8%AF%86%E5%B7%A9%E5%9B%BA/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      Redis知识巩固
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/07/10/Ubuntu%E5%AE%89%E8%A3%85RabbitMQ/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">Ubuntu安装RabbitMQ</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>八方 &copy; 2021</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
