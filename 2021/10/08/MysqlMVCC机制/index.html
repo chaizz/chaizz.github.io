@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    MySQLMVCC机制 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-MysqlMVCC机制" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  MySQLMVCC机制
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/10/08/MysqlMVCC%E6%9C%BA%E5%88%B6/" class="article-date">
+  <time datetime="2021-10-08T14:10:00.000Z" itemprop="datePublished">2021-10-08</time>
+</a>
+      
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/tc/Snipaste_2021-10-08_22-12-28.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <blockquote>
+<p>数据库事务的四大特性：</p>
+<p>原子性：atomicity 是通过undo log 来实现的。</p>
+<p>一致性：consistency  原子性、隔离性、持久性来共同保持一致性。</p>
+<p>隔离性：isolation 通过加锁以及MVCC来实现的。</p>
+<p>持久性：durability 是通过redo log 实现的。</p>
+</blockquote>
+<h1 id="什么是MVCC？"><a href="#什么是MVCC？" class="headerlink" title="什么是MVCC？"></a>什么是MVCC？</h1><p>MVCC（Multi - Version - Concurrency - Control）全称是<strong>多版本并发控制</strong>。主要是为了提高数据库的并发性能。MVCC只在<strong>读已提交</strong>和<strong>可重复读</strong>的两个事务级别下有效。主要是用于处理读请求。</p>
+<h1 id="MySQL的快照读和当前读是什么？"><a href="#MySQL的快照读和当前读是什么？" class="headerlink" title="MySQL的快照读和当前读是什么？"></a>MySQL的快照读和当前读是什么？</h1><h2 id="当前读"><a href="#当前读" class="headerlink" title="当前读"></a>当前读</h2><p>他读取数据库记录都是当前最新的版本，会对当前读取的数据进行加锁，防止其他的事务对数据修改，属于悲观锁的一种。</p>
+<p>以下操作都是当前读：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select lock in share mode # (共享锁)</span><br><span class="line"></span><br><span class="line">select for update  #(排他锁)</span><br><span class="line"></span><br><span class="line">update # (排他锁)</span><br><span class="line"></span><br><span class="line">insert #(排它锁)</span><br><span class="line"></span><br><span class="line">delete  #(排它锁)</span><br><span class="line"></span><br><span class="line"># 串行化事务隔离级别</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="快照读"><a href="#快照读" class="headerlink" title="快照读"></a>快照读</h2><p>快照读是基于 MVCC 和 undo log 来实现的，适用于简单 select 语句。           </p>
+<p>首先MySQL一条记录里面包含三个隐藏列：<strong>row_id</strong>、<strong>trx_id</strong>、<strong>roll_pointer</strong>以及<strong>ReadView</strong>。</p>
+<ul>
+<li>row_id ：MySQL的B+树索引特性要求每个表必须要有一个主键。如果没有设置的话，会自动寻找第一个不包含NULL的唯一索引列作为主键。如果还是找不到，就会在这个DB_ROW_ID上自动生成一个唯一值，以此来当作主键。</li>
+<li>trx_id：自增的事务ID，记录的是当前事务在做INSERT或UPDATE语句操作时的事务ID（DELETE语句被当做是UPDATE语句的特殊情况，后面会进行说明）</li>
+<li>roll_pointer：回滚指针，通过它可以将不同的版本串联起来，形成版本链。相当于链表的next指针。</li>
+<li></li>
+</ul>
+<h3 id="一张图理解undo-log"><a href="#一张图理解undo-log" class="headerlink" title="一张图理解undo log"></a>一张图理解undo log</h3><p><img src="https://tc.chaizz.com/tc/Snipaste_2021-10-08_22-43-53.png"></p>
+<p>以上图中最新的记录name为赵六，他指向前一个版本name为王五，依次类推，王五的上一个版本是李四，李四的上一版本是张三。</p>
+<h3 id="ReadView"><a href="#ReadView" class="headerlink" title="ReadView"></a>ReadView</h3><p><strong>ReadView的作用？</strong></p>
+<p>就是根据事务ID查找对应的数据。那些事务应该读取到那些数据。</p>
+<p><img src="https://tc.chaizz.com/tc/Snipaste_2021-10-08_22-56-42.png"></p>
+<p>m_ids ：当前MySQL中所有的<strong>活跃</strong>（<strong>指未提交的</strong>）的事务的ID。</p>
+<p>min_trx_id：表示m_ids 中最小的事务ID。、</p>
+<p>max_trx_id：表示生成ReadView时系统应该分配给下一个事物的ID。、</p>
+<p>creator_trx_id：生成该ReadView的ID。</p>
+<p><strong>ReadView如何判断哪个版本可用？</strong></p>
+<ul>
+<li>trx_id == creator_trx_id    如果事务ID等于当前生成ReadView的vreator_trx_id ，那么可以访问这个版本。</li>
+<li>trx_id  &lt; mix_trx_id 事务ID小于当前ReadView中的最小的活跃事务的ID，说明该事务是已经提交的了事务。那么可以访问。</li>
+<li>trx_id  &gt; max_trx_id 事务ID大于当前ReadView中的要分配的事务的ID，说明max_trx_id  是创建ReadView之后生成的ID，已经超出版本链的事务的ID，所以无法读取。</li>
+<li>min_trx_id  &lt;=  trx_id  &lt;= max_trx_id 分两种情况：<ul>
+<li>① 当trx_id   在min_trx_id   中，说明是活跃的事务的ID，未提交的事务，那么不能访问当前版本。</li>
+<li>②当trx_id  不在min_trx_id   中，说明不是活跃的事务的ID，而且小于系统下一个事务的ID，那么可以访问当前版本。</li>
+</ul>
+</li>
+</ul>
+<h2 id="MVCC如何实现RR-（可重复读）和RC（读已提交）的？"><a href="#MVCC如何实现RR-（可重复读）和RC（读已提交）的？" class="headerlink" title="MVCC如何实现RR （可重复读）和RC（读已提交）的？"></a>MVCC如何实现RR （可重复读）和RC（读已提交）的？</h2><p><strong>实现RC</strong></p>
+<p>RC生成ReadView的事迹是每次select查询的时候就会生成一个ReadView，他是以每个select查询为单位的，比如一个事务中有两个select语句，那么这两个select就会生成两个ReadView，所以在一个事务中就可以读取到其他事务已经提交的数据，就会产生不可重复读的问题。</p>
+<p><strong>实现RR</strong></p>
+<p>RR 生成ReadView 是根据事务来生成，他是以每个事务为单位生成的。在一个事务中不管有多少查询语句，查询的ReadView还是同一个，所以只能读取到当前版本的数据，就可以解决不可重复读的问题。</p>
+<p>InndDB 解决幻读：是通过间隙锁，间隙锁锁住一段范围，所以其他事务无法对这段范围的数据进行才做插入删除，所以就不存在幻读的问题。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.chaizz.com/2021/10/08/MysqlMVCC%E6%9C%BA%E5%88%B6/" data-id="ckuj6d8730000d8vmdpns9jzj" class="article-share-link">
+        分享
+      </a>
+      
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2021/09/29/DockerSwarm%E7%90%86%E8%A7%A3/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">DockerSwarm理解</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer">
+    <div class="float-right">
+      <ul class="list-inline">
+  
+  <li><i class="fe fe-smile-alt"></i> <span id="busuanzi_value_site_uv"></span></li>
+  
+  <li><i class="fe fe-bookmark"></i> <span id="busuanzi_value_page_pv"></span></li>
+  
+</ul>
+    </div>
+    <ul class="list-inline">
+      <li>八方 &copy; 2021</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
