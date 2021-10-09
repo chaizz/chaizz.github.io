@@ -125,13 +125,12 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">select lock in share mode # (共享锁)</span><br><span class="line"></span><br><span class="line">select for update  #(排他锁)</span><br><span class="line"></span><br><span class="line">update # (排他锁)</span><br><span class="line"></span><br><span class="line">insert #(排它锁)</span><br><span class="line"></span><br><span class="line">delete  #(排它锁)</span><br><span class="line"></span><br><span class="line"># 串行化事务隔离级别</span><br></pre></td></tr></table></figure>
 
 
-<h2 id="快照读"><a href="#快照读" class="headerlink" title="快照读"></a>快照读</h2><p>快照读是基于 MVCC 和 undo log 来实现的，适用于简单 select 语句。           </p>
+<h2 id="快照读"><a href="#快照读" class="headerlink" title="快照读"></a>快照读</h2><p>快照读是基于和 undo log 来实现的，适用于简单 select 语句。           </p>
 <p>首先MySQL一条记录里面包含三个隐藏列：<strong>row_id</strong>、<strong>trx_id</strong>、<strong>roll_pointer</strong>以及<strong>ReadView</strong>。</p>
 <ul>
 <li>row_id ：MySQL的B+树索引特性要求每个表必须要有一个主键。如果没有设置的话，会自动寻找第一个不包含NULL的唯一索引列作为主键。如果还是找不到，就会在这个DB_ROW_ID上自动生成一个唯一值，以此来当作主键。</li>
 <li>trx_id：自增的事务ID，记录的是当前事务在做INSERT或UPDATE语句操作时的事务ID（DELETE语句被当做是UPDATE语句的特殊情况，后面会进行说明）</li>
 <li>roll_pointer：回滚指针，通过它可以将不同的版本串联起来，形成版本链。相当于链表的next指针。</li>
-<li></li>
 </ul>
 <h3 id="一张图理解undo-log"><a href="#一张图理解undo-log" class="headerlink" title="一张图理解undo log"></a>一张图理解undo log</h3><p><img src="https://tc.chaizz.com/tc/Snipaste_2021-10-08_22-43-53.png"></p>
 <p>以上图中最新的记录name为赵六，他指向前一个版本name为王五，依次类推，王五的上一个版本是李四，李四的上一版本是张三。</p>
