@@ -3,9 +3,10 @@
   <entry>
     <title>迭代思维与MVP产品的规划方法</title>
     <url>/2021/02/04/%E8%BF%AD%E4%BB%A3%E6%80%9D%E7%BB%B4%E4%B8%8EMVP%E4%BA%A7%E5%93%81%E7%9A%84%E8%A7%84%E5%88%92%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h3 id="快速迭代的价值与挑战"><a href="#快速迭代的价值与挑战" class="headerlink" title="快速迭代的价值与挑战"></a>快速迭代的价值与挑战</h3><p>快速迭代：以天或者小时为单位，持续的完善产品，交付到用户的循环过程</p>
+    <content><![CDATA[<p>​            </p>
 <a id="more"></a>
 
+<h3 id="快速迭代的价值与挑战"><a href="#快速迭代的价值与挑战" class="headerlink" title="快速迭代的价值与挑战"></a>快速迭代的价值与挑战</h3><p>快速迭代：以天或者小时为单位，持续的完善产品，交付到用户的循环过程</p>
 <h4 id="快速迭代的价值："><a href="#快速迭代的价值：" class="headerlink" title="快速迭代的价值："></a>快速迭代的价值：</h4><ul>
 <li>时间是最大的成本，机会转瞬即逝，赢得市场先机。</li>
 <li>快速验证需求，减少不对用户产生价值的投入（Fail fast, Fail better）。</li>
@@ -25,7 +26,7 @@
 </li>
 </ul>
 <h3 id="OOPD-方法识别产品的核心功能"><a href="#OOPD-方法识别产品的核心功能" class="headerlink" title="OOPD 方法识别产品的核心功能"></a>OOPD 方法识别产品的核心功能</h3><p>OOPD：Online and Offline integrated Product Development  </p>
-<p><img src="/2021/02/04/迭代思维与MVP产品的规划方法/OOPD.png"></p>
+<p><img src="/2021/02/04/%E8%BF%AD%E4%BB%A3%E6%80%9D%E7%BB%B4%E4%B8%8EMVP%E4%BA%A7%E5%93%81%E7%9A%84%E8%A7%84%E5%88%92%E6%96%B9%E6%B3%95/OOPD.png"></p>
 <p>OOPD迭代的原则：</p>
 <ul>
 <li>自助原则：做自己的产品，自己用自己的产品，吃自己的狗食。</li>
@@ -48,7 +49,7 @@
 </ul>
 </li>
 </ul>
-<p><img src="/2021/02/04/迭代思维与MVP产品的规划方法/%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B.png"></p>
+<p><img src="/2021/02/04/%E8%BF%AD%E4%BB%A3%E6%80%9D%E7%BB%B4%E4%B8%8EMVP%E4%BA%A7%E5%93%81%E7%9A%84%E8%A7%84%E5%88%92%E6%96%B9%E6%B3%95/%E6%8A%80%E6%9C%AF%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E6%B5%81%E7%A8%8B.png"></p>
 <ul>
 <li><p>用什么工具设计？</p>
 <ul>
@@ -102,6 +103,9 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>敏捷开发</category>
+      </categories>
       <tags>
         <tag>快速迭代、OOPD</tag>
       </tags>
@@ -158,6 +162,9 @@
 <p>RR 生成ReadView 是根据事务来生成，他是以每个事务为单位生成的。在一个事务中不管有多少查询语句，查询的ReadView还是同一个，所以只能读取到当前版本的数据，就可以解决不可重复读的问题。</p>
 <p>InndDB 解决幻读：是通过间隙锁，间隙锁锁住一段范围，所以其他事务无法对这段范围的数据进行才做插入删除，所以就不存在幻读的问题。</p>
 ]]></content>
+      <categories>
+        <category>MySQL</category>
+      </categories>
       <tags>
         <tag>MySQL</tag>
       </tags>
@@ -165,13 +172,14 @@
   <entry>
     <title>DockerSwarm理解</title>
     <url>/2021/09/29/DockerSwarm%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="一、DockerSwarm理解"><a href="#一、DockerSwarm理解" class="headerlink" title="一、DockerSwarm理解"></a>一、DockerSwarm理解</h1><blockquote>
+    <content><![CDATA[<p>​                    </p>
+<a id="more"></a>
+
+<h1 id="一、DockerSwarm理解"><a href="#一、DockerSwarm理解" class="headerlink" title="一、DockerSwarm理解"></a>一、DockerSwarm理解</h1><blockquote>
 <p>官网解释：</p>
 <p>Docker Engine 1.12 introduces swarm mode that enables you to create a cluster of one or more Docker Engines called a swarm. A swarm consists of one or more nodes: physical or virtual machines running Docker Engine 1.12 or later in swarm mode.</p>
 <p>Docker Engine 1.12 引入了 swarm 模式，使您能够创建一个由一个或多个 Docker 引擎组成的集群，称为 swarm。 swarm 由一个或多个节点组成：在 swarm 模式下运行 Docker Engine 1.12 或更高版本的物理或虚拟机。</p>
 </blockquote>
-<a id="more"></a>
-
 <p><a href="https://docs.docker.com/engine/swarm/">官网地址</a></p>
 <p><img src="https://tc.chaizz.com/tc/swarm-diagram.png"></p>
 <h2 id="1、Swarm-中有两种类型的节点："><a href="#1、Swarm-中有两种类型的节点：" class="headerlink" title="1、Swarm 中有两种类型的节点："></a>1、Swarm 中有两种类型的节点：</h2><h3 id="1-1、managers-的作用"><a href="#1-1、managers-的作用" class="headerlink" title="1.1、managers 的作用"></a>1.1、managers 的作用</h3><ul>
@@ -198,6 +206,9 @@
 
 <h1 id="三、Docker-服务弹性扩容"><a href="#三、Docker-服务弹性扩容" class="headerlink" title="三、Docker 服务弹性扩容"></a>三、Docker 服务弹性扩容</h1><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在Swarm manager 节点下</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动一个服务，具备扩缩容的功能</span></span><br><span class="line">docker service create -p 8888:80 nginx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 直接启动三个副本。</span></span><br><span class="line">docker service update --replicas 3 nginx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
       <tags>
         <tag>Docker、Linux</tag>
       </tags>
@@ -205,12 +216,13 @@
   <entry>
     <title>DockerCompose理解</title>
     <url>/2021/09/29/DockerCompose%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h1 id="一、DockerCompose理解"><a href="#一、DockerCompose理解" class="headerlink" title="一、DockerCompose理解"></a>一、DockerCompose理解</h1><blockquote>
+    <content><![CDATA[<p>​                </p>
+<a id="more"></a>
+
+<h1 id="一、DockerCompose理解"><a href="#一、DockerCompose理解" class="headerlink" title="一、DockerCompose理解"></a>一、DockerCompose理解</h1><blockquote>
 <p><a href="https://docs.docker.com/compose/">Docker Compose</a> is a tool that was developed to help define and share multi-container applications. With Compose, we can create a YAML file to define the services and with a single command, can spin everything up or tear it all down.</p>
 <p>The <em>big</em> advantage of using Compose is you can define your application stack in a file, keep it at the root of your project repo (it’s now version controlled), and easily enable someone else to contribute to your project. Someone would only need to clone your repo and start the compose app. In fact, you might see quite a few projects on GitHub/GitLab doing exactly this now.</p>
 </blockquote>
-<a id="more"></a>
-
 <p>Docker compose 是来管理多个容器的一个工具。</p>
 <h2 id="1、安装Docker-Compose"><a href="#1、安装Docker-Compose" class="headerlink" title="1、安装Docker Compose"></a>1、安装Docker Compose</h2><p><a href="https://github.com/docker/compose/releases/download/v2.0.0/docker-compose-linux-amd64">Docker-compose地址</a></p>
 <h3 id="1-1-创建cli-plugins-目录"><a href="#1-1-创建cli-plugins-目录" class="headerlink" title="1.1 创建cli-plugins 目录"></a>1.1 创建cli-plugins 目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在github上下载最新版docker-compose ,放在 docker安装用户家目录下 ：root/.docker/cli-plugins</span></span><br><span class="line"></span><br><span class="line">cd .docker</span><br><span class="line">mkdir cli-plugins</span><br></pre></td></tr></table></figure>
@@ -239,6 +251,9 @@
 
 <h3 id="2-5-运行成功"><a href="#2-5-运行成功" class="headerlink" title="2.5 运行成功"></a>2.5 运行成功</h3><p><img src="https://tc.chaizz.com/tc/Snipaste_2021-09-29_20-48-16.png"></p>
 ]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
       <tags>
         <tag>Docker、Linux</tag>
       </tags>
@@ -246,11 +261,12 @@
   <entry>
     <title>Dcoker知识总结</title>
     <url>/2021/09/27/Docker%20%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<blockquote>
-<p>Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications. By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the delay between writing code and running it in production.</p>
-</blockquote>
+    <content><![CDATA[<p>​                    </p>
 <a id="more"></a>
 
+<blockquote>
+<p>Docker is an open platform for developing, shipping, and running applications. Docker enables you to separate your applications from your infrastructure so you can deliver software quickly. With Docker, you can manage your infrastructure in the same ways you manage your applications. By taking advantage of Docker’s methodologies for shipping, testing, and deploying code quickly, you can significantly reduce the delay between writing code and running it in production.</p>
+</blockquote>
 <h1 id="一、Docker-是什么"><a href="#一、Docker-是什么" class="headerlink" title="一、Docker 是什么"></a>一、Docker 是什么</h1><h2 id="1、Docker-简介"><a href="#1、Docker-简介" class="headerlink" title="1、Docker 简介"></a>1、Docker 简介</h2><p> Docker 是一个用于开发、传送和运行应用程序的开放平台。Docker 使您能够将应用程序与基础设施分开，以便您可以快速交付软件。使用 Docker，您可以像管理应用程序一样管理基础设施。通过利用 Docker 的快速交付、测试和部署代码的方法，您可以显着减少编写代码和在生产中运行代码之间的延迟。</p>
 <p>Docker是基于Google的Go语言开发的。</p>
 <h2 id="2、Dcoker-能干什么？"><a href="#2、Dcoker-能干什么？" class="headerlink" title="2、Dcoker 能干什么？"></a>2、Dcoker 能干什么？</h2><p>Docker 能方便的将开发环境打包起来，包括Python、Nginx 、Redis、Mysql、Tomcat等等的开发环境只需要一次部署，然后将他们打包为镜像，接下来只需要拿着这个镜像在不同的服务器中的docker中运行即可得到一个全新的与之前部署的环境完全一样的环境。有点类似于布尔玛的万能胶囊，只是有点..</p>
@@ -328,6 +344,9 @@
 <h2 id="3、容器基础命令"><a href="#3、容器基础命令" class="headerlink" title="3、容器基础命令"></a>3、容器基础命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 新建容器并启动</span></span><br><span class="line">docker run [--options] images</span><br><span class="line"></span><br><span class="line">--name=&quot;Name&quot;   给容器起别名</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">通过后台的方式启动的时候，在使用docker ps 发现没有正在运行的容器，是因为docker发现前台没有使用当前容器就会自动杀死当前容器。</span> </span><br><span class="line">-d             后台方式启动 。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-it            使用交互方式运行，进入容器查看内容</span><br><span class="line">-p             指定容器的端口    8080:8080</span><br><span class="line">	-p IP:主机端口：容器端口 (常用)</span><br><span class="line">	-p 主机端口：容器端口 (常用)</span><br><span class="line">	-p 容器端口</span><br><span class="line">	</span><br><span class="line">-P             随机指定端口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 列出当前所有正在运行的容器</span></span><br><span class="line">dcoker ps</span><br><span class="line"></span><br><span class="line">-a             列出当前所有正在运行的容器和历史运行的容器</span><br><span class="line">-n=?           列出最近运行的容器</span><br><span class="line">-q             只显示容器的ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">直接停止容器并退出容器</span></span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">不停止容器并退出容器</span></span><br><span class="line">ctrl + p + q</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 删除指定容器</span></span><br><span class="line">dcoker rm 容器ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 强制删除所有容器</span></span><br><span class="line">dcoker rm -f  %(dcoker ps -aq)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> <span class="comment"># 强制删除所有容器</span></span></span><br><span class="line">dcoker ps -aq|xargs docker rm </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动容器</span></span><br><span class="line">docker start 容器ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启容器</span></span><br><span class="line">docker restart 容器ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止容器</span></span><br><span class="line">docker stop 容器ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 强制停止容器</span></span><br><span class="line">docker kill 容器ID</span><br></pre></td></tr></table></figure>
 <h2 id="4、其他常用命令"><a href="#4、其他常用命令" class="headerlink" title="4、其他常用命令"></a>4、其他常用命令</h2><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看docker日志</span></span><br><span class="line">docker logs  -tf --tail 10 容器ID</span><br><span class="line"></span><br><span class="line">-t            显示时间戳</span><br><span class="line">-f            跟踪日志输出</span><br><span class="line">--tail 10     输出指定行数       </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看容器进程信息</span></span><br><span class="line">docker top 容器ID</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看容器的元数据</span></span><br><span class="line">docker inspect 容器ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入当前正在运行的容器  (以交互式，进入容器开启一个新的终端)</span></span><br><span class="line">docker exec -it 容器ID /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 进入当前正在运行的容器  (进入正在运行的命令终端，如果没有进入默认终端)</span></span><br><span class="line">docker attach 容器ID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">从容器内拷贝文件到宿主机上</span></span><br><span class="line">docker cp 容器Id:文件路径  目的主机路径 </span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>Docker</category>
+      </categories>
       <tags>
         <tag>Docker、Linux</tag>
       </tags>
@@ -335,13 +354,13 @@
   <entry>
     <title>Typora设置七牛云图床</title>
     <url>/2021/09/26/Typora%E8%AE%BE%E7%BD%AE%E4%B8%83%E7%89%9B%E4%BA%91%E5%9B%BE%E5%BA%8A/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<p>​              </p>
+<a id="more"></a>
+
+<blockquote>
 <p>Markdown是一种<a href="https://baike.baidu.com/item/%E8%BD%BB%E9%87%8F%E7%BA%A7%E6%A0%87%E8%AE%B0%E8%AF%AD%E8%A8%80/52671915">轻量级标记语言</a>，创始人为约翰·格鲁伯（英语：John Gruber）。 它允许人们使用易读易写的<a href="https://baike.baidu.com/item/%E7%BA%AF%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F/9862288">纯文本格式</a>编写文档，然后转换成有效的<a href="https://baike.baidu.com/item/XHTML/316621">XHTML</a>（或者HTML）文档。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。</p>
 <p>由于Markdown的轻量化、易读易写特性，并且对于图片，图表、数学式都有支持，许多网站都广泛使用Markdown来撰写帮助文档或是用于论坛上发表消息。 如<a href="https://baike.baidu.com/item/GitHub/10145341">GitHub</a>、<a href="https://baike.baidu.com/item/Reddit/1272010">Reddit</a>、<a href="https://baike.baidu.com/item/Diaspora/10726893">Diaspora</a>、[Stack Exchange](<a href="https://baike.baidu.com/item/Stack">https://baike.baidu.com/item/Stack</a> Exchange/13777796)、<a href="https://baike.baidu.com/item/OpenStreetMap/3171606">OpenStreetMap</a> 、<a href="https://baike.baidu.com/item/SourceForge/6562141">SourceForge</a>、<a href="https://baike.baidu.com/item/%E7%AE%80%E4%B9%A6/5782216">简书</a>等，甚至还能被使用来撰写<a href="https://baike.baidu.com/item/%E7%94%B5%E5%AD%90%E4%B9%A6/346054">电子书</a>。</p>
 </blockquote>
-<a id="more"></a>
-
-
 <h1 id="一、设置前提："><a href="#一、设置前提：" class="headerlink" title="一、设置前提："></a>一、设置前提：</h1><p>Typora 版本：0.11.8|<br>已注册七牛云账号：</p>
 <ul>
 <li>秘钥AK ：virqOxxxxxxxxxxxxxxxxxxxxxxxxMnNIK</li>
@@ -359,6 +378,9 @@
 <p><img src="https://tc.chaizz.com/tc/Snipaste_2021-09-26_19-35-24.png"></p>
 <p>点击OK ，重启Typora上传图片即可上传到七牛云了。</p>
 ]]></content>
+      <categories>
+        <category>写作工具</category>
+      </categories>
       <tags>
         <tag>Typora</tag>
       </tags>
@@ -366,11 +388,12 @@
   <entry>
     <title>Redis知识巩固</title>
     <url>/2021/09/26/Redis%E7%9F%A5%E8%AF%86%E5%B7%A9%E5%9B%BA/</url>
-    <content><![CDATA[<blockquote>
-<p>Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache, and message broker. Redis provides data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs, geospatial indexes, and streams. Redis has built-in replication, Lua scripting, LRU eviction, transactions, and different levels of on-disk persistence, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.</p>
-</blockquote>
+    <content><![CDATA[<p>​                </p>
 <a id="more"></a>
 
+<blockquote>
+<p>Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache, and message broker. Redis provides data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs, geospatial indexes, and streams. Redis has built-in replication, Lua scripting, LRU eviction, transactions, and different levels of on-disk persistence, and provides high availability via Redis Sentinel and automatic partitioning with Redis Cluster.</p>
+</blockquote>
 <h1 id="一、Redis-安装"><a href="#一、Redis-安装" class="headerlink" title="一、Redis 安装"></a>一、Redis 安装</h1><p>安装前提：Linux 系统 ubuntu 18.04  / Redis 版本：<a href="https://download.redis.io/releases/redis-6.2.5.tar.gz">6.2.5</a><br>1、检查系统是否安装了gcc 编译器。如果已经安装了 则会显示gcc 的版本号信息，如果没有安装，则使用系统的包管理器安装。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 检查版本</span></span><br><span class="line">gcc --version</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 安装 gcc</span></span><br><span class="line">sudo apt-get install gcc </span><br></pre></td></tr></table></figure>
 
@@ -520,6 +543,9 @@
 <li>如果值为 <code>no</code> 则该插槽服务挂掉，无法写入读取数据，但是不会影响其他的集群节点。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Redis</category>
+      </categories>
       <tags>
         <tag>redis</tag>
       </tags>
@@ -608,6 +634,9 @@
 <p>出现 not import _lzma :</p>
 <p>解决办法 ：重新安装pandas</p>
 ]]></content>
+      <categories>
+        <category>YoloV5</category>
+      </categories>
       <tags>
         <tag>YoloV5</tag>
       </tags>
@@ -615,13 +644,12 @@
   <entry>
     <title>Ubuntu安装RabbitMQ</title>
     <url>/2021/07/10/Ubuntu%E5%AE%89%E8%A3%85RabbitMQ/</url>
-    <content><![CDATA[<p>​        </p>
+    <content><![CDATA[<p>​                       </p>
+<a id="more"></a>      
+
 <blockquote>
 <p><strong>RabbitMQ</strong>是实现了高级消息队列协议（AMQP）的开源消息代理软件（亦称面向消息的中间件）。RabbitMQ服务器是用<a href="https://baike.baidu.com/item/Erlang">Erlang</a>语言编写的，而集群和故障转移是构建在<a href="https://baike.baidu.com/item/%E5%BC%80%E6%94%BE%E7%94%B5%E4%BF%A1%E5%B9%B3%E5%8F%B0">开放电信平台</a>框架上的。所有主要的<a href="https://baike.baidu.com/item/%E7%BC%96%E7%A8%8B%E8%AF%AD%E8%A8%80/9845131">编程语言</a>均有与代理接口通讯的<a href="https://baike.baidu.com/item/%E5%AE%A2%E6%88%B7%E7%AB%AF/101081">客户端</a>库。</p>
 </blockquote>
-<p>​                                    </p>
-<a id="more"></a>
-
 <p>安装前提：首先需要安装Erlang</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install erlang-nox</span><br></pre></td></tr></table></figure>
 <p>1、 使用apt-get 安装</p>
@@ -654,6 +682,9 @@
 <p>在/etc/rabbitmq/rabbitmq-env.conf 中添加以下命令：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">loopback_users=none</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>RabbitMQ</category>
+      </categories>
       <tags>
         <tag>RabbitMQ</tag>
       </tags>
@@ -698,6 +729,9 @@
 <p><a href="https://blog.csdn.net/scar2016/article/details/115710308">jupyter notebook内核挂掉了，需要重启</a></p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>Miniconda</category>
+      </categories>
       <tags>
         <tag>Miniconda</tag>
       </tags>
@@ -716,6 +750,9 @@
 <p>将instantclient_19_9 路径下的oci.dll 文件路径复制到此路径下。</p>
 <p>接下来重启Navicat 即可。</p>
 ]]></content>
+      <categories>
+        <category>Oracle</category>
+      </categories>
       <tags>
         <tag>Navicat、Oracle</tag>
       </tags>
@@ -858,6 +895,9 @@
 <p><a href="https://blog.csdn.net/xzm5708796/article/details/88344074">https://blog.csdn.net/xzm5708796/article/details/88344074</a></p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
       <tags>
         <tag>CentOS7、ORACLE APEX</tag>
       </tags>
@@ -904,6 +944,9 @@
 <h3 id="代码分解技巧"><a href="#代码分解技巧" class="headerlink" title="代码分解技巧"></a>代码分解技巧</h3><p>编程中一个核心思想是，不写重复代码。重复代码大概率可以通过使用条件、循环、构造函数和类来解决。而另一个核心思想则是，减少迭代层数，尽可能让 Python 代码扁平化，毕竟，人的大脑无法处理过多的栈操作。</p>
 <p>一个函数的粒度应该尽可能细，不要让一个函数做太多的事情。所以，对待一个复杂的函数，我们需要尽可能地把它拆分成几个功能简单的函数，然后合并起来。</p>
 ]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
       <tags>
         <tag>pep8，Google style</tag>
       </tags>
@@ -911,14 +954,15 @@
   <entry>
     <title>Jupyter-notebook的安装与基本使用</title>
     <url>/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<blockquote>
+    <content><![CDATA[<p>​            </p>
+<a id="more"></a>
+
+<blockquote>
 <h4 id="The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more"><a href="#The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more" class="headerlink" title="The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more."></a>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</h4></blockquote>
 <p>以上为Jupyter notebook 的官方解释。</p>
 <blockquote>
 <p>Jupyter Notebook是一个开源Web应用程序，可让您创建和共享包含实时代码，方程式，可视化效果和叙述文本的文档。 用途包括：数据清理和转换，数值模拟，统计建模，数据可视化，机器学习等.</p>
 </blockquote>
-<a id="more"></a>
-
 <h2 id="一、windows下安装Jupyter-notebook"><a href="#一、windows下安装Jupyter-notebook" class="headerlink" title="一、windows下安装Jupyter notebook"></a>一、windows下安装Jupyter notebook</h2><p>Jupyter notebook 是基于Python 的首先要安装Python环境，或者直接安装Anaconda（直接包含Python和Jupyter notebook）。以上环境省略自行安装。</p>
 <ol>
 <li>在Python环境下直接安装。（最好是新版本Python）</li>
@@ -936,7 +980,7 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook --port 8899</span><br></pre></td></tr></table></figure>
 <h2 id="二、Jupyter-notebook-界面"><a href="#二、Jupyter-notebook-界面" class="headerlink" title="二、Jupyter notebook 界面"></a>二、Jupyter notebook 界面</h2><ol>
 <li><p>如图所示打开Jupyter notebook 的初始界面为：</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-08-09.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-08-09.png"></p>
 <p>Jupyter notebook 的默认存储文件的地址为当前用户的文件路径。每个人里面的文件都不太一样。</p>
 </li>
 <li><p>更改默认的存储路径。</p>
@@ -948,9 +992,9 @@
 </ol>
 <h2 id="三、使用-Jupyter-notebook"><a href="#三、使用-Jupyter-notebook" class="headerlink" title="三、使用 Jupyter notebook"></a>三、使用 Jupyter notebook</h2><ol>
 <li><p>新建一个页面。 点击右上角的 new 按钮可以新建一个工程文件或者文本文件或者文件夹。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-23-24.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-23-24.png"></p>
 <p>例如 新建一个python3文件。新页面样式如图所示。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-25-08.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-25-08.png"></p>
 <p>可在单元格（cell）中输入代码并执行。</p>
 </li>
 </ol>
@@ -970,10 +1014,10 @@
 <li><p>在安装插件之前首先需要安装<strong>jupyter_contrib_nbextensions</strong>。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter_contrib_nbextensions</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启用 jupyter_contrib_nbextensions</span></span><br><span class="line">jupyter contrib nbextension install --user</span><br></pre></td></tr></table></figure>
 <p>此时 Jupyter notebook 界面就会出现一个新的菜单栏。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-06-58.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_13-06-58.png"></p>
 <p>选中此按钮进入配置插件的页面。</p>
 <p>取消勾选此按钮。否则无法选择插件。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-08-31.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_13-08-31.png"></p>
 <p>推荐插件：</p>
 <ul>
 <li><strong>Notify</strong> ：能在任务处理完后及时向你发送通知</li>
@@ -988,6 +1032,9 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>Jupyternotebook</category>
+      </categories>
       <tags>
         <tag>Jupyter notebook、Python</tag>
       </tags>
@@ -1049,8 +1096,11 @@
 <li><p><strong>/run</strong>：<br>是一个临时文件系统，存储系统启动以来的信息。当系统重启时，这个目录下的文件应该被删掉或清除。如果你的系统上有 /var/run 目录，应该让它指向 run。</p>
 </li>
 </ul>
-<p><img src="/2021/02/02/Linux文件目录/linuxfile.jpg"></p>
+<p><img src="/2021/02/02/Linux%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/linuxfile.jpg"></p>
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
       <tags>
         <tag>Linux</tag>
       </tags>
@@ -1061,12 +1111,15 @@
     <content><![CDATA[<h4 id="运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb"><a href="#运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb" class="headerlink" title="运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb"></a>运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb</h4><a id="more"></a>
 
 <h3 id="1-安装-mysql-python"><a href="#1-安装-mysql-python" class="headerlink" title="1.安装 mysql-python"></a>1.安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure>
-<h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu安装mysql-python插件/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p>
+<h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p>
 <h3 id="接下来安装依赖包"><a href="#接下来安装依赖包" class="headerlink" title="接下来安装依赖包"></a>接下来安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure>
 <h3 id="如果还是不行安装依赖"><a href="#如果还是不行安装依赖" class="headerlink" title="如果还是不行安装依赖"></a>如果还是不行安装依赖</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install python-dev</span><br><span class="line">sudo apt-get install python-MySQLdb</span><br></pre></td></tr></table></figure>
 
 
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
       <tags>
         <tag>Ubuntu、Mysql-Python</tag>
       </tags>
@@ -1093,7 +1146,7 @@
 <li><p>初始数据库</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">su postgresql -c &#x27;pg_ctl -D /opt/postgresdata initdb&#x27; #初始化数据库</span><br><span class="line">su postgresql   ：使用这个用户进行操作</span><br><span class="line">/opt/postgresdata：地址为存放初始化的文件路径可自定义，   这个文件的用户权限要为 postgresql可操作</span><br><span class="line">pg_ctl  ：postgresql 的控制器，可以对postgresql 进行启动停止等操作</span><br></pre></td></tr></table></figure>
 <p>执行以上语句后会再  /opt/postgresdata 路径下生成一些文件</p>
-<p><img src="/2021/02/02/Centos7-5源码安装postgresql-12/postgresql0.jpg"></p>
+<p><img src="/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/postgresql0.jpg"></p>
 </li>
 </ol>
 <table>
@@ -1149,7 +1202,7 @@
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x /etc/init.d/postgressql		</span><br></pre></td></tr></table></figure>
 
 <p>此后，执行以下命令可以方便的启停服务</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//手动启动服务</span><br><span class="line">    service postgressql start</span><br><span class="line">    </span><br><span class="line">    //查看服务状态</span><br><span class="line">    service postgressql status</span><br><span class="line">    </span><br><span class="line">    //手动停止服务</span><br><span class="line">    service postgressql stop</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">//手动启动服务</span><br><span class="line">service postgressql start</span><br><span class="line"></span><br><span class="line">//查看服务状态</span><br><span class="line">service postgressql status</span><br><span class="line"></span><br><span class="line">//手动停止服务</span><br><span class="line">service postgressql stop</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>设置开机启动 ,执行以下命令：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chkconfig --add postgressql</span><br></pre></td></tr></table></figure>
@@ -1166,6 +1219,9 @@
 <p>重启命令postgresql  ：<code>systemctl restart postgresql-12</code></p>
 <p>参考材料：<a href> https://www.cnblogs.com/littleatp/p/10542137.html </a></p>
 ]]></content>
+      <categories>
+        <category>数据库</category>
+      </categories>
       <tags>
         <tag>Centos、Postgresql</tag>
       </tags>
@@ -1179,6 +1235,9 @@
 
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageFile</span><br><span class="line">ImageFile.LOAD_TRUNCATED_IMAGES = <span class="literal">True</span>    <span class="comment">#   OSError: image file is truncated   图像被截断错误</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resize_by_size</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;</span></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>]:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">        outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">        im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">        size_tmp = os.path.getsize(infile)</span><br><span class="line">        q = <span class="number">100</span></span><br><span class="line">        <span class="keyword">while</span> size_tmp &gt; <span class="number">10240</span> <span class="keyword">and</span> q &gt; <span class="number">0</span>:</span><br><span class="line">            out = im.resize(im.size, Image.ANTIALIAS)</span><br><span class="line">            out.save(outfile, quality=q)</span><br><span class="line">            size_tmp = os.path.getsize(outfile)</span><br><span class="line">            q -= <span class="number">10</span></span><br><span class="line">        <span class="keyword">if</span> q == <span class="number">100</span>:</span><br><span class="line">            shutil.copy(infile,outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">equal_img</span>(<span class="params">infile</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    修改大小</span></span><br><span class="line"><span class="string">    :param cls:</span></span><br><span class="line"><span class="string">    :return:</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    file_name = infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">if</span> file_name.startswith(<span class="string">&#x27;thumbnail&#x27;</span>) <span class="keyword">or</span> file_name.startswith(<span class="string">&#x27;.&#x27;</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="comment"># 判断是不是图片。不是的话，忽略</span></span><br><span class="line">        <span class="keyword">if</span> file_name.split(<span class="string">&#x27;.&#x27;</span>)[-<span class="number">1</span>] <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">&#x27;jpg&#x27;</span>,<span class="string">&#x27;JPG&#x27;</span>,<span class="string">&#x27;PNG&#x27;</span>,<span class="string">&#x27;png&#x27;</span>,<span class="string">&#x27;jpeg&#x27;</span>,<span class="string">&#x27;JPEG&#x27;</span>]:</span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            outfilename = <span class="string">&#x27;thumbnail&#x27;</span> + infile.split(<span class="string">&#x27;/&#x27;</span>)[-<span class="number">1</span>]</span><br><span class="line">            <span class="comment"># print(&#x27;file_name：&#x27;,outfilename)</span></span><br><span class="line">            outfile = <span class="string">&#x27;/&#x27;</span>.join(infile.split(<span class="string">&#x27;/&#x27;</span>)[:-<span class="number">1</span>]) + <span class="string">&#x27;/&#x27;</span> + outfilename</span><br><span class="line">            <span class="comment"># print(u&#x27;path：&#x27;,outfile)</span></span><br><span class="line">            im = Image.<span class="built_in">open</span>(infile)</span><br><span class="line">            width = im.size[<span class="number">0</span>]   <span class="comment"># 获取宽度</span></span><br><span class="line">            height = im.size[<span class="number">1</span>]   <span class="comment"># 获取高度</span></span><br><span class="line">            print(<span class="string">u&#x27;width：height：&#x27;</span>,width,height)</span><br><span class="line">            <span class="keyword">if</span> width &lt;= <span class="number">200</span>:</span><br><span class="line">                shutil.copy(infile,outfile)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                coe = <span class="built_in">float</span>(<span class="string">&#x27;%.2f&#x27;</span>%(<span class="number">200</span>/width))   <span class="comment">#保留两位小数可能是0.00，</span></span><br><span class="line">                print(<span class="string">u&#x27;coe：&#x27;</span>,coe)</span><br><span class="line">                <span class="keyword">if</span> coe &lt;= <span class="number">0</span>:</span><br><span class="line">                    coe = <span class="number">0.15</span></span><br><span class="line">                <span class="keyword">if</span> im.mode == <span class="string">&quot;P&quot;</span>:</span><br><span class="line">                    im = im.convert(<span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">                out = im.resize((<span class="built_in">int</span>(width*coe), <span class="built_in">int</span>(height*coe)), Image.ANTIALIAS)</span><br><span class="line"></span><br><span class="line">                out.save(outfile)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gci</span>(<span class="params">filepath</span>):</span></span><br><span class="line">    <span class="comment">#遍历filepath下所有文件，包括子目录</span></span><br><span class="line">    files = os.listdir(filepath)</span><br><span class="line">    <span class="keyword">for</span> fi <span class="keyword">in</span> files:</span><br><span class="line">        fi_d = os.path.join(filepath,fi)</span><br><span class="line">        <span class="keyword">if</span> os.path.isdir(fi_d):</span><br><span class="line">            gci(fi_d)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># resize_by_size(os.path.join(filepath,fi_d))</span></span><br><span class="line">            equal_img(os.path.join(filepath,fi_d))</span><br><span class="line"></span><br><span class="line"><span class="comment">#递归遍历/root目录下所有文件</span></span><br><span class="line"><span class="comment"># gci(&#x27;/var/local/www/edu_online1/media/works&#x27;)</span></span><br><span class="line"><span class="comment"># gci(&#x27;/root/www/edu_online1/media/works/13360067818/tradition&#x27;)  #正式</span></span><br><span class="line">gci(<span class="string">&#x27;/root/www/edu_online1/media/works/13265647342/udict/1552525240000/䤋&#x27;</span>)  <span class="comment">#正式</span></span><br><span class="line"><span class="comment"># gci(r&#x27;F:\desktop\䤋&#x27;)</span></span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
       <tags>
         <tag>Python、压缩图片</tag>
       </tags>
@@ -1197,6 +1256,9 @@ flask shell
 
 <p>​    </p>
 ]]></content>
+      <categories>
+        <category>Flak</category>
+      </categories>
       <tags>
         <tag>Flask、shell</tag>
       </tags>
@@ -1218,6 +1280,9 @@ flask shell
 <p>Transport：代表es内部节点或集群与客户端的交互方式，默认内部是使用tcp协议进行交互，同时它支持http协议（json格式）、<a href="https://baike.baidu.com/item/thrift">thrift</a>、servlet、memcached、zeroMQ等的<a href="https://baike.baidu.com/item/%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE">传输协议</a>（通过<a href="https://baike.baidu.com/item/%E6%8F%92%E4%BB%B6">插件</a>方式集成）。</p>
 </blockquote>
 ]]></content>
+      <categories>
+        <category>Elestaticsearch</category>
+      </categories>
       <tags>
         <tag>Elestaticsearch</tag>
       </tags>
@@ -1225,18 +1290,23 @@ flask shell
   <entry>
     <title>两台linux 互相传输文件</title>
     <url>/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<blockquote>
-<h4 id="百度百科"><a href="#百度百科" class="headerlink" title="百度百科"></a>百度百科</h4><h6 id="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"><a href="#rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。" class="headerlink" title="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"></a>rsync是linux系统下的数据<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a><a href="https://baike.baidu.com/item/%E5%A4%87%E4%BB%BD">备份</a>工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。</h6><h5 id="它的特性如下："><a href="#它的特性如下：" class="headerlink" title="它的特性如下："></a>它的特性如下：</h5><ul>
-<li>可以<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a>保存整个目录树和文件系统。</li>
-<li>可以很容易做到保持原来文件的权限、时间、软硬链接等等。</li>
-<li>无须特殊权限即可安装。</li>
-</ul>
+    <content><![CDATA[<p>​                 </p>
 <a id="more"></a>
 
-<ul>
-<li>快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改过的文件。rsync 在传输数据的过程中可以实行压缩及<a href="https://baike.baidu.com/item/%E8%A7%A3%E5%8E%8B%E7%BC%A9">解压缩</a>操作，因此可以使用更少的带宽。</li>
-<li>安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</li>
-<li>支持匿名传输，以方便进行网站镜像。 </li>
+<blockquote>
+<h4 id="百度百科"><a href="#百度百科" class="headerlink" title="百度百科"></a>百度百科</h4><h6 id="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"><a href="#rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote-Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。" class="headerlink" title="rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。"></a>rsync是linux系统下的数据<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a><a href="https://baike.baidu.com/item/%E5%A4%87%E4%BB%BD">备份</a>工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。</h6><h5 id="它的特性如下："><a href="#它的特性如下：" class="headerlink" title="它的特性如下："></a>它的特性如下：</h5><ul>
+<li><p>可以<a href="https://baike.baidu.com/item/%E9%95%9C%E5%83%8F">镜像</a>保存整个目录树和文件系统。</p>
+</li>
+<li><p>可以很容易做到保持原来文件的权限、时间、软硬链接等等。</p>
+</li>
+<li><p>无须特殊权限即可安装。</p>
+</li>
+<li><p>快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改过的文件。rsync 在传输数据的过程中可以实行压缩及<a href="https://baike.baidu.com/item/%E8%A7%A3%E5%8E%8B%E7%BC%A9">解压缩</a>操作，因此可以使用更少的带宽。</p>
+</li>
+<li><p>安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接的socket连接。</p>
+</li>
+<li><p>支持匿名传输，以方便进行网站镜像。 </p>
+</li>
 </ul>
 </blockquote>
 <h4 id="1、Rsync参数说明"><a href="#1、Rsync参数说明" class="headerlink" title="1、Rsync参数说明"></a>1、Rsync参数说明</h4><ol>
@@ -1277,6 +1347,9 @@ flask shell
 
 
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
       <tags>
         <tag>Linux</tag>
       </tags>
@@ -1301,6 +1374,9 @@ flask shell
 <li>设置STATIC_URL， 直接指向CDN地址，同时注释掉 OssStaticStorage。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
       <tags>
         <tag>HTTP、前端</tag>
       </tags>
@@ -1335,6 +1411,9 @@ flask shell
 <li><a href="https://github.com/mbi/django-simple-captcha">django-simple-captcha</a>：Django验证码</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>Django</category>
+      </categories>
       <tags>
         <tag>Django、后端</tag>
       </tags>
@@ -1355,6 +1434,9 @@ flask shell
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
       <tags>
         <tag>Mysql、后端</tag>
       </tags>
@@ -1362,12 +1444,13 @@ flask shell
   <entry>
     <title>Python 面试题</title>
     <url>/2021/02/01/%E8%AF%95%E9%A2%98/</url>
-    <content><![CDATA[<p>1、对字典d = {‘a’: 24, ‘b’: 53, ‘d’: 56, ‘h’: 7}  按照字典中的value值排序。</p>
+    <content><![CDATA[<p>​               </p>
+<a id="more"></a>
+
+<p>1、对字典d = {‘a’: 24, ‘b’: 53, ‘d’: 56, ‘h’: 7}  按照字典中的value值排序。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sorted(d.items(), key&#x3D;lambda x: x[0])</span><br></pre></td></tr></table></figure>
 <p>2、反转字符串 “aSter”</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">print(&#39;aSter&#39;[::-1])</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-
 <p>3、按照list1 中的元素的由从大到小排序</p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1 = [&#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;b&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">20</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;a&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">10</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;d&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">50</span>&#125;, &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&quot;c&quot;</span>, <span class="string">&#x27;age&#x27;</span>: <span class="number">7</span>&#125;]</span><br><span class="line"><span class="built_in">sorted</span>(list1, key=<span class="keyword">lambda</span> x: x[<span class="string">&#x27;age&#x27;</span>], reverse=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># reverse=True   由大到小  sorted排序默认由小到大</span></span><br></pre></td></tr></table></figure>
 <p>4、常用的字符串格式化有哪些？</p>
@@ -1490,6 +1573,9 @@ flask shell
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>面试</category>
+      </categories>
       <tags>
         <tag>Python、后端、面试</tag>
       </tags>

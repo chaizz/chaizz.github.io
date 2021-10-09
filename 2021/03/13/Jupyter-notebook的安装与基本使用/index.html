@@ -53,6 +53,10 @@
   <time datetime="2021-03-13T03:41:22.000Z" itemprop="datePublished">2021-03-13</time>
 </a>
       
+<div class="article-category">
+  <a class="article-category-link" href="/categories/Jupyternotebook/">Jupyternotebook</a>
+</div>
+
     </div>
     
 
@@ -65,15 +69,26 @@
     <div class="article-entry" itemprop="articleBody">
       
       
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/1548fad228b411ec9d7c5254006b8f1d.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
       
-      <blockquote>
+      <p>​            </p>
+<a id="more"></a>
+
+<blockquote>
 <h4 id="The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more"><a href="#The-Jupyter-Notebook-is-an-open-source-web-application-that-allows-you-to-create-and-share-documents-that-contain-live-code-equations-visualizations-and-narrative-text-Uses-include-data-cleaning-and-transformation-numerical-simulation-statistical-modeling-data-visualization-machine-learning-and-much-more" class="headerlink" title="The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more."></a>The Jupyter Notebook is an open-source web application that allows you to create and share documents that contain live code, equations, visualizations and narrative text. Uses include: data cleaning and transformation, numerical simulation, statistical modeling, data visualization, machine learning, and much more.</h4></blockquote>
 <p>以上为Jupyter notebook 的官方解释。</p>
 <blockquote>
 <p>Jupyter Notebook是一个开源Web应用程序，可让您创建和共享包含实时代码，方程式，可视化效果和叙述文本的文档。 用途包括：数据清理和转换，数值模拟，统计建模，数据可视化，机器学习等.</p>
 </blockquote>
-<a id="more"></a>
-
 <h2 id="一、windows下安装Jupyter-notebook"><a href="#一、windows下安装Jupyter-notebook" class="headerlink" title="一、windows下安装Jupyter notebook"></a>一、windows下安装Jupyter notebook</h2><p>Jupyter notebook 是基于Python 的首先要安装Python环境，或者直接安装Anaconda（直接包含Python和Jupyter notebook）。以上环境省略自行安装。</p>
 <ol>
 <li>在Python环境下直接安装。（最好是新版本Python）</li>
@@ -91,7 +106,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook --port 8899</span><br></pre></td></tr></table></figure>
 <h2 id="二、Jupyter-notebook-界面"><a href="#二、Jupyter-notebook-界面" class="headerlink" title="二、Jupyter notebook 界面"></a>二、Jupyter notebook 界面</h2><ol>
 <li><p>如图所示打开Jupyter notebook 的初始界面为：</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-08-09.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-08-09.png"></p>
 <p>Jupyter notebook 的默认存储文件的地址为当前用户的文件路径。每个人里面的文件都不太一样。</p>
 </li>
 <li><p>更改默认的存储路径。</p>
@@ -103,9 +118,9 @@
 </ol>
 <h2 id="三、使用-Jupyter-notebook"><a href="#三、使用-Jupyter-notebook" class="headerlink" title="三、使用 Jupyter notebook"></a>三、使用 Jupyter notebook</h2><ol>
 <li><p>新建一个页面。 点击右上角的 new 按钮可以新建一个工程文件或者文本文件或者文件夹。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-23-24.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-23-24.png"></p>
 <p>例如 新建一个python3文件。新页面样式如图所示。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_12-25-08.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-25-08.png"></p>
 <p>可在单元格（cell）中输入代码并执行。</p>
 </li>
 </ol>
@@ -125,10 +140,10 @@
 <li><p>在安装插件之前首先需要安装<strong>jupyter_contrib_nbextensions</strong>。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter_contrib_nbextensions</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启用 jupyter_contrib_nbextensions</span></span><br><span class="line">jupyter contrib nbextension install --user</span><br></pre></td></tr></table></figure>
 <p>此时 Jupyter notebook 界面就会出现一个新的菜单栏。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-06-58.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_13-06-58.png"></p>
 <p>选中此按钮进入配置插件的页面。</p>
 <p>取消勾选此按钮。否则无法选择插件。</p>
-<p><img src="/2021/03/13/Jupyter-notebook的安装与基本使用/Snipaste_2021-03-13_13-08-31.png"></p>
+<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_13-08-31.png"></p>
 <p>推荐插件：</p>
 <ul>
 <li><strong>Notify</strong> ：能在任务处理完后及时向你发送通知</li>
