@@ -196,7 +196,7 @@
 <p>3、Repeatable Read（可重复读）：解决不可重复读问题，在同一个事务中，多次读取同样的数据结果是一样的，这种隔离级别解决幻读的问题。</p>
 <p>4、Serializable（串行化）：解决所有的问题，最高的隔离级别，让事务强制串行化执行。</p>
 <p>在MySQL的InnoDB的存储引擎中实现的隔离级别如下图所示：(全部解决)</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqv8YPTrg9lpFjt5WmnTicwibMqF5XDaZXJcrF9rCDmNxLp5z0gbHPzT11eQ5EyRtYBVdtkOVRQ5WABw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/640.jpg" alt="图片"></p>
 <h2 id="以上隔离级别是如何实现？"><a href="#以上隔离级别是如何实现？" class="headerlink" title="以上隔离级别是如何实现？"></a>以上隔离级别是如何实现？</h2><p>第一种方案：</p>
 <p>加锁。在读取数据前，对数据进行加锁，阻止其他的事务对其进行操作。（LBCC：Lock Based Concurrency Control）</p>
 <p>第二种方案：</p>
