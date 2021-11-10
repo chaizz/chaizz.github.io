@@ -1,1 +1,341 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title> DockerSwarm理解 | 八方</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css"><script src="/js/pace.min.js"></script><meta name="generator" content="Hexo 5.3.0"></head><body><main class="content"><section class="outer"><article id="post-DockerSwarm理解" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal><div class="article-inner"><header class="article-header"><h1 class="article-title" itemprop="name"> DockerSwarm理解</h1></header><div class="article-meta"> <a href="/2021/09/29/DockerSwarm%E7%90%86%E8%A7%A3/" class="article-date"><time datetime="2021-09-29T12:51:45.000Z" itemprop="datePublished">2021-09-29</time></a><div class="article-category"> <a class="article-category-link" href="/categories/Docker/">Docker</a></div> &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">628</span>字 &emsp;<i class="fe fe-clock"></i> <span class="post-count">2</span>分钟</div><div class="tocbot"></div><div class="article-entry" itemprop="articleBody"><div class="article-gallery"><div class="article-gallery-photos"> <img src="https://tc.chaizz.com/tc/Snipaste_2021-09-27_15-34-13.png" itemprop="image"></div></div><p>​</p><a id="more"></a><h1 id="一、DockerSwarm理解"><a href="#一、DockerSwarm理解" class="headerlink" title="一、DockerSwarm理解"></a>一、DockerSwarm理解</h1><blockquote><p>官网解释：</p><p>Docker Engine 1.12 introduces swarm mode that enables you to create a cluster of one or more Docker Engines called a swarm. A swarm consists of one or more nodes: physical or virtual machines running Docker Engine 1.12 or later in swarm mode.</p><p>Docker Engine 1.12 引入了 swarm 模式，使您能够创建一个由一个或多个 Docker 引擎组成的集群，称为 swarm。 swarm 由一个或多个节点组成：在 swarm 模式下运行 Docker Engine 1.12 或更高版本的物理或虚拟机。</p></blockquote><p><a href="https://docs.docker.com/engine/swarm/">官网地址</a></p><p><img src="https://tc.chaizz.com/tc/swarm-diagram.png"></p><h2 id="1、Swarm-中有两种类型的节点："><a href="#1、Swarm-中有两种类型的节点：" class="headerlink" title="1、Swarm 中有两种类型的节点："></a>1、Swarm 中有两种类型的节点：</h2><h3 id="1-1、managers-的作用"><a href="#1-1、managers-的作用" class="headerlink" title="1.1、managers 的作用"></a>1.1、managers 的作用</h3><ul><li>维护集群状态</li><li>集群调度</li><li>给集群提供API</li></ul><p>Swarm 使用Raft来保证分布式一致性。</p><blockquote><p><a href="https://raft.github.io/">Raft</a> 是一种更为简单方便易于理解的<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/1372646">分布式算法</a>，主要解决了分布式中的一致性问题。相比传统的<a href="https://baike.baidu.com/item/Paxos%E7%AE%97%E6%B3%95/6632960">Paxos算法</a>，Raft将大量的计算问题分解成为了一些简单的相对<a href="https://baike.baidu.com/item/%E7%8B%AC%E7%AB%8B/3259">独立</a>的子问题。</p><p>相比于传统的一致性算法Paxos，Raft有一些自己的独特的特性。比如增加了强领导性，优化了领导的选举过程，在成员发生变化之后依然能够很好的进行工作。</p></blockquote><p>三个管理器的群体最多可以容忍一个管理器的损失。<br>一个五管理器群可以容忍最大同时丢失两个管理器节点。<br>N 个管理器集群最多可以容忍 (N-1)/2 个管理器的丢失。<br>Docker 建议一个集群最多有七个管理器节点。</p><p>在一些分布式任务重，节点个数往往是奇数。是为了能够成功选举出领导，如果是偶数肯能会有得票一致的情况。</p><h3 id="1-2、workers"><a href="#1-2、workers" class="headerlink" title="1.2、workers"></a>1.2、workers</h3><p>worker 节点 就是docekr引擎的实例，他的唯一的目的就是执行容器。worker节点不参与 Raft 分布式状态，不做出调度决策，也不为群模式 HTTP API 提供服务。</p><h1 id="二、创建集群"><a href="#二、创建集群" class="headerlink" title="二、创建集群"></a>二、创建集群</h1><h2 id="1、初始化集群"><a href="#1、初始化集群" class="headerlink" title="1、初始化集群"></a>1、初始化集群</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 初始化主节点，使用主节点创建不同类型的节点令牌</span></span><br><span class="line">docker swarm init --advertise-addr 内网地址</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建manager令牌</span></span><br><span class="line">docker swarm join-token manager</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建worker令牌</span></span><br><span class="line">docker swarm join-token worker</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 加入一个节点</span></span><br><span class="line">docker swarm join ---token 令牌</span><br></pre></td></tr></table></figure><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看节点名称</span></span><br><span class="line">docker node ls</span><br></pre></td></tr></table></figure><h1 id="三、Docker-服务弹性扩容"><a href="#三、Docker-服务弹性扩容" class="headerlink" title="三、Docker 服务弹性扩容"></a>三、Docker 服务弹性扩容</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在Swarm manager 节点下</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动一个服务，具备扩缩容的功能</span></span><br><span class="line">docker service create -p 8888:80 nginx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 直接启动三个副本。</span></span><br><span class="line">docker service update --replicas 3 nginx</span><br><span class="line"></span><br></pre></td></tr></table></figure></div><footer class="article-footer"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker%E3%80%81Linux/" rel="tag">Docker、Linux</a></li></ul><div style="text-align:center;color:#ccc;font-size:14px">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div></footer></div><nav class="article-nav"> <a href="/2021/09/29/DockerCompose%E7%90%86%E8%A7%A3/" class="article-nav-link"><strong class="article-nav-caption">前一篇</strong><div class="article-nav-title"> DockerCompose理解</div></a> <a href="/2021/09/27/Docker%20%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="article-nav-link"><strong class="article-nav-caption">后一篇</strong><div class="article-nav-title">Dcoker知识总结</div></a></nav><div class="gitalk" id="gitalk-container"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script><script type="text/javascript">var gitalk=new Gitalk({clientID:"ceb5a19aef4907ca2362",clientSecret:"62c8c01805a5fa79987d98bffd005fe06ebb8ae0",repo:"blogtalk",owner:"chaizz",admin:["chaizz"],id:md5(location.pathname),distractionFreeMode:!1,pagerDirection:"last"});gitalk.render("gitalk-container")</script></article></section><footer class="footer"><div class="outer" style="text-align:center"><ul class="list-inline"><li>八方 &copy; 2021</li><li>豫ICP备20008035号-1</li><li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li><li>theme <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li></ul><br> <span>全站共<span class="post-count">28.8k</span>字</span><br><div class="powered-by"> &emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;<i class="fe fe-bookmark"></i> 文章访问量:<span id="busuanzi_value_page_pv"></span></div><br> <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now=new Date;function createtime(){var n=new Date("01/01/2019 00:00:00");now.setTime(now.getTime()+250),days=(now-n)/1e3/60/60/24,dnum=Math.floor(days),hours=(now-n)/1e3/60/60-24*dnum,hnum=Math.floor(hours),1==String(hnum).length&&(hnum="0"+hnum),minutes=(now-n)/1e3/60-1440*dnum-60*hnum,mnum=Math.floor(minutes),1==String(mnum).length&&(mnum="0"+mnum),seconds=(now-n)/1e3-86400*dnum-3600*hnum-60*mnum,snum=Math.round(seconds),1==String(snum).length&&(snum="0"+snum),document.getElementById("timeDate").innerHTML="本站已安全运行 "+dnum+" 天 ",document.getElementById("times").innerHTML=hnum+" 小时 "+mnum+" 分 "+snum+" 秒"}setInterval("createtime()",250)</script></div></footer></main><aside class="sidebar"> <button class="navbar-toggle"></button><nav class="navbar"><div class="logo"> <a href="/"><img src="/images/hexo.svg" alt="八方"></a></div><ul class="nav nav-main"><li class="nav-item"> <a class="nav-item-link" href="/">首页</a></li><li class="nav-item"> <a class="nav-item-link" href="/archives">归档</a></li><li class="nav-item"> <a class="nav-item-link" href="/categories">分类</a></li><li class="nav-item"> <a class="nav-item-link" href="/tags">标签</a></li><li class="nav-item"> <a class="nav-item-link" href="/about">关于</a></li><li class="nav-item"><a class="nav-item-link nav-item-search" title="搜索"><i class="fe fe-search"></i> 搜索</a></li></ul></nav><nav class="navbar navbar-bottom"><ul class="nav"><li class="nav-item"><div class="totop" id="totop"><i class="fe fe-rocket"></i></div></li><li class="nav-item"></li></ul></nav><div class="search-form-wrap"><div class="local-search local-search-plugin"> <input type="search" id="local-search-input" class="local-search-input" placeholder="Search..."><div id="local-search-result" class="local-search-result"></div></div></div></aside><script src="/js/jquery-2.0.3.min.js"></script><script src="/js/jquery.justifiedGallery.min.js"></script><script src="/js/lazyload.min.js"></script><script src="/js/busuanzi-2.3.pure.min.js"></script><script src="/fancybox/jquery.fancybox.min.js"></script><script src="/js/copybtn.js"></script><script src="/js/tocbot.min.js"></script><script>tocbot.init({tocSelector:".tocbot",contentSelector:".article-entry",headingSelector:"h1, h2, h3, h4, h5, h6",hasInnerContainers:!0,scrollSmooth:!0,positionFixedSelector:".tocbot",positionFixedClass:"is-position-fixed",fixedSidebarOffset:"auto"})</script><script src="/js/ocean.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    DockerSwarm理解 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-DockerSwarm理解" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  DockerSwarm理解
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/09/29/DockerSwarm%E7%90%86%E8%A7%A3/" class="article-date">
+  <time datetime="2021-09-29T12:51:45.000Z" itemprop="datePublished">2021-09-29</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/Docker/">Docker</a>
+</div>
+
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">628</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">2</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/tc/Snipaste_2021-09-27_15-34-13.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​                    </p>
+<a id="more"></a>
+
+<h1 id="一、DockerSwarm理解"><a href="#一、DockerSwarm理解" class="headerlink" title="一、DockerSwarm理解"></a>一、DockerSwarm理解</h1><blockquote>
+<p>官网解释：</p>
+<p>Docker Engine 1.12 introduces swarm mode that enables you to create a cluster of one or more Docker Engines called a swarm. A swarm consists of one or more nodes: physical or virtual machines running Docker Engine 1.12 or later in swarm mode.</p>
+<p>Docker Engine 1.12 引入了 swarm 模式，使您能够创建一个由一个或多个 Docker 引擎组成的集群，称为 swarm。 swarm 由一个或多个节点组成：在 swarm 模式下运行 Docker Engine 1.12 或更高版本的物理或虚拟机。</p>
+</blockquote>
+<p><a href="https://docs.docker.com/engine/swarm/">官网地址</a></p>
+<p><img src="https://tc.chaizz.com/tc/swarm-diagram.png"></p>
+<h2 id="1、Swarm-中有两种类型的节点："><a href="#1、Swarm-中有两种类型的节点：" class="headerlink" title="1、Swarm 中有两种类型的节点："></a>1、Swarm 中有两种类型的节点：</h2><h3 id="1-1、managers-的作用"><a href="#1-1、managers-的作用" class="headerlink" title="1.1、managers 的作用"></a>1.1、managers 的作用</h3><ul>
+<li>维护集群状态</li>
+<li>集群调度</li>
+<li>给集群提供API</li>
+</ul>
+<p>Swarm 使用Raft来保证分布式一致性。</p>
+<blockquote>
+<p><a href="https://raft.github.io/">Raft </a>是一种更为简单方便易于理解的<a href="https://baike.baidu.com/item/%E5%88%86%E5%B8%83%E5%BC%8F%E7%AE%97%E6%B3%95/1372646">分布式算法</a>，主要解决了分布式中的一致性问题。相比传统的<a href="https://baike.baidu.com/item/Paxos%E7%AE%97%E6%B3%95/6632960">Paxos算法</a>，Raft将大量的计算问题分解成为了一些简单的相对<a href="https://baike.baidu.com/item/%E7%8B%AC%E7%AB%8B/3259">独立</a>的子问题。</p>
+<p>相比于传统的一致性算法Paxos，Raft有一些自己的独特的特性。比如增加了强领导性，优化了领导的选举过程，在成员发生变化之后依然能够很好的进行工作。</p>
+</blockquote>
+<p>三个管理器的群体最多可以容忍一个管理器的损失。<br>一个五管理器群可以容忍最大同时丢失两个管理器节点。<br>N 个管理器集群最多可以容忍 (N-1)/2 个管理器的丢失。<br>Docker 建议一个集群最多有七个管理器节点。</p>
+<p>在一些分布式任务重，节点个数往往是奇数。是为了能够成功选举出领导，如果是偶数肯能会有得票一致的情况。</p>
+<h3 id="1-2、workers"><a href="#1-2、workers" class="headerlink" title="1.2、workers"></a>1.2、workers</h3><p>worker 节点 就是docekr引擎的实例，他的唯一的目的就是执行容器。worker节点不参与 Raft 分布式状态，不做出调度决策，也不为群模式 HTTP API 提供服务。</p>
+<h1 id="二、创建集群"><a href="#二、创建集群" class="headerlink" title="二、创建集群"></a>二、创建集群</h1><h2 id="1、初始化集群"><a href="#1、初始化集群" class="headerlink" title="1、初始化集群"></a>1、初始化集群</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 初始化主节点，使用主节点创建不同类型的节点令牌</span></span><br><span class="line">docker swarm init --advertise-addr 内网地址</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 创建manager令牌</span></span><br><span class="line">docker swarm join-token manager</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 创建worker令牌</span></span><br><span class="line">docker swarm join-token worker</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 加入一个节点</span></span><br><span class="line">docker swarm join ---token 令牌</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看节点名称</span></span><br><span class="line">docker node ls</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="三、Docker-服务弹性扩容"><a href="#三、Docker-服务弹性扩容" class="headerlink" title="三、Docker 服务弹性扩容"></a>三、Docker 服务弹性扩容</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在Swarm manager 节点下</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启动一个服务，具备扩缩容的功能</span></span><br><span class="line">docker service create -p 8888:80 nginx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 直接启动三个副本。</span></span><br><span class="line">docker service update --replicas 3 nginx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker%E3%80%81Linux/" rel="tag">Docker、Linux</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/09/29/DockerCompose%E7%90%86%E8%A7%A3/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      DockerCompose理解
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/09/27/Docker%20%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">Dcoker知识总结</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2021</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">31.3k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

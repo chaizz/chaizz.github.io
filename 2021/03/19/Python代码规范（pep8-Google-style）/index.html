@@ -1,1 +1,336 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"><title> Python代码规范（pep8/Google-style） | 八方</title><link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css"><script src="/js/pace.min.js"></script><meta name="generator" content="Hexo 5.3.0"></head><body><main class="content"><section class="outer"><article id="post-Python代码规范（pep8-Google-style）" class="article article-type-post" itemscope itemprop="blogPost" data-scroll-reveal><div class="article-inner"><header class="article-header"><h1 class="article-title" itemprop="name"> Python代码规范（pep8/Google-style）</h1></header><div class="article-meta"> <a href="/2021/03/19/Python%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%88pep8-Google-style%EF%BC%89/" class="article-date"><time datetime="2021-03-19T07:51:15.000Z" itemprop="datePublished">2021-03-19</time></a><div class="article-category"> <a class="article-category-link" href="/categories/Python/">Python</a></div> &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.9k</span>字 &emsp;<i class="fe fe-clock"></i> <span class="post-count">6</span>分钟</div><div class="tocbot"></div><div class="article-entry" itemprop="articleBody"><blockquote><p>Guido van Rossum（吉多·范罗苏姆，Python 创始人 ）说过，代码的阅读频率远高于编写代码的频率。</p></blockquote><p>毕竟，即使是在编写代码的时候，你也需要对代码进行反复阅读和调试，来确认代码能够按照期望运行。</p><p>本文来自极客时间规范篇学习总结。</p><a id="more"></a><h2 id="PEP8规范："><a href="#PEP8规范：" class="headerlink" title="PEP8规范："></a>PEP8规范：</h2><p>PEP 是 Python Enhancement Proposal 的缩写，翻译过来叫“Python 增强规范”。正如我们写文章，会有句式、标点、段落格式、开头缩进等标准的规范一样，Python 书写自然也有一套较为官方的规范。PEP 8 就是这样一种规范，它存在的意义，就是让 Python 更易阅读，换句话，增强代码可读性。</p><h3 id="缩进规范"><a href="#缩进规范" class="headerlink" title="缩进规范"></a>缩进规范</h3><p>Python 和 C++ / Java 最大的不同在于，后者完全使用大括号来区分代码块，而前者依靠不同行和不同的缩进来进行分块。</p><p>Python 的缩进其实可以写成很多种，Tab、双空格、四空格、空格和 Tab 混合等。而 PEP 8 规范告诉我们，<strong>请选择四个空格的缩进，不要使用 Tab，更不要 Tab 和空格混着用。</strong></p><p>第二个要注意的是，<strong>每行最大长度请限制在 79 个字符</strong>。</p><p>这个原则主要有两个优点：</p><ol><li>很多工程师在编程的时候，习惯一个屏幕并列竖排展示多个源代码。如果某个源代码的某些行过长，你就需要拖动横向滚动条来阅读，或者需要软回车将本行内容放入下一行，这就极大地影响了编码和阅读效率。</li><li>需要有一定经验的编程经验后更容易理解：因为当代码的嵌套层数过高，比如超过三层之后，一行的内容就很容易超过 79 个字符了。所以，这条规定另一方面也在制约着程序员，不要写迭代过深的代码，而是要思考继续把代码分解成其他函数或逻辑块，来优化自己的代码结构。</li></ol><h3 id="空行规范"><a href="#空行规范" class="headerlink" title="空行规范"></a>空行规范</h3><p>Python 中的空行对 Python 解释器的执行没有影响，但对阅读体验有很深刻的影响。</p><p>PEP 8 规定，<strong>全局的类和函数的上方需要空两个空行，而类的函数之间需要空一个空行。</strong>当然，函数内部也可以使用空行，和英语的段落一样，用来区分不同意群之间的代码块。但是记住最多空一行，千万不要滥用。</p><p>另外，Python 本身允许把多行合并为一行，使用分号隔开，但这是 PEP 8 不推荐的做法。所以，即使是使用控制语句 if / while / for，你的执行语句哪怕只有一行命令，也请另起一行，这样可以更大程度提升阅读效率。至于代码的尾部，每个代码文件的最后一行为空行，并且只有这一个空行。</p><h3 id="空格规范"><a href="#空格规范" class="headerlink" title="空格规范"></a>空格规范</h3><p>我们再来看一下，代码块中，每行语句中空格的使用。函数的参数列表中，调用函数的参数列表中会出现逗号，请注意逗号后要跟一个空格，这是英语的使用习惯，也能让每个参数独立阅读，更清晰。同理，冒号经常被用来初始化字典，冒号后面也要跟一个空格。另外，Python 中我们可以使用#进行单独注释，请记得要在#后、注释前加一个空格。对于操作符，例如+，-，*，/，&amp;，|，=，==，!=，请在两边都保留空格。不过与此对应，括号内的两端并不需要空格。</p><h3 id="文档规范"><a href="#文档规范" class="headerlink" title="文档规范"></a>文档规范</h3><p>接下来我们说说文档规范。先来看看最常用的 import 函数。</p><p>首先，所有 import 尽量放在开头，这个没什么说的，毕竟到处 import 会让人很难看清楚文件之间的依赖关系，运行时 import 也可能会导致潜在的效率问题和其他风险。</p><p>其次，不要使用 import 一次导入多个模块。虽然我们可以在一行中 import 多个模块，并用逗号分隔，但请不要这么做。import time, os 是 PEP 8 不推荐的做法。</p><p>如果你采用 <code>from module import func</code> 这样的语句，请确保 func 在本文件中不会出现命名冲突。不过，你其实可以通过 <code>from module import func as new_func</code> 来进行重命名，从而避免冲突。</p><h3 id="注释规范"><a href="#注释规范" class="headerlink" title="注释规范"></a>注释规范</h3><p>有句话这么说：错误的注释，不如没有注释。所以，当你改动代码的时候，一定要注意检查周围的注释是否需要更新。</p><p>对于大的逻辑块，我们可以在最开始相同的缩进处以 # 开始写注释。即使是注释，你也应该把它当成完整的文章来书写。如果英文注释，请注意开头大写及结尾标点，注意避免语法错误和逻辑错误，同时精简要表达的意思。中文注释也是同样的要求。一份优秀的代码，离不开优秀的注释。</p><p>至于行注释，如空格规范中所讲，我们可以在一行后面跟两个空格，然后以 # 开头加入注释。不过，请注意，行注释并不是很推荐的方式。</p><h3 id="文档描述"><a href="#文档描述" class="headerlink" title="文档描述"></a>文档描述</h3><p>docstring 的写法，它是用三个双引号开始、三个双引号结尾。我们首先用一句话简单说明这个函数做什么，然后跟一段话来详细解释；再往后是参数列表、参数格式、返回值格式。</p><h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><p>“计算机科学的两件难事：缓存失效和命名。”命名对程序员来说，是一个不算省心的事。</p><ol><li>变量命名。变量名请拒绝使用 a b c d 这样毫无意义的单字符，我们应该使用能够代表其意思的变量名。一般来说，变量使用小写，通过下划线串联起来，例如：data_format、input_spec、image_data_set。唯一可以使用单字符的地方是迭代，比如 for i in range(n) 这种，为了精简可以使用。如果是类的私有变量，请记得前面增加两个下划线。</li><li>常量命名，最好的做法是全部大写，并通过下划线连接，例如：WAIT_TIME、SERVER_ADDRESS、PORT_NUMBER。</li><li>函数名，也使用小写的方式，通过下划线连接起来，例如：launch_nuclear_missile()、check_input_validation()。</li><li>类名，则应该首字母大写，然后合并起来，例如：class SpatialDropout2D()、class FeatureSet()。</li></ol><p>总之，不要过于吝啬一个变量名的长度。当然，在合理描述这个变量背后代表的对象后，一定的精简能力也是必要的。</p><h3 id="代码分解技巧"><a href="#代码分解技巧" class="headerlink" title="代码分解技巧"></a>代码分解技巧</h3><p>编程中一个核心思想是，不写重复代码。重复代码大概率可以通过使用条件、循环、构造函数和类来解决。而另一个核心思想则是，减少迭代层数，尽可能让 Python 代码扁平化，毕竟，人的大脑无法处理过多的栈操作。</p><p>一个函数的粒度应该尽可能细，不要让一个函数做太多的事情。所以，对待一个复杂的函数，我们需要尽可能地把它拆分成几个功能简单的函数，然后合并起来。</p></div><footer class="article-footer"><ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pep8%EF%BC%8CGoogle-style/" rel="tag">pep8，Google style</a></li></ul><div style="text-align:center;color:#ccc;font-size:14px">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div></footer></div><nav class="article-nav"> <a href="/2021/04/24/Centos7%E5%AE%89%E8%A3%85Apex/" class="article-nav-link"><strong class="article-nav-caption">前一篇</strong><div class="article-nav-title"> Centos7安装Apex</div></a> <a href="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="article-nav-link"><strong class="article-nav-caption">后一篇</strong><div class="article-nav-title">Jupyter-notebook的安装与基本使用</div></a></nav><div class="gitalk" id="gitalk-container"></div><link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"><script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script><script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script><script type="text/javascript">var gitalk=new Gitalk({clientID:"ceb5a19aef4907ca2362",clientSecret:"62c8c01805a5fa79987d98bffd005fe06ebb8ae0",repo:"blogtalk",owner:"chaizz",admin:["chaizz"],id:md5(location.pathname),distractionFreeMode:!1,pagerDirection:"last"});gitalk.render("gitalk-container")</script></article></section><footer class="footer"><div class="outer" style="text-align:center"><ul class="list-inline"><li>八方 &copy; 2021</li><li>豫ICP备20008035号-1</li><li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li><li>theme <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li></ul><br> <span>全站共<span class="post-count">28.8k</span>字</span><br><div class="powered-by"> &emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;<i class="fe fe-bookmark"></i> 文章访问量:<span id="busuanzi_value_page_pv"></span></div><br> <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span><script>var now=new Date;function createtime(){var n=new Date("01/01/2019 00:00:00");now.setTime(now.getTime()+250),days=(now-n)/1e3/60/60/24,dnum=Math.floor(days),hours=(now-n)/1e3/60/60-24*dnum,hnum=Math.floor(hours),1==String(hnum).length&&(hnum="0"+hnum),minutes=(now-n)/1e3/60-1440*dnum-60*hnum,mnum=Math.floor(minutes),1==String(mnum).length&&(mnum="0"+mnum),seconds=(now-n)/1e3-86400*dnum-3600*hnum-60*mnum,snum=Math.round(seconds),1==String(snum).length&&(snum="0"+snum),document.getElementById("timeDate").innerHTML="本站已安全运行 "+dnum+" 天 ",document.getElementById("times").innerHTML=hnum+" 小时 "+mnum+" 分 "+snum+" 秒"}setInterval("createtime()",250)</script></div></footer></main><aside class="sidebar"> <button class="navbar-toggle"></button><nav class="navbar"><div class="logo"> <a href="/"><img src="/images/hexo.svg" alt="八方"></a></div><ul class="nav nav-main"><li class="nav-item"> <a class="nav-item-link" href="/">首页</a></li><li class="nav-item"> <a class="nav-item-link" href="/archives">归档</a></li><li class="nav-item"> <a class="nav-item-link" href="/categories">分类</a></li><li class="nav-item"> <a class="nav-item-link" href="/tags">标签</a></li><li class="nav-item"> <a class="nav-item-link" href="/about">关于</a></li><li class="nav-item"><a class="nav-item-link nav-item-search" title="搜索"><i class="fe fe-search"></i> 搜索</a></li></ul></nav><nav class="navbar navbar-bottom"><ul class="nav"><li class="nav-item"><div class="totop" id="totop"><i class="fe fe-rocket"></i></div></li><li class="nav-item"></li></ul></nav><div class="search-form-wrap"><div class="local-search local-search-plugin"> <input type="search" id="local-search-input" class="local-search-input" placeholder="Search..."><div id="local-search-result" class="local-search-result"></div></div></div></aside><script src="/js/jquery-2.0.3.min.js"></script><script src="/js/jquery.justifiedGallery.min.js"></script><script src="/js/lazyload.min.js"></script><script src="/js/busuanzi-2.3.pure.min.js"></script><script src="/fancybox/jquery.fancybox.min.js"></script><script src="/js/copybtn.js"></script><script src="/js/tocbot.min.js"></script><script>tocbot.init({tocSelector:".tocbot",contentSelector:".article-entry",headingSelector:"h1, h2, h3, h4, h5, h6",hasInnerContainers:!0,scrollSmooth:!0,positionFixedSelector:".tocbot",positionFixedClass:"is-position-fixed",fixedSidebarOffset:"auto"})</script><script src="/js/ocean.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Python代码规范（pep8/Google-style） |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-Python代码规范（pep8-Google-style）" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  Python代码规范（pep8/Google-style）
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/03/19/Python%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%EF%BC%88pep8-Google-style%EF%BC%89/" class="article-date">
+  <time datetime="2021-03-19T07:51:15.000Z" itemprop="datePublished">2021-03-19</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/Python/">Python</a>
+</div>
+
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.9k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">6</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+      
+      <blockquote>
+<p>Guido van Rossum（吉多·范罗苏姆，Python 创始人 ）说过，代码的阅读频率远高于编写代码的频率。</p>
+</blockquote>
+<p>毕竟，即使是在编写代码的时候，你也需要对代码进行反复阅读和调试，来确认代码能够按照期望运行。</p>
+<p>本文来自极客时间规范篇学习总结。</p>
+<a id="more"></a>
+
+<h2 id="PEP8规范："><a href="#PEP8规范：" class="headerlink" title="PEP8规范："></a>PEP8规范：</h2><p>PEP 是 Python Enhancement Proposal 的缩写，翻译过来叫“Python 增强规范”。正如我们写文章，会有句式、标点、段落格式、开头缩进等标准的规范一样，Python 书写自然也有一套较为官方的规范。PEP 8 就是这样一种规范，它存在的意义，就是让 Python 更易阅读，换句话，增强代码可读性。</p>
+<h3 id="缩进规范"><a href="#缩进规范" class="headerlink" title="缩进规范"></a>缩进规范</h3><p>Python 和 C++ / Java 最大的不同在于，后者完全使用大括号来区分代码块，而前者依靠不同行和不同的缩进来进行分块。</p>
+<p>Python 的缩进其实可以写成很多种，Tab、双空格、四空格、空格和 Tab 混合等。而 PEP 8 规范告诉我们，<strong>请选择四个空格的缩进，不要使用 Tab，更不要 Tab 和空格混着用。</strong></p>
+<p>第二个要注意的是，<strong>每行最大长度请限制在 79 个字符</strong>。</p>
+<p>这个原则主要有两个优点：</p>
+<ol>
+<li>很多工程师在编程的时候，习惯一个屏幕并列竖排展示多个源代码。如果某个源代码的某些行过长，你就需要拖动横向滚动条来阅读，或者需要软回车将本行内容放入下一行，这就极大地影响了编码和阅读效率。</li>
+<li>需要有一定经验的编程经验后更容易理解：因为当代码的嵌套层数过高，比如超过三层之后，一行的内容就很容易超过 79 个字符了。所以，这条规定另一方面也在制约着程序员，不要写迭代过深的代码，而是要思考继续把代码分解成其他函数或逻辑块，来优化自己的代码结构。</li>
+</ol>
+<h3 id="空行规范"><a href="#空行规范" class="headerlink" title="空行规范"></a>空行规范</h3><p>Python 中的空行对 Python 解释器的执行没有影响，但对阅读体验有很深刻的影响。</p>
+<p>PEP 8 规定，<strong>全局的类和函数的上方需要空两个空行，而类的函数之间需要空一个空行。</strong>当然，函数内部也可以使用空行，和英语的段落一样，用来区分不同意群之间的代码块。但是记住最多空一行，千万不要滥用。</p>
+<p>另外，Python 本身允许把多行合并为一行，使用分号隔开，但这是 PEP 8 不推荐的做法。所以，即使是使用控制语句 if / while / for，你的执行语句哪怕只有一行命令，也请另起一行，这样可以更大程度提升阅读效率。至于代码的尾部，每个代码文件的最后一行为空行，并且只有这一个空行。</p>
+<h3 id="空格规范"><a href="#空格规范" class="headerlink" title="空格规范"></a>空格规范</h3><p>我们再来看一下，代码块中，每行语句中空格的使用。函数的参数列表中，调用函数的参数列表中会出现逗号，请注意逗号后要跟一个空格，这是英语的使用习惯，也能让每个参数独立阅读，更清晰。同理，冒号经常被用来初始化字典，冒号后面也要跟一个空格。另外，Python 中我们可以使用#进行单独注释，请记得要在#后、注释前加一个空格。对于操作符，例如+，-，*，/，&amp;，|，=，==，!=，请在两边都保留空格。不过与此对应，括号内的两端并不需要空格。</p>
+<h3 id="文档规范"><a href="#文档规范" class="headerlink" title="文档规范"></a>文档规范</h3><p>接下来我们说说文档规范。先来看看最常用的 import 函数。</p>
+<p>首先，所有 import 尽量放在开头，这个没什么说的，毕竟到处 import 会让人很难看清楚文件之间的依赖关系，运行时 import 也可能会导致潜在的效率问题和其他风险。</p>
+<p>其次，不要使用 import 一次导入多个模块。虽然我们可以在一行中 import 多个模块，并用逗号分隔，但请不要这么做。import time, os 是 PEP 8 不推荐的做法。</p>
+<p>如果你采用 <code>from module import func</code> 这样的语句，请确保 func 在本文件中不会出现命名冲突。不过，你其实可以通过<code> from module import func as new_func</code> 来进行重命名，从而避免冲突。</p>
+<h3 id="注释规范"><a href="#注释规范" class="headerlink" title="注释规范"></a>注释规范</h3><p>有句话这么说：错误的注释，不如没有注释。所以，当你改动代码的时候，一定要注意检查周围的注释是否需要更新。</p>
+<p>对于大的逻辑块，我们可以在最开始相同的缩进处以 # 开始写注释。即使是注释，你也应该把它当成完整的文章来书写。如果英文注释，请注意开头大写及结尾标点，注意避免语法错误和逻辑错误，同时精简要表达的意思。中文注释也是同样的要求。一份优秀的代码，离不开优秀的注释。</p>
+<p>至于行注释，如空格规范中所讲，我们可以在一行后面跟两个空格，然后以 # 开头加入注释。不过，请注意，行注释并不是很推荐的方式。</p>
+<h3 id="文档描述"><a href="#文档描述" class="headerlink" title="文档描述"></a>文档描述</h3><p>docstring 的写法，它是用三个双引号开始、三个双引号结尾。我们首先用一句话简单说明这个函数做什么，然后跟一段话来详细解释；再往后是参数列表、参数格式、返回值格式。</p>
+<h3 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h3><p>“计算机科学的两件难事：缓存失效和命名。”命名对程序员来说，是一个不算省心的事。</p>
+<ol>
+<li>变量命名。变量名请拒绝使用 a b c d 这样毫无意义的单字符，我们应该使用能够代表其意思的变量名。一般来说，变量使用小写，通过下划线串联起来，例如：data_format、input_spec、image_data_set。唯一可以使用单字符的地方是迭代，比如 for i in range(n) 这种，为了精简可以使用。如果是类的私有变量，请记得前面增加两个下划线。</li>
+<li>常量命名，最好的做法是全部大写，并通过下划线连接，例如：WAIT_TIME、SERVER_ADDRESS、PORT_NUMBER。</li>
+<li>函数名，也使用小写的方式，通过下划线连接起来，例如：launch_nuclear_missile()、check_input_validation()。</li>
+<li>类名，则应该首字母大写，然后合并起来，例如：class SpatialDropout2D()、class FeatureSet()。</li>
+</ol>
+<p>总之，不要过于吝啬一个变量名的长度。当然，在合理描述这个变量背后代表的对象后，一定的精简能力也是必要的。</p>
+<h3 id="代码分解技巧"><a href="#代码分解技巧" class="headerlink" title="代码分解技巧"></a>代码分解技巧</h3><p>编程中一个核心思想是，不写重复代码。重复代码大概率可以通过使用条件、循环、构造函数和类来解决。而另一个核心思想则是，减少迭代层数，尽可能让 Python 代码扁平化，毕竟，人的大脑无法处理过多的栈操作。</p>
+<p>一个函数的粒度应该尽可能细，不要让一个函数做太多的事情。所以，对待一个复杂的函数，我们需要尽可能地把它拆分成几个功能简单的函数，然后合并起来。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pep8%EF%BC%8CGoogle-style/" rel="tag">pep8，Google style</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/04/24/Centos7%E5%AE%89%E8%A3%85Apex/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      Centos7安装Apex
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">Jupyter-notebook的安装与基本使用</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2021</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">31.3k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
