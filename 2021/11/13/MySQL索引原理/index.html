@@ -53,7 +53,7 @@
   <time datetime="2021-11-13T09:50:17.000Z" itemprop="datePublished">2021-11-13</time>
 </a>
       
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">4.4k</span>字
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">4.3k</span>字
       &emsp;<i class="fe fe-clock"></i> <span class="post-count">15</span>分钟
     </div>
     
@@ -87,7 +87,7 @@
 <p><strong>在MySQL的InnoDB和MyISAM存储引擎中索引的数据结构都是B+树和HASH。</strong></p>
 <p><strong>首先说数据结构中的一些树，比较常见的有二叉树、二叉查找树、平衡二叉树、红黑树、B树、B+树等。</strong></p>
 <h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>定义：是N（N&gt;=0）个节点的有限集合。该集合或者为空集（称为空二叉树），或者由一个根结点和两棵互不相交的、分别称为根结点的左子树和右子树组成。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictk77oKiakQWiaQJKIUZGkB0tRnFdUh1fgbNqOGPQ50cacHar0sxQqTTfA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/f387e3b8447411ec9d7c5254006b8f1d.png" alt="图片"></p>
 <center> 普通二叉树（图源网络）</center>
 
 <p>特点：</p>
@@ -105,7 +105,7 @@
 <li>左、右子树也分别为二叉排序树；</li>
 <li>没有键值相等的结点。</li>
 </ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictUGtiamDKKKrEsXVXK48ts1PtFSvWDLLZ2tM8724nTqJu0F2ArGkashA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/09ef2b34447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <center>二叉查找树（图源网络）
 
 
@@ -118,7 +118,7 @@
 <li>树的左右两边的层级数相差不会大于1;</li>
 <li>没有值相等重复的节点;</li>
 </ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictK7POndrG7BfyJTp6lcnxA5XoN1j6HYM8DnWa0AaJAICicgyN4RvPgcQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/1d670808447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <center>平衡二叉树（图源网络）
 
 
@@ -136,13 +136,13 @@
 </ul>
 <p>红黑树通过三种操作实现自平衡：左旋、右旋、变色。</p>
 <p>左旋：以某个结点作为支点(旋转结点)，其右子结点变为旋转结点的父结点，右子结点的左子结点变为旋转结点的右子结点，左子结点保持不变。如下图所示。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhict44hvzR8RkpZgkLic1pu1IAoVN2dGLrTF9m8UkDVBXLtDy9CnFgr07HA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/4b99132e447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <center>左旋（图源网络）
 
 
 
 <p>右旋：以某个结点作为支点(旋转结点)，其左子结点变为旋转结点的父结点，左子结点的右子结点变为旋转结点的左子结点，右子结点保持不变。如下图所示。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictYjMO6o4HTZgyVVvSwHq7w2mXqLmibYe48uquJfBnDiahw5qtqYvu6Tng/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/5da9ea52447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <center>右旋（图源网络）
 
 <h2 id="B-树"><a href="#B-树" class="headerlink" title="B 树"></a>B 树</h2><p>定义：是一种多路平衡查找树（不是二叉树），是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B树，概括来说是一个一般化的二叉查找树（binary search tree），可以拥有多于2个子节点。与自平衡二叉查找树不同，B树为系统大块数据的读写操作做了优化。B树减少定位记录时所经历的中间过程，从而加快存取速度。B树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。</p>
@@ -154,7 +154,7 @@
 <li>所有的叶子结点都位于同一层。</li>
 <li>每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域分划。</li>
 </ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictibZnPx9HdVmaiaWIqNGpic1jXwkrChUVeOQEcTdCabocRM58ibSnZex7iaQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/7a76deec447511ec9d7c5254006b8f1d.jpeg" alt="图片"></p>
 <center>B 树（图源网络）
 
 
@@ -169,7 +169,7 @@
 <li>非叶子节点不存储数据。</li>
 <li>非叶子节点的元素,在叶子节点上都冗余了,也就是叶子结点存储了所有的元素,并且已经排好序。</li>
 </ol>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictBflh5IERZ780CYhnJJTYTQ949R2aRk7yl8SZa5zo5daS4BUcDorChw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/8e88e36c447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <center>B+树（图源网络）
 
 
@@ -178,10 +178,10 @@
 <p>Mysql 的索引使用的是B+树,因为索引是用来加速查询的，而B+树通过对数据进行排序,是可以提高查询速度的,然后通过一个节点中可以存储多个元素，从而使得B+树的高度不会太高,在Mysql中的一个innodb页就是一个B+树节点,一个innodb页默认为16kb，所以一般情况下B+树可以存大概两千多万行的数据,然后通过利用B+数叶子结点存储了所有的数据并且进行了排序,并且叶子结点之间有指针，可以很好的支持全表扫描,范 围查询等SQL语句。</p>
 </blockquote>
 <p>MyISAM 引擎的<strong>主键</strong>索引实现是B+树，存放在.myi 文件中。索引文件和数据文件是分开存储的。（非聚集索引）</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictshgEJjHavzFc7NaDLb8T0MOW5hSfswibhBGL7M9PRYxGA4oz0OBVcBQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/9a83ff08447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <p>InnoDB 引擎<strong>主键</strong>索引实现（聚集索引）。</p>
 <p>表数据文件本身就是按照一个B+树组织的一个索引文件结构，存储在 .idb 文件中。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictEYRFvch77I4Vx2hwOB2zXWADwFv2HEJIuZc6JpV2D5mB1KY4wjYAWA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/a92ff2a0447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <p><strong>引出的问题：</strong></p>
 <p><strong>1、MyISAM 和 InnoDB 都是B+树结构他们的区别在哪里？</strong></p>
 <ul>
@@ -210,7 +210,7 @@
 <ul>
 <li>Hash 索引遇到大量Hash值相等的情况后性能并不一定就会比B-Tree索引高。</li>
 </ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictfd1mzEq1PryWVGULkD0XqhQmpc1mKJmDciaTpGhicmy9dbibuMwSfIEdw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/b71e58b6447511ec9d7c5254006b8f1d.png" alt="图片"></p>
 <p>Hash 索引结构和B+树索引结构的区别就是 hash索引结构的特点。</p>
 <p>联合索引结构：</p>
 <ul>
@@ -221,7 +221,7 @@
 <li>符合最左前缀原则</li>
 </ul>
 <p>联合索引又叫复合索引。对于复合索引:MySQL从左到右的使用索引中的字段，一个查询可以只使用索引中的一部分，但只能是最左侧部分。例如索引是key index (a,b,c). 可以支持a |  a,b | a,b,c 3种组合进行查找，但不支持 b,c进行查找 ，当最左侧字段是常量引用时，索引就十分有效。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqvicXF6llo6IaaXSnmfxHhictXAwLeliaYWOETyWbONRas4w41oUgDOl3WKia5hUlJbYCStEMZ9ztgcgg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/tc/640" alt="图片"></p>
 <h2 id="索引的优点："><a href="#索引的优点：" class="headerlink" title="索引的优点："></a>索引的优点：</h2><ul>
 <li>大大的加快数据查询速度。</li>
 </ul>
@@ -265,8 +265,8 @@
 <h1 id="为表的某个字段创建索引格式："><a href="#为表的某个字段创建索引格式：" class="headerlink" title="为表的某个字段创建索引格式："></a>为表的某个字段创建索引格式：</h1><p>create index 索引名 on 表名（表的某一列）</p>
 <p>create index name_index on index_user(name);</p>
 <h1 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h1><p>show index from index_user;</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. ![图片](https:&#x2F;&#x2F;mmbiz.qpic.cn&#x2F;mmbiz_png&#x2F;sHw3tUJQYqu14AoWsHGy4JaNhH4RcH75Yjh0mEiag9TzSJ4IlycZlXWia6OCHvuqkeg5zzuibv8UhzH5gXvG8GvbQ&#x2F;640?wx_fmt&#x3D;png&amp;tp&#x3D;webp&amp;wxfrom&#x3D;5&amp;wx_lazy&#x3D;1&amp;wx_co&#x3D;1)</span><br><span class="line"></span><br><span class="line">4. </span><br><span class="line"></span><br><span class="line">5. 建表时创建索引：</span><br><span class="line">6. 创建表无法指定索引名字，索引名默认为列名。</span><br><span class="line"></span><br><span class="line">7. &#96;&#96;&#96;sql</span><br><span class="line">   CREATE TABLE index_user_1 ( id INT PRIMARY KEY, NAME VARCHAR ( 20 ), KEY ( NAME ) );</span><br></pre></td></tr></table></figure></li>
-<li><p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqu14AoWsHGy4JaNhH4RcH75sltDsQjmT5qRzv4RQyI0tfUQPqHu7Bndc2ic6VFZrr7Nzr1eNpSqLvQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. ![图片](https:&#x2F;&#x2F;tc.chaizz.com&#x2F;tc&#x2F;640)</span><br><span class="line"></span><br><span class="line">4. </span><br><span class="line"></span><br><span class="line">5. 建表时创建索引：</span><br><span class="line">6. 创建表无法指定索引名字，索引名默认为列名。</span><br><span class="line"></span><br><span class="line">7. &#96;&#96;&#96;sql</span><br><span class="line">   CREATE TABLE index_user_1 ( id INT PRIMARY KEY, NAME VARCHAR ( 20 ), KEY ( NAME ) );</span><br></pre></td></tr></table></figure></li>
+<li><p><img src="https://tc.chaizz.com/tc/640" alt="图片"></p>
 </li>
 <li></li>
 </ol>
@@ -274,8 +274,8 @@
 <li><p>建表之后创建索</p>
 </li>
 <li><p>```sql<br>CREATE UNIQUE INDEX id_card_index ON index_user_2 ( id_card );</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. ![图片](https:&#x2F;&#x2F;mmbiz.qpic.cn&#x2F;mmbiz_png&#x2F;sHw3tUJQYqu14AoWsHGy4JaNhH4RcH75ib549pbvZgjo1dWEWaZPN7qeOSbg8rdb8ebjfAFq1jy1M7iarJ4DTuzw&#x2F;640?wx_fmt&#x3D;png&amp;tp&#x3D;webp&amp;wxfrom&#x3D;5&amp;wx_lazy&#x3D;1&amp;wx_co&#x3D;1)</span><br><span class="line"></span><br><span class="line">4. </span><br><span class="line"></span><br><span class="line">5. 建表时创建索引</span><br><span class="line">6. &#96;&#96;&#96;sql</span><br><span class="line">   CREATE TABLE index_user_2 ( id INT PRIMARY KEY, NAME VARCHAR ( 20 ), id_card VARCHAR ( 18 ), UNIQUE ( NAME ) );</span><br></pre></td></tr></table></figure></li>
-<li><p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqu14AoWsHGy4JaNhH4RcH75jrb0eqTpcN3X6y0yxgV88ExVmTWWkH0ichWTUggqm9rbm27dVIEkibhQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. ![图片](https:&#x2F;&#x2F;tc.chaizz.com&#x2F;tc&#x2F;640)</span><br><span class="line"></span><br><span class="line">4. </span><br><span class="line"></span><br><span class="line">5. 建表时创建索引</span><br><span class="line">6. &#96;&#96;&#96;sql</span><br><span class="line">   CREATE TABLE index_user_2 ( id INT PRIMARY KEY, NAME VARCHAR ( 20 ), id_card VARCHAR ( 18 ), UNIQUE ( NAME ) );</span><br></pre></td></tr></table></figure></li>
+<li><p><img src="https://tc.chaizz.com/tc/640" alt="图片"></p>
 </li>
 <li></li>
 </ol>
@@ -283,8 +283,8 @@
 <li><p>创建表时创建：</p>
 </li>
 <li><p>```sql<br>CREATE TABLE index_user_3 ( id INT PRIMARY KEY, NAME VARCHAR ( 20 ), id_card VARCHAR ( 18 ), KEY ( NAME, id_card ) );</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. ![图片](https:&#x2F;&#x2F;mmbiz.qpic.cn&#x2F;mmbiz_png&#x2F;sHw3tUJQYqu14AoWsHGy4JaNhH4RcH75bMkal67ibyZMNY0WOOSE5OaFx4CL2NqokSicqeN68Jy4SEX2K8FNvghw&#x2F;640?wx_fmt&#x3D;png&amp;tp&#x3D;webp&amp;wxfrom&#x3D;5&amp;wx_lazy&#x3D;1&amp;wx_co&#x3D;1)</span><br><span class="line"></span><br><span class="line">4. </span><br><span class="line"></span><br><span class="line">5. 创建表后创建索引</span><br><span class="line">6. &#96;&#96;&#96;</span><br><span class="line">   CREATE INDEX name_idcard_index ON index_user_3 ( NAME, id_card );</span><br></pre></td></tr></table></figure></li>
-<li><p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqu14AoWsHGy4JaNhH4RcH75NzzBTVU3CSww48OibB57RP2kE267B9AbHhYibw31GGQshsDk4fcynUJw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3. ![图片](https:&#x2F;&#x2F;tc.chaizz.com&#x2F;tc&#x2F;640)</span><br><span class="line"></span><br><span class="line">4. </span><br><span class="line"></span><br><span class="line">5. 创建表后创建索引</span><br><span class="line">6. &#96;&#96;&#96;</span><br><span class="line">   CREATE INDEX name_idcard_index ON index_user_3 ( NAME, id_card );</span><br></pre></td></tr></table></figure></li>
+<li><p><img src="https://tc.chaizz.com/tc/640" alt="图片"></p>
 </li>
 <li></li>
 <li><p><strong>复合索引的最左前缀原则：如果索引不包括第一顺序的索引，数据库则不会使用索引查询。MySQL为了更好的利用索引，在查询过程中，回动态的调整索引的顺序，索引当最左的索引不在第一顺序是数据库也能自动的调整顺序。</strong></p>
@@ -295,9 +295,9 @@
 <p>==<strong>注意：在innodb 中，在聚集索引上创建的索引为辅助索引，非聚集索引都是f辅助索引，像复合索引、普通索引、唯一索引。辅助索引叶子结点保存的不是数据行的物理位置 而是主键的值，辅助索引访问数据都是二次查找。</strong>==</p>
 <p><strong>InnoDB中使用的是聚集索引，将主键组织到一个B+树中，而行数据就存储在叶子结点上，若使用where id= 1 这样的条件查找主键则按照B+树的检索算法即可快算找到对应的的叶子结点之后获得行数据。</strong></p>
 <p><strong>若是对name列进行查找，则需要两个步骤，第一步在辅助索引B+树中检索name，到达辅助索引的叶子结点获得主键索引的ID，第二步在主键索引B+树上根据主键ID进行查找，到达叶子结点节课获取数据行。</strong></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqv6eEUJZgyY3DnWGpd3IHZqiaEMwaXN73ROiaUe9JA62WI03MbJ0yXkPawuzLkf2DZRw31xPnNUzYjQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/tc/640" alt="图片"></p>
 <p><strong>MyISAM 使用的是非聚集索引，B+树结构没什么不同只不过叶子节点上存储的内容不同，主键索引存储了主键，辅助索引存储了辅助键，表数据存储在了独立的地方。以下图中B+树的叶子结点都使用一个内存指针指==向了真正的数据，对于表数据来说，这两个键没有任何差别。由于索引是独立的，通过辅助索引检索无需访问主键索引树。==（索引MyISAM 引擎用来做只含有大量的找找的功能比较合适。）</strong></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/sHw3tUJQYqv6eEUJZgyY3DnWGpd3IHZqVyOmOstwAiaF7K4I7GVDt3lQEzo16icEaoIvhhHLIBh9FNjaOfJl2Fog/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="图片"></p>
+<p><img src="https://tc.chaizz.com/tc/640" alt="图片"></p>
 <h3 id="聚集索引的优势："><a href="#聚集索引的优势：" class="headerlink" title="聚集索引的优势："></a><strong>聚集索引的优势：</strong></h3><p><strong>每次使用辅助索引都要经过两次B+树查找，看上去聚集索引的效率要低于非聚集索引，这不是多此一举吗，聚集索引的优势在哪里？</strong></p>
 <ul>
 <li>由于行数据和聚集索引的叶子结点存储在一起，同一页中会有多条行数据，访问同一页数据的不同行数据时，已经把叶加载到了缓存中，再次访问时会在内存中完成访问，不需要再次访问磁盘，这样主键荷航数据是一起被到渠道内存中的，找到叶子结点就可以直接将数据返回。如果按照主键ID寻找数据则会更快。</li>
