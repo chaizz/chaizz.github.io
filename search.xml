@@ -141,7 +141,7 @@
 <li>没有键值相等的结点。</li>
 </ul>
 <p><img src="https://tc.chaizz.com/09ef2b34447511ec9d7c5254006b8f1d.png" alt="图片"></p>
-<center>二叉查找树（图源网络）
+<center>二叉查找树（图源网络）</center>
 
 
 
@@ -154,7 +154,7 @@
 <li>没有值相等重复的节点;</li>
 </ul>
 <p><img src="https://tc.chaizz.com/1d670808447511ec9d7c5254006b8f1d.png" alt="图片"></p>
-<center>平衡二叉树（图源网络）
+<center>平衡二叉树（图源网络）</center>
 
 
 
@@ -172,13 +172,13 @@
 <p>红黑树通过三种操作实现自平衡：左旋、右旋、变色。</p>
 <p>左旋：以某个结点作为支点(旋转结点)，其右子结点变为旋转结点的父结点，右子结点的左子结点变为旋转结点的右子结点，左子结点保持不变。如下图所示。</p>
 <p><img src="https://tc.chaizz.com/4b99132e447511ec9d7c5254006b8f1d.png" alt="图片"></p>
-<center>左旋（图源网络）
+<center>左旋（图源网络）</center>
 
 
 
 <p>右旋：以某个结点作为支点(旋转结点)，其左子结点变为旋转结点的父结点，左子结点的右子结点变为旋转结点的左子结点，右子结点保持不变。如下图所示。</p>
 <p><img src="https://tc.chaizz.com/5da9ea52447511ec9d7c5254006b8f1d.png" alt="图片"></p>
-<center>右旋（图源网络）
+<center>右旋（图源网络）</center>
 
 <h2 id="B-树"><a href="#B-树" class="headerlink" title="B 树"></a>B 树</h2><p>定义：是一种多路平衡查找树（不是二叉树），是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B树，概括来说是一个一般化的二叉查找树（binary search tree），可以拥有多于2个子节点。与自平衡二叉查找树不同，B树为系统大块数据的读写操作做了优化。B树减少定位记录时所经历的中间过程，从而加快存取速度。B树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。</p>
 <p>特点：</p>
@@ -190,7 +190,7 @@
 <li>每个节点中的元素从小到大排列，节点当中k-1个元素正好是k个孩子包含的元素的值域分划。</li>
 </ul>
 <p><img src="https://tc.chaizz.com/7a76deec447511ec9d7c5254006b8f1d.jpeg" alt="图片"></p>
-<center>B 树（图源网络）
+<center>B 树（图源网络）</center>
 
 
 
@@ -205,7 +205,7 @@
 <li>非叶子节点的元素,在叶子节点上都冗余了,也就是叶子结点存储了所有的元素,并且已经排好序。</li>
 </ol>
 <p><img src="https://tc.chaizz.com/8e88e36c447511ec9d7c5254006b8f1d.png" alt="图片"></p>
-<center>B+树（图源网络）
+<center>B+树（图源网络）</center>
 
 
 
@@ -354,7 +354,7 @@
 <li><p>查询语句中使用or 关键字，如果or前后两个都有索引会使用索引，如果有一个没有索引，就不会去使用索引查询。</p>
 </li>
 </ul>
-</center></center></center></center></center></center>]]></content>
+]]></content>
       <tags>
         <tag>MySQL</tag>
       </tags>
