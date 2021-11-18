@@ -161,7 +161,7 @@
   <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
 </div>
 
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">834</span>字
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">837</span>字
       &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
     </div>
     
@@ -207,7 +207,8 @@
 
 <p>在关闭索引下推的时候，InnoDB引擎会根据只name找到复合条件的索引字段，如下图中的左边绿色，然后就将数据返回给MySQL服务器，由MySQL服务器去判断其他的符合条件的数据。MySQL服务器会拿着查到的ID：1、2  在进行回表查询。</p>
 <p><img src="https://tc.chaizz.com/161026e0486011ec9d7c5254006b8f1d.png"></p>
-<p>在使用索引下推的时候，InnoDB会直接找出符合索引条件的字段的ID，将符合条件的结果发送给MySQL服务器，这个过程只需要回表一次。</p>
+<p>在使用索引下推的时候，InnoDB会直接找出符合索引条件的字段的ID，将符合条件的结果发送给MySQL服务器，这个过程只需要回表一次。如下图。</p>
+<p><img src="https://tc.chaizz.com/a47dc42c486b11ec9d7c5254006b8f1d.png"></p>
 
       
     </div>
