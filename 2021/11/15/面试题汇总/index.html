@@ -57,8 +57,8 @@
   <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
 </div>
 
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">17.9k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">66</span>分钟
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">19.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">70</span>分钟
     </div>
     
 
@@ -171,7 +171,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第一种形式 在外层函数中直接调用内层函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mark</span>(<span class="params">name</span>):</span></span><br><span class="line">  num = <span class="number">100</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">weight</span>):</span></span><br><span class="line">​    weight += <span class="number">1</span></span><br><span class="line">​    print(name, weight)</span><br><span class="line">  func(<span class="number">100</span>)</span><br><span class="line">    </span><br><span class="line">mark(<span class="string">&#x27;塞拉斯&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
 
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第二种形式:在外层函数中返回内层函数对象</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maker</span>(<span class="params">name</span>):</span></span><br><span class="line">  num = <span class="number">1</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">height</span>):</span></span><br><span class="line">    height += <span class="number">1</span></span><br><span class="line">    print(name, num, height)</span><br><span class="line">  <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line">a = maker(<span class="string">&#x27;张三&#x27;</span>)</span><br><span class="line">a(<span class="number">999</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 第二种形式:在外层函数中返回内层函数对象    （也就是装饰器）</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maker</span>(<span class="params">name</span>):</span></span><br><span class="line">  num = <span class="number">1</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">func</span>(<span class="params">height</span>):</span></span><br><span class="line">    height += <span class="number">1</span></span><br><span class="line">    print(name, num, height)</span><br><span class="line">  <span class="keyword">return</span> func</span><br><span class="line"></span><br><span class="line">a = maker(<span class="string">&#x27;张三&#x27;</span>)</span><br><span class="line">a(<span class="number">999</span>)</span><br></pre></td></tr></table></figure>
 
 
 <p> “闭包”的作用——保存函数的状态信息，使函数的局部变量信息依然可以保存下来。</p>
@@ -449,6 +449,27 @@
 <li>RDB性能比AOF好。</li>
 <li>如果两个都加载了Redis默认优先加载AOF。</li>
 </ul>
+<h2 id="25、Redis-主从复制核心原理"><a href="#25、Redis-主从复制核心原理" class="headerlink" title="25、Redis 主从复制核心原理"></a>25、Redis 主从复制核心原理</h2><p>主从复制配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">核心原理：通过执行slaveof 命令，让一个服务器复制另一个服务器的数据，主数据库负责写操作，从数据库负责读操作，当写操作导致数据变化时，会自动将数据同步给从数据库。</span><br><span class="line"></span><br><span class="line">全量复制：</span><br><span class="line"></span><br><span class="line">- 主节点通过bgsave命令fork子进程，进行RDB持久化（该过程是非常消耗CPU、内存的、硬盘IOd的）。</span><br><span class="line">- 主节点通过网络将RDB文件发送给从节点，对从节点的带宽会有很大的消耗。</span><br><span class="line">- 从节点清空老数据，载入新的RDB文件是阻塞的，无法响应客户端的命令，如果从节点执行bgrewriteof，也会带来额外的消耗。</span><br><span class="line"></span><br><span class="line">增量复制：</span><br><span class="line"></span><br><span class="line">- 复制偏移量：执行复制的双方主从节点分别会维护一个复制偏移量offset。</span><br><span class="line">- 复制及压缓冲区：主节点内部维护一个固定长度的、先进先出的队列作为复制缓冲区，如果缓冲区超过最大长度，那么只能进行全量复制。</span><br><span class="line">- 每个Redis启动都会产生一个ID， 主节点还会将自己的ID发送给从节点，如果主节点挂掉重新选举，主节点ID不一致那么只能全量复制。如果一致那就继续使用增量复制。</span><br><span class="line"></span><br><span class="line">![](https:&#x2F;&#x2F;tc.chaizz.com&#x2F;2e7fbffc46d411ec9d7c5254006b8f1d.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 26、 索引回表 索引覆盖  索引下推</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">针对以上索引问题，首先要知道什么是主键索引、非主键索引、聚簇索引、非聚簇索引。</span><br><span class="line"></span><br><span class="line">主键索引：即MySQL的索引，如果没有主键那么MySQl会自动在表中挑选一个唯一且非空的字段来当做主键索引，如果没有的话MySQL内部自己会创建一个ROW_ID来当做主键，也会建立主键索引。主键索引的叶子结点存储的是整行的数据。</span><br><span class="line"></span><br><span class="line">非主键索引：即非主键以外的列建立的索引。非主键索引存储的是主键索引的值。</span><br><span class="line"></span><br><span class="line">### 什么是索引回表？</span><br><span class="line"></span><br><span class="line">索引回表指的就是在查询某一列数据是判断条件为非主键索引，name查到这条复合条件的所有记录就需要在根据非主键索引获得的主键索引的值，在取主键索引的B+树中在此查询一次才能获取到全部的数据。例如：</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;mysql</span><br><span class="line"># ID 是主键索引 ，只需要一次查询就可以获取符合条件的全部记录。</span><br><span class="line">select * from ex_table where ID&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># n 是非主键索引，查询到的结果是符合条件的主键索引的ID，所以还需要早根据主键的ID,再在主键索引的B+树上查询一次</span><br><span class="line">select * from ex_table where n &#x3D; 5;</span><br></pre></td></tr></table></figure>
+<p>以上情况就是索引回表。</p>
+<h3 id="什么是索引覆盖？"><a href="#什么是索引覆盖？" class="headerlink" title="什么是索引覆盖？"></a>什么是索引覆盖？</h3><p>如果执行的语句是 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select idfrom T where n between 1 and 10;</span><br></pre></td></tr></table></figure>
+<p>现在的SQL只需要得到ID 的值，而 ID 的值已经在 n 索引的B+树上了，因此可以直接获得查询结果，不需要回表。也就是说，在这个查询里面，索引 n已经“覆盖了”我们的查询需求，我们称为覆盖索引。</p>
+<h3 id="什么是索引下推？"><a href="#什么是索引下推？" class="headerlink" title="什么是索引下推？"></a>什么是索引下推？</h3><p>索引下推（index condition pushdown ）简称ICP，在MySQL5.6的版本上推出，用于优化查询，默认是开启的，可以通过以下的命令关闭：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET optimizer_switch &#x3D; &#39;index_condition_pushdown&#x3D;off&#39;;</span><br></pre></td></tr></table></figure>
+<p>当使用索引下推时如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</p>
+<p>索引下推的好处：</p>
+<p><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。</strong></p>
+<p>假如有以下MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 索引值为 name age 为组合索引。</span><br><span class="line"></span><br><span class="line">select * from user where name like &#39;张%&#39; and age &#x3D; 20;</span><br></pre></td></tr></table></figure>
+
+
+<p>在关闭索引下推的时候，InnoDB引擎会根据只name找到复合条件的索引字段，如下图中的左边绿色，然后就将数据返回给MySQL服务器，由MySQL服务器去判断其他的符合条件的数据。MySQL服务器会拿着查到的ID：1、2  在进行回表查询。</p>
+<p><img src="https://tc.chaizz.com/161026e0486011ec9d7c5254006b8f1d.png"></p>
+<p>在使用索引下推的时候，InnoDB会直接找出符合索引条件的字段的ID，将符合条件的结果发送给MySQL服务器，这个过程只需要回表一次。</p>
 <h1 id="三、操作系统"><a href="#三、操作系统" class="headerlink" title="三、操作系统"></a>三、操作系统</h1><h2 id="1、进程和线程的区别"><a href="#1、进程和线程的区别" class="headerlink" title="1、进程和线程的区别"></a>1、进程和线程的区别</h2><p><strong>CPU密集型计算（CPU-bound）：</strong>Io可以再很短的时间结束 ，而需要CPU进行大量的计算。</p>
 <p>比如： 压缩解压缩， 加密解密，正则的表达式搜索</p>
 <p><strong>IO密集型计算(I/O-bound)：</strong>指系统大部分时间是在等IO写入读取操作，CPU占用比较低。</p>
@@ -459,33 +480,55 @@
 <p>共享数据会导致线程安全。可以使用线程锁。或者在程序设计的时候就避免这种情况出现。</p>
 <p><strong>为什么进程切换比线程切换消耗大：</strong></p>
 <p>进程切换需要两步：①：切换页目录，使用新的地址空间。②：切换内核和硬件上下文。</p>
-<p>对于Linux来说线程和进程最大的区别就是在于虚拟地址空间，每个进程都有自己的虚拟地址空间，而线程是共享进程的地址空间的，因此同一个进程中线程的切换不涉及到虚拟地址空间的转换。。把虚拟地址转换为物理地址需要查找页表，页表查找是一个很慢的过程，因此通常使用TLB(Translation Lookaside Buffer)来缓存页地址，用来加速页表查找。当进程切换后页表也要进行切换，页表切换后TLB就失效了，那么虚拟地址转换为物理地址就会变慢，表现出来的就是程序运行会变慢，而线程切换则不会导致TLB失效，因为线程线程无需切换地址空间，因此我们通常说线程切换要比较进程切换快。</p>
+<p>对于Linux来说线程和进程最大的区别就是在于虚拟地址空间，每个进程都有自己的虚拟地址空间，而线程是共享进程的地址空间的，因此同一个进程中线程的切换不涉及到虚拟地址空间的转换。把虚拟地址转换为物理地址需要查找页表，页表查找是一个很慢的过程，因此通常使用TLB(Translation Lookaside Buffer)来缓存页地址，用来加速页表查找。当进程切换后页表也要进行切换，页表切换后TLB就失效了，那么虚拟地址转换为物理地址就会变慢，表现出来的就是程序运行会变慢，而线程切换则不会导致TLB失效，因为线程线程无需切换地址空间，因此我们通常说线程切换要比较进程切换快。</p>
 <p><strong>保证线程安全的方式：</strong></p>
-<p>-   互斥锁：通过互斥机制防止多个线程同时访问公共资源。</p>
-<p>-   信号量：控制同一时刻多个线程访问资源的线程数。</p>
-<p>-   事件（信号）：通过通知的方式实现。</p>
+<ul>
+<li><p>互斥锁：通过互斥机制防止多个线程同时访问公共资源。</p>
+</li>
+<li><p>信号量：控制同一时刻多个线程访问资源的线程数。</p>
+</li>
+<li><p>事件（信号）：通过通知的方式实现。</p>
+</li>
+</ul>
 <p><strong>进程之间通信的方式：</strong></p>
-<p>-   匿名管道（pipe）：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。</p>
-<p>-   有名管道 (named pipe) ： 有名管道也是半双工的通信方式，但是它允许无亲缘关系进程间的通信。</p>
-<p>-   信号：信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生。</p>
-<p>-   消息队列（Queue）：消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</p>
-<p>n Kafka是一种高吞吐量的分布式发布订阅消息系统，它可以处理消费者在网站中的所有动作流数据。</p>
-<p>n RabbitMQ : 是实现了高级消息队列协议（AMQP）的开源消息代理软件（亦称面向消息的中间件）。</p>
-<p>-   共享内存：共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。</p>
-<p>-   信号量：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</p>
-<p>-   套接字（socket） 用的比较多。套接字（socket）为通信的端点，每个套接字由一个 IP 地址和一个端口号组成。通过网络通信的每对进程需要使用一对套接字，即每个进程各有一个。</p>
-<p>-   服务进程：socket()-&gt;bind()-&gt;listen()-&gt;accept()-&gt;read()-&gt;write()-&gt;…-&gt;close()</p>
-<p>-   客户进程：socket()-&gt;connect()-&gt;write()-&gt;read()-&gt;…-&gt;close();</p>
+<ul>
+<li><p>匿名管道（pipe）：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。</p>
+</li>
+<li><p>有名管道 (named pipe) ： 有名管道也是半双工的通信方式，但是它允许无亲缘关系进程间的通信。</p>
+</li>
+<li><p>信号：信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生。</p>
+</li>
+<li><p>消息队列（Queue）：消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。</p>
+<ul>
+<li>Kafka是一种高吞吐量的分布式发布订阅消息系统，它可以处理消费者在网站中的所有动作流数据。</li>
+<li>RabbitMQ : 是实现了高级消息队列协议（AMQP）的开源消息代理软件（亦称面向消息的中间件）。</li>
+</ul>
+</li>
+<li><p>共享内存：共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。</p>
+</li>
+<li><p>信号量：信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</p>
+</li>
+<li><p>套接字（socket） 用的比较多。套接字（socket）为通信的端点，每个套接字由一个 IP 地址和一个端口号组成。通过网络通信的每对进程需要使用一对套接字，即每个进程各有一个。</p>
+<ul>
+<li>服务进程：socket()-&gt;bind()-&gt;listen()-&gt;accept()-&gt;read()-&gt;write()-&gt;…-&gt;close()</li>
+<li>客户进程：socket()-&gt;connect()-&gt;write()-&gt;read()-&gt;…-&gt;close();</li>
+</ul>
+</li>
+</ul>
 <p><strong>线程之间的通信方式：</strong></p>
 <p>共享变量、共享内存、共享数据库、消息队列</p>
 <p>Python中如何使用对进程（在CPU密集型中使用）：</p>
-<p>-   Multiprocessing ：多进程模块  </p>
+<p>Multiprocessing ：多进程模块  </p>
 <h2 id="2、五种IO模型"><a href="#2、五种IO模型" class="headerlink" title="2、五种IO模型"></a>2、五种IO模型</h2><p>阻塞式IO （Blocking IO）</p>
 <p>非阻塞式IO （NonBlocking IO）</p>
 <p>IO 多路复用 （IO Multiplexing）</p>
 <p>信号驱动IO（Signal Driven IO）不常用</p>
 <p>异步IO （Asynchronous IO）不常用</p>
-<h2 id="3、操作系统实现多路复用的方法"><a href="#3、操作系统实现多路复用的方法" class="headerlink" title="3、操作系统实现多路复用的方法"></a>3、操作系统实现多路复用的方法</h2><p>Select  Poll Epoll </p>
+<h2 id="3、操作系统实现多路复用的方法"><a href="#3、操作系统实现多路复用的方法" class="headerlink" title="3、操作系统实现多路复用的方法"></a>3、操作系统实现多路复用的方法</h2><p>IO多路复用的本质就是select/poll/epoll 去监听多个socket对象，如果其中的socket对象有变化，只要有变化，用户进程就知道了。</p>
+<p>Select 是不断的轮询监听的socket， socket的个数有限制，一般为1024个。</p>
+<p>Poll 还是采用轮询的方式监听，之不过没有个数的限制。</p>
+<p>Epoll 并不是采用轮训的方式去监听，而是当socket有变化的时候通过回调的方式主动地告知用户进程。</p>
+<p>表面上看epoll的性能最好，但是在连接数少，连接数十分活跃的情况下，selecthe poll性能会比epoll好。因为epoll的通知机制需要很多回调函数。</p>
 <h2 id="4、Python-实现IO多路复用的方法："><a href="#4、Python-实现IO多路复用的方法：" class="headerlink" title="4、Python 实现IO多路复用的方法："></a>4、Python 实现IO多路复用的方法：</h2><p>也是基于操作系统的select ,poll epoll方法。Pyhon3 中实现了selectors 模块。</p>
 <p>事件类型：EVENT_READ 、EVENT_WRITE </p>
 <p>DefaultSelector：自动根据系统来选择IO模型。其中的一些方法</p>
@@ -494,7 +537,7 @@
 <p>c)   Modifiy(fileobj events data = none)</p>
 <p>d)  Select(timeout=none, returns[keys, events])</p>
 <p>e)   Close()</p>
-<h2 id="5、Python的并发网络库："><a href="#5、Python的并发网络库：" class="headerlink" title="5、Python的并发网络库："></a>5、Python的并发网络库：</h2><p>   Gevent 、asyncio、tornado</p>
+<h2 id="5、Python的并发网络库："><a href="#5、Python的并发网络库：" class="headerlink" title="5、Python的并发网络库："></a>5、Python的并发网络库：</h2><p>Gevent 、asyncio、tornado</p>
 <p>Tornado：是一个并发网络编程库，也是一个Web框架。</p>
 <p>Gevent：基于几个绿色线程实现并发。底层是基于c语言实现的。基于 monkey patch gevent修改了内置的socket 改为非阻塞。 经常配合gunnicorn 部署作为wsgi server 。 </p>
 <p>Asyncio ：基于原生的协程实现的。</p>
@@ -605,12 +648,7 @@
 <h2 id="16、Cookie-和-Session-的区别："><a href="#16、Cookie-和-Session-的区别：" class="headerlink" title="16、Cookie 和 Session 的区别："></a>16、Cookie 和 Session 的区别：</h2><p>Session 是服务器生成之后返回给客户端，通过URL或者是cookie</p>
 <p>Cookie 是实现session的一种机制，通过http cookie 字段实现。</p>
 <p>Session 是通过服务器保存session识别用户，cookie保存在客户端。</p>
-<h2 id="17、Select-poll-epoll-模型的区别？"><a href="#17、Select-poll-epoll-模型的区别？" class="headerlink" title="17、Select poll epoll 模型的区别？"></a>17、Select poll epoll 模型的区别？</h2><p>IO多路复用的本质就是select/poll/epoll 去监听多个socket对象，如果其中的socket对象有变化，只要有变化，用户进程就知道了。</p>
-<p>Select 是不断的轮询监听的socket， socket的个数有限制，一般为1024个。</p>
-<p>Poll 还是采用轮询的方式监听，之不过没有个数的限制。</p>
-<p>Epoll 并不是采用轮训的方式去监听，而是当socket有变化的时候通过回调的方式主动地告知用户进程。</p>
-<p>表面上看epoll的性能最好，但是在连接数少，连接数十分活跃的情况下，selecthe poll性能会比epoll好。因为epoll的通知机制需要很多回调函数。</p>
-<h2 id="18、-网络TCP-socket-编程实现原理"><a href="#18、-网络TCP-socket-编程实现原理" class="headerlink" title="18、 网络TCP socket 编程实现原理"></a>18、 网络TCP socket 编程实现原理</h2><p>服务进程：socket()-&gt;bind()-&gt;listen()-&gt;accept()-&gt;read()-&gt;write()-&gt;…-&gt;close()</p>
+<h2 id="17、-网络TCP-socket-编程实现原理"><a href="#17、-网络TCP-socket-编程实现原理" class="headerlink" title="17、 网络TCP socket 编程实现原理"></a>17、 网络TCP socket 编程实现原理</h2><p>服务进程：socket()-&gt;bind()-&gt;listen()-&gt;accept()-&gt;read()-&gt;write()-&gt;…-&gt;close()</p>
 <p>客户进程：socket()-&gt;connect()-&gt;write()-&gt;read()-&gt;…-&gt;close();</p>
 <p><strong>创建客户端：</strong></p>
 <ol>
@@ -788,6 +826,15 @@
   
 <nav class="article-nav">
   
+  <a href="/2021/11/18/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8%E7%B4%A2%E5%BC%95%E5%9B%9E%E8%A1%A8%E7%B4%A2%E5%BC%95%E8%A6%86%E7%9B%96/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      MySQL索引问题
+      
+    </div>
+  </a>
+  
   
   <a href="/2021/11/13/MySQL%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86/" class="article-nav-link">
     <strong class="article-nav-caption">后一篇</strong>
@@ -845,7 +892,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">50.8k</span>字</span>
+    <span>全站共<span class="post-count">52.8k</span>字</span>
     <br>
     <div class="powered-by">
   

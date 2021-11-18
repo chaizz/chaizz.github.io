@@ -134,6 +134,99 @@
 
 </article>
     
+    <article id="post-索引下推索引回表索引覆盖" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2021/11/18/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8%E7%B4%A2%E5%BC%95%E5%9B%9E%E8%A1%A8%E7%B4%A2%E5%BC%95%E8%A6%86%E7%9B%96/">MySQL索引问题</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/11/18/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8%E7%B4%A2%E5%BC%95%E5%9B%9E%E8%A1%A8%E7%B4%A2%E5%BC%95%E8%A6%86%E7%9B%96/" class="article-date">
+  <time datetime="2021-11-18T12:28:17.000Z" itemprop="datePublished">2021-11-18</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
+</div>
+
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">834</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2021/11/18/%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8%E7%B4%A2%E5%BC%95%E5%9B%9E%E8%A1%A8%E7%B4%A2%E5%BC%95%E8%A6%86%E7%9B%96/" rel="gallery_ckw4xmoud00009ovmducz5jkt">
+      <img src="https://tc.chaizz.com/tc/Snipaste_2021-10-08_22-12-28.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <p>针对以上索引问题，首先要知道什么是主键索引、非主键索引、聚簇索引、非聚簇索引。</p>
+<p>主键索引：即MySQL的索引，如果没有主键那么MySQl会自动在表中挑选一个唯一且非空的字段来当做主键索引，如果没有的话MySQL内部自己会创建一个ROW_ID来当做主键，也会建立主键索引。主键索引的叶子结点存储的是整行的数据。</p>
+<p>非主键索引：即非主键以外的列建立的索引。非主键索引存储的是主键索引的值。</p>
+<h3 id="什么是索引回表？"><a href="#什么是索引回表？" class="headerlink" title="什么是索引回表？"></a>什么是索引回表？</h3><p>索引回表指的就是在查询某一列数据是判断条件为非主键索引，name查到这条复合条件的所有记录就需要在根据非主键索引获得的主键索引的值，在取主键索引的B+树中在此查询一次才能获取到全部的数据。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ID 是主键索引 ，只需要一次查询就可以获取符合条件的全部记录。</span><br><span class="line">select * from ex_table where ID&#x3D;1;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># n 是非主键索引，查询到的结果是符合条件的主键索引的ID，所以还需要早根据主键的ID,再在主键索引的B+树上查询一次</span><br><span class="line">select * from ex_table where n &#x3D; 5;</span><br></pre></td></tr></table></figure>
+<p>以上情况就是索引回表。</p>
+<h3 id="什么是索引覆盖？"><a href="#什么是索引覆盖？" class="headerlink" title="什么是索引覆盖？"></a>什么是索引覆盖？</h3><p>如果执行的语句是 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select idfrom T where n between 1 and 10;</span><br></pre></td></tr></table></figure>
+<p>现在的SQL只需要得到ID 的值，而 ID 的值已经在 n 索引的B+树上了，因此可以直接获得查询结果，不需要回表。也就是说，在这个查询里面，索引 n已经“覆盖了”我们的查询需求，我们称为覆盖索引。</p>
+<h3 id="什么是索引下推？"><a href="#什么是索引下推？" class="headerlink" title="什么是索引下推？"></a>什么是索引下推？</h3><p>索引下推（index condition pushdown ）简称ICP，在MySQL5.6的版本上推出，用于优化查询，默认是开启的，可以通过以下的命令关闭：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set optimizer_switch &#x3D; &#39;index_condition_pushdown&#x3D;off&#39;;</span><br></pre></td></tr></table></figure>
+<p>当使用索引下推时如果存在某些被索引的列的判断条件时，MySQL服务器将这一部分判断条件传递给存储引擎，然后由存储引擎通过判断索引是否符合MySQL服务器传递的条件，只有当索引符合条件时才会将数据检索出来返回给MySQL服务器 。</p>
+<p>索引下推的好处：</p>
+<p><strong>索引条件下推优化可以减少存储引擎查询基础表的次数，也可以减少MySQL服务器从存储引擎接收数据的次数。</strong></p>
+<p>假如有以下MySQL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 索引值为 name age 为组合索引。</span><br><span class="line"></span><br><span class="line">select * from user where name like &#39;张%&#39; and age &#x3D; 20;</span><br></pre></td></tr></table></figure>
+
+
+<p>在关闭索引下推的时候，InnoDB引擎会根据只name找到复合条件的索引字段，如下图中的左边绿色，然后就将数据返回给MySQL服务器，由MySQL服务器去判断其他的符合条件的数据。MySQL服务器会拿着查到的ID：1、2  在进行回表查询。</p>
+<p><img src="https://tc.chaizz.com/161026e0486011ec9d7c5254006b8f1d.png"></p>
+<p>在使用索引下推的时候，InnoDB会直接找出符合索引条件的字段的ID，将符合条件的结果发送给MySQL服务器，这个过程只需要回表一次。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
     <article id="post-面试题汇总" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -161,8 +254,8 @@
   <a class="article-category-link" href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>
 </div>
 
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">17.9k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">66</span>分钟
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">19.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">70</span>分钟
     </div>
     
 
@@ -718,80 +811,6 @@
 
 </article>
     
-    <article id="post-Redis知识巩固" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/09/26/Redis%E7%9F%A5%E8%AF%86%E5%B7%A9%E5%9B%BA/">Redis知识巩固</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/09/26/Redis%E7%9F%A5%E8%AF%86%E5%B7%A9%E5%9B%BA/" class="article-date">
-  <time datetime="2021-09-26T08:11:59.000Z" itemprop="datePublished">2021-09-26</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Redis/">Redis</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">7k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">27</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/09/26/Redis%E7%9F%A5%E8%AF%86%E5%B7%A9%E5%9B%BA/" rel="gallery_ckujcvyzu0038qcvmgqcw9p1o">
-      <img src="https://tc.chaizz.com/Snipaste_2021-09-26_19-50-26.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​                </p>
-      
-      <a class="article-more-link" href="/2021/09/26/Redis%E7%9F%A5%E8%AF%86%E5%B7%A9%E5%9B%BA/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
   </article>
   
 
@@ -817,7 +836,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">50.8k</span>字</span>
+    <span>全站共<span class="post-count">52.8k</span>字</span>
     <br>
     <div class="powered-by">
   
