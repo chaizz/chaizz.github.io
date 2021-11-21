@@ -111,6 +111,92 @@
       </tags>
   </entry>
   <entry>
+    <title>Dcokerfile</title>
+    <url>/2021/11/20/Dockerfile%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<p>​            </p>
+<a id="more"></a>
+
+
+
+<blockquote>
+<p>使用Dockerfile 能够构建一个自定义镜像。通常情况下是将自己的应用打包成镜像，在容器中使用。</p>
+</blockquote>
+<h2 id="Dockerfile-命令"><a href="#Dockerfile-命令" class="headerlink" title="Dockerfile 命令"></a>Dockerfile 命令</h2><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>FROM</td>
+<td>表示当前镜像是基于那个镜像</td>
+</tr>
+<tr>
+<td>MAINTAINER</td>
+<td>镜像的维护者和邮箱</td>
+</tr>
+<tr>
+<td>RUN</td>
+<td>构建镜像的时候需要运行的命令</td>
+</tr>
+<tr>
+<td>EXPOSE</td>
+<td>容器内对外暴露的端口</td>
+</tr>
+<tr>
+<td>WORKDIR</td>
+<td>指定创建容器后默认进入容器的工作目录</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>用来构建镜像过程中设置的环境变量 key=value</td>
+</tr>
+<tr>
+<td>ADD</td>
+<td>将宿主机下的文件拷贝到容器中，且会自动处理url和压缩包</td>
+</tr>
+<tr>
+<td>COPY</td>
+<td>类似于ADD，将从构建的Dockerfile目录中复制镜像的目录中</td>
+</tr>
+<tr>
+<td>VOLUME</td>
+<td>容器数据卷</td>
+</tr>
+<tr>
+<td>CMD</td>
+<td>制定一个容器运行的命令，如果有多个命令，只执行最后一个。会被docker run 后面的命令替代</td>
+</tr>
+<tr>
+<td>ENTRYPOINT</td>
+<td>指定一个容器启动时要运行的命令和参数，和CMD一样</td>
+</tr>
+</tbody></table>
+<h3 id="1、FROM-命令语法"><a href="#1、FROM-命令语法" class="headerlink" title="1、FROM 命令语法"></a>1、FROM 命令语法</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> &lt;image&gt;</span><br><span class="line"><span class="keyword">FROM</span> &lt;image&gt;[:&lt;tag&gt;]   <span class="comment"># 设置镜像的版本，不写为最新版本  latest</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="2、RUN-命令"><a href="#2、RUN-命令" class="headerlink" title="2、RUN 命令"></a>2、RUN 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># RUN 后面直接写shell命令, RUN 的命令是在构建镜像中执行。</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> <span class="built_in">echo</span> hello word</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> [<span class="string">&quot;yum&quot;</span>,<span class="string">&quot;install&quot;</span>,<span class="string">&quot;-y&quot;</span>,<span class="string">&quot;vim&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+<h3 id="3、EXPOSR-命令"><a href="#3、EXPOSR-命令" class="headerlink" title="3、EXPOSR 命令"></a>3、EXPOSR 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 针对一些需要端口的服务</span></span><br><span class="line"><span class="keyword">EXPOSE</span> <span class="number">6379</span></span><br></pre></td></tr></table></figure>
+<h3 id="4、WORKDIR-命令"><a href="#4、WORKDIR-命令" class="headerlink" title="4、WORKDIR 命令"></a>4、WORKDIR 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 用来为Dockerfile中的任何 RUN/CMD/ENTRYPOINT/CPOY/ADD/ 指令设置工作目录，如果WORKDIR  不存在，即使他没有在后续得命令中被使用，也将会被创建。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /opt/myserver</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /aaa</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> bb</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># WORKDIR 可以使用多次，如果使用的是相对命令 ，会与上一次的路径相对</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如上面的命令:docker会创建/opt/myserve，也会创建/aaa/bb，在进入容器内会进入最后的WORKDIR的路径下即：/aaa/bb</span></span><br></pre></td></tr></table></figure>
+<h3 id="5、ADD-命令"><a href="#5、ADD-命令" class="headerlink" title="5、ADD 命令"></a>5、ADD 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 用来从Dockerfile的当前目录中复制文件，目录，或者下载URL,并将他们添加到位于容器内指定的文件中</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> bb.txt /aaa/bb</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> https://tc.chaizz.com/497261de494511ec9d7c5254006b8f1d.png /aaa/bb</span></span><br><span class="line"><span class="comment"># 可以将文件复制到容器中，也可以通过URL下载文件到容器中</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将 apache-tomcat-8.5.73-src.tar.gz 解压到 /aaa/bb </span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> apache-tomcat-8.5.73-src.tar.gz /aaa/bb</span></span><br><span class="line"><span class="comment"># 将apache-tomcat-8.5.73-src 改名 为tomcat</span></span><br><span class="line"><span class="keyword">RUN</span><span class="bash"> mv apache-tomcat-8.5.73-src  tomcat</span></span><br><span class="line"><span class="comment"># 将工作目录改为 tomcat</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> tomcat</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="6、COPY-命令"><a href="#6、COPY-命令" class="headerlink" title="6、COPY 命令"></a>6、COPY 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将文件复制到指定容器内部的目录</span></span><br><span class="line"><span class="comment"># COPY a.txt /aaa/bb</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="7、volume-目录"><a href="#7、volume-目录" class="headerlink" title="7、volume 目录"></a>7、volume 目录</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 允许在容器运行的时候将目录挂载到宿主机的目录上</span></span><br><span class="line"><span class="keyword">VOLUME</span><span class="bash"> /aaa/bb/tomcat/webapps</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="8、ENV-命令"><a href="#8、ENV-命令" class="headerlink" title="8、ENV 命令"></a>8、ENV 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置当前容器的环境变量</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">ENV</span> BASE_DIR</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="9、ENTRYPOINT-命令"><a href="#9、ENTRYPOINT-命令" class="headerlink" title="9、ENTRYPOINT 命令"></a>9、ENTRYPOINT 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 容器运行的命令和参数  ENTRYPOINT的命令是在容器构建完成之后启动的时候执行,要覆盖ENTRYPOINT  他的指令 需要在docker run 的时候加上 --entrypoint ls </span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> ls <span class="variable">$BASE_DIR</span>/tomcat</span></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line"><span class="keyword">ENTRYPOINT</span><span class="bash"> [<span class="string">&quot;ls&quot;</span>, <span class="string">&quot;<span class="variable">$BASE_DIR</span>/tomcat&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="10、CMD-命令"><a href="#10、CMD-命令" class="headerlink" title="10、CMD 命令"></a>10、CMD 命令</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 只执行最后一个，如果在 docker run 之后指定了命令(不需要参数) 会将CMD的指令覆盖，不再执行CMD的指令</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> ls <span class="variable">$BASR_DIR</span></span></span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [<span class="string">&quot;ls&quot;</span>, <span class="string">&quot;<span class="variable">$BASR_DIR</span>&quot;</span>]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 通常 CMD 和 ENTRYPOINT 结合使用 ：ENTRYPOINT作为固定的命令或者参数， CMD 作为可变的参数，附加在ENTRYPOINT命令之后。 然后ENTRYPOINT + CMD 结合为一条命令。  即可实现在docker run 的时候可以指定参数运行同一个容器</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Docker、Linux</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>MySQL索引问题</title>
     <url>/2021/11/18/MySQL%E7%B4%A2%E5%BC%95%E9%97%AE%E9%A2%98/</url>
     <content><![CDATA[<p>​                      </p>
@@ -1328,51 +1414,6 @@
       </tags>
   </entry>
   <entry>
-    <title>DockerCompose理解</title>
-    <url>/2021/09/29/DockerCompose%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<p>​                </p>
-<a id="more"></a>
-
-<h1 id="一、DockerCompose理解"><a href="#一、DockerCompose理解" class="headerlink" title="一、DockerCompose理解"></a>一、DockerCompose理解</h1><blockquote>
-<p><a href="https://docs.docker.com/compose/">Docker Compose</a> is a tool that was developed to help define and share multi-container applications. With Compose, we can create a YAML file to define the services and with a single command, can spin everything up or tear it all down.</p>
-<p>The <em>big</em> advantage of using Compose is you can define your application stack in a file, keep it at the root of your project repo (it’s now version controlled), and easily enable someone else to contribute to your project. Someone would only need to clone your repo and start the compose app. In fact, you might see quite a few projects on GitHub/GitLab doing exactly this now.</p>
-</blockquote>
-<p>Docker compose 是来管理多个容器的一个工具。</p>
-<h2 id="1、安装Docker-Compose"><a href="#1、安装Docker-Compose" class="headerlink" title="1、安装Docker Compose"></a>1、安装Docker Compose</h2><p><a href="https://github.com/docker/compose/releases/download/v2.0.0/docker-compose-linux-amd64">Docker-compose地址</a></p>
-<h3 id="1-1-创建cli-plugins-目录"><a href="#1-1-创建cli-plugins-目录" class="headerlink" title="1.1 创建cli-plugins 目录"></a>1.1 创建cli-plugins 目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在github上下载最新版docker-compose ,放在 docker安装用户家目录下 ：root/.docker/cli-plugins</span></span><br><span class="line"></span><br><span class="line">cd .docker</span><br><span class="line">mkdir cli-plugins</span><br></pre></td></tr></table></figure>
-<h3 id="1-2-将下载的docker-compose-linux-amd64-改名为-docker-compose"><a href="#1-2-将下载的docker-compose-linux-amd64-改名为-docker-compose" class="headerlink" title="1.2 将下载的docker-compose-linux-amd64  改名为 docker-compose"></a>1.2 将下载的docker-compose-linux-amd64  改名为 docker-compose</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在root/.docker/cli-plugins 目录下</span></span><br><span class="line">mv docker-compose-linux-amd64 docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="1-3-添加执行权限"><a href="#1-3-添加执行权限" class="headerlink" title="1.3 添加执行权限"></a>1.3 添加执行权限</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x root/.docker/cli-plugins/docker-compose</span><br></pre></td></tr></table></figure>
-<h3 id="1-4-安装低版本"><a href="#1-4-安装低版本" class="headerlink" title="1.4 安装低版本"></a>1.4 安装低版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -L https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> docker-compose --version</span><br></pre></td></tr></table></figure>
-
-
-<p><strong>v2.0.0版本命令为 <code>docker compose </code>中间没有横杠</strong></p>
-<h2 id="2、Docker-Componse-官网示例（创建一个Python-web应用）："><a href="#2、Docker-Componse-官网示例（创建一个Python-web应用）：" class="headerlink" title="2、Docker Componse 官网示例（创建一个Python web应用）："></a>2、Docker Componse 官网示例（创建一个Python web应用）：</h2><h3 id="2-1、创建app-py"><a href="#2-1、创建app-py" class="headerlink" title="2.1、创建app.py"></a>2.1、创建<code>app.py</code></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">cache = redis.Redis(host=<span class="string">&#x27;redis&#x27;</span>, port=<span class="number">6379</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_hit_count</span>():</span></span><br><span class="line">    retries = <span class="number">5</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> cache.incr(<span class="string">&#x27;hits&#x27;</span>)</span><br><span class="line">        <span class="keyword">except</span> redis.exceptions.ConnectionError <span class="keyword">as</span> exc:</span><br><span class="line">            <span class="keyword">if</span> retries == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">raise</span> exc</span><br><span class="line">            retries -= <span class="number">1</span></span><br><span class="line">            time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span>():</span></span><br><span class="line">    count = get_hit_count()</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello World! I have been seen &#123;&#125; times.\n&#x27;</span>.<span class="built_in">format</span>(count)</span><br></pre></td></tr></table></figure>
-
-
-<h3 id="2-2、创建包文件夹-requirements-txt："><a href="#2-2、创建包文件夹-requirements-txt：" class="headerlink" title="2.2、创建包文件夹 requirements.txt："></a>2.2、创建包文件夹 <code>requirements.txt</code>：</h3><figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">flask</span><br><span class="line">redis</span><br></pre></td></tr></table></figure>
-<h3 id="2-3-创建Dockerfile文件"><a href="#2-3-创建Dockerfile文件" class="headerlink" title="2.3 创建Dockerfile文件"></a>2.3 创建<code>Dockerfile</code>文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">FROM python:3.7-alpine</span><br><span class="line">RUN sed -i -e &#x27;s/http:/https:/&#x27; /etc/apk/repositories</span><br><span class="line">WORKDIR /code</span><br><span class="line">ENV FLASK_APP=app.py</span><br><span class="line">ENV FLASK_RUN_HOST=0.0.0.0</span><br><span class="line">RUN apk add --no-cache gcc musl-dev linux-headers</span><br><span class="line">COPY requirements.txt requirements.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> RUN pip install -r requirements.txt</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定清华源  下载快</span></span><br><span class="line">RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt</span><br><span class="line">EXPOSE 5000</span><br><span class="line">COPY . .</span><br><span class="line">CMD [&quot;flask&quot;, &quot;run&quot;]</span><br></pre></td></tr></table></figure>
-<h3 id="2-4-创建-docker-compose-yml文件-："><a href="#2-4-创建-docker-compose-yml文件-：" class="headerlink" title="2.4 创建 docker-compose.yml文件 ："></a>2.4 创建 <code>docker-compose.yml</code>文件 ：</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.9&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;5000:5000&quot;</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&quot;redis:alpine&quot;</span></span><br></pre></td></tr></table></figure>
-
-
-<h3 id="2-5-在-docker-compose-yml-目录下运行命令"><a href="#2-5-在-docker-compose-yml-目录下运行命令" class="headerlink" title="2.5 在 docker-compose.yml 目录下运行命令"></a>2.5 在 <code>docker-compose.yml</code> 目录下运行命令</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker compose up	</span><br></pre></td></tr></table></figure>
-
-
-<p>出现错误 ：</p>
-<p><img src="https://tc.chaizz.com/tc/Snipaste_2021-09-29_19-51-36.png"></p>
-<p>解决：在Dockerfile中添加下面这个命令</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">RUN sed -i -e &#x27;s/http:/https:/&#x27; /etc/apk/repositories</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完整的Dockerfile：</span></span><br><span class="line"></span><br><span class="line">FROM python:3.7-alpine</span><br><span class="line">RUN sed -i -e &#x27;s/http:/https:/&#x27; /etc/apk/repositories</span><br><span class="line">WORKDIR /code</span><br><span class="line">ENV FLASK_APP=app.py</span><br><span class="line">ENV FLASK_RUN_HOST=0.0.0.0</span><br><span class="line">RUN apk add --no-cache gcc musl-dev linux-headers</span><br><span class="line">COPY requirements.txt requirements.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> RUN pip install -r requirements.txt</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定清华源  下载快</span></span><br><span class="line">RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt</span><br><span class="line">EXPOSE 5000</span><br><span class="line">COPY . .</span><br><span class="line">CMD [&quot;flask&quot;, &quot;run&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<h3 id="2-5-运行成功"><a href="#2-5-运行成功" class="headerlink" title="2.5 运行成功"></a>2.5 运行成功</h3><p><img src="https://tc.chaizz.com/tc/Snipaste_2021-09-29_20-48-16.png"></p>
-]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>Docker、Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>DockerSwarm理解</title>
     <url>/2021/09/29/DockerSwarm%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<p>​                    </p>
@@ -1412,6 +1453,50 @@
       <categories>
         <category>Docker</category>
       </categories>
+      <tags>
+        <tag>Docker、Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>DockerCompose知识总结</title>
+    <url>/2021/09/29/DockerCompose%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h1 id="一、DockerCompose理解"><a href="#一、DockerCompose理解" class="headerlink" title="一、DockerCompose理解"></a>一、DockerCompose理解</h1><blockquote>
+<p><a href="https://docs.docker.com/compose/">Docker Compose</a> is a tool that was developed to help define and share multi-container applications. With Compose, we can create a YAML file to define the services and with a single command, can spin everything up or tear it all down.</p>
+<p>The <em>big</em> advantage of using Compose is you can define your application stack in a file, keep it at the root of your project repo (it’s now version controlled), and easily enable someone else to contribute to your project. Someone would only need to clone your repo and start the compose app. In fact, you might see quite a few projects on GitHub/GitLab doing exactly this now.</p>
+</blockquote>
+<a id="more"></a>
+
+<p>Docker compose 是来管理多个容器的一个工具。</p>
+<h2 id="1、安装Docker-Compose"><a href="#1、安装Docker-Compose" class="headerlink" title="1、安装Docker Compose"></a>1、安装Docker Compose</h2><p><a href="https://github.com/docker/compose/releases/download/v2.0.0/docker-compose-linux-amd64">Docker-compose地址</a></p>
+<h3 id="1-1-创建cli-plugins-目录"><a href="#1-1-创建cli-plugins-目录" class="headerlink" title="1.1 创建cli-plugins 目录"></a>1.1 创建cli-plugins 目录</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在github上下载最新版docker-compose ,放在 docker安装用户家目录下 ：root/.docker/cli-plugins</span></span><br><span class="line"></span><br><span class="line">cd .docker</span><br><span class="line">mkdir cli-plugins</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-将下载的docker-compose-linux-amd64-改名为-docker-compose"><a href="#1-2-将下载的docker-compose-linux-amd64-改名为-docker-compose" class="headerlink" title="1.2 将下载的docker-compose-linux-amd64  改名为 docker-compose"></a>1.2 将下载的docker-compose-linux-amd64  改名为 docker-compose</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在root/.docker/cli-plugins 目录下</span></span><br><span class="line">mv docker-compose-linux-amd64 docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-添加执行权限"><a href="#1-3-添加执行权限" class="headerlink" title="1.3 添加执行权限"></a>1.3 添加执行权限</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod +x root/.docker/cli-plugins/docker-compose</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-安装低版本"><a href="#1-4-安装低版本" class="headerlink" title="1.4 安装低版本"></a>1.4 安装低版本</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl -L https://get.daocloud.io/docker/compose/releases/download/1.29.2/docker-compose-`uname -s`-`uname -m` &gt; /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line">sudo chmod +x /usr/local/bin/docker-compose</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> docker-compose --version</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>v2.0.0版本命令为 <code>docker compose </code>中间没有横杠</strong></p>
+<h2 id="2、Docker-Componse-官网示例（创建一个Python-web应用）："><a href="#2、Docker-Componse-官网示例（创建一个Python-web应用）：" class="headerlink" title="2、Docker Componse 官网示例（创建一个Python web应用）："></a>2、Docker Componse 官网示例（创建一个Python web应用）：</h2><h3 id="2-1、创建app-py"><a href="#2-1、创建app-py" class="headerlink" title="2.1、创建app.py"></a>2.1、创建<code>app.py</code></h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">cache = redis.Redis(host=<span class="string">&#x27;redis&#x27;</span>, port=<span class="number">6379</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_hit_count</span>():</span></span><br><span class="line">    retries = <span class="number">5</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">return</span> cache.incr(<span class="string">&#x27;hits&#x27;</span>)</span><br><span class="line">        <span class="keyword">except</span> redis.exceptions.ConnectionError <span class="keyword">as</span> exc:</span><br><span class="line">            <span class="keyword">if</span> retries == <span class="number">0</span>:</span><br><span class="line">                <span class="keyword">raise</span> exc</span><br><span class="line">            retries -= <span class="number">1</span></span><br><span class="line">            time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/&#x27;</span></span>)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span>():</span></span><br><span class="line">    count = get_hit_count()</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;Hello World! I have been seen &#123;&#125; times.\n&#x27;</span>.<span class="built_in">format</span>(count)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-2、创建包文件夹-requirements-txt："><a href="#2-2、创建包文件夹-requirements-txt：" class="headerlink" title="2.2、创建包文件夹 requirements.txt："></a>2.2、创建包文件夹 <code>requirements.txt</code>：</h3><figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">flask</span><br><span class="line">redis</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-创建Dockerfile文件"><a href="#2-3-创建Dockerfile文件" class="headerlink" title="2.3 创建Dockerfile文件"></a>2.3 创建<code>Dockerfile</code>文件</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">FROM python:3.7-alpine</span><br><span class="line">RUN sed -i -e &#x27;s/http:/https:/&#x27; /etc/apk/repositories</span><br><span class="line">WORKDIR /code</span><br><span class="line">ENV FLASK_APP=app.py</span><br><span class="line">ENV FLASK_RUN_HOST=0.0.0.0</span><br><span class="line">RUN apk add --no-cache gcc musl-dev linux-headers</span><br><span class="line">COPY requirements.txt requirements.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> RUN pip install -r requirements.txt</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定清华源  下载快</span></span><br><span class="line">RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt</span><br><span class="line">EXPOSE 5000</span><br><span class="line">COPY . .</span><br><span class="line">CMD [&quot;flask&quot;, &quot;run&quot;]</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-创建-docker-compose-yml文件-："><a href="#2-4-创建-docker-compose-yml文件-：" class="headerlink" title="2.4 创建 docker-compose.yml文件 ："></a>2.4 创建 <code>docker-compose.yml</code>文件 ：</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&quot;3.9&quot;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">web:</span></span><br><span class="line">    <span class="attr">build:</span> <span class="string">.</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;5000:5000&quot;</span></span><br><span class="line">  <span class="attr">redis:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">&quot;redis:alpine&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-5-在-docker-compose-yml-目录下运行命令"><a href="#2-5-在-docker-compose-yml-目录下运行命令" class="headerlink" title="2.5 在 docker-compose.yml 目录下运行命令"></a>2.5 在 <code>docker-compose.yml</code> 目录下运行命令</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker compose up	</span><br></pre></td></tr></table></figure>
+
+
+<p>出现错误 ：</p>
+<p><img src="https://tc.chaizz.com/tc/Snipaste_2021-09-29_19-51-36.png"></p>
+<p>解决：在Dockerfile中添加下面这个命令</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">RUN sed -i -e &#x27;s/http:/https:/&#x27; /etc/apk/repositories</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 完整的Dockerfile：</span></span><br><span class="line"></span><br><span class="line">FROM python:3.7-alpine</span><br><span class="line">RUN sed -i -e &#x27;s/http:/https:/&#x27; /etc/apk/repositories</span><br><span class="line">WORKDIR /code</span><br><span class="line">ENV FLASK_APP=app.py</span><br><span class="line">ENV FLASK_RUN_HOST=0.0.0.0</span><br><span class="line">RUN apk add --no-cache gcc musl-dev linux-headers</span><br><span class="line">COPY requirements.txt requirements.txt</span><br><span class="line"><span class="meta">#</span><span class="bash"> RUN pip install -r requirements.txt</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 指定清华源  下载快</span></span><br><span class="line">RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r requirements.txt</span><br><span class="line">EXPOSE 5000</span><br><span class="line">COPY . .</span><br><span class="line">CMD [&quot;flask&quot;, &quot;run&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-5-运行成功"><a href="#2-5-运行成功" class="headerlink" title="2.5 运行成功"></a>2.5 运行成功</h3><p><img src="https://tc.chaizz.com/tc/Snipaste_2021-09-29_20-48-16.png"></p>
+<h1 id="二、docker-compose-命令详解"><a href="#二、docker-compose-命令详解" class="headerlink" title="二、docker compose 命令详解"></a>二、docker compose 命令详解</h1><p>结合docker compose 部署多个服务</p>
+<figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line">version: <span class="string">&quot;3&quot;</span></span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line"></span><br><span class="line"><span class="comment">#  web:</span></span><br><span class="line"><span class="comment">#    # 用来使用自定义的Dockerfile ，</span></span><br><span class="line"><span class="comment">#    # 使用自己构建的镜像，然后在运行容器</span></span><br><span class="line"><span class="comment">#    build:</span></span><br><span class="line"><span class="comment">#      # 启动服务是先将制定的Dockerfile 构建一个镜像。</span></span><br><span class="line"><span class="comment">#      context: .   #这个路径可以是相对的或者绝对的。一般是dockercompose.yml的当前路径</span></span><br><span class="line"><span class="comment">#      dockerfile:</span></span><br><span class="line"><span class="comment">#    expose: # 对外暴露端口</span></span><br><span class="line"><span class="comment">#      - &quot;8000&quot;</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#    depends_on:  # 代表这个容器必须依赖其他的容器才能启动（服务名）</span></span><br><span class="line"><span class="comment">#      - my_tomcat2</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#    ports:</span></span><br><span class="line"><span class="comment">#      - &quot;8000:8000&quot;   # 制定映射容器内端口</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#    networks:</span></span><br><span class="line"><span class="comment">#      - hello</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  my_tomcat2: <span class="comment"># 服务器名称</span></span><br><span class="line">    container_name: tomcat2   <span class="comment"># 自定义容器名称  docker run --name</span></span><br><span class="line">    image: tomcat   <span class="comment"># 镜像名称</span></span><br><span class="line">    restart: always</span><br><span class="line">    ports: <span class="comment">#  端口建议使用字符串    docker run -p</span></span><br><span class="line">      - <span class="string">&quot;8082:8080&quot;</span></span><br><span class="line">    volumes:</span><br><span class="line">      <span class="comment">#      - /opt/webapps:/usr/local/tomcat/webapps # 自定义路径映射</span></span><br><span class="line">      - <span class="string">&quot;./env/webapps:/usr/local/tomcat/webapps&quot;</span> <span class="comment">#使用数据库名映射</span></span><br><span class="line">    networks:</span><br><span class="line">      - hello</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    depends_on: <span class="comment"># 代表这个容器必须依赖其他的容器才能启动（服务名）</span></span><br><span class="line">      - my_mysql</span><br><span class="line">      - my_redis</span><br><span class="line"></span><br><span class="line">    <span class="keyword">healthcheck</span><span class="bash">: <span class="comment"># 通过命令检测容器是否正常运行</span></span></span><br><span class="line">      test: [ <span class="string">&quot;CMD&quot;</span>,<span class="string">&quot;curl&quot;</span>,<span class="string">&quot;-f&quot;</span>,<span class="string">&quot;http://localhost&quot;</span> ]</span><br><span class="line">      interval: <span class="number">1</span>m30s</span><br><span class="line">      timeout: <span class="number">10</span>s</span><br><span class="line">      retries: <span class="number">3</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#    ulimits:   # 用来修改容器内部的最大进程数</span></span><br><span class="line"><span class="comment">#      nproc: 65535</span></span><br><span class="line"><span class="comment">#      nofile:</span></span><br><span class="line"><span class="comment">#        soft: 20000</span></span><br><span class="line"><span class="comment">#        hard: 40000</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#    sysctls:   # 用来修改容器内部内核参数，并不是必须的，有些容器启动收到操作系统参数限制需要用到这个命令</span></span><br><span class="line"><span class="comment">#      - net.core.somaxconn=1024</span></span><br><span class="line"><span class="comment">#      - net.ipv4.tcp_syncookies=0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  my_mysql:</span><br><span class="line">    image: mysql:<span class="number">5.7</span></span><br><span class="line">    container_name: mysql</span><br><span class="line">    privileged: true</span><br><span class="line">    restart: always</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">&quot;3306:3306&quot;</span></span><br><span class="line">    volumes:</span><br><span class="line">      - <span class="string">&quot;./env/mysql/conf.d:/etc/mysql/conf.d&quot;</span></span><br><span class="line">      - <span class="string">&quot;./env/mysql/mysqldata:/var/lib/mysql&quot;</span></span><br><span class="line">      - <span class="string">&quot;./env/mysql/mysqllogs:/logs&quot;</span></span><br><span class="line"><span class="comment">#    environment:</span></span><br><span class="line"><span class="comment">#      MYSQL_ROOT_PASSWORD: &quot;123456&quot;</span></span><br><span class="line"><span class="comment">#      TZ: Asia/Shanghai</span></span><br><span class="line"></span><br><span class="line">    env_file:  <span class="comment"># 将环境变量中的值设置在文件中  必须是以.env 结尾的文件   必须要是键值对的形式或者A=B的形式</span></span><br><span class="line">      - ./<span class="keyword">env</span>/mysql/mysql.<span class="keyword">env</span>    <span class="comment"># 这个文件中就写   MYSQL_ROOT_PASSWORD: &quot;123456&quot;就可以</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># environment和env_file 写一个就可以</span></span><br><span class="line"></span><br><span class="line">    command:</span><br><span class="line">      --wait_timeout=<span class="number">31536000</span></span><br><span class="line">      --interactive_timeout=<span class="number">31536000</span></span><br><span class="line">      --max_connections=<span class="number">1000</span></span><br><span class="line">      --default-authentication-plugin=mysql_native_password</span><br><span class="line">    networks:</span><br><span class="line">      - hello</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  my_redis:</span><br><span class="line">    image: redis</span><br><span class="line">    container_name: redis</span><br><span class="line">    restart: always</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">&quot;6379:6379&quot;</span></span><br><span class="line">    <span class="keyword">expose</span>:</span><br><span class="line">      - <span class="string">&quot;6379&quot;</span></span><br><span class="line">    volumes:</span><br><span class="line">      - ./<span class="keyword">env</span>/redis/data:/data</span><br><span class="line">      - ./<span class="keyword">env</span>/redis/conf:/usr/local/etc/redis</span><br><span class="line">      - ./<span class="keyword">env</span>/redis/logs:/logs</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 注意 redis.conf 中的 daemonize no   要设置为前台运行。</span></span><br><span class="line">    <span class="comment">#要不然运行了docker compose up , redis自动关闭</span></span><br><span class="line">    command: redis-server /usr/local/etc/redis/redis.conf</span><br><span class="line">    networks:</span><br><span class="line">      - hello</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  nginx:</span><br><span class="line">    container_name: nginx</span><br><span class="line">    restart: always</span><br><span class="line">    image: nginx:<span class="number">1.11</span>.<span class="number">6</span>-alpine</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">&quot;8080:80&quot;</span></span><br><span class="line">      - <span class="string">&quot;80:80&quot;</span></span><br><span class="line">      - <span class="string">&quot;443:443&quot;</span></span><br><span class="line">    volumes:</span><br><span class="line">      - ./<span class="keyword">env</span>/nginx/conf.d:/etc/nginx/conf.d</span><br><span class="line">      - ./<span class="keyword">env</span>/nginx/logs:/var/log/nginx</span><br><span class="line">      - ./<span class="keyword">env</span>/nginx/www:/var/www</span><br><span class="line">      - /etc/letsencrypt:/etc/letsencrypt</span><br><span class="line">    networks:</span><br><span class="line">      - hello</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment"># compose 中运行 portainer</span></span><br><span class="line">  portainer:</span><br><span class="line">    image: portainer/portainer</span><br><span class="line">    container_name: portainer</span><br><span class="line">    volumes:</span><br><span class="line">      - /var/<span class="keyword">run</span><span class="bash">/docker.sock:/var/run/docker.sock</span></span><br><span class="line">      - /opt/portainer/data:/data</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="number">8000</span>:<span class="number">8000</span></span><br><span class="line">      - <span class="number">9000</span>:<span class="number">9000</span></span><br><span class="line">    networks:</span><br><span class="line">      - hello</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#volumes:</span></span><br><span class="line"><span class="comment">#  tomcat1webapps:   # 声明指定的卷名，compose会自动加上docker-compose.yml 的外层目录名</span></span><br><span class="line"><span class="comment">#    external:   # 使用自定义的卷名，前提必须存在：需要手动执行docker volume create tomcatwebapps</span></span><br><span class="line"><span class="comment">#      false</span></span><br><span class="line"><span class="comment">#  webapps:</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">networks:   <span class="comment"># 声明上面创建的 hello 网桥</span></span><br><span class="line">  hello:</span><br><span class="line">    external:   <span class="comment"># 使用自定义的网桥，前提必须存在 ：需要手动执行docker networks create -d bridge hello</span></span><br><span class="line">      false</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># docker compose up                ：启动所有服务</span></span><br><span class="line">    <span class="comment">#   -f  ：指定dockercompose.yml 文件</span></span><br><span class="line">    <span class="comment">#   -p  ：指项目名称</span></span><br><span class="line">    <span class="comment">#   -d  ：设置所有服务后台运行</span></span><br><span class="line"><span class="comment">#   docker compose down         ：关闭dcokercompose所有服务，会移除网络，不会移除数据卷</span></span><br><span class="line"><span class="comment">#   docker compose exec  [服务名]  ：进入服务对应的容器</span></span><br><span class="line"><span class="comment">#   docker compose ps           ：列出所有的容器</span></span><br><span class="line"><span class="comment">#   docker compose restart   [服务名]  ：列出所有的容器</span></span><br><span class="line"><span class="comment">#   docker compose rm   [服务名]  ：列出所有的容器</span></span><br><span class="line">    <span class="comment"># -f 强制删除</span></span><br><span class="line">    <span class="comment"># -v 删除服务对应容器挂载的数据卷</span></span><br><span class="line"><span class="comment">#   docker compose start   [服务名]  ：启动所有的容器</span></span><br><span class="line"><span class="comment">#   docker compose stop   [服务名]  ：停止所有的容器 （不会移除网络）</span></span><br><span class="line"><span class="comment">#   docker compose top   [服务名]  ：查看所有容器内运行的进程</span></span><br><span class="line"><span class="comment">#   docker compose unpause   [服务名]  ：将挂起的服务恢复</span></span><br><span class="line"><span class="comment">#   docker compose pause   [服务名]  ：挂起某一个服务</span></span><br><span class="line"><span class="comment">#   docker compose logs   [服务名]  ：查看所有服务的日志</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="三、安装Portainer是Docker可视化软件"><a href="#三、安装Portainer是Docker可视化软件" class="headerlink" title="三、安装Portainer是Docker可视化软件"></a>三、安装Portainer是Docker可视化软件</h1><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 下载</span></span><br><span class="line">docker pull portainer/portainer</span><br><span class="line"><span class="comment"># 启动容器</span></span><br><span class="line">docker <span class="keyword">run</span><span class="bash"> -p 9000:9000 --name=portainer --restart=always -v /opt/portainer/data:/data -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#下载汉化版  指定汉化版镜像</span></span><br><span class="line"></span><br><span class="line">docker <span class="keyword">run</span><span class="bash"> --name=portainer -p 9000:9000 --restart=always -d  --rm  -v /var/run/docker.sock:/var/run/docker.sock -v /opt/portainer/data:/data registry.cn-shenzhen.aliyuncs.com/infrastlabs/portainer-cn</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问公网IP <span class="doctag">xxx:</span>9000   设置默认密码 ：至少八位</span></span><br></pre></td></tr></table></figure>
+]]></content>
       <tags>
         <tag>Docker、Linux</tag>
       </tags>
@@ -2152,7 +2237,7 @@
   <entry>
     <title>Jupyter-notebook的安装与基本使用</title>
     <url>/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[<p>​            </p>
+    <content><![CDATA[<p>​              </p>
 <a id="more"></a>
 
 <blockquote>
@@ -2162,40 +2247,23 @@
 <p>Jupyter Notebook是一个开源Web应用程序，可让您创建和共享包含实时代码，方程式，可视化效果和叙述文本的文档。 用途包括：数据清理和转换，数值模拟，统计建模，数据可视化，机器学习等.</p>
 </blockquote>
 <h2 id="一、windows下安装Jupyter-notebook"><a href="#一、windows下安装Jupyter-notebook" class="headerlink" title="一、windows下安装Jupyter notebook"></a>一、windows下安装Jupyter notebook</h2><p>Jupyter notebook 是基于Python 的首先要安装Python环境，或者直接安装Anaconda（直接包含Python和Jupyter notebook）。以上环境省略自行安装。</p>
-<ol>
-<li>在Python环境下直接安装。（最好是新版本Python）</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter</span><br></pre></td></tr></table></figure>
+<h3 id="在Python环境下直接安装。（最好是新版本Python）"><a href="#在Python环境下直接安装。（最好是新版本Python）" class="headerlink" title="在Python环境下直接安装。（最好是新版本Python）"></a>在Python环境下直接安装。（最好是新版本Python）</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter</span><br></pre></td></tr></table></figure>
 <p>等待命令安装完毕，如果比较慢的话，建议更换Python的源为清华或者淘宝网易的源下载安装速度会快很多。</p>
-<ol start="2">
-<li>启动Jupyter notebook , 系统会自动启动浏览器，打开本地的8888端口。（端口没有被占用的情况下。如果被占用端口号会自动加一，启动多个Jupyter notebook应用，端口号也会自动向后加一来启动多个应用。）</li>
-</ol>
+<h3 id="启动Jupyter-notebook"><a href="#启动Jupyter-notebook" class="headerlink" title="启动Jupyter notebook"></a>启动Jupyter notebook</h3><p>系统会自动启动浏览器，打开本地的8888端口。（端口没有被占用的情况下。如果被占用端口号会自动加一，启动多个Jupyter notebook应用，端口号也会自动向后加一来启动多个应用。）</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook </span><br></pre></td></tr></table></figure>
 <p>如果在使用过程中关闭了当前终端，应用也会随之无法连接，无法使用Jupyter notebook应用。</p>
-<ol start="3">
-<li>如果要以不同的端口号启动Jupyter notebook应用，使用一下的方式启动。</li>
-</ol>
+<p>如果要以不同的端口号启动Jupyter notebook应用，使用一下的方式启动。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">jupyter notebook --port 8899</span><br></pre></td></tr></table></figure>
-<h2 id="二、Jupyter-notebook-界面"><a href="#二、Jupyter-notebook-界面" class="headerlink" title="二、Jupyter notebook 界面"></a>二、Jupyter notebook 界面</h2><ol>
-<li><p>如图所示打开Jupyter notebook 的初始界面为：</p>
-<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-08-09.png"></p>
-<p>Jupyter notebook 的默认存储文件的地址为当前用户的文件路径。每个人里面的文件都不太一样。</p>
-</li>
-<li><p>更改默认的存储路径。</p>
-<p>Jupyter notebook  的默认的配置文件在当前用户下的一个隐藏文件（以.jupyter开头的文件）文件下名为jupyter_notebook_config.py 即为jupyter notebook 的配置文件。</p>
+<h2 id="二、Jupyter-notebook-界面"><a href="#二、Jupyter-notebook-界面" class="headerlink" title="二、Jupyter notebook 界面"></a>二、Jupyter notebook 界面</h2><p>Jupyter notebook 的默认存储文件的地址为当前用户的文件路径。每个人里面的文件都不太一样。</p>
+<h3 id="更改默认的存储路径。"><a href="#更改默认的存储路径。" class="headerlink" title="更改默认的存储路径。"></a>更改默认的存储路径。</h3><p>Jupyter notebook  的默认的配置文件在当前用户下的一个隐藏文件（以.jupyter开头的文件）文件下名为jupyter_notebook_config.py 即为jupyter notebook 的配置文件。</p>
 <p>打开文件搜索找到 <code>c.NotebookApp.notebook_dir</code> 开头的配置，即是存储文件路径的配置。只需要将你想要修改的路径添加并取消注释即可。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">c.NotebookApp.notebook_dir &#x3D; &#39;C:&#x2F;Users&#x2F;xxx&#x2F;Desktop&#x2F;Project&#x2F;Jupyter Notebook&#39;</span><br></pre></td></tr></table></figure>
 <p>重启启动 Jupyter notebook。此时页面文件目录是空的。</p>
-</li>
-</ol>
-<h2 id="三、使用-Jupyter-notebook"><a href="#三、使用-Jupyter-notebook" class="headerlink" title="三、使用 Jupyter notebook"></a>三、使用 Jupyter notebook</h2><ol>
-<li><p>新建一个页面。 点击右上角的 new 按钮可以新建一个工程文件或者文本文件或者文件夹。</p>
-<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-23-24.png"></p>
+<h2 id="三、使用-Jupyter-notebook"><a href="#三、使用-Jupyter-notebook" class="headerlink" title="三、使用 Jupyter notebook"></a>三、使用 Jupyter notebook</h2><p>新建一个页面。 点击右上角的 new 按钮可以新建一个工程文件或者文本文件或者文件夹。</p>
+<p><img src="https://tc.chaizz.com/717fe24c4ade11ec9d7c5254006b8f1d.png"></p>
 <p>例如 新建一个python3文件。新页面样式如图所示。</p>
-<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_12-25-08.png"></p>
+<p><img src="https://tc.chaizz.com/7fcf69304ade11ec9d7c5254006b8f1d.png"></p>
 <p>可在单元格（cell）中输入代码并执行。</p>
-</li>
-</ol>
 <h2 id="四、Jupyter-notebook-快捷键"><a href="#四、Jupyter-notebook-快捷键" class="headerlink" title="四、Jupyter notebook 快捷键"></a>四、Jupyter notebook 快捷键</h2><p>A：在当前单元格的上方添加一行单元格</p>
 <p>B：在当前单元格的下方添加一行单元格</p>
 <p>M：选中单元格将单元格代码格式改为Markdown格式</p>
@@ -2208,14 +2276,13 @@
 <p>D D ：连续两个D 删除当前单元格</p>
 <p>Z：撤销删除单元格</p>
 <p>还有很多快捷键按H都可以找到。</p>
-<h2 id="五、Jupyter-notebook-插件"><a href="#五、Jupyter-notebook-插件" class="headerlink" title="五、Jupyter notebook 插件"></a>五、Jupyter notebook 插件</h2><ol>
-<li><p>在安装插件之前首先需要安装<strong>jupyter_contrib_nbextensions</strong>。</p>
+<h2 id="五、Jupyter-notebook-插件"><a href="#五、Jupyter-notebook-插件" class="headerlink" title="五、Jupyter notebook 插件"></a>五、Jupyter notebook 插件</h2><p>在安装插件之前首先需要安装<strong>jupyter_contrib_nbextensions</strong>。</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在windows shell 终端输入：</span></span><br><span class="line">pip install jupyter_contrib_nbextensions</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 启用 jupyter_contrib_nbextensions</span></span><br><span class="line">jupyter contrib nbextension install --user</span><br></pre></td></tr></table></figure>
 <p>此时 Jupyter notebook 界面就会出现一个新的菜单栏。</p>
-<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_13-06-58.png"></p>
+<p><img src="https://tc.chaizz.com/8a881e4e4ade11ec9d7c5254006b8f1d.png"></p>
 <p>选中此按钮进入配置插件的页面。</p>
 <p>取消勾选此按钮。否则无法选择插件。</p>
-<p><img src="/2021/03/13/Jupyter-notebook%E7%9A%84%E5%AE%89%E8%A3%85%E4%B8%8E%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/Snipaste_2021-03-13_13-08-31.png"></p>
+<p><img src="https://tc.chaizz.com/941816a84ade11ec9d7c5254006b8f1d.png"></p>
 <p>推荐插件：</p>
 <ul>
 <li><strong>Notify</strong> ：能在任务处理完后及时向你发送通知</li>
@@ -2227,14 +2294,9 @@
 <li><strong>Split Cells Notebook</strong> ：类似于多窗口编辑，将单行排列的单元格放置为多行排列。</li>
 <li><strong>Collapsible Headings</strong> ：折叠单元格</li>
 </ul>
-</li>
-</ol>
 ]]></content>
-      <categories>
-        <category>Jupyternotebook</category>
-      </categories>
       <tags>
-        <tag>Jupyter notebook、Python</tag>
+        <tag>Jupyter notebook</tag>
       </tags>
   </entry>
   <entry>
