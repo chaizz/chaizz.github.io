@@ -53,7 +53,7 @@
   <time datetime="2022-07-30T06:57:56.905Z" itemprop="datePublished">2022-07-30</time>
 </a>
       
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">218</span>字
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">221</span>字
       &emsp;<i class="fe fe-clock"></i> <span class="post-count">1</span>分钟
     </div>
     
@@ -76,7 +76,8 @@
 </div>
 
       
-      <p>参考链接</p>
+      <p><code>&lt;!--more--&gt;</code></p>
+<p>参考链接</p>
 <blockquote>
 <p><a href="https://www.kuboard.cn/install/v3/install-built-in.html">安装 Kuboard v3 - 内建用户库 | Kuboard</a></p>
 </blockquote>
@@ -85,10 +86,8 @@
 </blockquote>
 <p>一、前期准备</p>
 <ul>
-<li><p>搭建完成Kubernetes 集群。 </p>
-</li>
-<li><p>Docker 安装完毕</p>
-</li>
+<li>搭建完成Kubernetes 集群。</li>
+<li>Docker 安装完毕</li>
 </ul>
 <p>二、安装Kuboard</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d \</span><br><span class="line">  --restart=unless-stopped \</span><br><span class="line">  --name=kuboard \</span><br><span class="line">  -p 80:80/tcp \</span><br><span class="line">  -p 10081:10081/tcp \</span><br><span class="line">  -e KUBOARD_ENDPOINT=&quot;http://192.158.59.130:80&quot; \</span><br><span class="line">  -e KUBOARD_AGENT_SERVER_TCP_PORT=&quot;10081&quot; \</span><br><span class="line">  -v /root/kuboard-data:/data \</span><br><span class="line">  eipwork/kuboard:v3</span><br></pre></td></tr></table></figure>

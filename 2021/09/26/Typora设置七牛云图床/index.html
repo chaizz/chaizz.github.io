@@ -82,8 +82,7 @@
 </div>
 
       
-      <p>​              </p>
-<a id="more"></a>
+      <a id="more"></a>
 
 <blockquote>
 <p>Markdown是一种<a href="https://baike.baidu.com/item/%E8%BD%BB%E9%87%8F%E7%BA%A7%E6%A0%87%E8%AE%B0%E8%AF%AD%E8%A8%80/52671915">轻量级标记语言</a>，创始人为约翰·格鲁伯（英语：John Gruber）。 它允许人们使用易读易写的<a href="https://baike.baidu.com/item/%E7%BA%AF%E6%96%87%E6%9C%AC%E6%A0%BC%E5%BC%8F/9862288">纯文本格式</a>编写文档，然后转换成有效的<a href="https://baike.baidu.com/item/XHTML/316621">XHTML</a>（或者HTML）文档。这种语言吸收了很多在电子邮件中已有的纯文本标记的特性。</p>
@@ -101,7 +100,6 @@
 <p>打开Typora  偏好设置–&gt; 图像 –&gt;上传服务设定 –&gt; 上传服务 –&gt; 选择 PicGo-Core (command line)。</p>
 <p>点击<strong>下载或更新</strong>按钮，会提示下载一个PicGo插件，等待下载完成点击<strong>打开配置文件</strong>，打开以后默认是空的。复制下面代码覆盖打开的文件。</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">&quot;picBed&quot;</span>: &#123;</span><br><span class="line">		<span class="attr">&quot;uploader&quot;</span>: <span class="string">&quot;qiniu&quot;</span>,</span><br><span class="line">		<span class="attr">&quot;qiniu&quot;</span>: &#123;</span><br><span class="line">			<span class="attr">&quot;accessKey&quot;</span>: <span class="string">&quot;virqOxxxxxxxxxxxxxxxxxIK&quot;</span>,  <span class="comment">// 你的七牛云AK</span></span><br><span class="line">			<span class="attr">&quot;secretKey&quot;</span>: <span class="string">&quot;dDFGSxxxxxxxxxxxxxxxxxVu&quot;</span>,  <span class="comment">// 你的七牛云SK</span></span><br><span class="line">			<span class="attr">&quot;bucket&quot;</span>: <span class="string">&quot;cz-tuchuang&quot;</span>,                  <span class="comment">// 你的七牛云存储空间名</span></span><br><span class="line">			<span class="attr">&quot;url&quot;</span>: <span class="string">&quot;https://tc.chaizz.com&quot;</span>,           <span class="comment">// 你的七牛云自定义域名</span></span><br><span class="line">			<span class="attr">&quot;area&quot;</span>: <span class="string">&quot;z1&quot;</span>,                             <span class="comment">// 存储区域编号</span></span><br><span class="line">			<span class="attr">&quot;options&quot;</span>: <span class="string">&quot;&quot;</span>,                            <span class="comment">// 网址后缀,可不填</span></span><br><span class="line">			<span class="attr">&quot;path&quot;</span>: <span class="string">&quot;tc/&quot;</span>,                            <span class="comment">// 自定义存储路径，比如 img/ 可不填</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;,</span><br><span class="line">	<span class="attr">&quot;picgoPlugins&quot;</span>: &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
 <p>接下来点击 <strong>验证图片上传选项</strong> 按钮。上传成功会提示图下图所示：</p>
 <p><img src="https://tc.chaizz.com/tc/Snipaste_2021-09-26_19-35-24.png"></p>
 <p>点击OK ，重启Typora上传图片即可上传到七牛云了。</p>
