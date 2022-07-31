@@ -115,6 +115,7 @@
     <url>/2022/07/30/%E9%83%A8%E7%BD%B2Kuboard/</url>
     <content><![CDATA[<a id="more"></a>
 
+
 <p>参考链接</p>
 <blockquote>
 <p><a href="https://www.kuboard.cn/install/v3/install-built-in.html">安装 Kuboard v3 - 内建用户库 | Kuboard</a></p>
@@ -135,7 +136,6 @@
 <li>用户名： <code>admin</code></li>
 <li>密 码： <code>Kuboard123</code></li>
 </ul>
-<p>四、问题</p>
 ]]></content>
       <tags>
         <tag>Kuboard</tag>
