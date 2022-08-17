@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    CSS盒模型 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-CSS盒模型" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  CSS盒模型
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/08/17/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time datetime="2022-08-16T16:00:00.000Z" itemprop="datePublished">2022-08-17</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.8k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">6</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/760e75941d1511edb5630242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="CSS盒模型"><a href="#CSS盒模型" class="headerlink" title="CSS盒模型"></a>CSS盒模型</h1><p>在CSS中所有的元素都被一个个的<em>“盒子”</em>包围着，CSS的布局处理元素排列正式通过盒子来实现的。</p>
+<p>在CSS中有两种盒子是被广泛使用的：块级（block）盒子和内联（inline）盒子。这两种盒子会在页面上表现出两种不同的行为。</p>
+<h2 id="1-块级盒子"><a href="#1-块级盒子" class="headerlink" title="1 块级盒子"></a>1 块级盒子</h2><ul>
+<li>盒子会在内联的方向上扩展并占据父容器的在该方向上的所有可用空间，大多数情况下意味着盒子会和父容器一样宽。</li>
+<li>每个盒子都会换行。</li>
+<li><code>width</code>和<code>hright</code>属性可以发挥作用。</li>
+<li>内边距（padding）外边距（margin）和边框（border）会将其他的元素从当前格子周围推开。(相邻两个块级盒子之间的垂直间距会遵循外边距折叠原则被折叠。)</li>
+</ul>
+<p>除非特殊指定，诸如<code>h1</code>等和段落<code>p</code>默认都是块级的盒子。</p>
+<h2 id="2-内联盒子"><a href="#2-内联盒子" class="headerlink" title="2 内联盒子"></a>2 内联盒子</h2><ul>
+<li>内联盒子不会产生换行。</li>
+<li><code>width</code>和<code>hright</code>属性不起作用。</li>
+<li>垂直方向的内边距（padding）外边距（margin）和边框（border）==会被应用==，但是==不会==把其他的处于<code>inline</code>状态的盒子推开。</li>
+<li>水平方向的内边距（padding）外边距（margin）和边框（border）==会被应用==，==会==把其他的处于<code>inline</code>状态的盒子推开。</li>
+</ul>
+<p>针对块级盒子和内联盒子可以使用<code>display</code>属性设置<code>block</code>和<code>inline</code>。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="* 补充"></a>* 补充</h2><p>以上叙述中是CSS盒模型的外部显示类型，决定盒子是内联盒子还是块级盒子。同样盒模型也有一个内部显示类型，它决定了盒子内部是如何布局的，默认是按照<a href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Normal_Flow">正常文档流布局</a>，但是可以通过<code>flex</code>的<code>display</code>属性来更改内部显示类型。</p>
+<p>例如：如果设置 <code>display: flex</code>，在一个元素上，外部显示类型是 <code>block</code>，但是内部显示类型修改为 <code>flex</code>。==该盒子的所有直接子元素都会成为 flex 元素==。会根据==<a href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Flexbox">弹性盒子</a>==规则进行布局。</p>
+<p>块级和内联是web上默认的行为，它们被称为正常文档流，如果没有其他的说明，盒子的默认布局就是块级或者内联。</p>
+<h2 id="3-盒模型的组成部分"><a href="#3-盒模型的组成部分" class="headerlink" title="3 盒模型的组成部分"></a>3 盒模型的组成部分</h2><ul>
+<li>Content Box：这个区域使用来显示内容，大小可以通过设置<code>width</code>和<code>height</code>。</li>
+<li>Padding Box：包围在内容区域外部的空白区域，大小可以通过<code>padding</code>设置。</li>
+<li>Border Box：盒子的边框区域，大小通过<code>border</code>设置。</li>
+<li>Margin Box：盒子的最外围区域，是盒子和其他元素之间的空白区域，大小通过<code>margin</code>设置。</li>
+</ul>
+<p>如下图：</p>
+<p><img src="https://tc.chaizz.com/tc/box-model.png"></p>
+<h2 id="4-标准盒模型"><a href="#4-标准盒模型" class="headerlink" title="4 标准盒模型"></a>4 标准盒模型</h2><p>在标准盒模型中，给盒子设置width和height，实际设置的是content box padding和border再加上一起设置的width和height再决定了盒子的大小。</p>
+<p>假设定义了 <code>width</code>, <code>height</code>, <code>margin</code>, <code>border</code>和<code>padding</code>:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">350px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid black;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>计算出的模型宽度 = 410px(350 + 25 + 25 + 5 + 5)，高度 = 210px (150 + 25 + 25 + 5 + 5)，padding 加 border 再加 content box。</p>
+<p><img src="/2022/08/17/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B/Users\LHKJ0\Pictures\WEB\CSS\standard-box-model.png"></p>
+<blockquote>
+<p>注意：margin不计入实际大小，但是它会影响盒子实际占用的空间，影响的是盒子外部的空间，盒子的范围到边框为止，不会延伸到margin。</p>
+</blockquote>
+<h2 id="5-替代盒模型"><a href="#5-替代盒模型" class="headerlink" title="5 替代盒模型"></a>5 替代盒模型</h2><p>这个模型所有的宽度都是可见宽度，所以内容的宽度是总宽度减去边框的宽度和内边距的宽度。</p>
+<p>默认浏览器会使用标准盒模型，需要使用替代模型需要设置 <code>box-sizing:border-box</code>。如果想让所有元素都是用替代模型，只需要在html元上指定<code>box-sizing</code>，然后设置所有元素继承该属性。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br><span class="line">*, *<span class="selector-pseudo">::before</span>, *<span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: inherit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-盒子模型的属性解析"><a href="#6-盒子模型的属性解析" class="headerlink" title="6 盒子模型的属性解析"></a>6 盒子模型的属性解析</h2><h3 id="6-1-外边距（margin）"><a href="#6-1-外边距（margin）" class="headerlink" title="6.1 外边距（margin）"></a>6.1 外边距（margin）</h3><p>外边距是盒子周围看不到的一些空间，他会把其他的元素从盒子旁边推开，外边距的属性可以为正也可以为负，设置负值会导致和其他的内容重叠。无论是使用标准盒子模型还是替代盒子模型，外边距总是在计算可见部分后额外的添加。</p>
+<p>可以使用<code>margin</code>设置四个反向的内容，也可以分别使用四个独立的属性设置：<code>margin-top</code>、<code>margin-right</code>、<code>margin-left</code>、<code>margin-right</code>。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">10px</span>;        <span class="comment">/* 绝对长度 */</span></span><br><span class="line">	<span class="attribute">margin-top</span>: <span class="number">1em</span>;         <span class="comment">/*相对于字体大小 */</span></span><br><span class="line">	<span class="attribute">margin-top</span>: <span class="number">5%</span>;          <span class="comment">/*相对于最相邻的父级元素块（block）的宽度*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>外边距折叠：如果有两个外边距相接的元素，这些外边距将合并为一个外边距，即最大的那个外边距的大小。</p>
+<p>有设定<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/float">float</a>和<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/position#absolute">position=absolute</a>的元素不会产生外边距重叠行为。</p>
+</blockquote>
+<h3 id="6-2-内边距（padding）"><a href="#6-2-内边距（padding）" class="headerlink" title="6.2 内边距（padding）"></a>6.2 内边距（padding）</h3><p>内边距位于边框和内容之间，==且不能有负数的形式==，应用于元素的任何背景都将显示在内边距后面，内边距通常用于将内容推离边框。我们可以使用<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding"><code>padding</code></a>简写属性控制元素所有边，或者每边单独使用等价的普通属性：<code>padding-top</code>、<code>padding-right</code>、<code>padding-bottom</code>、<code>padding-left</code>。</p>
+<h3 id="6-3-边框（border）"><a href="#6-3-边框（border）" class="headerlink" title="6.3 边框（border）"></a>6.3 边框（border）</h3><p>边框是在边距和填充框之间绘制的。如果您正在使用标准的盒模型，边框的大小将添加到框的宽度和高度。如果您使用的是替代盒模型，那么边框的大小会使内容框更小，因为它会占用一些可用的宽度和高度。</p>
+<p>可以使用<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border"><code>border</code></a>属性一次设置所有四个边框的宽度、颜色和样式。</p>
+<p>分别设置每边的宽度、颜色和样式，可以使用：</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top"><code>border-top</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right"><code>border-right</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom"><code>border-bottom</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left"><code>border-left</code></a></p>
+<p>设置所有边的颜色、样式或宽度，请使用以下属性：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style"><code>border-style</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color"><code>border-color</code></a></p>
+<p>设置单边的颜色、样式或宽度，可以使用最细粒度的普通属性之一：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top-width"><code>border-top-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top-style"><code>border-top-style</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top-color"><code>border-top-color</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right-width"><code>border-right-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right-style"><code>border-right-style</code></a><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right-color"><code>border-right-color</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom-width"><code>border-bottom-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom-style"><code>border-bottom-style</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom-color"><code>border-bottom-color</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left-width"><code>border-left-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left-style"><code>border-left-style</code>、</a><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left-color"><code>border-left-color</code></a></p>
+<h2 id="7-盒子模型和内联盒子"><a href="#7-盒子模型和内联盒子" class="headerlink" title="7 盒子模型和内联盒子"></a>7 盒子模型和内联盒子</h2><p>以上所有的方法都完全适用于块级盒子，有些属性也可以应用于内联盒子。在内联合中应用宽度、高度、边距、边框和内边距时，宽度和高度是被忽略的，外边距、内边距和边框是生效的。但是他们不会改变其他内容与盒子的关系，因此内边距和边框会与段落中的其他单词重叠。</p>
+<p><img src="/2022/08/17/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B/Users\LHKJ0\Pictures\WEB\CSS\Snipaste_2022-08-17_17-29-30.png"></p>
+<p>为了解决以上的问题可以使用：display: inline-block。display 有一个特殊的值，它在内联和块之间提供了一个中间状态。这对于以下情况非常有用：不希望一个元素切换到新行，但希望它可以设定宽度和高度，并避免上面看到的重叠。</p>
+<p>一个元素使用 <code>display: inline-block</code>，实现我们需要的块级的部分效果：</p>
+<ul>
+<li>设置<code>width</code> 和<code>height</code> 属性会生效。</li>
+<li><code>padding</code>, <code>margin</code>, 以及<code>border</code> 会推开其他元素。</li>
+</ul>
+<p>但是，它不会跳转到新行，如果显式添加 <code>width</code> 和 <code>height</code> 属性，它只会变得比其内容更大。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2022/08/16/CSS%E5%B1%82%E5%8F%A0%E4%B8%8E%E7%BB%A7%E6%89%BF/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">CSS层叠与继承</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2022</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">66.4k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

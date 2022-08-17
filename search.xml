@@ -111,6 +111,592 @@
       </tags>
   </entry>
   <entry>
+    <title>CSS盒模型</title>
+    <url>/2022/08/17/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<p>​          </p>
+<a id="more"></a>
+
+<h1 id="CSS盒模型"><a href="#CSS盒模型" class="headerlink" title="CSS盒模型"></a>CSS盒模型</h1><p>在CSS中所有的元素都被一个个的<em>“盒子”</em>包围着，CSS的布局处理元素排列正式通过盒子来实现的。</p>
+<p>在CSS中有两种盒子是被广泛使用的：块级（block）盒子和内联（inline）盒子。这两种盒子会在页面上表现出两种不同的行为。</p>
+<h2 id="1-块级盒子"><a href="#1-块级盒子" class="headerlink" title="1 块级盒子"></a>1 块级盒子</h2><ul>
+<li>盒子会在内联的方向上扩展并占据父容器的在该方向上的所有可用空间，大多数情况下意味着盒子会和父容器一样宽。</li>
+<li>每个盒子都会换行。</li>
+<li><code>width</code>和<code>hright</code>属性可以发挥作用。</li>
+<li>内边距（padding）外边距（margin）和边框（border）会将其他的元素从当前格子周围推开。(相邻两个块级盒子之间的垂直间距会遵循外边距折叠原则被折叠。)</li>
+</ul>
+<p>除非特殊指定，诸如<code>h1</code>等和段落<code>p</code>默认都是块级的盒子。</p>
+<h2 id="2-内联盒子"><a href="#2-内联盒子" class="headerlink" title="2 内联盒子"></a>2 内联盒子</h2><ul>
+<li>内联盒子不会产生换行。</li>
+<li><code>width</code>和<code>hright</code>属性不起作用。</li>
+<li>垂直方向的内边距（padding）外边距（margin）和边框（border）==会被应用==，但是==不会==把其他的处于<code>inline</code>状态的盒子推开。</li>
+<li>水平方向的内边距（padding）外边距（margin）和边框（border）==会被应用==，==会==把其他的处于<code>inline</code>状态的盒子推开。</li>
+</ul>
+<p>针对块级盒子和内联盒子可以使用<code>display</code>属性设置<code>block</code>和<code>inline</code>。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="* 补充"></a>* 补充</h2><p>以上叙述中是CSS盒模型的外部显示类型，决定盒子是内联盒子还是块级盒子。同样盒模型也有一个内部显示类型，它决定了盒子内部是如何布局的，默认是按照<a href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Normal_Flow">正常文档流布局</a>，但是可以通过<code>flex</code>的<code>display</code>属性来更改内部显示类型。</p>
+<p>例如：如果设置 <code>display: flex</code>，在一个元素上，外部显示类型是 <code>block</code>，但是内部显示类型修改为 <code>flex</code>。==该盒子的所有直接子元素都会成为 flex 元素==。会根据==<a href="https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Flexbox">弹性盒子</a>==规则进行布局。</p>
+<p>块级和内联是web上默认的行为，它们被称为正常文档流，如果没有其他的说明，盒子的默认布局就是块级或者内联。</p>
+<h2 id="3-盒模型的组成部分"><a href="#3-盒模型的组成部分" class="headerlink" title="3 盒模型的组成部分"></a>3 盒模型的组成部分</h2><ul>
+<li>Content Box：这个区域使用来显示内容，大小可以通过设置<code>width</code>和<code>height</code>。</li>
+<li>Padding Box：包围在内容区域外部的空白区域，大小可以通过<code>padding</code>设置。</li>
+<li>Border Box：盒子的边框区域，大小通过<code>border</code>设置。</li>
+<li>Margin Box：盒子的最外围区域，是盒子和其他元素之间的空白区域，大小通过<code>margin</code>设置。</li>
+</ul>
+<p>如下图：</p>
+<p><img src="https://tc.chaizz.com/tc/box-model.png"></p>
+<h2 id="4-标准盒模型"><a href="#4-标准盒模型" class="headerlink" title="4 标准盒模型"></a>4 标准盒模型</h2><p>在标准盒模型中，给盒子设置width和height，实际设置的是content box padding和border再加上一起设置的width和height再决定了盒子的大小。</p>
+<p>假设定义了 <code>width</code>, <code>height</code>, <code>margin</code>, <code>border</code>和<code>padding</code>:</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">350px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">150px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">25px</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">5px</span> solid black;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>计算出的模型宽度 = 410px(350 + 25 + 25 + 5 + 5)，高度 = 210px (150 + 25 + 25 + 5 + 5)，padding 加 border 再加 content box。</p>
+<p><img src="/2022/08/17/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B/Users\LHKJ0\Pictures\WEB\CSS\standard-box-model.png"></p>
+<blockquote>
+<p>注意：margin不计入实际大小，但是它会影响盒子实际占用的空间，影响的是盒子外部的空间，盒子的范围到边框为止，不会延伸到margin。</p>
+</blockquote>
+<h2 id="5-替代盒模型"><a href="#5-替代盒模型" class="headerlink" title="5 替代盒模型"></a>5 替代盒模型</h2><p>这个模型所有的宽度都是可见宽度，所以内容的宽度是总宽度减去边框的宽度和内边距的宽度。</p>
+<p>默认浏览器会使用标准盒模型，需要使用替代模型需要设置 <code>box-sizing:border-box</code>。如果想让所有元素都是用替代模型，只需要在html元上指定<code>box-sizing</code>，然后设置所有元素继承该属性。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br><span class="line">*, *<span class="selector-pseudo">::before</span>, *<span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">box-sizing</span>: inherit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="6-盒子模型的属性解析"><a href="#6-盒子模型的属性解析" class="headerlink" title="6 盒子模型的属性解析"></a>6 盒子模型的属性解析</h2><h3 id="6-1-外边距（margin）"><a href="#6-1-外边距（margin）" class="headerlink" title="6.1 外边距（margin）"></a>6.1 外边距（margin）</h3><p>外边距是盒子周围看不到的一些空间，他会把其他的元素从盒子旁边推开，外边距的属性可以为正也可以为负，设置负值会导致和其他的内容重叠。无论是使用标准盒子模型还是替代盒子模型，外边距总是在计算可见部分后额外的添加。</p>
+<p>可以使用<code>margin</code>设置四个反向的内容，也可以分别使用四个独立的属性设置：<code>margin-top</code>、<code>margin-right</code>、<code>margin-left</code>、<code>margin-right</code>。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">margin-top</span>: <span class="number">10px</span>;        <span class="comment">/* 绝对长度 */</span></span><br><span class="line">	<span class="attribute">margin-top</span>: <span class="number">1em</span>;         <span class="comment">/*相对于字体大小 */</span></span><br><span class="line">	<span class="attribute">margin-top</span>: <span class="number">5%</span>;          <span class="comment">/*相对于最相邻的父级元素块（block）的宽度*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>外边距折叠：如果有两个外边距相接的元素，这些外边距将合并为一个外边距，即最大的那个外边距的大小。</p>
+<p>有设定<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/float">float</a>和<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/position#absolute">position=absolute</a>的元素不会产生外边距重叠行为。</p>
+</blockquote>
+<h3 id="6-2-内边距（padding）"><a href="#6-2-内边距（padding）" class="headerlink" title="6.2 内边距（padding）"></a>6.2 内边距（padding）</h3><p>内边距位于边框和内容之间，==且不能有负数的形式==，应用于元素的任何背景都将显示在内边距后面，内边距通常用于将内容推离边框。我们可以使用<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/padding"><code>padding</code></a>简写属性控制元素所有边，或者每边单独使用等价的普通属性：<code>padding-top</code>、<code>padding-right</code>、<code>padding-bottom</code>、<code>padding-left</code>。</p>
+<h3 id="6-3-边框（border）"><a href="#6-3-边框（border）" class="headerlink" title="6.3 边框（border）"></a>6.3 边框（border）</h3><p>边框是在边距和填充框之间绘制的。如果您正在使用标准的盒模型，边框的大小将添加到框的宽度和高度。如果您使用的是替代盒模型，那么边框的大小会使内容框更小，因为它会占用一些可用的宽度和高度。</p>
+<p>可以使用<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border"><code>border</code></a>属性一次设置所有四个边框的宽度、颜色和样式。</p>
+<p>分别设置每边的宽度、颜色和样式，可以使用：</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top"><code>border-top</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right"><code>border-right</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom"><code>border-bottom</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left"><code>border-left</code></a></p>
+<p>设置所有边的颜色、样式或宽度，请使用以下属性：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style"><code>border-style</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-color"><code>border-color</code></a></p>
+<p>设置单边的颜色、样式或宽度，可以使用最细粒度的普通属性之一：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top-width"><code>border-top-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top-style"><code>border-top-style</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-top-color"><code>border-top-color</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right-width"><code>border-right-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right-style"><code>border-right-style</code></a><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-right-color"><code>border-right-color</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom-width"><code>border-bottom-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom-style"><code>border-bottom-style</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-bottom-color"><code>border-bottom-color</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left-width"><code>border-left-width</code></a>、<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left-style"><code>border-left-style</code>、</a><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-left-color"><code>border-left-color</code></a></p>
+<h2 id="7-盒子模型和内联盒子"><a href="#7-盒子模型和内联盒子" class="headerlink" title="7 盒子模型和内联盒子"></a>7 盒子模型和内联盒子</h2><p>以上所有的方法都完全适用于块级盒子，有些属性也可以应用于内联盒子。在内联合中应用宽度、高度、边距、边框和内边距时，宽度和高度是被忽略的，外边距、内边距和边框是生效的。但是他们不会改变其他内容与盒子的关系，因此内边距和边框会与段落中的其他单词重叠。</p>
+<p><img src="/2022/08/17/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B/Users\LHKJ0\Pictures\WEB\CSS\Snipaste_2022-08-17_17-29-30.png"></p>
+<p>为了解决以上的问题可以使用：display: inline-block。display 有一个特殊的值，它在内联和块之间提供了一个中间状态。这对于以下情况非常有用：不希望一个元素切换到新行，但希望它可以设定宽度和高度，并避免上面看到的重叠。</p>
+<p>一个元素使用 <code>display: inline-block</code>，实现我们需要的块级的部分效果：</p>
+<ul>
+<li>设置<code>width</code> 和<code>height</code> 属性会生效。</li>
+<li><code>padding</code>, <code>margin</code>, 以及<code>border</code> 会推开其他元素。</li>
+</ul>
+<p>但是，它不会跳转到新行，如果显式添加 <code>width</code> 和 <code>height</code> 属性，它只会变得比其内容更大。</p>
+]]></content>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS层叠与继承</title>
+    <url>/2022/08/16/CSS%E5%B1%82%E5%8F%A0%E4%B8%8E%E7%BB%A7%E6%89%BF/</url>
+    <content><![CDATA[<p>​          </p>
+<a id="more"></a>
+
+<h1 id="CSS-层叠与继承"><a href="#CSS-层叠与继承" class="headerlink" title="CSS 层叠与继承"></a>CSS 层叠与继承</h1><blockquote>
+<p>某些时候项目过程中，会有些样式效果没有生效，很有可能就是创建了应用于两个元素的同一规则。</p>
+</blockquote>
+<h2 id="1-层叠"><a href="#1-层叠" class="headerlink" title="1 层叠"></a>1 层叠</h2><p>层叠可以理解为覆盖，简单的说就是CSS规则的顺序很重要，当应用两条同级别的规则到同一个元素的时候，最后的一个规则即是生效的规则。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &#123; </span><br><span class="line">    <span class="attribute">color</span>: red; </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h1</span> &#123; </span><br><span class="line">    <span class="attribute">color</span>: blue; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>This is my heading.<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-优先级"><a href="#2-优先级" class="headerlink" title="2 优先级"></a>2 优先级</h2><p>浏览器根据优先级决定当多个规则有不同选择器对应相同的元素的时候需要应用那个规则，他基本上是一个衡量选择器具体选择哪些区域的尺度：</p>
+<ul>
+<li><p>外链CSS地址优先级最低。</p>
+</li>
+<li><p>标签选择器选择页面上该类型的所有元素，他的优先级低一点。</p>
+</li>
+<li><p>类选择器相对于标签选择器会具体一点，他会选择页面上中有特定<code>class</code>属性值的元素，所以他的优先级就要高一点。</p>
+</li>
+<li><p>ID选择器是针对于网页中唯一的标签属性优先级会更高一点。</p>
+</li>
+<li><p>内联样式优先级最高。</p>
+</li>
+</ul>
+<h3 id="2-1-浏览器如何计算优先级"><a href="#2-1-浏览器如何计算优先级" class="headerlink" title="2.1 浏览器如何计算优先级"></a>2.1 浏览器如何计算优先级</h3><p>不同的选择器会有不同的分值，把这些分值相加就得到特定选择器的权重，然后再进行匹配。</p>
+<p>一个选择器有四个部分的分值相加可以认为是：个十百千 四位数的个位数。</p>
+<ol>
+<li>千位：如果是内联样式，该位得一分，没有声明选择器所以得分是1000（内联样式优先级最高）。</li>
+<li>百位：ID选择器得一分。</li>
+<li>十位：类选择器得一分（包括属性选择器、伪类选择器）。</li>
+<li>元素（标签）选择器，伪元素选择器器得一分。</li>
+</ol>
+<blockquote>
+<p><strong>备注：</strong> 通用选择器 (<code>*</code>)，组合符 (<code>+</code>, <code>&gt;</code>, <code>~</code>, ‘ ‘)，和否定伪类 (<code>:not</code>) 不会影响优先级。</p>
+</blockquote>
+<blockquote>
+<p><strong>警告：</strong> 在进行计算时不允许进行进位，例如，20 个类选择器仅仅意味着 20 个十位，而不能视为 两个百位，也就是说，无论多少个类选择器的权重叠加，都不会超过一个 ID 选择器。</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/* 1. specificity: 1-0-1 */</span></span><br><span class="line"><span class="selector-id">#outer</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line">        </span><br><span class="line"><span class="comment">/* 2. specificity: 2-0-1 */</span></span><br><span class="line"><span class="selector-id">#outer</span> <span class="selector-id">#inner</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 3. specificity: 1-0-4 */</span></span><br><span class="line"><span class="selector-id">#outer</span> <span class="selector-tag">div</span> <span class="selector-tag">ul</span> <span class="selector-tag">li</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: yellow;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 4. specificity: 1-1-3 */</span></span><br><span class="line"><span class="selector-id">#outer</span> <span class="selector-tag">div</span> <span class="selector-tag">ul</span> <span class="selector-class">.nav</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 5. specificity: 0-2-4 */</span></span><br><span class="line"><span class="selector-tag">div</span> <span class="selector-tag">div</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(2)</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">10px</span> solid black;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 6. specificity: 0-2-3 */</span></span><br><span class="line"><span class="selector-tag">div</span> <span class="selector-tag">li</span><span class="selector-pseudo">:nth-child(2)</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">10px</span> dashed black;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 7. specificity: 0-3-3 */</span></span><br><span class="line"><span class="selector-tag">div</span> <span class="selector-tag">div</span> <span class="selector-class">.nav</span><span class="selector-pseudo">:nth-child(2)</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">10px</span> double black;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">a</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">text-decoration</span>: none;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">margin-bottom</span>: <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">ul</span> &#123;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">li</span> &#123;</span><br><span class="line">    <span class="attribute">list-style-type</span>: none;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;outer&quot;</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;inner&quot;</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;nav&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>One<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;nav&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span>&gt;</span>Two<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>针对上面的代码解释：</p>
+<ul>
+<li>前面两个选择器都是链接背景颜色的样式 — 第二个赢了使得背景变成蓝色因为它多了一个 ID 选择器：优先级 201 vs. 101。</li>
+<li>第三四个选择器都是链接文本颜色样式 — 第二个（第四个）赢了使得文本变成白色因为它虽然少一个元素选择器，但是多了一个类选择器，多了 9 分。所以优先级是 113 vs. 104。</li>
+<li>第 5 到 7 个选择器都是鼠标悬停时链接边框样式。第六个显然输给第五个优先级是 23 vs. 24 — 少了个元素选择器。 第七个，比第五第六都高 — 子选择器数量相同，但是有一个元素选择器变成类选择器。所以最后优先级是 33 vs. 23 和 24。</li>
+</ul>
+<p><strong>注意</strong></p>
+<p>有一个特殊的CSS可以覆盖上面的所有的优先级计算：<code>!important</code> 用于修改特定属性的值，能够覆盖普通规则的值。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#winning</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">1px</span> solid black;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="selector-class">.better</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: gray;</span><br><span class="line">    <span class="attribute">border</span>: none <span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line"><span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: blue;</span><br><span class="line">    <span class="attribute">color</span>: white;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">5px</span>;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;better&quot;</span>&gt;</span>This is a paragraph.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;better&quot;</span> <span class="attr">id</span>=<span class="string">&quot;winning&quot;</span>&gt;</span>One selector to rule them all!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>代码解释：</p>
+<p>按照以上代码渲染出的效果应该是：<code>class=&quot;better&quot;</code>的p标签背景是灰色的，字体颜色为白色，内边距为5px，没有边框。</p>
+<p><code>id=&quot;winning&quot;</code>的p标签背景色是红色的，字体颜色为白色，内边距为5px。同样没有边框。因为在两个p标签都有类属性：<code>better</code> 且<code>better</code>的<code>border</code>设置了<code>!important</code>。尽管优先级比较低，也使用了这个CSS样式。</p>
+<p>__覆盖<code>!important</code>__的方法就是使用另外一个<code>!important</code> 具有相同的优先级且顺序靠后的，或者是优先级跟高。</p>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h2><p>相互冲突的声明按照以下顺序适用，后面的覆盖前面的。</p>
+<ol>
+<li>用户代理样式表中的声明（浏览器的默认样式，在没有设置其他的样式时使用）。</li>
+<li>用户样式表中的常规声明 (由用户设置的自定义样式)。</li>
+<li>作者样式表中的常规声明 (这些是我们 web 开发人员设置的样式)。</li>
+<li>作者样式表中的<code>!important</code>声明。</li>
+<li>用户样式表中的<code>!important</code> 声明</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CSS选择器</title>
+    <url>/2022/08/16/CSS%E9%80%89%E6%8B%A9%E5%99%A8/</url>
+    <content><![CDATA[<p>​          </p>
+<a id="more"></a>
+
+<h1 id="CSS选择器"><a href="#CSS选择器" class="headerlink" title="CSS选择器"></a>CSS选择器</h1><blockquote>
+<p>CSS中使用选择器来指定网页上我们想要格式化的HTML元素</p>
+</blockquote>
+<h2 id="1-选择器列表"><a href="#1-选择器列表" class="headerlink" title="1 选择器列表"></a>1 选择器列表</h2><p>如果有多个使用相同样式的CSS选择器，那么这些选择器可以被编排为一个列表。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.special</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上两个标签使用了同样的样式可以写成两个分开的规则，也可以则合起来，在他们之间加上逗号即可组成为一个选择器列表。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">h1</span>, <span class="selector-class">.special</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<p>在使用选择器列表时，如果任何一个选择器无效（存在语法错误）那么整条规则都会被疏略。</p>
+<h2 id="2-选择器种类"><a href="#2-选择器种类" class="headerlink" title="2 选择器种类"></a>2 选择器种类</h2><table>
+<thead>
+<tr>
+<th><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Type_selectors">标签选择器</a></th>
+<th><code>h1 &#123; &#125;</code></th>
+<th align="left">html标签</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors">通配选择器</a></td>
+<td><code>* &#123; &#125;</code></td>
+<td align="left">选择所有元素</td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Class_selectors">类选择器</a></td>
+<td><code>.box &#123; &#125;</code></td>
+<td align="left">类选择器</td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/ID_selectors">ID 选择器</a></td>
+<td><code>#unique &#123; &#125;</code></td>
+<td align="left">标签选择器</td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Attribute_selectors">标签属性选择器</a></td>
+<td><code>a[title] &#123; &#125;</code></td>
+<td align="left">根据标签一个元素上某个标签的属性的存在选择元素</td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes">伪类选择器</a></td>
+<td><code>a:hover &#123;&#125;</code></td>
+<td align="left">表示一个元素的特定的状态  <em>(在鼠标指针悬浮到一个元素上的时候选择这个元素)</em></td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements">伪元素选择器</a></td>
+<td><code>p::first-line &#123; &#125;</code></td>
+<td align="left">选择一个元素的某个部分而不是元素自己 <em>(<code>::first-line</code>是会选择一个元素（下面的情况中是<code>&lt;p&gt;</code>）中的第一行)</em></td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Descendant_combinator">后代选择器</a></td>
+<td><code>article p</code></td>
+<td align="left">（通常用单个空格（” “）字符表示）组合了两个选择器，如果第二个选择器匹配的元素具有与第一个选择器匹配的祖先（父母，父母的父母，父母的父母的父母等）元素，则它们将被选择。</td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Child_combinator">子代选择器</a></td>
+<td><code>article &gt; p</code></td>
+<td align="left">当使用 <code>&gt;</code> 选择符分隔两个元素时，它只会匹配那些作为第一个元素的**直接后代 (**子元素) 的第二元素。与之相比，当两个元素由 <a href="https://developer.mozilla.org/en-US/CSS/Descendant_selectors">后代选择器</a> 相连时，它表示匹配存在的所有由第一个元素作为祖先元素 (但不一定是父元素) 的第二个元素，无论它在 DOM 中”跳跃” 多少次。</td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Adjacent_sibling_combinator">相邻兄弟选择器</a></td>
+<td><code>h1 + p</code></td>
+<td align="left">介于两个选择器之间，当第二个元素<em>紧跟在</em>第一个元素之后，并且两个元素都是属于同一个父<code>元素</code>的子元素，则第二个元素将被选中。</td>
+</tr>
+<tr>
+<td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/General_sibling_combinator">通用兄弟选择器</a></td>
+<td><code>h1 ~ p</code></td>
+<td align="left">兄弟选择符，位置无须紧邻，只须同层级，<code>A~B</code> 选择<code>A</code>元素之后所有同层级<code>B</code>元素。</td>
+</tr>
+</tbody></table>
+<h3 id="2-1-标签、类和-ID-选择器"><a href="#2-1-标签、类和-ID-选择器" class="headerlink" title="2.1 标签、类和 ID 选择器"></a>2.1 标签、类和 ID 选择器</h3><p><strong>类型选择器</strong>有时也叫做“标签名选择器<em>”</em>或者是”元素选择器“，因为它在文档中选择了一个 HTML 标签/元素的缘故。</p>
+<p>类选择器以一个句点（<code>.</code>）开头，会选择文档中应用了这个类的所有元素。</p>
+<p>ID 选择器开头为<code>#</code>而非句点，和类选择器是同种用法。</p>
+<h4 id="2-1-1-全局选择器"><a href="#2-1-1-全局选择器" class="headerlink" title="2.1.1 全局选择器"></a>2.1.1 全局选择器</h4><p>全局选择器，是由一个星号（<code>*</code>）代指的，它选中了文档中的所有内容（或者是父元素中的所有内容。</p>
+<p>更易读的全局选择器， 例如：</p>
+<p>如果我想选中任何<code>&lt;article&gt;</code>元素的第一子元素，不论它是什么元素，都给它加粗。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">article</span> <span class="selector-pseudo">:first-child</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这看起来可能会和 为元素选择器混淆</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">article</span><span class="selector-pseudo">:first-child</span></span><br></pre></td></tr></table></figure>
+<p>为了避免这种混淆，我们可以向<code>:first-child</code>选择器加入全局选择器，这样选择器所做的事情很容易就能看懂。选择器正选中<code>&lt;article&gt;</code>元素的<em>任何</em>第一子元素：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">article</span> *<span class="selector-pseudo">:first-child</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-2-属性选择器"><a href="#2-2-属性选择器" class="headerlink" title="2.2 属性选择器"></a>2.2 属性选择器</h3><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">示例</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>[attr]</code></td>
+<td align="left"><code>a[title]</code></td>
+<td align="left">匹配带有一个名为<em>attr</em>的属性的元素——方括号里的值。</td>
+</tr>
+<tr>
+<td align="left"><code>[attr=value]</code></td>
+<td align="left"><code>a[href=&quot;https://example.com&quot;]</code></td>
+<td align="left">匹配带有一个名为<em>attr</em>的属性的元素，其值正为<em>value</em>——引号中的字符串。</td>
+</tr>
+<tr>
+<td align="left"><code>[attr~=value]</code></td>
+<td align="left"><code>p[class~=&quot;special&quot;]</code></td>
+<td align="left">匹配带有一个名为<em>attr</em>的属性的元素，其值正为<em>value</em>，或者匹配带有一个<em>attr</em>属性的元素，其值有一个或者更多，至少有一个和<em>value</em>匹配。注意，在一列中的好几个值，是用空格隔开的。</td>
+</tr>
+<tr>
+<td align="left">`[attr</td>
+<td align="left">=value]`</td>
+<td align="left">`div[lang</td>
+</tr>
+</tbody></table>
+<h4 id="2-2-1-字符串匹配选择器"><a href="#2-2-1-字符串匹配选择器" class="headerlink" title="2.2.1 字符串匹配选择器"></a>2.2.1 字符串匹配选择器</h4><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">示例</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>[attr^=value]</code></td>
+<td align="left"><code>li[class^=&quot;box-&quot;]</code></td>
+<td align="left">匹配带有一个名为<em>attr</em>的属性的元素，其值开头为<em>value</em>子字符串。</td>
+</tr>
+<tr>
+<td align="left"><code>[attr$=value]</code></td>
+<td align="left"><code>li[class$=&quot;-box&quot;]</code></td>
+<td align="left">匹配带有一个名为<em>attr</em>的属性的元素，其值结尾为<em>value</em>子字符串</td>
+</tr>
+<tr>
+<td align="left"><code>[attr*=value]</code></td>
+<td align="left"><code>li[class*=&quot;box&quot;]</code></td>
+<td align="left">匹配带有一个名为<em>attr</em>的属性的元素，其值的字符串中的任何地方，至少出现了一次<em>value</em>子字符串。</td>
+</tr>
+</tbody></table>
+<p>如果你想在大小写不敏感的情况下，匹配属性值的话，你可以在闭合括号之前，使用<code>i</code>值。这个标记告诉浏览器，要以大小写不敏感的方式匹配 ASCII 字符。没有了这个标记的话，值会按照文档语言对大小写的处理方式进行匹配，<strong>在HTML中是大小写敏感的</strong>。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">li[class^=&quot;a&quot; i] &#123;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>Case-insensitivity<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;a&quot;</span>&gt;</span>Item 1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;A&quot;</span>&gt;</span>Item 2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;Ab&quot;</span>&gt;</span>Item 3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-3-伪类伪元素选择器"><a href="#2-3-伪类伪元素选择器" class="headerlink" title="2.3 伪类伪元素选择器"></a>2.3 伪类伪元素选择器</h3><h4 id="2-3-1-伪类选择器"><a href="#2-3-1-伪类选择器" class="headerlink" title="2.3.1 伪类选择器"></a>2.3.1 伪类选择器</h4><p>它用于选择处于特定状态的元素，比如当它们是这一类型的第一个元素时，或者是当鼠标指针悬浮在元素上面的时候。伪元素开头为双单冒号<code>:</code>。</p>
+<p>应用案例：</p>
+<p>比如要让某个文章的第一段加粗，字体变大。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.first</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">120%</span>;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;first&quot;</span>&gt;</span>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo</span><br><span class="line">            melon azuki bean garlic.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard</span><br><span class="line">            greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用以上样式的确可以实现需求，但是此时文章开头又加入了一段话，就需要将 <code>class=&quot;first&quot;</code>改到第一段，比较麻烦。此时就可以使用伪类选择器<code>class=&quot;first&quot;</code>。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">article</span> <span class="selector-tag">p</span><span class="selector-pseudo">:first-child</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">120%</span>;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo</span><br><span class="line">            melon azuki bean garlic.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard</span><br><span class="line">            greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这样始终能够保持article下面第一个标签样式被加粗字体变大。</p>
+<p>此外还有其他的几个伪类选择器</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:last-child"><code>:last-child</code></a> 父元素的最后一个元素。</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-child"><code>:only-child</code></a> 匹配没有任何兄弟元素的元素。等效的选择器还可以写成 <code>:first-child:last-child</code>或者<code>:nth-child(1):nth-last-child(1)</code>,当然，前者的权重会低一点。</li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:invalid"><code>:invalid</code></a> 表示任意内容未通过验证的 <code>input</code>或其他 <code>form</code> 元素， 这个伪类对于突出显示用户的字段错误非常有用。</li>
+</ul>
+<p>用户行为伪类也叫做动态伪类。表现形式为像是一个类在用户和元素交互的时候加到了元素上一样。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:hover"><code>:hover</code></a>——上面提到过，只会在用户将指针挪到元素上的时候才会激活，一般就是链接元素。</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus"><code>:focus</code></a>——只会在用户使用键盘控制，选定元素的时候激活。</li>
+</ul>
+<h5 id="常见的伪类类型"><a href="#常见的伪类类型" class="headerlink" title="常见的伪类类型"></a>常见的伪类类型</h5><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:active"><code>:active</code></a></td>
+<td align="left">在用户激活（例如点击）元素的时候匹配。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:any-link"><code>:any-link</code></a></td>
+<td align="left">匹配一个链接的<code>:link</code>和<code>:visited</code>状态。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:blank"><code>:blank</code></a></td>
+<td align="left">匹配空输入值的<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input">``元素</a>。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:checked"><code>:checked</code></a></td>
+<td align="left">匹配处于选中状态的单选或者复选框。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebVTT_API"><code>:current</code> </a></td>
+<td align="left">匹配正在展示的元素，或者其上级元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:default"><code>:default</code></a></td>
+<td align="left">匹配一组相似的元素中默认的一个或者更多的 UI 元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:dir"><code>:dir</code></a></td>
+<td align="left">基于其方向性（HTML<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir"><code>dir</code></a>属性或者 CSS<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/direction"><code>direction</code></a>属性的值）匹配一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:disabled"><code>:disabled</code></a></td>
+<td align="left">匹配处于关闭状态的用户界面元素</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:empty"><code>:empty</code></a></td>
+<td align="left">匹配除了可能存在的空格外，没有子元素的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:enabled"><code>:enabled</code></a></td>
+<td align="left">匹配处于开启状态的用户界面元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first"><code>:first</code></a></td>
+<td align="left">匹配<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Paged_Media">分页媒体</a>的第一页。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first-child"><code>:first-child</code></a></td>
+<td align="left">匹配兄弟元素中的第一个元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:first-of-type"><code>:first-of-type</code></a></td>
+<td align="left">匹配兄弟元素中第一个某种类型的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:focus"><code>:focus</code></a></td>
+<td align="left">当一个元素有焦点的时候匹配。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:focus-visible"><code>:focus-visible</code></a></td>
+<td align="left">当元素有焦点，且焦点对用户可见的时候匹配。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:focus-within"><code>:focus-within</code></a></td>
+<td align="left">匹配有焦点的元素，以及子代元素有焦点的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:future"><code>:future</code> </a></td>
+<td align="left">匹配当前元素之后的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:hover"><code>:hover</code></a></td>
+<td align="left">当用户悬浮到一个元素之上的时候匹配。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:indeterminate"><code>:indeterminate</code></a></td>
+<td align="left">匹配未定态值的 UI 元素，通常为<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox">复选框</a>。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:in-range"><code>:in-range</code></a></td>
+<td align="left">用一个区间匹配元素，当值处于区间之内时匹配。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:invalid"><code>:invalid</code></a></td>
+<td align="left">匹配诸如<code>&lt;input&gt;</code>的位于不可用状态的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:lang"><code>:lang</code></a></td>
+<td align="left">基于语言（HTML<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/lang">lang</a>属性的值）匹配元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:last-child"><code>:last-child</code></a></td>
+<td align="left">匹配兄弟元素中最末的那个元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:last-of-type"><code>:last-of-type</code></a></td>
+<td align="left">匹配兄弟元素中最后一个某种类型的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:left"><code>:left</code></a></td>
+<td align="left">在<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Pages">分页媒体 </a>中，匹配左手边的页。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:link"><code>:link</code></a></td>
+<td align="left">匹配未曾访问的链接。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:local-link"><code>:local-link</code></a></td>
+<td align="left">匹配指向和当前文档同一网站页面的链接。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:is"><code>:is()</code></a></td>
+<td align="left">匹配传入的选择器列表中的任何选择器。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:not"><code>:not</code></a></td>
+<td align="left">匹配作为值传入自身的选择器未匹配的物件。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-child"><code>:nth-child</code></a></td>
+<td align="left">匹配一列兄弟元素中的元素——兄弟元素按照<em>an+b</em>形式的式子进行匹配（比如 2n+1 匹配元素 1、3、5、7 等。即所有的奇数个）。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-of-type"><code>:nth-of-type</code></a></td>
+<td align="left">匹配某种类型的一列兄弟元素（比如，<code>&lt;p&gt;</code>元素）——兄弟元素按照<em>an+b</em>形式的式子进行匹配（比如 2n+1 匹配元素 1、3、5、7 等。即所有的奇数个）。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-last-child"><code>:nth-last-child</code></a></td>
+<td align="left">匹配一列兄弟元素，从后往前倒数。兄弟元素按照<em>an+b</em>形式的式子进行匹配（比如 2n+1 匹配按照顺序来的最后一个元素，然后往前两个，再往前两个，诸如此类。从后往前数的所有奇数个）。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:nth-last-of-type"><code>:nth-last-of-type</code></a></td>
+<td align="left">匹配某种类型的一列兄弟元素（比如，<code>&lt;p&gt;</code>元素），从后往前倒数。兄弟元素按照<em>an+b</em>形式的式子进行匹配（比如 2n+1 匹配按照顺序来的最后一个元素，然后往前两个，再往前两个，诸如此类。从后往前数的所有奇数个）。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-child"><code>:only-child</code></a></td>
+<td align="left">匹配没有兄弟元素的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:only-of-type"><code>:only-of-type</code></a></td>
+<td align="left">匹配兄弟元素中某类型仅有的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:optional"><code>:optional</code></a></td>
+<td align="left">匹配不是必填的 form 元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:out-of-range"><code>:out-of-range</code></a></td>
+<td align="left">按区间匹配元素，当值不在区间内的的时候匹配。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:past"><code>:past</code> </a></td>
+<td align="left">匹配当前元素之前的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:placeholder-shown"><code>:placeholder-shown</code></a></td>
+<td align="left">匹配显示占位文字的 input 元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:playing"><code>:playing</code> </a></td>
+<td align="left">匹配代表音频、视频或者相似的能“播放”或者“暂停”的资源的，且正在“播放”的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:paused"><code>:paused</code> </a></td>
+<td align="left">匹配代表音频、视频或者相似的能“播放”或者“暂停”的资源的，且正在“暂停”的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:read-only"><code>:read-only</code></a></td>
+<td align="left">匹配用户不可更改的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:read-write"><code>:read-write</code></a></td>
+<td align="left">匹配用户可更改的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:required"><code>:required</code></a></td>
+<td align="left">匹配必填的 form 元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:right"><code>:right</code></a></td>
+<td align="left">在<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Pages">分页媒体 </a>中，匹配右手边的页。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:root"><code>:root</code></a></td>
+<td align="left">匹配文档的根元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:scope"><code>:scope</code></a></td>
+<td align="left">匹配任何为参考点元素的的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:valid"><code>:valid</code></a></td>
+<td align="left">匹配诸如<code>&lt;input&gt;</code>元素的处于可用状态的元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:target"><code>:target</code></a></td>
+<td align="left">匹配当前 URL 目标的元素（例如如果它有一个匹配当前<a href="https://en.wikipedia.org/wiki/Fragment_identifier">URL 分段</a>的元素）。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/:visited"><code>:visited</code></a></td>
+<td align="left">匹配已访问链接。</td>
+</tr>
+</tbody></table>
+<h4 id="2-3-2-伪元素选择器"><a href="#2-3-2-伪元素选择器" class="headerlink" title="2.3.2 伪元素选择器"></a>2.3.2 伪元素选择器</h4><p>伪元素和伪类的形式差不多，但是是表现得像往标记文本中加入全新的 HTML 元素一样，伪元素开头为双冒号<code>::</code>。</p>
+<p>应用案例：</p>
+<p>比如要让某个文章的第一行字体加粗，变大。</p>
+<p>如果用span来实现，当无法知道屏幕的大小，或者字体大小的时候就无法准确选择第一行，所以伪元素选择器就可以完全很好的实现这一样式。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">article</span> <span class="selector-tag">p</span><span class="selector-pseudo">::first-line</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">120%</span>;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo</span><br><span class="line">            melon azuki bean garlic.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard</span><br><span class="line">            greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>特别的伪元素 <code>::before</code>和<code>::after</code>和<code>cotent</code>属性一起使用，使用CSS将内容插入到你的文档中。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&quot;This should show before the other content.&quot;</span></span><br><span class="line">&#125;   </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span>Content in the box in my HTML page.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这些伪元素并不会在 Web 浏览器上经常这么做，更推荐的用法是插入一些图标，作为一个视觉性的提示，或者插入一个空字符串，并设计他的样式，使其成为一个视觉的性的提示。</p>
+<h5 id="常见的伪元素类型"><a href="#常见的伪元素类型" class="headerlink" title="常见的伪元素类型"></a>常见的伪元素类型</h5><table>
+<thead>
+<tr>
+<th align="left">选择器</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/::after"><code>::after</code></a></td>
+<td align="left">匹配出现在原有元素的实际内容之后的一个可样式化元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/::before"><code>::before</code></a></td>
+<td align="left">匹配出现在原有元素的实际内容之前的一个可样式化元素。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/::first-letter"><code>::first-letter</code></a></td>
+<td align="left">匹配元素的第一个字母。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/::first-line"><code>::first-line</code></a></td>
+<td align="left">匹配包含此伪元素的元素的第一行。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/::grammar-error"><code>::grammar-error</code></a></td>
+<td align="left">匹配文档中包含了浏览器标记的语法错误的那部分。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/::selection"><code>::selection</code></a></td>
+<td align="left">匹配文档中被选择的那部分。</td>
+</tr>
+<tr>
+<td align="left"><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/::spelling-error"><code>::spelling-error</code></a></td>
+<td align="left">匹配文档中包含了浏览器标记的拼写错误的那部分。</td>
+</tr>
+</tbody></table>
+<h3 id="2-4-关系选择器"><a href="#2-4-关系选择器" class="headerlink" title="2.4 关系选择器"></a>2.4 关系选择器</h3><p>关系选择器都是针对于第二个元素。</p>
+<h4 id="2-4-1-后代选择器"><a href="#2-4-1-后代选择器" class="headerlink" title="2.4.1 后代选择器"></a>2.4.1 后代选择器</h4><p>使用空格隔开（“ ”），组合两个选择器，比如第二个选择器的元素被选择，且其余的相同元素都和第二个选择器有同一个祖先的都会被选择。（不管多少代都会被选择）</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> <span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">&#125;  </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Text in .box<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box2&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>Text in .box2<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Text in .box<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Text not in .box<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-4-2-子代关系选择器"><a href="#2-4-2-子代关系选择器" class="headerlink" title="2.4.2 子代关系选择器"></a>2.4.2 子代关系选择器</h4><p>子代关系选择器是个大于号（<code>&gt;</code>），只会在选择器选中直接子元素的时候匹配。（只选择第一代的所有相同元素）</p>
+<h4 id="2-4-3-邻接兄弟选择器"><a href="#2-4-3-邻接兄弟选择器" class="headerlink" title="2.4.3 邻接兄弟选择器"></a>2.4.3 邻接兄弟选择器</h4><p>邻接兄弟选择器（<code>+</code>）用来选中恰好处于另一个在继承关系上同级的元素旁边的元素。</p>
+<p>比如要设置紧跟<code>h1</code>的<code>p</code>标签，设计样式，如果在他们之间再加一个其他的标签，就无法应用样式。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> + <span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#333</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">padding</span>: .<span class="number">5em</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>A heading<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--&lt;h2&gt;哈哈哈&lt;/h2&gt;--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo</span><br><span class="line">        melon azuki bean garlic.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard</span><br><span class="line">        greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="2-4-4-通用兄弟选择器"><a href="#2-4-4-通用兄弟选择器" class="headerlink" title="2.4.4 通用兄弟选择器"></a>2.4.4 通用兄弟选择器</h4><p>选中一个标签的兄弟标签，即使它们不直接相邻，你还是可以使用通用兄弟关系选择器（<code>~</code>）</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">h1</span> ~ <span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">font-weight</span>: bold;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#333</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">    <span class="attribute">padding</span>: .<span class="number">5em</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">article</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>A heading<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>I am a paragraph.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>I am a div<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>I am another paragraph.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">article</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>使用关系选择器可以将以上任意选择器组合起来，达到选择某个元素的目的。</p>
+]]></content>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记一次Docker镜像瘦身[Python]</title>
     <url>/2022/08/04/%E8%AE%B0%E4%B8%80%E6%AC%A1Docker%E9%95%9C%E5%83%8F%E7%98%A6%E8%BA%AB/</url>
     <content><![CDATA[<p>​      </p>
