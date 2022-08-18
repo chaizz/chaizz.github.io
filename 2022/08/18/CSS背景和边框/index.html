@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    CSS背景和边框 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-CSS背景和边框" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  CSS背景和边框
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/08/18/CSS%E8%83%8C%E6%99%AF%E5%92%8C%E8%BE%B9%E6%A1%86/" class="article-date">
+  <time datetime="2022-08-17T16:00:00.000Z" itemprop="datePublished">2022-08-18</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.3k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/760e75941d1511edb5630242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="CSS背景和边框"><a href="#CSS背景和边框" class="headerlink" title="CSS背景和边框"></a>CSS背景和边框</h1><p>设计CSS的背景和边框，可以是CSS的样式更具有多样性。CSS背景可以做哪些不同的事情？</p>
+<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1 背景"></a>1 背景</h2><h3 id="1-1-颜色背景：background-color"><a href="#1-1-颜色背景：background-color" class="headerlink" title="1.1 颜色背景：background-color"></a>1.1 颜色背景：<code>background-color</code></h3><p>定义了CSS中任何元素的背景颜色，属性接受的是有效的color值，==背景会扩展到元素的内容和内边距的下面==。</p>
+<p><img src="https://tc.chaizz.com/tc/Snipaste_2022-08-18_09-57-45.png"></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#567895</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-tag">h2</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: black;</span><br><span class="line">  <span class="attribute">color</span>: white;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">span</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="built_in">rgba</span>(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,.<span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Background Colors<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span>Try changing the background <span class="tag">&lt;<span class="name">span</span>&gt;</span>colors<span class="tag">&lt;/<span class="name">span</span>&gt;</span>.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-2-图片背景：background-image"><a href="#1-2-图片背景：background-image" class="headerlink" title="1.2 图片背景：background-image"></a>1.2 图片背景：<code>background-image</code></h3><p>该属性允许在元素的背景中显示图像，但是要注意的是：大图不会缩小以适应标签方框，而小图则是平铺</p>
+<p>填充方框。<strong>如果除了背景图像外，还指定了背景颜色，则图像将颜色覆盖。</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.a</span>, <span class="selector-class">.b</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">border</span>: black solid <span class="number">1px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">&quot;9.png&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.b</span> &#123;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">&quot;400.jpeg&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;wrapper&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box a&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;box b&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://tc.chaizz.com/tc/Snipaste_2022-08-18_10-14-47.png"></p>
+<h4 id="1-2-1-控制背景的平铺行为：background-repeat"><a href="#1-2-1-控制背景的平铺行为：background-repeat" class="headerlink" title="1.2.1 控制背景的平铺行为：background-repeat"></a>1.2.1 控制背景的平铺行为：<code>background-repeat</code></h4><ul>
+<li><code>no-repeat</code> 不重复。</li>
+<li><code>repeat-x</code> 水平重复。</li>
+<li><code>repeat-y</code> 垂直重复。</li>
+<li><code>repeat</code> 在两个方向重复。</li>
+</ul>
+<h4 id="1-2-2-调整背景图像的大小：-background-size"><a href="#1-2-2-调整背景图像的大小：-background-size" class="headerlink" title="1.2.2 调整背景图像的大小： background-size"></a>1.2.2 调整背景图像的大小： <code>background-size</code></h4><p>可以设置长度（100px 200px），百分比。</p>
+<ul>
+<li><p><code>cover</code>：浏览器将图像等比例放大，和元素盒子一样大，但是当图片尺寸和盒子尺寸不一致是往往会跳出盒子。</p>
+</li>
+<li><p><code>contain</code>：浏览器使图像的大小适应盒子内，如果图像的长宽比与盒子的长宽比不同，则可能在图像的任何一边或顶部和底部出现间隙。</p>
+</li>
+</ul>
+<h4 id="1-2-3-背景图像定位：background-position"><a href="#1-2-3-背景图像定位：background-position" class="headerlink" title="1.2.3 背景图像定位：background-position"></a>1.2.3 背景图像定位：<code>background-position</code></h4><p>设置背景图像显示在其应用到的盒子中的位置，在盒子中坐标系（0，0）位于盒子的左上角。默认额的背景图像位置为（0,0）。</p>
+<ul>
+<li> <code>background-position</code> 是 <code>background-position-x</code> 和 <code>background-position-y</code>的简写，它们允许您分别设置不同的坐标轴的值。</li>
+</ul>
+<h4 id="1-2-4-背景附加：background-attachment"><a href="#1-2-4-背景附加：background-attachment" class="headerlink" title="1.2.4 背景附加：background-attachment"></a>1.2.4 背景附加：<code>background-attachment</code></h4><p>==此属性只有在有内容要滚动时才会有效果==。</p>
+<p>它可以接受以下值：<a href="https://mdn.github.io/learning-area/css/styling-boxes/backgrounds/background-attachment.html">示例</a></p>
+<ul>
+<li><code>scroll</code>: 只有在页面滚动时背景图像在会滚动。如果滚动了元素内容，则背景不会移动。实际上，背景被固定在页面的相同位置，所以它会随着页面的滚动而滚动。</li>
+<li><code>fixed</code>: 使元素的背景固定在页面的某个位置上，这样当页面或元素内容滚动时，它都不会滚动。它将始终保持在屏幕上相同的位置。</li>
+<li><code>local</code>: 使用该值元素滚动和页面滚动都会导致背景图像滚动。</li>
+</ul>
+<h3 id="1-3-渐变背景"><a href="#1-3-渐变背景" class="headerlink" title="1.3 渐变背景"></a>1.3 渐变背景</h3><p>当渐变用于背景时，也可以使用像图像一样的 <code>background-image</code>属性设置。</p>
+<p><img src="/2022/08/18/CSS%E8%83%8C%E6%99%AF%E5%92%8C%E8%BE%B9%E6%A1%86/Users\LHKJ0\Pictures\WEB\CSS\Snipaste_2022-08-18_10-56-41.png">s</p>
+<p>使用<code>background</code>可以设置全部的属性，但是在设置属性时有一些<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/background">规则</a>：</p>
+<ul>
+<li><code>background-color</code> 只能在逗号之后指定。</li>
+<li><code>background-size</code> 值只能包含在背景位置之后，用’/‘字符分隔，例如：<code>center/80%</code>。</li>
+</ul>
+<p>例如指定多个 <code>background-image</code> 的值时，用逗号分隔每个值。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">background-image</span>: <span class="selector-tag">url</span>(<span class="selector-tag">image1</span><span class="selector-class">.png</span>), <span class="selector-tag">url</span>(<span class="selector-tag">image2</span><span class="selector-class">.png</span>), <span class="selector-tag">url</span>(<span class="selector-tag">image3</span><span class="selector-class">.png</span>), <span class="selector-tag">url</span>(<span class="selector-tag">image4</span><span class="selector-class">.png</span>);</span><br><span class="line"><span class="selector-tag">background-repeat</span>: <span class="selector-tag">no-repeat</span>, <span class="selector-tag">repeat-x</span>, <span class="selector-tag">repeat</span>;</span><br><span class="line"><span class="selector-tag">background-position</span>: 10<span class="selector-tag">px</span> 20<span class="selector-tag">px</span>,  <span class="selector-tag">top</span> <span class="selector-tag">right</span>;</span><br></pre></td></tr></table></figure>
+<p>不同的属性值， 与其他属性中相同位置的值匹配。</p>
+<h2 id="2-边框"><a href="#2-边框" class="headerlink" title="2 边框"></a>2 边框</h2><p>使用 border属性设置 CSS 中盒子设置边框的颜色、宽度和样式。 </p>
+<h3 id="2-1-边框样式：border-style"><a href="#2-1-边框样式：border-style" class="headerlink" title="2.1 边框样式：border-style"></a>2.1 边框样式：<code>border-style</code></h3><p>关键字用于描述边框样式。它可以有以下取值：<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-style">示例</a></p>
+<table>
+<thead>
+<tr>
+<th align="left"><code>none</code></th>
+<th align="left">和关键字 <code>hidden</code> 类似，不显示边框。在这种情况下，如果没有设定背景图片，<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 计算后的值将是 <code>0</code>，即使先前已经指定过它的值。在单元格边框重叠情况下，<code>none</code> 值优先级最低，意味着如果存在其他的重叠边框，则会显示为那个边框。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>hidden</code></td>
+<td align="left">和关键字 <code>none</code> 类似，不显示边框。在这种情况下，如果没有设定背景图片，<a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 计算后的值将是 <code>0</code>，即使先前已经指定过它的值。在单元格边框重叠情况下，<code>hidden</code> 值优先级最高，意味着如果存在其他的重叠边框，边框不会显示。</td>
+</tr>
+<tr>
+<td align="left"><code>dotted</code></td>
+<td align="left">显示为一系列圆点。标准中没有定义两点之间的间隔大小，视不同实现而定。圆点半径是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 计算值的一半。</td>
+</tr>
+<tr>
+<td align="left"><code>dashed</code></td>
+<td align="left">显示为一系列短的方形虚线。标准中没有定义线段的长度和大小，视不同实现而定。</td>
+</tr>
+<tr>
+<td align="left"><code>solid</code></td>
+<td align="left">显示为一条实线。</td>
+</tr>
+<tr>
+<td align="left"><code>double</code></td>
+<td align="left">显示为一条双实线，宽度是 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-width"><code>border-width</code></a> 。</td>
+</tr>
+<tr>
+<td align="left"><code>groove</code></td>
+<td align="left">显示为有雕刻效果的边框，样式与 <code>ridge</code> 相反。</td>
+</tr>
+<tr>
+<td align="left"><code>ridge</code></td>
+<td align="left">显示为有浮雕效果的边框，样式与 <code>groove</code> 相反。</td>
+</tr>
+<tr>
+<td align="left"><code>inset</code></td>
+<td align="left">显示为有陷入效果的边框，样式与 <code>outset</code> 相反。当它指定到 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-collapse"><code>border-collapse</code></a> 为 <code>collapsed</code> 的单元格时，会显示为 <code>groove</code> 的样式。</td>
+</tr>
+<tr>
+<td align="left"><code>outset</code></td>
+<td align="left">显示为有突出效果的边框，样式与 <code>inset</code> 相反。当它指定到 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-collapse"><code>border-collapse</code></a> 为 <code>collapsed</code> 的单元格时，会显示为 <code>ridge</code> 的样式。</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2022/08/17/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">CSS盒模型</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2022</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">68k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
