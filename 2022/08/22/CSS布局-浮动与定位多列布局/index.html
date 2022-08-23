@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    CSS布局-浮动与定位与多列布局 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-CSS布局-浮动与定位多列布局" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  CSS布局-浮动与定位与多列布局
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/08/22/CSS%E5%B8%83%E5%B1%80-%E6%B5%AE%E5%8A%A8%E4%B8%8E%E5%AE%9A%E4%BD%8D%E5%A4%9A%E5%88%97%E5%B8%83%E5%B1%80/" class="article-date">
+  <time datetime="2022-08-21T16:00:00.000Z" itemprop="datePublished">2022-08-22</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.9k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/760e75941d1511edb5630242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="CSS布局-浮动与定位与多列布局"><a href="#CSS布局-浮动与定位与多列布局" class="headerlink" title="CSS布局-浮动与定位与多列布局"></a>CSS布局-浮动与定位与多列布局</h1><h2 id="1-浮动-float"><a href="#1-浮动-float" class="headerlink" title="1 浮动 float"></a>1 浮动 float</h2><p>浮动属性最初只用在成块的文本内的图像上，使用浮动来布局页面被看做传统的布局方法。</p>
+<h3 id="1-1-添加浮动"><a href="#1-1-添加浮动" class="headerlink" title="1.1 添加浮动"></a>1.1 添加浮动</h3><p>浮动元素会脱离正常的文档布局流，并吸附到其父容器的左/右边元素）。在正常布局中位于该浮动元素之下的内容，此时会围绕着浮动元素，填满其右/左侧的空间。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">float</span>: left;  <span class="comment">/*  left和right */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-清除浮动"><a href="#1-2-清除浮动" class="headerlink" title="1.2 清除浮动"></a>1.2 清除浮动</h3><p>一个浮动元素会被移出正常文档流，且其他元素会显示在它的下方。如果我们不想让剩余元素也受到浮动元素的影响，我们需要 <em>停止</em> 它；这是通过添加 <a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/clear"><code>clear</code></a> 属性实现的。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cleared</span> &#123;</span><br><span class="line">  <span class="attribute">clear</span>: left;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>clear 属性接受下列值：</p>
+<ul>
+<li><code>left</code>：停止任何活动的左浮动</li>
+<li><code>right</code>：停止任何活动的右浮动</li>
+<li><code>both</code>：停止任何活动的左右浮动</li>
+</ul>
+<h3 id="1-3-清除浮动元素周围的盒子"><a href="#1-3-清除浮动元素周围的盒子" class="headerlink" title="1.3 清除浮动元素周围的盒子"></a>1.3 清除浮动元素周围的盒子</h3><p>第一种方式，其过程为：先向包含浮动内容及其本身的盒子后方插入一些生成的内容，并将生成的内容清除浮动。（比较传统的形式）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">&quot;&quot;</span>;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">  <span class="attribute">display</span>: block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式和在盒子后面手动添加类似div的块元素 ，并设置样式为<code>clear:both</code>的效果是一样的。</p>
+<p>第二种方式 使用 <code>overflow</code>(以上方案的替代方法)。</p>
+<p>将包裹元素的 <code>overflow</code>属性设置为<code>visible</code>外其他的值。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">overflow</span>: auto; <span class="comment">/* 设置为auto */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>大部分情况下这种小技巧都可以奏效，但是可能会出现莫名其妙的滚动条或裁剪阴影，这是使用 overflow 带来的一些副作用。</p>
+<p>第三种形式， 比较现代的形式。</p>
+<p>使用<code>display:flow-root</code>可以无需小技巧来创建块格式化上下文（BFC），在使用上没有副作用。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.wrapper</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flow-root;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-定位-position"><a href="#2-定位-position" class="headerlink" title="2 定位 position"></a>2 定位 position</h2><p>理解定位首先熟悉文档流。</p>
+<blockquote>
+<p>文档流</p>
+<p>围绕元素内容添加任何内边距，边界和外边距来布置单个元素盒子，这就是盒模型。默认请况下，块级元素的宽度是父级元素宽度的100%，高度是内容的高度，内联元素的宽高和内容一样宽高一样，不能对内联元素设置宽–他们只是位于块级元素的内容中，如果要控制内联元素的大小需要将其设置为<code>display:block</code>。</p>
+<p>正常的布局流是将元素放置在浏览器视口内的系统，块级元素在视口中垂直布局——每个都将显示在上一个元素下面的新行上，并且它们的外边距将分隔开它们；</p>
+<p>内联元素表现不一样——它们不会出现在新行上；相反，它们互相之间以及任何相邻（或被包裹）的文本内容位于同一行上，只要在父块级元素的宽度内有空间可以这样做。如果没有空间，那么溢流的文本或元素将向下移动到新行。</p>
+<p>如果两个相邻元素都在其上设置外边距，并且两个外边距接触，则两个外边距中的较大者保留，较小的一个消失——这叫外边距折叠。</p>
+</blockquote>
+<p>定位是允许我们覆盖上面描述的基本文档流行为。</p>
+<h3 id="2-1-静态定位-static"><a href="#2-1-静态定位-static" class="headerlink" title="2.1 静态定位 static"></a>2.1 静态定位 static</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.positioned</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: static;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>静态定位是每个元素获取的默认值–它只是意味着“将元素放入它在文档布局流中的正常位置。</p>
+<h3 id="2-2-相对定位-relative"><a href="#2-2-相对定位-relative" class="headerlink" title="2.2 相对定位 relative"></a>2.2 相对定位 relative</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.positioned</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>他与静态定位非常相似。占据在正常文档流中，可以通过 top、bottom、left、right改变元素的位置。</p>
+<p>以上四个值是用来精确指定元素的位置，</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.positioned &#123;</span><br><span class="line">    position: relative;</span><br><span class="line">    top: <span class="number">30</span>px;</span><br><span class="line">    left: <span class="number">30</span>px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-3-绝对定位-absolute"><a href="#2-3-绝对定位-absolute" class="headerlink" title="2.3 绝对定位 absolute"></a>2.3 绝对定位 absolute</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.positioned</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>绝对定位的元素不再存在于正常文档布局流中。相反，它坐在它自己的层独立于一切。这意味着我们可以创建不干扰页面上其他元素的位置的隔离的 UI 功能。例如，弹出信息框和控制菜单；翻转面板；可以在页面上的任何地方拖放的 UI 功能……</p>
+<p>==绝对定位是根据他的父元素的position 属性来进行绝对定位==，如果所有的父元素都没有显式地定义 position 属性，那么所有的父元素默认情况下 position 属性都是 static。绝对定位元素会被放在<html>元素的外面，并且根据浏览器视口来定位。</html></p>
+<h3 id="2-4-z-index"><a href="#2-4-z-index" class="headerlink" title="2.4 z-index"></a>2.4 z-index</h3><p>当元素开始重叠的时候，是什么决定了那些元素应该出现在顶层，哪些在底层？</p>
+<p>在定位上下文中只有一个定位的元素，它出现在顶部，因为定位的元素胜过未定位的元素。</p>
+<p>网页也有一个 z 轴：一条从屏幕到面前的线，z-index 值影响定位元素位于该轴上的位置；正值将它们移动到顶层即向屏幕外垂直延伸到面前，负值将它们向下移动到底层向屏幕里垂直延伸。默认情况下，定位的元素都具有 z-index 为 auto，实际上为 0。</p>
+<p>z-index 只接受无单位索引值。</p>
+<h3 id="2-5-固定定位-fixed"><a href="#2-5-固定定位-fixed" class="headerlink" title="2.5 固定定位 fixed"></a>2.5 固定定位 fixed</h3><p>这种定位方式与绝对定位的方式完全相同，只有一个区别：绝对定位将元素固定在相对于其位置最近的祖先。（（如果没有，则为初始包含它的块）而固定定位固定元素则是相对于浏览器视口本身</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.positioned</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: fixed;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>相对位置和固定位置的混合体 sticky</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.positioned</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: sticky;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>这个值比其他的值要新，他是相对位置个绝对位置的混合体，表现行为和相对定位一样，直到它滚动到某个阈值点为止，他就变得固定了。</p>
+<p>sticky 一种常用的用法，是创建一个滚动索引页面。在此页面上，不同的标题会停留在页面顶部。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.positioned</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: sticky;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-多列布局"><a href="#3-多列布局" class="headerlink" title="3 多列布局"></a>3 多列布局</h2><h3 id="3-1-设置列数-column-count"><a href="#3-1-设置列数-column-count" class="headerlink" title="3.1 设置列数 column-count"></a>3.1 设置列数 column-count</h3><p>创建的这些列具有弹性的宽度 — 由浏览器计算出每一列分配多少空间。</p>
+<h3 id="3-2-设置列宽-column-width"><a href="#3-2-设置列宽-column-width" class="headerlink" title="3.2 设置列宽 column-width"></a>3.2 设置列宽 column-width</h3><p>浏览器将按照你指定的宽度尽可能多的创建列；任何剩余的空间之后会被现有的列平分。 这意味着你可能无法期望得到你指定宽度，除非容器的宽度刚好可以被你指定的宽度除尽。</p>
+<h3 id="3-3-给多列增加样式"><a href="#3-3-给多列增加样式" class="headerlink" title="3.3 给多列增加样式"></a>3.3 给多列增加样式</h3><p>Multicol 创建的列无法单独的设定样式。不存在让单独某一列比其他列更大的方法，同样无法为某一特定的列设置独特的背景色、文本颜色。</p>
+<ul>
+<li><code>column-gap</code> 改变列间间隙。</li>
+<li><code>column-rule</code> 在列间加入分割线。</li>
+</ul>
+<p><code>column-rule</code>。和 <code>border</code>属性类似， <code>column-rule</code> 是 <code>column-rule-color</code>和 <code>column-rule-style</code>的缩写，接受同 <code>border</code> 一样的单位。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">column-count</span>: <span class="number">3</span>;</span><br><span class="line">  <span class="attribute">column-gap</span>: <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">column-rule</span>: <span class="number">4px</span> dotted <span class="built_in">rgb</span>(<span class="number">79</span>, <span class="number">185</span>, <span class="number">227</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="3-4-列与内容折断"><a href="#3-4-列与内容折断" class="headerlink" title="3.4 列与内容折断"></a>3.4 列与内容折断</h3><p>使用对列布局时把内容放入多列布局容器内，内容被拆成碎块放进列中，从而影响阅读体验。可以在列上使用这一属性避免<code>break-inside:avoid</code>。 现阶段旧属性 <code>page-break-inside: avoid</code> 能够获得更好的浏览器支持。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/" rel="tag">CSS</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2022/08/22/CSS%E5%B8%83%E5%B1%80/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      CSS布局
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2022/08/19/CSS%E6%96%87%E6%9C%AC%E6%A0%B7%E5%BC%8F/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">CSS样式化文本</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2022</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">75.2k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
