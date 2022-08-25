@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    CSS转换 |
+    CSS 转换、过渡和动画 |
     
     八方</title>
   
@@ -30,7 +30,7 @@
 <body>
   <main class="content">
     <section class="outer">
-  <article id="post-CSS转换" class="article article-type-post" itemscope
+  <article id="post-CSS 转换、过渡和动画" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -39,7 +39,7 @@
       
 
 <h1 class="article-title" itemprop="name">
-  CSS转换
+  CSS 转换、过渡和动画
 </h1>
 
 
@@ -49,12 +49,12 @@
 
     
     <div class="article-meta">
-      <a href="/2022/08/24/CSS%E8%BD%AC%E6%8D%A2/" class="article-date">
+      <a href="/2022/08/24/CSS%20%E8%BD%AC%E6%8D%A2%E3%80%81%E8%BF%87%E6%B8%A1%E5%92%8C%E5%8A%A8%E7%94%BB/" class="article-date">
   <time datetime="2022-08-23T16:00:00.000Z" itemprop="datePublished">2022-08-24</time>
 </a>
       
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">455</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">2</span>分钟
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
     </div>
     
 
@@ -81,7 +81,7 @@
       <p>​                 </p>
 <a id="more"></a>
 
-<h1 id="CSS-转换"><a href="#CSS-转换" class="headerlink" title="CSS 转换"></a>CSS 转换</h1><p>转换可以对元素进行移动、缩放、转动、拉伸。转换的效果是让某个元素改变形状，大小和位置。可以使用2D和3D来转换元素，</p>
+<h1 id="CSS-转换、过渡和动画"><a href="#CSS-转换、过渡和动画" class="headerlink" title="CSS 转换、过渡和动画"></a>CSS 转换、过渡和动画</h1><p>转换可以对元素进行移动、缩放、转动、拉伸。转换的效果是让某个元素改变形状，大小和位置。可以使用2D和3D来转换元素，</p>
 <h2 id="1-2D转换"><a href="#1-2D转换" class="headerlink" title="1 2D转换"></a>1 2D转换</h2><h3 id="1-1-平移-translate"><a href="#1-1-平移-translate" class="headerlink" title="1.1 平移 translate"></a>1.1 平移 translate</h3><p>根据左(X轴)和顶部(Y轴)位置给定的参数，从当前元素位置移动。</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">50px</span>,<span class="number">100px</span>);</span><br><span class="line">    <span class="attribute">-ms-transform</span>: <span class="built_in">translate</span>(<span class="number">50px</span>,<span class="number">100px</span>); <span class="comment">/* IE 9 */</span></span><br><span class="line">    <span class="attribute">-webkit-transform</span>: <span class="built_in">translate</span>(<span class="number">50px</span>,<span class="number">100px</span>); <span class="comment">/* Safari and Chrome */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>以上css规则：是从左边元素移动50个像素，并从顶部移动100像素。</p>
@@ -97,6 +97,67 @@
 <h3 id="1-5-以上方法的缩写-matrix"><a href="#1-5-以上方法的缩写-matrix" class="headerlink" title="1.5 以上方法的缩写 matrix"></a>1.5 以上方法的缩写 matrix</h3><p>matrix 方法有六个参数，包含旋转，缩放，移动（平移）和倾斜功能。</p>
 <p>表示以下函数：matrix( scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY() )</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>:<span class="built_in">matrix</span>(<span class="number">0.866</span>,<span class="number">0.5</span>,-<span class="number">0.5</span>,<span class="number">0.866</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">    <span class="attribute">-ms-transform</span>:<span class="built_in">matrix</span>(<span class="number">0.866</span>,<span class="number">0.5</span>,-<span class="number">0.5</span>,<span class="number">0.866</span>,<span class="number">0</span>,<span class="number">0</span>); <span class="comment">/* IE 9 */</span></span><br><span class="line">    <span class="attribute">-webkit-transform</span>:<span class="built_in">matrix</span>(<span class="number">0.866</span>,<span class="number">0.5</span>,-<span class="number">0.5</span>,<span class="number">0.866</span>,<span class="number">0</span>,<span class="number">0</span>); <span class="comment">/* Safari and Chrome */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-CSS-过渡"><a href="#2-CSS-过渡" class="headerlink" title="2 CSS 过渡"></a>2 CSS 过渡</h2><h3 id="2-1-transition-使某种想过转变到另一种效果。"><a href="#2-1-transition-使某种想过转变到另一种效果。" class="headerlink" title="2.1 transition 使某种想过转变到另一种效果。"></a>2.1 transition 使某种想过转变到另一种效果。</h3><ul>
+<li>transition-property 应用过渡的CSS属性。</li>
+<li>transition-duration 过渡的CSS时间，默认是0。</li>
+<li>transition-timing-function 规定过渡效果的时间曲线。默认是 “ease”。</li>
+<li>transition-delay    规定过渡效果何时开始。默认是 0 （立即开始）。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">transition-property</span>: width;</span><br><span class="line">    <span class="attribute">transition-duration</span>: <span class="number">1s</span>;</span><br><span class="line">    <span class="attribute">transition-timing-function</span>: linear;</span><br><span class="line">    <span class="attribute">transition-delay</span>: <span class="number">2s</span>;</span><br><span class="line">    <span class="comment">/* Safari */</span></span><br><span class="line">    <span class="attribute">-webkit-transition-property</span>:width;</span><br><span class="line">    <span class="attribute">-webkit-transition-duration</span>:<span class="number">1s</span>;</span><br><span class="line">    <span class="attribute">-webkit-transition-timing-function</span>:linear;</span><br><span class="line">    <span class="attribute">-webkit-transition-delay</span>:<span class="number">2s</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-transition-以上属性简写"><a href="#2-2-transition-以上属性简写" class="headerlink" title="2.2 transition 以上属性简写"></a>2.2 transition 以上属性简写</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">transition</span>: width <span class="number">1s</span> linear <span class="number">2s</span>;</span><br><span class="line">    <span class="comment">/* Safari */</span></span><br><span class="line">    <span class="attribute">-webkit-transition</span>:width <span class="number">1s</span> linear <span class="number">2s</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-CSS-动画"><a href="#3-CSS-动画" class="headerlink" title="3 CSS 动画"></a>3 CSS 动画</h2><p>动画是使元素从一种样式逐渐变化为另一种样式的效果，可以改变任意多的样式任意多的次数。</p>
+<p>使用百分比来规定变化发生的时间，或者使用关键字<code>from</code>和<code>to</code>等同于0%和100%。为了有更好的体验，应该使用定义0%和100%。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">animation</span>: myfirst <span class="number">5s</span>;</span><br><span class="line">    <span class="attribute">-webkit-animation</span>: myfirst <span class="number">5s</span>; <span class="comment">/* Safari 与 Chrome */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@keyframes</span> myfirst &#123;</span><br><span class="line">    0%   &#123;<span class="attribute">background</span>: red;&#125;</span><br><span class="line">    25%  &#123;<span class="attribute">background</span>: yellow;&#125;</span><br><span class="line">    50%  &#123;<span class="attribute">background</span>: blue;&#125;</span><br><span class="line">    100% &#123;<span class="attribute">background</span>: green;&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">@-webkit-keyframes</span> myfirst /* Safari 与 Chrome */ &#123;</span><br><span class="line">    0%   &#123;<span class="attribute">background</span>: red;&#125;</span><br><span class="line">    25%  &#123;<span class="attribute">background</span>: yellow;&#125;</span><br><span class="line">    50%  &#123;<span class="attribute">background</span>: blue;&#125;</span><br><span class="line">    100% &#123;<span class="attribute">background</span>: green;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-1-animation-相关属性"><a href="#3-1-animation-相关属性" class="headerlink" title="3.1 animation 相关属性"></a>3.1 animation 相关属性</h3><ul>
+<li>@keyframes    规定动画规则。</li>
+<li>animation-name    规定 @keyframes 动画的名称。    </li>
+<li>animation-duration    规定动画完成一个周期所花费的秒或毫秒。默认是 0。    </li>
+<li>animation-timing-function    规定动画的速度曲线。默认是 “ease”。    </li>
+<li>animation-fill-mode    规定当动画不播放时（当动画完成时，或当动画有一个延迟未开始播放时），要应用到元素的样式。    </li>
+<li>animation-delay    规定动画何时开始。默认是 0。    </li>
+<li>animation-iteration-count    规定动画被播放的次数。默认是 1。    </li>
+<li>animation-direction    规定动画是否在下一周期逆向地播放。默认是 “normal”。    </li>
+<li>animation-play-state    规定动画是否正在运行或暂停。默认是 “running”</li>
+</ul>
+<h3 id="3-2-设置所有属性示例"><a href="#3-2-设置所有属性示例" class="headerlink" title="3.2 设置所有属性示例"></a>3.2 设置所有属性示例</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">animation-name</span>: myfirst;</span><br><span class="line">    <span class="attribute">animation-duration</span>: <span class="number">5s</span>;</span><br><span class="line">    <span class="attribute">animation-timing-function</span>: linear;</span><br><span class="line">    <span class="attribute">animation-delay</span>: <span class="number">2s</span>;</span><br><span class="line">    <span class="attribute">animation-iteration-count</span>: infinite;</span><br><span class="line">    <span class="attribute">animation-direction</span>: alternate;</span><br><span class="line">    <span class="attribute">animation-play-state</span>: running;</span><br><span class="line">    <span class="comment">/* Safari 与 Chrome: */</span></span><br><span class="line">    <span class="attribute">-webkit-animation-name</span>: myfirst;</span><br><span class="line">    <span class="attribute">-webkit-animation-duration</span>: <span class="number">5s</span>;</span><br><span class="line">    <span class="attribute">-webkit-animation-timing-function</span>: linear;</span><br><span class="line">    <span class="attribute">-webkit-animation-delay</span>: <span class="number">2s</span>;</span><br><span class="line">    <span class="attribute">-webkit-animation-iteration-count</span>: infinite;</span><br><span class="line">    <span class="attribute">-webkit-animation-direction</span>: alternate;</span><br><span class="line">    <span class="attribute">-webkit-animation-play-state</span>: running;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>简写示例</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">    <span class="attribute">animation</span>: myfirst <span class="number">5s</span> linear <span class="number">2s</span> infinite alternate;</span><br><span class="line">    <span class="comment">/* Safari 与 Chrome: */</span></span><br><span class="line">    <span class="attribute">-webkit-animation</span>: myfirst <span class="number">5s</span> linear <span class="number">2s</span> infinite alternate;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -199,7 +260,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">76.5k</span>字</span>
+    <span>全站共<span class="post-count">77k</span>字</span>
     <br>
     <div class="powered-by">
   
