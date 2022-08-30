@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    flaskshell创建索引出错 |
+    flask常用扩展 |
     
     八方</title>
   
@@ -30,7 +30,7 @@
 <body>
   <main class="content">
     <section class="outer">
-  <article id="post-flaskshell创建索引出错" class="article article-type-post" itemscope
+  <article id="post-Flask常用扩展" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -39,7 +39,7 @@
       
 
 <h1 class="article-title" itemprop="name">
-  flaskshell创建索引出错
+  flask常用扩展
 </h1>
 
 
@@ -49,15 +49,11 @@
 
     
     <div class="article-meta">
-      <a href="/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/" class="article-date">
-  <time datetime="2021-02-02T07:51:12.000Z" itemprop="datePublished">2021-02-02</time>
+      <a href="/2022/08/30/Flask%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/" class="article-date">
+  <time datetime="2022-08-30T03:23:12.000Z" itemprop="datePublished">2022-08-30</time>
 </a>
       
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Flak/">Flak</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">55</span>字
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">256</span>字
       &emsp;<i class="fe fe-clock"></i> <span class="post-count">1</span>分钟
     </div>
     
@@ -71,23 +67,66 @@
     <div class="article-entry" itemprop="articleBody">
       
       
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/a59930a4250a11ed94870242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
       
-      <p>遇到的问题：flask 环境中使用 flask shell  使用flask Whoosh 创建索引失败</p>
+      <p>​                  </p>
 <a id="more"></a>
 
-<h3 id="解决办法-："><a href="#解决办法-：" class="headerlink" title="解决办法 ："></a>解决办法 ：</h3><pre><code>export FLASK_APP=manage.py
-flask shell 
-</code></pre>
-<p>然后导出 flask 创建的whoosh的whoosh对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from 项目内的文件 import whoosh</span><br><span class="line">whoosh.create_index()</span><br></pre></td></tr></table></figure>
+<h1 id="Flask-常用扩展"><a href="#Flask-常用扩展" class="headerlink" title="Flask 常用扩展"></a>Flask 常用扩展</h1><h2 id="1-Flask-Cors"><a href="#1-Flask-Cors" class="headerlink" title="1 Flask-Cors"></a>1 Flask-Cors</h2><p>用于处理跨域资源共享的扩展。 <a href="https://flask-cors.corydolphin.com/en/latest/api.html">文档地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U flask-cors</span><br></pre></td></tr></table></figure>
 
-<p>​    </p>
+
+<h2 id="2-Flask-Limiter-Memcached"><a href="#2-Flask-Limiter-Memcached" class="headerlink" title="2 Flask-Limiter Memcached"></a>2 Flask-Limiter Memcached</h2><p>给接口提供速率限制，可以设置各种后端配置来提供限制功能，如：Redis、MongoDB、Memcached、In-Memory（在内存中限制）。<a href="https://flask-limiter.readthedocs.io/en/latest/">文档地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Flask-Limiter</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-Flask-JWT-Extended"><a href="#3-Flask-JWT-Extended" class="headerlink" title="3 Flask-JWT-Extended"></a>3 Flask-JWT-Extended</h2><p>添加了flask的JWT支持，且增加了其他的功能：自动加载用户、自定义声明验证Token等。<a href="https://flask-jwt-extended.readthedocs.io/en/stable/">文档地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Flask-JWT-Extended</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-flask-marshmallow"><a href="#4-flask-marshmallow" class="headerlink" title="4 flask-marshmallow"></a>4 flask-marshmallow</h2><p>用户python对象的一个序列化反序列换的库。在flask中可与 Flask-SQLAlchemy集成。<a href="https://flask-marshmallow.readthedocs.io/en/latest/">文档地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install flask-marshmallow</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-Flask-SQLAlchemy"><a href="#5-Flask-SQLAlchemy" class="headerlink" title="5 Flask-SQLAlchemy"></a>5 Flask-SQLAlchemy</h2><p>flask的一个orm扩展。<a href="https://flask-sqlalchemy.palletsprojects.com/en/2.x/">文档地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Flask-SQLAlchemy</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="6-marshmallow-sqlalchemy"><a href="#6-marshmallow-sqlalchemy" class="headerlink" title="6 marshmallow-sqlalchemy"></a>6 marshmallow-sqlalchemy</h2><p>sqlalchemy与marshmallow的集成，用于对orm对象的序列化与反序列化。<a href="https://marshmallow-sqlalchemy.readthedocs.io/en/latest/">文档地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install marshmallow-sqlalchemy</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="7-Fask-Migrate"><a href="#7-Fask-Migrate" class="headerlink" title="7 Fask-Migrate"></a>7 Fask-Migrate</h2><p>使用 Alembic 为 Flask 应用程序处理 SQLAlchemy 数据库迁移。<a href="https://flask-migrate.readthedocs.io/en/latest/">文档地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Flask-Migrate</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="8-Flask-Admin"><a href="#8-Flask-Admin" class="headerlink" title="8 Flask-Admin"></a>8 Flask-Admin</h2><p>类似Django-admin的一个后台管理页面。<a href="https://flask-admin.readthedocs.io/en/latest/">文档地址</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install Flask-Admin</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
 
       
     </div>
     <footer class="article-footer">
         
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flask%E3%80%81shell/" rel="tag">Flask、shell</a></li></ul>
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flask/" rel="tag">Flask</a></li></ul>
 
         
           <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
@@ -101,19 +140,10 @@ flask shell
   
 <nav class="article-nav">
   
-  <a href="/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/" class="article-nav-link">
-    <strong class="article-nav-caption">前一篇</strong>
-    <div class="article-nav-title">
-      
-      Python压缩图片作为缩略图
-      
-    </div>
-  </a>
   
-  
-  <a href="/2021/02/02/Python-Elestatcsearch/" class="article-nav-link">
+  <a href="/2022/08/24/CSS%E8%BD%AC%E6%8D%A2%E8%BF%87%E6%B8%A1%E5%92%8C%E5%8A%A8%E7%94%BB/" class="article-nav-link">
     <strong class="article-nav-caption">后一篇</strong>
-    <div class="article-nav-title">Python + Elestatcsearch</div>
+    <div class="article-nav-title">CSS转换过渡和动画</div>
   </a>
   
 </nav>
