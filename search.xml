@@ -4235,9 +4235,13 @@
   <entry>
     <title>Ubuntu安装mysql-python插件</title>
     <url>/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/</url>
-    <content><![CDATA[<h4 id="运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb"><a href="#运行FLASk-提示-：ERROR-flask-app-No-module-named-MySQLdb" class="headerlink" title="运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb"></a>运行FLASk 提示 ：ERROR:flask.app:No module named MySQLdb</h4><a id="more"></a>
+    <content><![CDATA[<p>​      </p>
+<a id="more"></a>
 
-<h3 id="1-安装-mysql-python"><a href="#1-安装-mysql-python" class="headerlink" title="1.安装 mysql-python"></a>1.安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行FLASK 提示 ：ERROR:flask.app:No module named MySQLdb</p>
+</blockquote>
+<h3 id="安装-mysql-python"><a href="#安装-mysql-python" class="headerlink" title="安装 mysql-python"></a>安装 mysql-python</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">pip install mysql-python</span><br></pre></td></tr></table></figure>
 <h3 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h3><p><img src="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/snipaste_20190917_205355.jpg" alt="snipaste_20190917_205355"></p>
 <h3 id="接下来安装依赖包"><a href="#接下来安装依赖包" class="headerlink" title="接下来安装依赖包"></a>接下来安装依赖包</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install libmysqlclient-dev</span><br></pre></td></tr></table></figure>
 <h3 id="如果还是不行安装依赖"><a href="#如果还是不行安装依赖" class="headerlink" title="如果还是不行安装依赖"></a>如果还是不行安装依赖</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install python-dev</span><br><span class="line">sudo apt-get install python-MySQLdb</span><br></pre></td></tr></table></figure>
@@ -4245,10 +4249,10 @@
 
 ]]></content>
       <categories>
-        <category>Linux</category>
+        <category>MySQL-Python</category>
       </categories>
       <tags>
-        <tag>Ubuntu、Mysql-Python</tag>
+        <tag>MySQL-Python</tag>
       </tags>
   </entry>
   <entry>
