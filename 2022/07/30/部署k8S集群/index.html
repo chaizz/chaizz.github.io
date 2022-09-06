@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <title>
-    k8s集群搭建 |
+    虚拟机K8s集群搭建 |
     
     八方</title>
   
@@ -39,7 +39,7 @@
       
 
 <h1 class="article-title" itemprop="name">
-  k8s集群搭建
+  虚拟机K8s集群搭建
 </h1>
 
 
@@ -54,7 +54,7 @@
 </a>
       
 <div class="article-category">
-  <a class="article-category-link" href="/categories/K8s/">K8s</a>
+  <a class="article-category-link" href="/categories/Kubernets/">Kubernets</a>
 </div>
 
       &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.6k</span>字
@@ -82,9 +82,8 @@
 </div>
 
       
-      <p>​    </p>
+      <p>​       </p>
 <a id="more"></a>
-
 
 <p>参考链接</p>
 <blockquote>
@@ -111,7 +110,7 @@
 <p>在对应的节点上设置主机名</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> master 节点</span></span><br><span class="line">hostnamectl set-hostname master.local </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> node01</span></span><br><span class="line">hostnamectl set-hostname node01.local </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> node02</span></span><br><span class="line">hostnamectl set-hostname node02.local </span><br></pre></td></tr></table></figure>
 <h2 id="1-7-允许-iptables-检查桥接流量"><a href="#1-7-允许-iptables-检查桥接流量" class="headerlink" title="1.7 允许 iptables 检查桥接流量"></a>1.7 允许 iptables 检查桥接流量</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF</span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">net.ipv4.ip_forward = 1</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">sudo sysctl --system</span><br></pre></td></tr></table></figure>
-<p>加载ip_vs内核模块</p>
+<p>加载ip_vs内核模块 </p>
 <p>不清楚什么意思</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">modprobe ip_vs</span><br><span class="line">modprobe ip_vs_rr</span><br><span class="line">modprobe ip_vs_wrr</span><br><span class="line">modprobe ip_vs_sh</span><br><span class="line">modprobe nf_conntrack_ipv4</span><br></pre></td></tr></table></figure>
 <p>设置开机启动</p>
@@ -152,7 +151,7 @@
 
 <h3 id="2-2-7-安装flannel网络插件"><a href="#2-2-7-安装flannel网络插件" class="headerlink" title="2.2.7 安装flannel网络插件"></a>2.2.7 安装flannel网络插件</h3><p>下载插件，<a href="https://blog.csdn.net/weixin_44293949/article/details/121863559">解决raw.githubusercontent.com无法访问的问题</a></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml</span><br></pre></td></tr></table></figure>
-<p>下载到本地后更改第128行，和上文中的 <code>pod-network-cidr</code> 一致。</p>
+<p>下载到本地后更改第128行，和上文中的<code>pod-network-cidr</code> 一致。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Network&quot;: &quot;10.245.0.0/16&quot;</span><br></pre></td></tr></table></figure>
 <p>运行 yaml文件</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl apply -f kube-flannel.yaml</span><br></pre></td></tr></table></figure>
@@ -171,7 +170,7 @@
     </div>
     <footer class="article-footer">
         
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/k8s/" rel="tag">k8s</a></li></ul>
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernets/" rel="tag">Kubernets</a></li></ul>
 
         
           <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
@@ -251,7 +250,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">77.3k</span>字</span>
+    <span>全站共<span class="post-count">82k</span>字</span>
     <br>
     <div class="powered-by">
   

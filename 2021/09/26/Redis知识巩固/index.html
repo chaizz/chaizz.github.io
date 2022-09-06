@@ -171,7 +171,7 @@
 <ul>
 <li>在写入临时快照的时候，数据被克隆了一份，大致两倍的膨胀性需要考虑。</li>
 <li>虽然Redis在fork时使用了写时拷贝技术，但是如果数据量庞大还是比较消耗性能。</li>
-<li>在备份周期在一低昂时间间隔内做一次备份，所以如果Redis以外关掉，就会丢失最后一次快照的修改。</li>
+<li>在备份周期在一定时间间隔内做一次备份，所以如果Redis以外关掉，就会丢失最后一次快照的修改。</li>
 </ul>
 <p>RDB的备份恢复：<br>默认Redis启动会自动将Redis的快照文件（dump.rdb）读取到内存中。手动恢复的话只需要将快照文件复制到Redis启动目录下。</p>
 <h2 id="2-AOF（Append-Only-File）方式"><a href="#2-AOF（Append-Only-File）方式" class="headerlink" title="2  AOF（Append Only File）方式"></a>2  AOF（Append Only File）方式</h2><p>以日志的形式来记录每个<strong>写操作</strong>（增量保存），将Redis执行过的所有<strong>写/修改/删除指令记录下来（读操作不记录）</strong>，只许追加文件但是不可以改文件，Redis启动之初，会自动读取范围见重新构建数据，换言之Redis重启的话就会根据日志文件的内容将写指令重头到尾在执行一遍，以完成数据的恢复工作。<strong>AOF默认不开启。</strong></p>
@@ -240,7 +240,7 @@
     </div>
     <footer class="article-footer">
         
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Redis/" rel="tag">Redis</a></li></ul>
 
         
           <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
@@ -320,7 +320,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">77.3k</span>字</span>
+    <span>全站共<span class="post-count">82k</span>字</span>
     <br>
     <div class="powered-by">
   

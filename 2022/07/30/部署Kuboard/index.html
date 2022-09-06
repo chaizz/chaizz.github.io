@@ -54,7 +54,7 @@
 </a>
       
 <div class="article-category">
-  <a class="article-category-link" href="/categories/K8s/">K8s</a>
+  <a class="article-category-link" href="/categories/Kubernets/">Kubernets</a>
 </div>
 
       &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">215</span>字
@@ -80,9 +80,8 @@
 </div>
 
       
-      <p>​               </p>
+      <p>​           </p>
 <a id="more"></a>
-
 
 <p>参考链接</p>
 <blockquote>
@@ -93,8 +92,10 @@
 </blockquote>
 <p>一、前期准备</p>
 <ul>
-<li>搭建完成Kubernetes 集群。</li>
-<li>Docker 安装完毕</li>
+<li><p>搭建完成Kubernetes 集群。 </p>
+</li>
+<li><p>Docker 安装完毕</p>
+</li>
 </ul>
 <p>二、安装Kuboard</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -d \</span><br><span class="line">  --restart=unless-stopped \</span><br><span class="line">  --name=kuboard \</span><br><span class="line">  -p 80:80/tcp \</span><br><span class="line">  -p 10081:10081/tcp \</span><br><span class="line">  -e KUBOARD_ENDPOINT=&quot;http://192.158.59.130:80&quot; \</span><br><span class="line">  -e KUBOARD_AGENT_SERVER_TCP_PORT=&quot;10081&quot; \</span><br><span class="line">  -v /root/kuboard-data:/data \</span><br><span class="line">  eipwork/kuboard:v3</span><br></pre></td></tr></table></figure>
@@ -135,7 +136,7 @@
   
   <a href="/2022/07/30/%E9%83%A8%E7%BD%B2k8S%E9%9B%86%E7%BE%A4/" class="article-nav-link">
     <strong class="article-nav-caption">后一篇</strong>
-    <div class="article-nav-title">k8s集群搭建</div>
+    <div class="article-nav-title">虚拟机K8s集群搭建</div>
   </a>
   
 </nav>
@@ -189,7 +190,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">77.3k</span>字</span>
+    <span>全站共<span class="post-count">82k</span>字</span>
     <br>
     <div class="powered-by">
   

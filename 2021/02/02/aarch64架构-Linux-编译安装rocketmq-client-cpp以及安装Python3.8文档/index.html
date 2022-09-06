@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Aarch64架构-Linux-编译安装rocketmq-client-cpp |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-aarch64架构-Linux-编译安装rocketmq-client-cpp以及安装Python3.8文档" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  Aarch64架构-Linux-编译安装rocketmq-client-cpp
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2021/02/02/aarch64%E6%9E%B6%E6%9E%84-Linux-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85rocketmq-client-cpp%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85Python3.8%E6%96%87%E6%A1%A3/" class="article-date">
+  <time datetime="2021-02-02T07:42:51.000Z" itemprop="datePublished">2021-02-02</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/rocketmq/">rocketmq</a>
+</div>
+
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.1k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/8b22790222f211edb23e0242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​      </p>
+<a id="more"></a>
+
+<h1 id="Aarch64架构-Linux-编译安装rocketmq-client-cpp"><a href="#Aarch64架构-Linux-编译安装rocketmq-client-cpp" class="headerlink" title="Aarch64架构-Linux-编译安装rocketmq-client-cpp"></a>Aarch64架构-Linux-编译安装rocketmq-client-cpp</h1><h2 id="1、安装-Rocketmq-client-cpp-所需工具"><a href="#1、安装-Rocketmq-client-cpp-所需工具" class="headerlink" title="1、安装 Rocketmq-client-cpp 所需工具"></a>1、安装 Rocketmq-client-cpp 所需工具</h2><ul>
+<li>gcc-c++ 4.8.2: c++ compiler while need support C++11</li>
+<li>cmake 2.8.0: build jsoncpp require it</li>
+<li>automake 1.11.1: build libevent require it</li>
+<li>autoconf 2.65: build libevent require it</li>
+<li>libtool 2.2.6: build libevent require it</li>
+</ul>
+<h3 id="1-1-检查各项工具是否可用"><a href="#1-1-检查各项工具是否可用" class="headerlink" title="1.1 检查各项工具是否可用"></a>1.1 检查各项工具是否可用</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">g++ -v</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如下提示代表已经安装， 需要指定gcc 版本为 4.8.2 (4.8.5 也可以安装成功)</span></span><br><span class="line">gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1) </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake  -version</span><br><span class="line"></span><br><span class="line">安装地址：https://zhuanlan.zhihu.com/p/110793004</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">automake --version</span><br><span class="line"><span class="meta">#</span><span class="bash"> 如下提示代表已经安装</span></span><br><span class="line">automake (GNU automake) 1.16.1</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">automake --version</span><br><span class="line"></span><br><span class="line">autoconf (GNU Autoconf) 2.69</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">libtool --version</span><br><span class="line"></span><br><span class="line">libtool (GNU libtool) 2.4.6</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-2-命令行安装-cmake、automake-、autoconf-、libtool-推荐apt-get-安装"><a href="#1-2-命令行安装-cmake、automake-、autoconf-、libtool-推荐apt-get-安装" class="headerlink" title="1.2 命令行安装 cmake、automake 、autoconf 、libtool  (推荐apt-get 安装)"></a>1.2 命令行安装 cmake、automake 、autoconf 、libtool  (推荐apt-get 安装)</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install cmake, aotumake, autoconf, libtool, libtool-bin</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-3-源码安装-gcc、cmake、automake-、autoconf-、libtool"><a href="#1-3-源码安装-gcc、cmake、automake-、autoconf-、libtool" class="headerlink" title="1.3 源码安装 gcc、cmake、automake 、autoconf 、libtool"></a>1.3 源码安装 gcc、cmake、automake 、autoconf 、libtool</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">wget https://mi shellrrors.tuna.tsinghua.edu.cn/gnu/gcc/gcc-4.8.2/gcc-4.8.2.tar.gz</span><br><span class="line">tar zxvf  gcc-4.8.2.tar.gz</span><br><span class="line"></span><br><span class="line">configure --prefix=/home/share/tools/usr/gcc-4.8.2 --enable-threads=posix --disable-checking --disable-multilib --enable-languages=c,c+</span><br><span class="line"></span><br><span class="line">make  &amp;&amp; make install </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">curl -OL https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1.tar.gz</span><br><span class="line">tar zxvf cmake-3.22.4.tar.gz</span><br><span class="line">cd cmake-3.22.4</span><br><span class="line">./configure --prefix=/home/share/tools/usr/cmake-3.22.4 &amp;&amp; make  &amp;&amp; make install </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">curl -OL http://ftpmirror.gnu.org/automake/automake-1.11.1.tar.gz</span><br><span class="line">tar -xzf automake-1.11.1.tar.gz</span><br><span class="line">cd automake-1.11.1</span><br><span class="line">./configure --prefix=/home/share/tools/usr/automake-1.11.1 &amp;&amp; make &amp;&amp; sudo make install</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">curl -OL http://ftpmirror.gnu.org/autoconf/autoconf-2.65.tar.gz</span><br><span class="line">tar -xzf autoconf-2.65.tar.gz </span><br><span class="line">cd autoconf-2.65</span><br><span class="line">./configure --prefix=/home/share/tools/us/autoconf &amp;&amp; make &amp;&amp; sudo make install</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">curl -OL http://ftpmirror.gnu.org/libtool/libtool-2.2.6.tar.gz</span><br><span class="line">tar -xzf libtool-2.2.6.tar.gz</span><br><span class="line">cd libtool-2.2.6</span><br><span class="line">./configure --prefix=/home/share/tools/usr/libtool-2.2.6 &amp;&amp; make &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+
+<h2 id="2、安装-Rocketma-client-cpp-所需依赖"><a href="#2、安装-Rocketma-client-cpp-所需依赖" class="headerlink" title="2、安装 Rocketma-client-cpp 所需依赖"></a>2、安装 Rocketma-client-cpp 所需依赖</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> bzip2-devel</span> </span><br><span class="line"></span><br><span class="line">sudo apt-get install zlib1g</span><br><span class="line">sudo apt-get install zlib1g-dev</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> zlib-devel</span></span><br><span class="line">sudo apt-get install libbz2-dev</span><br></pre></td></tr></table></figure>
+
+<h2 id="3、安装rocketmq-cpp"><a href="#3、安装rocketmq-cpp" class="headerlink" title="3、安装rocketmq-cpp"></a>3、安装rocketmq-cpp</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd rocketmq-client-cpp-2.0.0</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 执行安装命令， 等待安装。</span></span><br><span class="line">./build.sh</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4、将编译安装好的so文件建立连接"><a href="#4、将编译安装好的so文件建立连接" class="headerlink" title="4、将编译安装好的so文件建立连接"></a>4、将编译安装好的so文件建立连接</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ln -s /home/zjj/rocketmq/librocketmq.so /usr/lib/librocketmq.so</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="安装python3-8"><a href="#安装python3-8" class="headerlink" title="安装python3.8"></a>安装python3.8</h1><h2 id="1、下载安装Python"><a href="#1、下载安装Python" class="headerlink" title="1、下载安装Python"></a>1、下载安装Python</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf Python-3.8.13.tgz</span><br><span class="line">cd Python-3.8.13</span><br><span class="line">sudo ./configure </span><br><span class="line">sudo make &amp;&amp; makeinstall</span><br></pre></td></tr></table></figure>
+<h2 id="2、设置软连接"><a href="#2、设置软连接" class="headerlink" title="2、设置软连接"></a>2、设置软连接</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> /usr/bin/python3.8/python 编译后的文件地址</span></span><br><span class="line">sudo ln -s /usr/bin/python3.8/python /usr/bin/python38</span><br></pre></td></tr></table></figure>
+<h2 id="3、安装-pip"><a href="#3、安装-pip" class="headerlink" title="3、安装 pip"></a>3、安装 pip</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://bootstrap.pypa.io/get-pip.py --no-check-certificate</span><br><span class="line">python get-pip.py</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><h2 id="问题1："><a href="#问题1：" class="headerlink" title="问题1："></a>问题1：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Unable to locally verify the issuer&#x27;s authority.</span><br><span class="line">To connect to github.com insecurely, use `--no-check-certificate&#x27;.</span><br></pre></td></tr></table></figure>
+<h2 id="解决："><a href="#解决：" class="headerlink" title="解决："></a>解决：</h2><p><a href="https://blog.csdn.net/iMatt/article/details/109570935">https://blog.csdn.net/iMatt/article/details/109570935</a></p>
+<h2 id="问题2："><a href="#问题2：" class="headerlink" title="问题2："></a>问题2：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unable to resolve host topeet: Name or service not knowncd</span><br></pre></td></tr></table></figure>
+<h2 id="解决：-1"><a href="#解决：-1" class="headerlink" title="解决："></a>解决：</h2><p><a href="https://blog.csdn.net/ichuzhen/article/details/8241847">https://blog.csdn.net/ichuzhen/article/details/8241847</a></p>
+<h2 id="问题3："><a href="#问题3：" class="headerlink" title="问题3："></a>问题3：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">安装libevent提示：</span><br><span class="line">openssl is a must but can not be found.</span><br></pre></td></tr></table></figure>
+<h2 id="解决：-2"><a href="#解决：-2" class="headerlink" title="解决："></a>解决：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install libssl-dev</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="问题4："><a href="#问题4：" class="headerlink" title="问题4："></a>问题4：</h2><p>安装gcc 缺少依赖：GMP</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;gnu&#x2F;gmp&#x2F;gmp-4.2.tar.gz</span><br><span class="line">tar -zxvf gmp-4.2.tar.gz</span><br><span class="line">cd gmp-4.2</span><br><span class="line">configure --prefix&#x3D;&#x2F;home&#x2F;share&#x2F;tools&#x2F;usr&#x2F;gmp-4.2</span><br><span class="line">sudo make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>遇到问题：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configure: error: cannot guess build type; you must specify one</span><br></pre></td></tr></table></figure>
+<h2 id="解决：-3"><a href="#解决：-3" class="headerlink" title="解决："></a>解决：</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看当前系统的型号</span></span><br><span class="line">uname -a</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 根据钱型号测试</span></span><br><span class="line">configure --prefix=/home/share/tools/usr/gmp-4.2 --build=aarch64-linnx</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 提示错误</span></span><br><span class="line">Invalid configuration `aarch64-linux&#x27;: machine `aarch64&#x27; not recognize</span><br></pre></td></tr></table></figure>
+<p>查阅资料：<a href="https://blog.csdn.net/lile777/article/details/81389098">解决</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 在 gmp-4.2 目录下，根据文章方法下载 config.guess 和 config.sub 文件， 然后替换掉原来的同名文件</span></span><br><span class="line">wget -O config.guess &#x27;http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD&#x27;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">wget -O config.sub &#x27;http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD&#x27;</span><br></pre></td></tr></table></figure>
+<p>再重新配置编译</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configure --prefix=/home/share/tools/usr/gmp-4.2</span><br></pre></td></tr></table></figure>
+<p>GMP 安装成功</p>
+<h2 id="问题5："><a href="#问题5：" class="headerlink" title="问题5："></a>问题5：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">找不到 jsoncpp.a 文件</span><br></pre></td></tr></table></figure>
+<h2 id="解决：-4"><a href="#解决：-4" class="headerlink" title="解决："></a>解决：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">将  &#x2F;bin&#x2F;aarch64-linux  目录下的jsoncpp.a 文件移动到 &#x2F;bin&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="问题6"><a href="#问题6" class="headerlink" title="问题6"></a>问题6</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/var/local/mq/producer.py&quot;, line 12, in &lt;module&gt;</span><br><span class="line">    from rocketmq.client import Producer, Message</span><br><span class="line">  File &quot;/usr/local/lib64/python3.8/site-packages/rocketmq/client.py&quot;, line 24, in &lt;module&gt;</span><br><span class="line">    from .ffi import (</span><br><span class="line">  File &quot;/usr/local/lib64/python3.8/site-packages/rocketmq/ffi.py&quot;, line 42, in &lt;module&gt;</span><br><span class="line">    dll = ctypes.cdll.LoadLibrary(_DYLIB_PATH)</span><br><span class="line">  File &quot;/usr/lib64/python3.8/ctypes/__init__.py&quot;, line 451, in LoadLibrary</span><br><span class="line">    return self._dlltype(name)</span><br><span class="line">  File &quot;/usr/lib64/python3.8/ctypes/__init__.py&quot;, line 373, in __init__</span><br><span class="line">    self._handle = _dlopen(self._name, mode)</span><br><span class="line">OSError: librocketmq.so: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 将librocketmq.so 文件软连接到/usr/lib/librocketmq.so</span> </span><br><span class="line"></span><br><span class="line">ln -s /usr/local/lib/librocketmq.so /usr/lib</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ldconfig </span><br></pre></td></tr></table></figure>
+<h2 id><a href="#" class="headerlink" title></a></h2><h2 id="其他问题："><a href="#其他问题：" class="headerlink" title="其他问题："></a>其他问题：</h2><p><a href="https://blog.csdn.net/qq_34174198/article/details/120663608">https://blog.csdn.net/qq_34174198/article/details/120663608</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rocketmq/" rel="tag">rocketmq</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      两台linux 互相传输文件
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">CDN的工作原理</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2022</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">82k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
