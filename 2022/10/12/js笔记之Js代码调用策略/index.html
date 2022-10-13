@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    js笔记之Js代码调用策略 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-js笔记之Js代码调用策略" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  js笔记之Js代码调用策略
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/10/12/js%E7%AC%94%E8%AE%B0%E4%B9%8BJs%E4%BB%A3%E7%A0%81%E8%B0%83%E7%94%A8%E7%AD%96%E7%95%A5/" class="article-date">
+  <time datetime="2022-10-12T09:40:18.000Z" itemprop="datePublished">2022-10-12</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">839</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="Js代码调用策略"><a href="#Js代码调用策略" class="headerlink" title="Js代码调用策略"></a>Js代码调用策略</h1><p>javascript代码位置和css一样，可以设置为内部样式、内联样式、外部样式。HTML代码渲染是由上而下加载，js代码的位置可能会导致js获取DOM元素时，无法获取未渲染的HTML标签，从而引发错误。</p>
+<p>想要脚本调用的时候符合预期，需要解决一系列问题。</p>
+<p>例如当js代码处于文档头处，解析HTML文档体之前。这样做是有隐患的，需要使用一些结构来避免错误发生。</p>
+<h2 id="1-使用-DOMContentLoaded-解决"><a href="#1-使用-DOMContentLoaded-解决" class="headerlink" title="1 使用 DOMContentLoaded 解决"></a>1 使用 DOMContentLoaded 解决</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&quot;DOMContentLoaded&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    . . .</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这是一个事件监听器，他监听浏览器的<strong>DOMContentLoaded</strong>事件，即HTML加载、解释完毕事件。事件将触发 … 的代码，从而避免了错误发生。</p>
+<h2 id="2-使用-async-解决"><a href="#2-使用-async-解决" class="headerlink" title="2 使用 async 解决"></a>2 使用 async 解决</h2><p>在调用外部js代码时可以使用js的一项现代技术（async）来解决这一问题，他告知浏览器在遇到<javascript> 元素时不用中断后续HTML内容的加载。</javascript></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;script.js&quot;</span> <span class="attr">async</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong> 外部脚本 async 属性可以解决调用顺序问题，但是async只适用于外部脚本。</p>
+<p>一般解决此问题的旧方法是：把脚本元素放在底部，这样脚本就可以再HTML内容解析之后加载了。这种方案和上面 DOMContentLoaded 的问题是：==只有在所有 HTML DOM 加载完成后才开始脚本的加载/解析过程。对于有大量 JavaScript 代码的大型网站，可能会带来显著的性能损耗。这也是 async 属性诞生的初衷。==</p>
+<h2 id="3-async-和-defer"><a href="#3-async-和-defer" class="headerlink" title="3 async 和 defer"></a>3 async 和 defer</h2><p>上述的脚本阻塞问题实际有两种解决方案 —— <code>async</code> 和 <code>defer</code>。</p>
+<p>浏览器遇到acync脚本时不会阻塞渲染HTML，而是直接下载然后运行，这样脚本的执行顺序就无法把控，仅仅是脚本不会阻止剩余页面的渲染。当页面和脚本之间独立，且不依赖于本页面的其它任何脚本时，<code>async</code> 是最理想的选择。</p>
+<p>比如页面有多个脚本：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;js/vendor/jquery.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;js/script2.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;js/script3.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>三者的调用顺序是不一定的，<code>jquery</code> 可能在 <code>script2</code> 和 <code>script3</code> 之后调用，如果这样的话，后两个脚本中依赖 <code>jquery</code> 的函数将产生错误，因为脚本运行时 <code>jquery</code> 尚未加载。</p>
+<p>解决这一问题可使用 <code>defer</code> 属性，脚本将按照在页面中出现的顺序加载和运行：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;js/vendor/jquery.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;js/script2.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">defer</span> <span class="attr">src</span>=<span class="string">&quot;js/script3.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>添加 <code>defer</code> 属性的脚本将按照在页面中出现的顺序加载，因此第二个示例可确保 <code>jquery.js</code> 必定加载于 <code>script2.js</code> 和 <code>script3.js</code> 之前，同时 <code>script2.js</code> 必定加载于 <code>script3.js</code> 之前。</p>
+<p>总结：</p>
+<ul>
+<li>如果脚本无需等待页面解析，且无依赖独立运行，那么应使用 <code>async</code>。</li>
+<li>如果脚本需要等待页面解析，且依赖于其它脚本，调用这些脚本时应使用 <code>defer</code>，将关联的脚本按所需顺序置于 HTML 中。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2022/10/13/js%E7%AC%94%E8%AE%B0%E4%B9%8Bjs%E4%BA%8B%E4%BB%B6/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      js笔记之Js事件
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2022/08/30/Flask%E5%B8%B8%E7%94%A8%E6%89%A9%E5%B1%95/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">flask常用扩展</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2022</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">84k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
