@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS异步编程之Promise |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS异步编程之Promise" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS异步编程之Promise
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/10/13/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E4%B9%8BPromise/" class="article-date">
+  <time datetime="2022-10-13T09:40:18.000Z" itemprop="datePublished">2022-10-13</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">3.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">12</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="异步编程"><a href="#异步编程" class="headerlink" title="异步编程"></a>异步编程</h1><blockquote>
+<p>异步编程技术使你的程序可以在执行一个可能长期运行的任务的同时继续对其他事件做出反应而不必等待任务完成。与此同时，你的程序也将在任务完成后显示结果。</p>
+</blockquote>
+<p>浏览器在执行js代码时，是按照书写的顺序一行一行的执行，会等待代码的解析和工作，在上一行执行完毕后才会执行下一行。执行同步函数时也是如此。</p>
+<p>单当遇到一个耗时的同步函数时，操作会非常消耗时间且我们无法做其他事情。</p>
+<p>我们希望我们的程序可以：</p>
+<ul>
+<li>通过调用一个函数来启动一个长期运行的操作。</li>
+<li>然函数开始 操作时立即返回，这样我们的程序就可以保持对其他事件做出反应能力。</li>
+<li>单操作完成时通知我们操作的结果。</li>
+</ul>
+<p>以上的功能是异步寒函数为我们提供的能力。</p>
+<p>我们常见的事件处理程序就是异步编程的一种形式。即提供的函数，将在事件发生时被调用（而不是立即被用用），如果事件操作已经完成，那么就可以看到事件是如何被用来通知调用者异步函数调用的结果的。</p>
+<p>例如一些早期的API：<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest">XMLHttpRequest</a>,可以通过给 <code>XMLHttpRequest</code> 对象附加事件监听器来让程序在请求进展和最终完成时获得通知。</p>
+<p>事件处理程序是一种特殊的回调函数，而回调函数则是一个被传递到另一个函数中的会在合适的时候被调用的函数。回调函数曾经是 JavaScript 中实现异步函数的主要方式。</p>
+<p>然而回调函数本身也接受被回调，基于回调的代码则会非常难理解。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doStep1</span>(<span class="params">init, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = init + <span class="number">1</span>;</span><br><span class="line">    callback(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doStep2</span>(<span class="params">init, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = init + <span class="number">2</span>;</span><br><span class="line">    callback(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doStep3</span>(<span class="params">init, callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = init + <span class="number">3</span>;</span><br><span class="line">    callback(result);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doOperation</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    doStep1(<span class="number">0</span>, <span class="function"><span class="params">result1</span> =&gt;</span> &#123;</span><br><span class="line">        doStep2(result1, <span class="function"><span class="params">result2</span> =&gt;</span> &#123;</span><br><span class="line">            doStep3(result2, <span class="function"><span class="params">result3</span> =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`结果：<span class="subst">$&#123;result3&#125;</span>`</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">doOperation();</span><br></pre></td></tr></table></figure>
+<p>由于以上原因大多数现代的异步API都不使用回调，事实上JS中的异步编程的基础是 Promise 。</p>
+<h1 id="Promise"><a href="#Promise" class="headerlink" title="Promise"></a>Promise</h1><p>Promise 是现代js中异步编程的基础，是一个由异步函数返回的 可以向我们指示当前操作所处的 对象的状态。在 Promise 返回给调用者的时候，操作往往还没有完成，但是 Promise 对象可以让我们操作最终完成时对其处理（无论成功还是失败）。</p>
+<p>在基于 Promise 的API中，异步函数会启动操作并返回 Promise 对象，然后，你可以将处理函数附加到 Promise 对象上，当操作完成时（成功或者失败），这些处理函数将会执行。</p>
+<p>示例：使用fetch()API 来解释promise。</p>
+<p>打开网站：<a href="https://example.org/">https://example.org</a> 在控制台中输入以下的代码：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用 fetch() API，并将返回值赋给 fetchPromise 变量。</span></span><br><span class="line">const fetchPromise = fetch(&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 紧接着，输出 fetchPromise 变量，输出结果应该像这样：Promise &#123; &lt;state&gt;: &quot;pending&quot; &#125;。这告诉我们有一个 Promise 对象，它有一个 state属性，值是 &quot;pending&quot;。&quot;pending&quot; 状态意味着操作仍在进行中。</span></span><br><span class="line">console.log(fetchPromise);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将一个处理函数传递给 Promise 的 then() 方法。当（如果）获取操作成功时，Promise 将调用我们的处理函数，传入一个包含服务器的响应的 Response 对象。</span></span><br><span class="line">fetchPromise.then( response =&gt; &#123;</span><br><span class="line">  console.log(`已收到响应：$&#123;response.status&#125;`);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出一条信息，说明我们已经发送了这个请求。</span></span><br><span class="line">console.log(&quot;已发送请求……&quot;);</span><br></pre></td></tr></table></figure>
+<p>控制台的响应结果应该是这样的：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span> &#123; &lt;state&gt;: <span class="string">&quot;pending&quot;</span> &#125;</span><br><span class="line">已发送请求……</span><br><span class="line">已收到响应：<span class="number">200</span></span><br></pre></td></tr></table></figure>
+<p>我们可以看到已发送请求在响应之前输出了，如果是同步函数，则会在最后返回【已发送请求……】。</p>
+<p>当通过 fetch()API得到一个Response对象时，需要调用另一个函数来接受这个响应，这次我们想要得到json格式的数据，可以调用Response.json()方法。 json()也是也是一个异步函数，因此我们连续调用两个异步函数。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;);</span><br><span class="line"></span><br><span class="line">fetchPromise.then( response =&gt; &#123;</span><br><span class="line">  const jsonPromise = response.json();</span><br><span class="line">  jsonPromise.then( json =&gt; &#123;</span><br><span class="line">    console.log(json);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>在这个示例中fetch()返回的 Promise 对象的then()方法，调用了response.json()方法，json()同样返回了一个 Promise 对象。 jsonPromise的then()方法输出了json的内容。</p>
+<p>以上的代码看起来和之前的多层级回调差不多，确实是这样。但是 Promise 的优雅之处在于then()也是返回一个 Promise 对象，这个 Promise 将指示 <code>then()</code> 中调用的异步函数的完成状态。这意味着我们可以（当然也应该）把上面的代码改写成这样：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;);</span><br><span class="line"></span><br><span class="line">fetchPromise</span><br><span class="line">    .then(response =&gt; &#123;</span><br><span class="line">        return response.json();</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(json =&gt; &#123;</span><br><span class="line">        console.log(json[0].name);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>我们不必在第一个then()方法里面写另外一个then()方法，我们可以直接返回json()返回的 Promise ,并且在改返回值上调用第二个then()，这种调用方式叫做<strong>Promise链</strong>。意味着当我们连续调用异步函数的时候就可以避免嵌套带来的代码不美观易懂。</p>
+<h2 id="错误捕获"><a href="#错误捕获" class="headerlink" title="错误捕获"></a>错误捕获</h2><p>上述的一个response请求示例是一个理想的代码，因为没有添加异常的处理。Promise 对象中提供了一个catch()方法来处理错误，她很像then()，可以调用它并传入一个处理函数。然后，当异步操作<em>成功</em>时，传递给then()的处理函数被调用，而当异步操作<em>失败</em>时，传递给catch()的处理函数被调用。</p>
+<p>如果将catch()添加到 Promise 链的末尾，它就可以在任何异步函数失败时被调用。于是，我们就可以将一个操作实现为几个连续的异步函数调用，并在一个地方处理所有错误。</p>
+<p>例如：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const fetchPromise = fetch(&#x27;bad-scheme://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;);</span><br><span class="line"></span><br><span class="line">fetchPromise</span><br><span class="line">    .then(response =&gt; &#123;</span><br><span class="line">        if (!response.ok) &#123;</span><br><span class="line">            throw new Error(`HTTP 请求错误：$&#123;response.status&#125;`);</span><br><span class="line">        &#125;</span><br><span class="line">        return response.json();</span><br><span class="line">    &#125;)</span><br><span class="line">    .then(json =&gt; &#123;</span><br><span class="line">        console.log(json[0].name);</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(error =&gt; &#123;</span><br><span class="line">        console.error(`无法获取产品列表：$&#123;error&#125;`);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="Promise-术语"><a href="#Promise-术语" class="headerlink" title="Promise 术语"></a>Promise 术语</h2><p>首先 Promise 有三种状态：</p>
+<ul>
+<li><strong>待定（pending）</strong>：初始状态，既没有被兑现，也没有被拒绝。这是调用fetch()返回 Promise 时的状态，此时请求还在进行中。</li>
+<li><strong>已兑现（fulfilled）</strong>：意味着操作成功完成。当 Promise 完成时，它的then()处理函数被调用。</li>
+<li><strong>已拒绝（rejected）</strong>：意味着操作失败。当一个 Promise 失败时，它的catch()处理函数被调用。</li>
+</ul>
+<p>有时我们用 <strong>已敲定（settled）</strong> 这个词来同时表示 <strong>已兑现（fulfilled）</strong> 和 <strong>已拒绝（rejected）</strong> 两种情况。</p>
+<p>如果一个 Promise 处于已决议（resolved）状态，或者它被“锁定”以跟随另一个 Promise 的状态，那么它就是 <strong>已兑现（fulfilled）</strong>。</p>
+<p>文章 <a href="https://thenewtoys.dev/blog/2021/02/08/lets-talk-about-how-to-talk-about-promises/">Let’s talk about how to talk about promises</a> 对这些术语的细节做了很好的解释。</p>
+<blockquote>
+<p>注：这里的成功或者失败取决于使用的API。例如：fetch()认为服务器返回一个错误（如<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Status/404">404 Not Found</a>）时请求成功，但如果网络错误阻止请求被发送，则认为请求失败。</p>
+</blockquote>
+<p>文章 <a href="https://thenewtoys.dev/blog/2021/02/08/lets-talk-about-how-to-talk-about-promises/">Let’s talk about how to talk about promises</a> 对这些术语的细节做了很好的解释。</p>
+<h2 id="合并使用多个-Promise"><a href="#合并使用多个-Promise" class="headerlink" title="合并使用多个 Promise"></a>合并使用多个 Promise</h2><p>当操作有几个异步函数组成时，而且需要在下一个函数开始之前完成每一个函数，需要的就是 Promise 链。但是在其他的一些情况下，可能需要合并多个异步函数的调用。</p>
+<p>有时你需要所有的 Promise 都得到实现，但它们并不相互依赖。在这种情况下，==将它们一起启动然后在它们全部被兑现后得到通知会更有效率==。这里需要 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise/all"><code>Promise.all()</code></a> 方法。它接收一个 Promise 数组，并返回一个单一的 Promise。</p>
+<p>由 Promise.all() 返回的 Promise 有以下的特性：</p>
+<p>1、当且仅当数组中所有的 Promise都被兑现时，才会通知then()函数，并提供一个包含所有响应的数组，数组中响应的顺序与被传入all()的 Promise 相等。</p>
+<p>2、会被拒绝–如果数组中任何一个 Promise 被拒绝，此时 catch()处理函数被调用，并提供被拒绝的 Promise 所抛出的错误。</p>
+<p>示例：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fetchPromise1 = fetch(<span class="string">&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> fetchPromise2 = fetch(<span class="string">&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/not-found&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> fetchPromise3 = fetch(<span class="string">&#x27;bad-scheme://mdn.github.io/learning-area/javascript/oojs/json/superheroes.json&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.all([fetchPromise1, fetchPromise2, fetchPromise3])</span><br><span class="line">    .then(<span class="function"><span class="params">responses</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">const</span> response <span class="keyword">of</span> responses) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;response.url&#125;</span>：<span class="subst">$&#123;response.status&#125;</span>`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .catch(<span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">`获取失败：<span class="subst">$&#123;error&#125;</span>`</span>)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>有时，可能需要等待一组 Promise 中的某一个 Promise 的执行，而不关心是哪一个。在这种情况下，你需要 Promise.any()这就像Promise.all()，不过在 Promise 数组中的任何一个被兑现时它就会被兑现，如果所有的 Promise 都被拒绝，它也会被拒绝。</p>
+<blockquote>
+<p>注：在这种情况下，我们无法预测哪个获取请求会先被兑现。</p>
+</blockquote>
+<h2 id="async-和-await"><a href="#async-和-await" class="headerlink" title="async 和 await"></a>async 和 await</h2><p>async 关键字提供了一种更简单的方法来处理基于异步 Promise 的代码，在一个函数的开头添加 async 可以使其成为一个异步函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">myFunction</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 异步函数</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在异步函数中，可以在调用一个返回 Promise 的函数之前使用 <code>await</code> 关键字。这使得代码在该点上等待，直到 Promise 被完成，这时 Promise 的响应被当作返回值，或者被拒绝的响应被作为错误抛出。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">fetchProducts</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 在这一行之后，我们的函数将等待 `fetch()` 调用完成</span></span><br><span class="line">        <span class="comment">// 调用 `fetch()` 将返回一个“响应”或抛出一个错误</span></span><br><span class="line">        <span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;</span>);</span><br><span class="line">        <span class="keyword">if</span> (!response.ok) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">`HTTP 请求错误：<span class="subst">$&#123;response.status&#125;</span>`</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 在这一行之后，我们的函数将等待 `response.json()` 的调用完成</span></span><br><span class="line">        <span class="comment">// `response.json()` 调用将返回 JSON 对象或抛出一个错误</span></span><br><span class="line">        <span class="keyword">const</span> json = <span class="keyword">await</span> response.json();</span><br><span class="line">        <span class="built_in">console</span>.log(json[<span class="number">0</span>].name);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (error) &#123;</span><br><span class="line">        <span class="built_in">console</span>.error(<span class="string">`无法获取产品列表：<span class="subst">$&#123;error&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fetchProducts();</span><br></pre></td></tr></table></figure>
+<p>上面的代码使用await关键字 让异步函数想同步函数一样去执行，但是，即使像同步函数那样也无法使用下面那样的代码进行操作：(因为异步函数总是返回一个 Promise)</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">async function fetchProducts() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        const response = await fetch(&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;);</span><br><span class="line">        if (!response.ok) &#123;</span><br><span class="line">            throw new Error(`HTTP 请求错误：$&#123;response.status&#125;`);</span><br><span class="line">        &#125;</span><br><span class="line">        const json = await response.json();</span><br><span class="line">        return json;</span><br><span class="line">    &#125; catch (error) &#123;</span><br><span class="line">        console.error(`无法获取产品列表：$&#123;error&#125;`);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const json = fetchProducts();</span><br><span class="line">console.log(json[0].name);   // json 是一个 Promise 对象，因此这句代码无法正常工作</span><br></pre></td></tr></table></figure>
+
+
+<p>但是我们可以这样做：(因为异步函数返回一个 Promise 可以调用.then()方法)</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">async function fetchProducts() &#123;</span><br><span class="line">    try &#123;</span><br><span class="line">        const response = await fetch(&#x27;https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json&#x27;);</span><br><span class="line">        if (!response.ok) &#123;</span><br><span class="line">            throw new Error(`HTTP 请求错误：$&#123;response.status&#125;`);</span><br><span class="line">        &#125;</span><br><span class="line">        const json = await response.json();</span><br><span class="line">        return json;</span><br><span class="line">    &#125; catch (error) &#123;</span><br><span class="line">        console.error(`无法获取产品列表：$&#123;error&#125;`);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const jsonPromise = fetchProducts();</span><br><span class="line">jsonPromise.then((json) =&gt; console.log(json[0].name));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>在实际开发过程中可能会在 Promise 链的地方使用async函数， await将会强制异步操作以串联的形式工作。如果下一个操作的结果取决于上一个操作的结果，这是非常必要的，反之 Promise.all() 这样的操作会有更好的性能。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Promise 是现代JavaScript异步编程的基础，他避免的深度嵌套，是表达和理解异步操作变的更加容易，并且还支持一种类似于同步编程中 <code>try...catch</code> 语句的错误处理方式。</p>
+<p><code>async</code> 和 <code>await</code> 关键字使得从一系列连续的异步函数调用中建立一个操作变得更加容易，避免了创建显式 Promise 链，并允许你像编写异步代码那样编写同步代码。</p>
+<p>Promise 在所有现代浏览器的最新版本中都可以使用；唯一会出现支持问题的地方是 Opera Mini 和 IE11 及更早的版本。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript/" rel="tag">Javascript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2022/10/13/js%E7%AC%94%E8%AE%B0%E4%B9%8Bjs%E4%BA%8B%E4%BB%B6/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      js笔记之Js事件
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2022/10/12/js%E7%AC%94%E8%AE%B0%E4%B9%8BJs%E4%BB%A3%E7%A0%81%E8%B0%83%E7%94%A8%E7%AD%96%E7%95%A5/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">js笔记之Js代码调用策略</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2022</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">87.2k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
