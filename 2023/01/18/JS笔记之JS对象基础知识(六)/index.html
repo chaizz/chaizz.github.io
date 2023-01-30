@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS对象基础知识(六) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS对象基础知识(六)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS对象基础知识(六)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AD)/" class="article-date">
+  <time datetime="2023-01-18T06:01:12.000Z" itemprop="datePublished">2023-01-18</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.1k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS对象基础知识-六"><a href="#JS笔记之JS对象基础知识-六" class="headerlink" title="JS笔记之JS对象基础知识(六)"></a>JS笔记之JS对象基础知识(六)</h1><h2 id="1-可选链-“-”"><a href="#1-可选链-“-”" class="headerlink" title="1 可选链 “?.”"></a>1 可选链 “?.”</h2><p>可选链<code>?.</code>是一种访问嵌套对象属性的安全的方式，即使中间的属性不存在，也不会出现错误。</p>
+<h3 id="1-1-“不存在的属性”的问题"><a href="#1-1-“不存在的属性”的问题" class="headerlink" title="1.1 “不存在的属性”的问题"></a>1.1 “不存在的属性”的问题</h3><p>例如在一个嵌套的对象中，我们获取user对象的address对象的street属性，但是实际上user是一个空对象，此时JS会返回错误，这是正常的返回，但是有时候我们需要的不抛出异常，而是返回<code>undefined</code>，表示user对象的address对象没有该属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;&#125;; <span class="comment">// 一个没有 &quot;address&quot; 属性的 user 对象</span></span><br><span class="line"></span><br><span class="line">alert(user.address.street); <span class="comment">// Error!</span></span><br></pre></td></tr></table></figure>
+<p>又或者是我们获取htmlDOM元素得时候，获取某个元素的 innerHTML 属性，如果获取不到该元素，也会抛出一个异常。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/ 如果 <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.elem&#x27;</span>) 的结果为 <span class="literal">null</span>，则这里不存在这个元素</span><br><span class="line"><span class="keyword">let</span> html = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.elem&#x27;</span>).innerHTML; <span class="comment">// 如果 document.querySelector(&#x27;.elem&#x27;) 的结果为 null，则会出现错误</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-2-如何去避免这一问题呢？"><a href="#1-2-如何去避免这一问题呢？" class="headerlink" title="1.2 如何去避免这一问题呢？"></a>1.2 如何去避免这一问题呢？</h3><p>可能比较容易想到的方法就是获取到该对象以后，使用三元运算符进行比较：<code>user.address ? user.address.street : undefined</code>，但是<code>user.address</code>重复出现，如果对象之间如果嵌套的更深，代码则会有大量重复。</p>
+<p>还有一个方法是使用<code>&amp;&amp;</code>运算符，但是任然会有 大量的代码重复。使用可选链就可以解决该问题。</p>
+<h3 id="1-3-可选链语法"><a href="#1-3-可选链语法" class="headerlink" title="1.3 可选链语法"></a>1.3 可选链语法</h3><p>如果可选链<code>?.</code>前面的值为<code>undefined</code>和<code>null</code> 它会停止运算，并且返回<code>ubdefined</code>。</p>
+<p>例如<code>value?.pop</code>:</p>
+<ul>
+<li>如果value存在，则结果与value.pop 属性值相同。</li>
+<li>如果当value的是undefined和null时，则返回undefined。</li>
+</ul>
+<p>比如使用这种方式访问上面的 <code>user.address.street</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;&#125;; <span class="comment">// user 没有 address 属性</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log( user?.address?.street ); <span class="comment">// undefined（不报错）</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Tips：<code>?.</code>使其前面（左边）的值成为可选值，但不会对后面的值起作用。</p>
+</blockquote>
+<blockquote>
+<p><strong>不要过度使用可选链</strong></p>
+<p>我们应该只将 <code>?.</code> 使用在一些东西可以不存在的地方。</p>
+<p>例如，如果根据我们的代码逻辑，<code>user</code> 对象必须存在，但 <code>address</code> 是可选的，那么我们应该这样写 <code>user.address?.street</code>，而不是这样 <code>user?.address?.street</code>。</p>
+<p>那么，如果 <code>user</code> 恰巧为 undefined，我们会看到一个编程错误并修复它。否则，如果我们滥用 <code>?.</code>，会导致代码中的错误在不应该被消除的地方消除了，这会导致调试更加困难。</p>
+</blockquote>
+<blockquote>
+<p><strong><code>?.</code> 前的变量必须已声明</strong></p>
+<p>如果未声明变量 <code>user</code>，那么 <code>user?.anything</code> 会触发一个错误。可选链仅适用于已声明的变量。</p>
+</blockquote>
+<h3 id="1-4-可选链的短路效应"><a href="#1-4-可选链的短路效应" class="headerlink" title="1.4 可选链的短路效应"></a>1.4 可选链的短路效应</h3><p>即可选链的左边不存在，就会立刻停止运行（短路效应）。因此如果在<code>?.</code>的右侧有任何下一步的操作都不会执行。</p>
+<h3 id="1-5-可选链的变体："><a href="#1-5-可选链的变体：" class="headerlink" title="1.5 可选链的变体：?.[] ?.()"></a>1.5 可选链的变体：?.[] ?.()</h3><p>可选链不是一个运算符，而是一中特殊的语法结构，他还可以与函数以及方括号一起使用。</p>
+<p>例如<code>?.()</code>调用一个可能不存在的函数。在下面这段代码中，有些用户具有 <code>admin</code> 方法，而有些没有：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> userAdmin = &#123;</span><br><span class="line">  <span class="function"><span class="title">admin</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    alert(<span class="string">&quot;I am admin&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> userGuest = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">userAdmin.admin?.(); <span class="comment">// I am admin</span></span><br><span class="line"></span><br><span class="line">userGuest.admin?.(); <span class="comment">// 啥都没发生（没有这样的方法）</span></span><br></pre></td></tr></table></figure>
+<p>使用方括号获取属性的方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> key = <span class="string">&quot;firstName&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user1 = &#123;</span><br><span class="line">  firstName: <span class="string">&quot;John&quot;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user2 = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">alert( user1?.[key] ); <span class="comment">// John</span></span><br><span class="line">alert( user2?.[key] ); <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>此外还可以将<code>?.</code>和 <code>delete</code>一起使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> user?.name; <span class="comment">// 如果 user 存在，则删除 user.name</span></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>Tips：需要注意的是可选链可以进行安全的读取和删除，但是不能进行写入。可选链不能用在赋值语句的左边。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">user?.name = <span class="string">&quot;John&quot;</span>; <span class="comment">// Error，不起作用</span></span><br><span class="line"><span class="comment">// 因为它在计算的是：undefined = &quot;John&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-6-总结"><a href="#1-6-总结" class="headerlink" title="1.6 总结"></a>1.6 总结</h3><p>可选链的语法格式有大概几种：</p>
+<ul>
+<li>obj?.prop    —&gt; 如果obj存在则返回<code>obj.prop</code>如果不存在则返回<code>undefined</code>。</li>
+<li>obj?.[prop]  —&gt; 如果obj存在则返回<code>obj.prop</code>如果不存在则返回<code>undefined</code>。、</li>
+<li>obj.method?.()  —&gt; 如果<code>obj.method</code>存在则调用<code>obj.method()</code>，否则返回 <code>undefined</code>。</li>
+</ul>
+<p>我们应该谨慎的使用<code>?.</code>，根据我们的代码逻辑，仅在当做部分不存在的可接受的条件下使用最好。且该语法格式是JS新出的特性，可能会存在兼容问题，旧式浏览器可能需要 polyfills。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%83)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS对象基础知识(七)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%94)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS对象基础知识(五)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">104.3k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS对象基础知识(三) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS对象基础知识(三)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS对象基础知识(三)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%89)/" class="article-date">
+  <time datetime="2023-01-17T06:33:50.000Z" itemprop="datePublished">2023-01-17</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">893</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS对象基础知识-三"><a href="#JS笔记之JS对象基础知识-三" class="headerlink" title="JS笔记之JS对象基础知识(三)"></a>JS笔记之JS对象基础知识(三)</h1><h2 id="1-垃圾回收"><a href="#1-垃圾回收" class="headerlink" title="1 垃圾回收"></a>1 垃圾回收</h2><p>对于开发者来说，JavaScript 的内存管理是自动的、无形的。我们创建的原始值、对象、函数……这一切都会占用内存。</p>
+<h3 id="1-1-什么是垃圾？"><a href="#1-1-什么是垃圾？" class="headerlink" title="1.1 什么是垃圾？"></a>1.1 什么是垃圾？</h3><p>在JS引擎运行时，我们创建的一些原始值、对象，经过使用之后就没有就再也没有使用过，这些个原始值，或者对象都是垃圾。</p>
+<h3 id="1-2-有哪些垃圾？"><a href="#1-2-有哪些垃圾？" class="headerlink" title="1.2 有哪些垃圾？"></a>1.2 有哪些垃圾？</h3><p>任何变量或者对象在未来的程序运行中总不会被访问的b变量和对象都是垃圾。</p>
+<h3 id="1-3-什么是垃圾回收？"><a href="#1-3-什么是垃圾回收？" class="headerlink" title="1.3 什么是垃圾回收？"></a>1.3 什么是垃圾回收？</h3><p>JS对内存管理的一种手段。</p>
+<h3 id="1-4-为什么垃圾回收？"><a href="#1-4-为什么垃圾回收？" class="headerlink" title="1.4 为什么垃圾回收？"></a>1.4 为什么垃圾回收？</h3><p>释放内存，节约资源。</p>
+<h3 id="1-5-如何垃圾回收？"><a href="#1-5-如何垃圾回收？" class="headerlink" title="1.5 如何垃圾回收？"></a>1.5 如何垃圾回收？</h3><p>JS中的内存管理概念<strong>可达性</strong>，就是能够通过某种凡是访问到的值，他们一定是存在于内存中的。</p>
+<p>比如一些明显的可达的值：</p>
+<ul>
+<li>当前执行的函数，他的局部变量和参数。</li>
+<li>当前嵌套调用链上的其他的函数，他们的局部变量和函数。</li>
+<li>全局变量</li>
+<li>一些内部的对象</li>
+</ul>
+<p>一个值可以通过引用链从根访问任何其他值，则认为该值也是可达的。</p>
+<p>一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// user 具有对这个对象的引用</span></span><br><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  name: <span class="string">&quot;John&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><img src="https://tc.chaizz.com/tc/image-20230117154427386.png" alt="image-20230117154427386"></p>
+<p>user 指的的时这个 Object的对象的引用，全局变量 <code>&quot;user&quot;</code> 引用了对象 <code>&#123;name：&quot;John&quot;&#125;</code>。</p>
+<p>如果 user 被重写，赋予了其他的值，那么这个引用就没了，</p>
+<p><img src="https://tc.chaizz.com/tc/image-20230117155148312.png" alt="image-20230117155148312"></p>
+<p>现在这个 Object 变成不可达的了，垃圾收集器就会将它视为垃圾，然后进行回收。</p>
+<p>垃圾回收的内部算法：</p>
+<ol>
+<li>垃圾收集器找到所有的根并标记它们。</li>
+<li>然后它遍历并标记来自它的引用。</li>
+<li>然后他遍历标记的对象并标记它们额的引用，所有被遍历到的对象都会被记住，以免将来再次遍历到同一个对象。</li>
+<li>循环操作直到所有可达的对象都被访问到并标记。</li>
+<li>没有被标记的测会被删除。</li>
+</ol>
+<p>JS 引擎对垃圾回收做了优化，使垃圾回收运行速度更快，并且不会对代码执行引入任何延迟。</p>
+<h3 id="1-6-一些优化建议："><a href="#1-6-一些优化建议：" class="headerlink" title="1.6 一些优化建议："></a>1.6 一些优化建议：</h3><ul>
+<li><strong>分代收集（Generational collection）</strong>—— 对象被分成两组：“新的”和“旧的”。在典型的代码中，许多对象的生命周期都很短：它们出现、完成它们的工作并很快死去，因此在这种情况下跟踪新对象并将其从内存中清除是有意义的。那些长期存活的对象会变得“老旧”，并且被检查的频次也会降低。</li>
+<li><strong>增量收集（Incremental collection）</strong>—— 如果有许多对象，并且我们试图一次遍历并标记整个对象集，则可能需要一些时间，并在执行过程中带来明显的延迟。因此，引擎将现有的整个对象集拆分为多个部分，然后将这些部分逐一清除。这样就会有很多小型的垃圾收集，而不是一个大型的。这需要它们之间有额外的标记来追踪变化，但是这样会带来许多微小的延迟而不是一个大的延迟。</li>
+<li><strong>闲时收集（Idle-time collection）</strong>—— 垃圾收集器只会在 CPU 空闲时尝试运行，以减少可能对代码执行的影响。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%9B%9B)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS对象基础知识(四)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%8C)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS对象基础知识(二)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">104.3k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

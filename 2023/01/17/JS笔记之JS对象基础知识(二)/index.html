@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS对象基础知识(二) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS对象基础知识(二)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS对象基础知识(二)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%8C)/" class="article-date">
+  <time datetime="2023-01-17T05:38:55.000Z" itemprop="datePublished">2023-01-17</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">963</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS对象基础知识-二"><a href="#JS笔记之JS对象基础知识-二" class="headerlink" title="JS笔记之JS对象基础知识(二)"></a>JS笔记之JS对象基础知识(二)</h1><h2 id="1-对象的引用和复制"><a href="#1-对象的引用和复制" class="headerlink" title="1 对象的引用和复制"></a>1 对象的引用和复制</h2><p>对象和原始类型（数字字符串布尔类型等）的区别就是对象是<strong>通过引用</strong> 存储和复制的，而原始类型总是作为一个整体复制。</p>
+<h3 id="1-1-JS赋值时会发生什么？"><a href="#1-1-JS赋值时会发生什么？" class="headerlink" title="1.1 JS赋值时会发生什么？"></a>1.1 JS赋值时会发生什么？</h3><p>首先原始类型进行赋值时，message 和 phrase 是两个独立的变量。之间没有什么直接的关系。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> message = <span class="string">&quot;Hello!&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> phrase = message;</span><br></pre></td></tr></table></figure>
+<p>而对象不是这样的，一个对象被赋值给某个变量，这个变量存储的并不是对象的本身，而是这个对象的内存的地址。</p>
+<p>就像一把钥匙对应一个柜子，这把钥匙可以对该柜子打开并添加、取走里面的内容，此时又根据这把钥匙重新配了一个一个钥匙，而新配的这把钥匙也能够打开这个柜子。 这两把钥匙都可以对这个柜子修改。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123; <span class="attr">name</span>: <span class="string">&#x27;John&#x27;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> admin = user;</span><br><span class="line"></span><br><span class="line">admin.name = <span class="string">&#x27;Pete&#x27;</span>; <span class="comment">// 通过 &quot;admin&quot; 引用来修改</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(user.name); <span class="comment">// &#x27;Pete&#x27;，修改能通过 &quot;user&quot; 引用看到	</span></span><br></pre></td></tr></table></figure>
+<p><strong>当一个对象变量被复制 —— 引用被复制，而该对象自身并没有被复制。</strong></p>
+<h3 id="1-2-通过引用来比较"><a href="#1-2-通过引用来比较" class="headerlink" title="1.2 通过引用来比较"></a>1.2 通过引用来比较</h3><p>仅当两个对象为同一个对象时，两者才相等。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> b = a; <span class="comment">// 复制引用</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log( a == b ); <span class="comment">// true，都引用同一对象</span></span><br><span class="line"><span class="built_in">console</span>.log( a === b ); <span class="comment">// true	</span></span><br></pre></td></tr></table></figure>
+<p>而这里我们创建了两个空对象，看起来都是空的对象，但他们并不相等。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;&#125;;</span><br><span class="line"><span class="keyword">let</span> b = &#123;&#125;; <span class="comment">// 两个独立的对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log( a == b ); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-3-克隆与合并"><a href="#1-3-克隆与合并" class="headerlink" title="1.3 克隆与合并"></a>1.3 克隆与合并</h3><p>如果想要复制一个全新对象，可以循环遍历原有的对象，然后建立新的对象并进行创建。</p>
+<p>还可以使用 <code>Object.assign(dest, [src1, src2, src3...])</code> 来创建。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123; <span class="attr">name</span>: <span class="string">&quot;John&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> permissions1 = &#123; <span class="attr">canView</span>: <span class="literal">true</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> permissions2 = &#123; <span class="attr">canEdit</span>: <span class="literal">true</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 permissions1 和 permissions2 中的所有属性都拷贝到 user 中</span></span><br><span class="line"><span class="built_in">Object</span>.assign(user, permissions1, permissions2);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在 user = &#123; name: &quot;John&quot;, canView: true, canEdit: true &#125;</span></span><br></pre></td></tr></table></figure>
+<p>如果被拷贝的属性已经存在，怎会覆盖掉原有的属性。</p>
+<p>以上的情况都是建立在对象的属性都是原始类型的情况下，但是有些对象可能包含其他的对象，如果使用<code>Object.assign()</code> 不会对深层的对象进行拷贝，而是引用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  name: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  sizes: &#123;</span><br><span class="line">    height: <span class="number">182</span>,</span><br><span class="line">    width: <span class="number">50</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> clone = <span class="built_in">Object</span>.assign(&#123;&#125;, user);</span><br><span class="line"></span><br><span class="line">alert( user.sizes === clone.sizes ); <span class="comment">// true，同一个对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// user 和 clone 分享同一个 sizes</span></span><br><span class="line">user.sizes.width++;       <span class="comment">// 通过其中一个改变属性值</span></span><br><span class="line">alert(clone.sizes.width); <span class="comment">// 51，能从另外一个获取到变更后的结果</span></span><br></pre></td></tr></table></figure>
+<p>为了解决这个问题，并让 <code>user</code> 和 <code>clone</code> 成为两个真正独立的对象，我们应该使用一个拷贝循环来检查 <code>user[key]</code> 的每个值，如果它是一个对象，那么也复制它的结构。这就是所谓的“深拷贝”。可以使用递归实现， 或者也可以使用现成的轮子， lodash 库的 <a href="https://lodash.com/docs/4.17.15#cloneDeep">_.cloneDeep(obj)</a>。</p>
+<h3 id="1-4-总结"><a href="#1-4-总结" class="headerlink" title="1.4 总结"></a>1.4 总结</h3><p>对象通过引用被赋值和拷贝。换句话说，一个变量存储的不是“对象的值”，而是一个对值的“引用”（内存地址）。因此，拷贝此类变量或将其作为函数参数传递时，所拷贝的是引用，而不是对象本身。</p>
+<p>所有通过被拷贝的引用的操作（如添加、删除属性）都作用在同一个对象上。</p>
+<p>为了创建“真正的拷贝”（一个克隆），我们可以使用 <code>Object.assign</code> 来做所谓的“浅拷贝”（嵌套对象被通过引用进行拷贝）或者使用“深拷贝”函数，例如 <a href="https://lodash.com/docs#cloneDeep">_.cloneDeep(obj)</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%89)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS对象基础知识(三)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%80)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS对象基础知识(一)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">104.3k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

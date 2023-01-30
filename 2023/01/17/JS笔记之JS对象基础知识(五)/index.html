@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS对象基础知识(五) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS对象基础知识(五)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS对象基础知识(五)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%94)/" class="article-date">
+  <time datetime="2023-01-17T09:24:16.000Z" itemprop="datePublished">2023-01-17</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS对象基础知识-五"><a href="#JS笔记之JS对象基础知识-五" class="headerlink" title="JS笔记之JS对象基础知识(五)"></a>JS笔记之JS对象基础知识(五)</h1><h2 id="1-构造器和操作符new"><a href="#1-构造器和操作符new" class="headerlink" title="1 构造器和操作符new"></a>1 构造器和操作符new</h2><p>创建对象可以使用字面量的方式：{} 也可以使用new操作符，相较于字面量创建对象的方式，new操作符能够方面的创建许多类似的对象，例如多个用户和菜单对象。</p>
+<h3 id="1-1-构造函数"><a href="#1-1-构造函数" class="headerlink" title="1.1 构造函数"></a>1.1 构造函数</h3><p>构造函数在技术上是常规函数，只是有两个约定：</p>
+<ul>
+<li>他的命名都是一大写字母开头。</li>
+<li>只能有<code>new</code>操作符来执行。</li>
+</ul>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">User</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">  <span class="built_in">this</span>.isAdmin = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> User(<span class="string">&quot;Jack&quot;</span>);</span><br><span class="line"></span><br><span class="line">alert(user.name); <span class="comment">// Jack</span></span><br><span class="line">alert(user.isAdmin); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-2-构造器的执行步骤："><a href="#1-2-构造器的执行步骤：" class="headerlink" title="1.2 构造器的执行步骤："></a>1.2 构造器的执行步骤：</h3><ol>
+<li>一个新的空对象被创建并分配给this。</li>
+<li>函数体执行，通常他会修改<code>this</code>,并为其添加新的属性。</li>
+<li>返回<code>this</code>的值。</li>
+</ol>
+<p>总的来说 new User(…) 做的就是如下的事情：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">User</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// this = &#123;&#125;;（隐式创建）</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加属性到 this</span></span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">  <span class="built_in">this</span>.isAdmin = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// return this;（隐式返回）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user1 = <span class="keyword">new</span> User(<span class="string">&quot;Jack&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user2 = &#123;</span><br><span class="line">    name:<span class="string">&#x27;Jack&#x27;</span>,</span><br><span class="line">    isAdmin:<span class="literal">false</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 所以 user1 和 user2 的结果是相通的对象。</span></span><br></pre></td></tr></table></figure>
+<p>所以接下来我们创建新的对象，就可以使用 <code>new User(&#39;Alice&#39;)</code> <code>new User(&#39;Ann&#39;)</code>等， 要比每次都是用字面量要更与阅读。</p>
+<p><strong>这就是构造起的主要目的：实可重用的对象创建代码。</strong></p>
+<p>从技术上将，除了箭头函数以外，任何函数都可以用作构造器，即可以通过<code>new</code>来运行，他会执行上面的构造器的执行步骤。“首字母大写”是一个共同的约定，以明确表示一个函数将被使用 <code>new</code> 来运行。</p>
+<p>封装构建单个对象的代码的技巧：</p>
+<p>如果有许多行用于创建单个复杂对象的代码，我们可以将它们封装在一个立即调用的构造函数中，像这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个函数并立即使用 new 调用它</span></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = <span class="string">&quot;John&quot;</span>;</span><br><span class="line">  <span class="built_in">this</span>.isAdmin = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// ……用于用户创建的其他代码</span></span><br><span class="line">  <span class="comment">// 也许是复杂的逻辑和语句</span></span><br><span class="line">  <span class="comment">// 局部变量等</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这个构造函数不能被再次调用，因为他不保存在任何地方，只是被创建和调用。</p>
+<h3 id="1-3-构造器模式测试：new-target"><a href="#1-3-构造器模式测试：new-target" class="headerlink" title="1.3 构造器模式测试：new.target"></a>1.3 构造器模式测试：new.target</h3><p>在一个函数内部我们是可以使用new.target 属性来检查他是否被使用new调用了。对于常规调用，它是 undefined, 但是对于new的调用，则等于该函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">User</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  alert(<span class="keyword">new</span>.target);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不带 &quot;new&quot;：</span></span><br><span class="line">User(); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 带 &quot;new&quot;：</span></span><br><span class="line"><span class="keyword">new</span> User(); <span class="comment">// function User &#123; ... &#125;</span></span><br></pre></td></tr></table></figure>
+<p>主要的使用方式：被使用在函数的内部，来判断该函数是被通过new调用的构造器模式，还是常规模式；也可以让new调用和常规调用最相同的工作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">User</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!<span class="keyword">new</span>.target) &#123; <span class="comment">// 如果你没有通过 new 运行我</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> User(name); <span class="comment">// ……我会给你添加 new</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> john = User(<span class="string">&quot;John&quot;</span>); <span class="comment">// 将调用重定向到新用户</span></span><br><span class="line">alert(john.name); <span class="comment">// John</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-4-构造起的return"><a href="#1-4-构造起的return" class="headerlink" title="1.4 构造起的return"></a>1.4 构造起的return</h3><p>通常构造器没有return，他们的任务是将所有必须要写入的东西写入到this，并自动转化为结果，但是如果有return语句就会有不同的规则：</p>
+<ul>
+<li>如果返回的是一个对象，怎返回这个对象，不返回this。</li>
+<li>如果返回的是一个原始类型，则忽略。</li>
+</ul>
+<p>换句话说，带有对象的 <code>return</code> 返回该对象，在所有其他情况下返回 <code>this</code>。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">BigUser</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.name = <span class="string">&quot;John&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">name</span>: <span class="string">&quot;Godzilla&quot;</span> &#125;;  <span class="comment">// &lt;-- 返回这个对象</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert( <span class="keyword">new</span> BigUser().name );  <span class="comment">// Godzilla，得到了那个对象</span></span><br></pre></td></tr></table></figure>
+<p>这里有一个 <code>return</code> 为空的例子（或者我们可以在它之后放置一个原始类型，没有什么影响）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">SmallUser</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">this</span>.name = <span class="string">&quot;John&quot;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span>; <span class="comment">// &lt;-- 返回 this</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert( <span class="keyword">new</span> SmallUser().name );  <span class="comment">// John</span></span><br></pre></td></tr></table></figure>
+<p>Tips：构造函数没有参数，可以在被new调用的时候可以省略参数。（这里省略括号不被认为是一种“好风格”，但是规范允许使用该语法。）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> User; <span class="comment">// &lt;-- 没有参数</span></span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> User();</span><br></pre></td></tr></table></figure>
+<p>使用构造函数来创建对象会带来很大的灵活性。构造函数可以传入一些参数，又或者是一些方法。使创建的对象更加灵活。</p>
+<h3 id="1-5-总结"><a href="#1-5-总结" class="headerlink" title="1.5 总结"></a>1.5 总结</h3><ul>
+<li>构造函数或者简称构造器，就是常规函数，只不过对他有着共同的约定，就是首字母大写。</li>
+<li>构造函数只能使用<code>new</code>来调用，这样就意味着在创建了一个空的对象<code>this</code>, 并且最后返回了这个<code>this</code>。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AD)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS对象基础知识(六)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%9B%9B)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS对象基础知识(四)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">104.3k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS对象基础知识(八) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS对象基础知识(八)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS对象基础知识(八)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AB)/" class="article-date">
+  <time datetime="2023-01-19T03:24:41.000Z" itemprop="datePublished">2023-01-19</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.9k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS对象基础知识-八"><a href="#JS笔记之JS对象基础知识-八" class="headerlink" title="JS笔记之JS对象基础知识(八)"></a>JS笔记之JS对象基础知识(八)</h1><h2 id="1-对象原始值的转换"><a href="#1-对象原始值的转换" class="headerlink" title="1 对象原始值的转换"></a>1 对象原始值的转换</h2><p>当对象相加或者相减时，使用 alert(obj) 打印会输出什么？</p>
+<p>JS不允许自定义运算符对对象的处理方式，我们无法实现特殊的对象处理方法来处理加法或者是其他的运算。</p>
+<p>在此类运算的情况下，对象会被自动转换为原始值，然后对这些原始值进行运算，并得到运算结果（也是一个原始值，这是一个重要的限制：因为 <code>obj1 + obj2</code>（或者其他数学运算）的结果不能是另一个对象！</p>
+<p>例如我们无法使用对象来表示向量或者是矩阵，或者是成就或者其他。</p>
+<p>因此，由于我们从技术上无法实现此类运算，所以在实际项目中不存在对对象的数学运算。如果你发现有，除了极少数例外，通常是写错了。</p>
+<p>对象如何转换为原始值，以及如何对其进行自定义。</p>
+<h3 id="1-1-转换规则"><a href="#1-1-转换规则" class="headerlink" title="1.1 转换规则"></a>1.1 转换规则</h3><ul>
+<li>没有转换为布尔值，所有的对象在布尔值上下文中均为<code>true</code>，只有字符串和数字转换。</li>
+<li>数字转换发生在对象相减或应用数学函数时，例如Date对象可以相减，date1-date2 的结果是两个日期之间的差值。</li>
+<li>对于字符串转换，通常发生在我们像alert(obj)这样输出一个对象和类似的上下文中。</li>
+</ul>
+<p>我们可以使用特殊的对象方法，实现字符串和数字的转换。</p>
+<h3 id="1-2-hint定义"><a href="#1-2-hint定义" class="headerlink" title="1.2 hint定义"></a>1.2 hint定义</h3><p>类型转换在各种情况下有三种变体，他们被称为hint.</p>
+<h4 id="1-2-1-String"><a href="#1-2-1-String" class="headerlink" title="1.2.1 String"></a>1.2.1 String</h4><p>对象到字符串的转换，当我们对期望一个字符串的对象执行操作时，如 “alert”：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输出</span></span><br><span class="line">alert(obj);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将对象作为属性键</span></span><br><span class="line">anotherObj[obj] = <span class="number">123</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="1-2-2-Number"><a href="#1-2-2-Number" class="headerlink" title="1.2.2 Number"></a>1.2.2 Number</h4><p>对象到数字的转换</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 显式转换</span></span><br><span class="line"><span class="keyword">let</span> num = <span class="built_in">Number</span>(obj);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数学运算（除了二元加法）</span></span><br><span class="line"><span class="keyword">let</span> n = +obj; <span class="comment">// 一元加法</span></span><br><span class="line"><span class="keyword">let</span> delta = date1 - date2;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 小于/大于的比较</span></span><br><span class="line"><span class="keyword">let</span> greater = user1 &gt; user2;</span><br></pre></td></tr></table></figure>
+<p>大多数内建的数学函数也包括这种转换。</p>
+<h4 id="1-2-3-default"><a href="#1-2-3-default" class="headerlink" title="1.2.3 default"></a>1.2.3 default</h4><p>当运算符 “不确定” 期望值的类型时。在极少数情况下发生。</p>
+<p>例如二元加法 <code>+</code> 可用于字符串的拼接，也可用于数字的相加，因此当二元加法得到对象类型的参数时，他将依据 <code>default</code> hint 来对其进行转换。</p>
+<p>此外如果对象被用于与字符串、数字、或者symbol进行<code>==</code>比较，这时候他进行那种类型转换也不熟很明确，因此使用 <code>default</code> hint。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 二元加法使用默认 hint</span></span><br><span class="line"><span class="keyword">let</span> total = obj1 + obj2;</span><br><span class="line"></span><br><span class="line"><span class="comment">// obj == number 使用默认 hint</span></span><br><span class="line"><span class="keyword">if</span> (user == <span class="number">1</span>) &#123; ... &#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-转换方法"><a href="#1-3-转换方法" class="headerlink" title="1.3 转换方法"></a>1.3 转换方法</h3><p><strong>为了进行转换，JavaScript 尝试查找并调用三个对象方法：</strong></p>
+<ol>
+<li>调用 <code>obj[Symbol.toPrimitive](hint)</code> —— 带有 symbol 键 <code>Symbol.toPrimitive</code>（系统 symbol）的方法，如果这个方法存在的话，</li>
+<li>否则，如果 hint 是 <code>&quot;string&quot;</code> —— 尝试调用 <code>obj.toString()</code> 或 <code>obj.valueOf()</code>，无论哪个存在。</li>
+<li>否则，如果 hint 是 <code>&quot;number&quot;</code> 或 <code>&quot;default&quot;</code> —— 尝试调用 <code>obj.valueOf()</code> 或 <code>obj.toString()</code>，无论哪个存在。</li>
+</ol>
+<h4 id="1-3-1-Symbol-toPrimitive"><a href="#1-3-1-Symbol-toPrimitive" class="headerlink" title="1.3.1 Symbol.toPrimitive"></a>1.3.1 Symbol.toPrimitive</h4><p>他是被用来给转换方法命名。如果它存在则他会被用于所有的hint。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">obj[<span class="built_in">Symbol</span>.toPrimitive] = <span class="function"><span class="keyword">function</span>(<span class="params">hint</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 这里是将此对象转换为原始值的代码</span></span><br><span class="line">  <span class="comment">// 它必须返回一个原始值</span></span><br><span class="line">  <span class="comment">// hint = &quot;string&quot;、&quot;number&quot; 或 &quot;default&quot; 中的一个</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="1-3-2-toString-valueOf"><a href="#1-3-2-toString-valueOf" class="headerlink" title="1.3.2 toString/valueOf"></a>1.3.2 toString/valueOf</h4><p>如果没有 <code>Symbol.toPrimitive</code>，那么 JavaScript 将尝试寻找 <code>toString</code> 和 <code>valueOf</code> 方法：</p>
+<ul>
+<li>对于 <code>&quot;string&quot;</code> hint：调用 <code>toString</code> 方法，如果它不存在，则调用 <code>valueOf</code> 方法（因此，对于字符串转换，优先调用 <code>toString</code>）。</li>
+<li>对于其他 hint：调用 <code>valueOf</code> 方法，如果它不存在，则调用 <code>toString</code> 方法（因此，对于数学运算，优先调用 <code>valueOf</code> 方法）。</li>
+</ul>
+<p>这些方法必须返回一个原始值。如果 <code>toString</code> 或 <code>valueOf</code> 返回了一个对象，那么返回值会被忽略（和这里没有方法的时候相同）。</p>
+<p>默认情况下，普通对象具有 <code>toString</code> 和 <code>valueOf</code> 方法：</p>
+<ul>
+<li><code>toString</code> 方法返回一个字符串 <code>&quot;[object Object]&quot;</code>。</li>
+<li><code>valueOf</code> 方法返回对象自身。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;<span class="attr">name</span>: <span class="string">&quot;John&quot;</span>&#125;;</span><br><span class="line"></span><br><span class="line">alert(user); <span class="comment">// [object Object]</span></span><br><span class="line">alert(user.valueOf() === user); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+
+<p>所以如果我们将一个对象当做字符串来使用，例如 alerty(obj) 将会得到<code>[object Object]</code>。</p>
+<h3 id="1-4-自定义转化方法"><a href="#1-4-自定义转化方法" class="headerlink" title="1.4 自定义转化方法"></a>1.4 自定义转化方法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  name: <span class="string">&quot;John&quot;</span>,</span><br><span class="line">  money: <span class="number">1000</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对于 hint=&quot;string&quot;</span></span><br><span class="line">  <span class="function"><span class="title">toString</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`&#123;name: &quot;<span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>&quot;&#125;`</span>;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 对于 hint=&quot;number&quot; 或 &quot;default&quot;</span></span><br><span class="line">  <span class="function"><span class="title">valueOf</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.money;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">alert(user); <span class="comment">// toString -&gt; &#123;name: &quot;John&quot;&#125;</span></span><br><span class="line">alert(+user); <span class="comment">// valueOf -&gt; 1000</span></span><br><span class="line">alert(user + <span class="number">500</span>); <span class="comment">// valueOf -&gt; 1500</span></span><br></pre></td></tr></table></figure>
+
+
+<p>通常我们希望一个全能的地方来处理所有的原始转换。可以只实现toString 来实现。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  name: <span class="string">&quot;John&quot;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">toString</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">this</span>.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">alert(user); <span class="comment">// toString -&gt; John</span></span><br><span class="line">alert(user + <span class="number">500</span>); <span class="comment">// toString -&gt; John500</span></span><br></pre></td></tr></table></figure>
+<p>如果没有 <code>Symbol.toPrimitive</code> 和 <code>valueOf</code>，<code>toString</code> 将处理所有原始转换。</p>
+<h3 id="1-5-转换可以返回任何原始类型"><a href="#1-5-转换可以返回任何原始类型" class="headerlink" title="1.5 转换可以返回任何原始类型"></a>1.5 转换可以返回任何原始类型</h3><p>关于所有原始转换方法，有一个重要的点需要知道，就是它们不一定会返回 “hint” 的原始值。</p>
+<p>没有限制 <code>toString()</code> 是否返回字符串，或 <code>Symbol.toPrimitive</code> 方法是否为 <code>&quot;number&quot;</code> hint 返回数字。</p>
+<p>唯一强制性的事情是：这些方法必须返回一个原始值，而不是对象。</p>
+<blockquote>
+<p>Tips：由于历史原因，如果 <code>toString</code> 或 <code>valueOf</code> 返回一个对象，则不会出现 error，但是这种值会被忽略（就像这种方法根本不存在）。这是因为在 JavaScript 语言发展初期，没有很好的 “error” 的概念。</p>
+<p>相反，<code>Symbol.toPrimitive</code> 更严格，它 <strong>必须</strong> 返回一个原始值，否则就会出现 error。</p>
+</blockquote>
+<h3 id="1-6-进一步的转换"><a href="#1-6-进一步的转换" class="headerlink" title="1.6 进一步的转换"></a>1.6 进一步的转换</h3><p>许多运算符和函数执行类型转换， 例如乘法，将操作数转化为数字。</p>
+<p>如果我们将对象作为参数传递，则会出现两个运算阶段：</p>
+<ol>
+<li>对象被转化为原始值。根据上面转化的规则。</li>
+<li>如果还需进一步计算。则生成的原始值会进一步的转换。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">  <span class="comment">// toString 在没有其他方法的情况下处理所有转换</span></span><br><span class="line">  <span class="function"><span class="title">toString</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;2&quot;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">alert(obj * <span class="number">2</span>); <span class="comment">// 4，对象被转换为原始值字符串 &quot;2&quot;，之后它被乘法转换为数字 2。</span></span><br></pre></td></tr></table></figure>
+<p>比如上面的例字：</p>
+<ol>
+<li>乘法 <code>obj * 2</code> 首先将对象转换为原始值（字符串 “2”）。</li>
+<li>之后 <code>&quot;2&quot; * 2</code> 变为 <code>2 * 2</code>（字符串被转换为数字）。</li>
+</ol>
+<h3 id="1-7-总结"><a href="#1-7-总结" class="headerlink" title="1.7 总结"></a>1.7 总结</h3><p>对象到原始值的转换，是自动触发的。</p>
+<p>有三种类型的hint：</p>
+<ul>
+<li>“string” 对于 alert 和其他需要字符串的操作。</li>
+<li>“number” 对于数学运算。</li>
+<li>“default” 少数运算符，通常对象已和 “number” 相同的方式实现 default 转换。</li>
+</ul>
+<p>规范明确描述了哪个运算符使用哪个 hint。</p>
+<p>转换算法是：</p>
+<ol>
+<li>调用 <code>obj[Symbol.toPrimitive](hint)</code> 如果这个方法存在，</li>
+<li>否则，如果 hint 是 “string”<ul>
+<li>尝试调用 <code>obj.toString()</code> 或 <code>obj.valueOf()</code>，无论哪个存在。</li>
+</ul>
+</li>
+<li>否则，如果 hint 是 “number” 或者 “default”<ul>
+<li>尝试调用 <code>obj.valueOf()</code> 或 <code>obj.toString()</code>，无论哪个存在。</li>
+</ul>
+</li>
+</ol>
+<p>所有这些方法都必须返回一个原始值才能工作（如果已定义）。</p>
+<p><strong>在实际使用中，通常只实现 <code>obj.toString()</code> 作为字符串转换的“全能”方法就足够了，该方法应该返回对象的“人类可读”表示，用于日志记录或调试。</strong></p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%80)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS数据类型(一)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%83)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS对象基础知识(七)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">104.3k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
