@@ -134,6 +134,551 @@
 
 </article>
     
+    <article id="post-JS笔记之JS函数进阶(三)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%89)/">JS笔记之JS函数进阶(三)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%89)/" class="article-date">
+  <time datetime="2023-02-19T16:00:00.000Z" itemprop="datePublished">2023-02-20</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">930</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%89)/" rel="gallery_clelflpjs0000jwuw4aj89fa4">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <a id="more"></a>
+
+<h1 id="JS笔记之JS函数进阶-三"><a href="#JS笔记之JS函数进阶-三" class="headerlink" title="JS笔记之JS函数进阶(三)"></a>JS笔记之JS函数进阶(三)</h1><p>在JS中 函数也是一种值，函数的类型就是Object，函数本身也包含自己的属性。</p>
+<h2 id="1-name-属性"><a href="#1-name-属性" class="headerlink" title="1 name 属性"></a>1 name 属性</h2><p>在创建一个函数时，我们可以根据函数名获取对应函数的name属性，直接创建一个具名函数或者使用命名表达式，来创建函数，函数名和命名表达式的变量名就是函数的name属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(sayHi.name); <span class="comment">// sayHi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sayHi = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(sayHi.name); <span class="comment">// sayHi（有名字！）</span></span><br></pre></td></tr></table></figure>
+<p>在对象中的函数同样也是具有该属性，当无法获取该属性时， name的值为空字符串。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数是在数组中创建的</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;];</span><br><span class="line"><span class="built_in">console</span>.log( arr[<span class="number">0</span>].name ); <span class="comment">// &lt;空字符串&gt;</span></span><br><span class="line"><span class="comment">// 引擎无法设置正确的名字，所以没有值</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-length-属性"><a href="#2-length-属性" class="headerlink" title="2 length 属性"></a>2 length 属性</h2><p>该属性返回的是函数入参的个数，但是不包含…rest的参数，属性 length 有时在操作其它函数的函数中用于做 内省/运行时检查（introspection）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">a</span>) </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params">a, b</span>) </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">many</span>(<span class="params">a, b, ...more</span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">alert(f1.length); <span class="comment">// 1</span></span><br><span class="line">alert(f2.length); <span class="comment">// 2</span></span><br><span class="line">alert(many.length); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-自定义属性"><a href="#3-自定义属性" class="headerlink" title="3 自定义属性"></a>3 自定义属性</h2><p>在函数内部还可以直接自定义属性，直接使用函数名.属性名， 这里的属性名和函数内部的变量名，是两个概念，他们之间没有关系。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 计算调用次数</span></span><br><span class="line">    sayHi.counter++;</span><br><span class="line">  &#125;</span><br><span class="line">  sayHi.counter = <span class="number">0</span>; <span class="comment">// 初始值</span></span><br><span class="line">  </span><br><span class="line">  sayHi(); <span class="comment">// Hi</span></span><br><span class="line">  sayHi(); <span class="comment">// Hi</span></span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.log( <span class="string">`Called <span class="subst">$&#123;sayHi.counter&#125;</span> times`</span> ); <span class="comment">// Called 2 times</span></span><br></pre></td></tr></table></figure>
+
+
+<p>函数的属性有时候会代替闭包，因为函数属性，可以在函数作用域内，保存局部的变量信息。</p>
+<h2 id="4-函数命名表达式"><a href="#4-函数命名表达式" class="headerlink" title="4 函数命名表达式"></a>4 函数命名表达式</h2><p>带有函数 (NFE，Named Function Expression) 指带有名字的表达式的术语。</p>
+<p>一个普通的函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> funcName = <span class="function"><span class="keyword">function</span> (<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>给这个函数加一个名字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> funcName = <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时加名字和不加名字的区别就是：</p>
+<ul>
+<li>加名字可以在函数的内部调用，</li>
+<li>在函数的外部是不可见的。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">et sayHi = <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">who</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (who) &#123;</span><br><span class="line">    alert(<span class="string">`Hello, <span class="subst">$&#123;who&#125;</span>`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    func(<span class="string">&quot;Guest&quot;</span>); <span class="comment">// 使用 func 再次调用函数自身</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">sayHi(); <span class="comment">// Hello, Guest</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 但这不工作：</span></span><br><span class="line">func(); <span class="comment">// Error, func is not defined（在函数外不可见）</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-使用-new-Function-来创建函数"><a href="#5-使用-new-Function-来创建函数" class="headerlink" title="5 使用 new Function 来创建函数"></a>5 使用 new Function 来创建函数</h2><p>语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 该函数是通过给定的 arg1 arg2 参数 和 functionBody 创建的</span></span><br><span class="line"><span class="keyword">let</span> func = <span class="keyword">new</span> <span class="built_in">Function</span> ([arg1, arg2, ...argN], functionBody);</span><br></pre></td></tr></table></figure>
+<p>实际的例字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 包含参数和函数体</span></span><br><span class="line"><span class="keyword">let</span> sum = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;return a + b&#x27;</span>);</span><br><span class="line">alert( sum(<span class="number">1</span>, <span class="number">2</span>) ); <span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 只有函数体</span></span><br><span class="line"><span class="keyword">let</span> sayHi = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">&#x27;alert(&quot;Hello&quot;)&#x27;</span>);</span><br><span class="line">sayHi(); <span class="comment">// Hello</span></span><br></pre></td></tr></table></figure>
+<p>使用的场景：比如我们需要动态的从服务器获取一段代码来运行。</p>
+<h2 id="6-闭包"><a href="#6-闭包" class="headerlink" title="6 闭包"></a>6 闭包</h2><p>闭包是指使用一个特殊的属性，来记录函数自身得创建时的环境的函数，他具体执行了函数创建时的此法环境，但是我们使用 new Function 创建的函数，他并不指向当前的词法环境，而是全局环境。</p>
+<p>new Function 这种特性在实际中非常使用，想象一下我们必须通过一个字符串来创建一个函数。在编写脚本时我们不会知道该函数的代码（这也就是为什么我们不用常规方法创建函数），但在执行过程中会知道了。我们可能会从服务器或其他来源获取它。</p>
+<h2 id="7-总结"><a href="#7-总结" class="headerlink" title="7 总结"></a>7 总结</h2><ul>
+<li><p>new Function 语法：<code>let func = new Function ([arg1, arg2, ...argN], functionBody);</code></p>
+</li>
+<li><p>使用 new Function 创建的函数，的词法环境执行全局的环境。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-JS笔记之JS函数进阶(四)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%9B%9B)/">JS笔记之JS函数进阶(四)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%9B%9B)/" class="article-date">
+  <time datetime="2023-02-19T16:00:00.000Z" itemprop="datePublished">2023-02-20</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">935</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%9B%9B)/" rel="gallery_clelflpjy0005jwuw2mdv234z">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <a id="more"></a>
+
+<h1 id="JS笔记之JS函数进阶-四"><a href="#JS笔记之JS函数进阶-四" class="headerlink" title="JS笔记之JS函数进阶(四)"></a>JS笔记之JS函数进阶(四)</h1><h2 id="1-setTimeout-和-setInterval"><a href="#1-setTimeout-和-setInterval" class="headerlink" title="1 setTimeout 和 setInterval"></a>1 setTimeout 和 setInterval</h2><p>语法格式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// setTimeout 第一个参数：一个函数或者是字符串代码(这个不常用)，第二个参数：时间间隔，代表多少秒后直行，剩下的参数：代表函数的参数。</span></span><br><span class="line"><span class="keyword">let</span> timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;&#125;, timeout [, arg1, arg2]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 和setTimeout 参数一致，只不过代表的含义为重复执行该函数，interval 是重复的间隔。</span></span><br><span class="line"><span class="keyword">let</span> timer2 = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;&#125;, interval [, arg1, arg2]);</span><br></pre></td></tr></table></figure>
+<p>停止计时器使用clearTimeout(timer) 和 clearInterval(timer2)。</p>
+<p>使用 clearInterval 函数的调用间隔实际会代码设置的调用间隔要短，因为是在函数开始时就开始计算时间，这个间隔时间包括函数执行的时间，如果函数执行的比较慢，name就会等待函数执行完成，如果函数的执行时间小于执行间隔，那么实际的执行间隔就是：函数的执行时间+剩余的时间= Interval。</p>
+<p>使用clearTimeout 则不会出现这个问题，他是等待函数执行完毕，在进行下一次的函数调用。</p>
+<blockquote>
+<p>当一个函数传入 setInterval/setTimeout 时，将为其创建一个内部引用，并保存在调度程序中。这样，即使这个函数没有其他引用，也能防止垃圾回收器（GC）将其回收。</p>
+</blockquote>
+<h2 id="2-嵌套setTimeout"><a href="#2-嵌套setTimeout" class="headerlink" title="2 嵌套setTimeout"></a>2 嵌套setTimeout</h2><p>使用clearInterval 调用函数每次间隔都是一致的，如果想要更加的灵活的设置函数执行之间的间隔，可以将clearInterval 进行嵌套调用。一个常用的场景就是，我们调用接口获取失败后重试，可以设置不同的访问间隔，避免造成服务器压力过大。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> delay = <span class="number">5000</span>;</span><br><span class="line"><span class="keyword">let</span> timerId = <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;发送请求！&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果请求失败，下一次执行的间隔是当前的 2 倍</span></span><br><span class="line">        delay *= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    timerId = <span class="built_in">setTimeout</span>(request, delay);</span><br><span class="line">&#125;, delay);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-零延时的setTimeout"><a href="#3-零延时的setTimeout" class="headerlink" title="3 零延时的setTimeout"></a>3 零延时的setTimeout</h2><p>setTimeout(func, 0) 或者是 setTimeout(func)，这种特性，叫做零延时调度，但是他需要在哦脚本执行完毕后执行。例如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> alert(<span class="string">&quot;World&quot;</span>));</span><br><span class="line">alert(<span class="string">&quot;Hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>以上的代码显示输出 Hello， 在输出 World。 </p>
+<blockquote>
+<p>但是在浏览器环境中，零延时并不为零，嵌套定时器的运行频率是受限制的。根据 HTML5 标准 所讲：“经过 5 重嵌套定时器之后，时间间隔被强制设定为至少 4 毫秒”。</p>
+</blockquote>
+<p><strong>任何 setTimeout 都只会在当前代码执行完毕之后才会执行。</strong></p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h2><ul>
+<li>setTimeout(func, delay, …args) 和 setInterval(func, delay, …args) 方法允许我们在 delay 毫秒之后运行 func 一次或以 delay 毫秒为时间间隔周期性运行 func。要取消函数的执行，我们应该调用 clearInterval/clearTimeout，并将 setInterval/setTimeout 返回的值作为入参传入。</li>
+<li>嵌套的 setTimeout 比 setInterval 用起来更加灵活，允许我们更精确地设置两次执行之间的时间。<br>零延时调度 setTimeout(func, 0)（与 setTimeout(func) 相同）用来调度需要尽快执行的调用，但是会在当前脚本执行完成后进行调用。</li>
+<li>浏览器会将 setTimeout 或 setInterval 的五层或更多层嵌套调用（调用五次之后）的最小延时限制在 4ms。这是历史遗留问题。</li>
+<li>请注意，所有的调度方法都不能 保证 确切的延时<ul>
+<li>例如，浏览器内的计时器可能由于许多原因而变慢：</li>
+<li>CPU 过载。</li>
+<li>浏览器页签处于后台模式。</li>
+<li>笔记本电脑用的是省电模式。</li>
+<li>所有这些因素，可能会将定时器的最小计时器分辨率（最小延迟）增加到 300ms 甚至 1000ms，具体以浏览器及其设置为准。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-JS笔记之JS函数进阶(二)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%8C)/">JS笔记之JS函数进阶(一)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%8C)/" class="article-date">
+  <time datetime="2023-02-14T16:00:00.000Z" itemprop="datePublished">2023-02-15</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">886</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%8C)/" rel="gallery_clelflpjw0001jwuw17j9dy6c">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <a id="more"></a>
+
+<h1 id="JS笔记之JS函数进阶-一"><a href="#JS笔记之JS函数进阶-一" class="headerlink" title="JS笔记之JS函数进阶(一)"></a>JS笔记之JS函数进阶(一)</h1><h2 id="1-let-和-var-的区别"><a href="#1-let-和-var-的区别" class="headerlink" title="1 let 和 var 的区别"></a>1 let 和 var 的区别</h2><p>let 属于现代JS的声明变量的方式，而var则是老旧的方式。所以现在尽可能使用let。</p>
+<p>一般情况下可以使用 let 代替var，或者使用var 代替 let，但是在某些方面存在着巨大的差异。</p>
+<h3 id="1-1-var没有块级作用域"><a href="#1-1-var没有块级作用域" class="headerlink" title="1.1 var没有块级作用域"></a>1.1 var没有块级作用域</h3><p>例如：在 if 或者 while 中使用 var 声明的变量，可以在其他的地方获取到。是因为早期的JS中，块没有词法环境。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> test = <span class="literal">true</span>; <span class="comment">// 使用 &quot;var&quot; 而不是 &quot;let&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">// true，变量在 if 结束后仍存在</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> test = <span class="literal">true</span>; <span class="comment">// 使用 &quot;let&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(test); <span class="comment">// ReferenceError: test is not defined</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-2-var-允许重新声明"><a href="#1-2-var-允许重新声明" class="headerlink" title="1.2 var 允许重新声明"></a>1.2 var 允许重新声明</h3><p>使用var可以多次声明同一个变量，最新声明的变量就会无效，因为上面已经声明过了。</p>
+<p>使用let在同一个作用域下声明两次会提示已经被声明的错误，var 则不会。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user;</span><br><span class="line"><span class="keyword">let</span> user; <span class="comment">// SyntaxError: &#x27;user&#x27; has already been declared</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> user = <span class="string">&quot;Pete&quot;</span>;</span><br><span class="line"><span class="keyword">var</span> user = <span class="string">&quot;John&quot;</span>; <span class="comment">// 这个 &quot;var&quot; 无效（因为变量已经声明过了）</span></span><br><span class="line"><span class="comment">// ……不会触发错误</span></span><br><span class="line"><span class="built_in">console</span>.log(user); <span class="comment">// John</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-3-var-声明的变量-可以再声明之前使用。"><a href="#1-3-var-声明的变量-可以再声明之前使用。" class="headerlink" title="1.3 var 声明的变量 可以再声明之前使用。"></a>1.3 var 声明的变量 可以再声明之前使用。</h3><p>这种情况叫做提升，相当于使用var声明的变量 会被提升到一个函数或者脚本的最上面。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(phrase);</span><br><span class="line">    <span class="keyword">var</span> phrase = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 上面的函数就相当于</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> phrase</span><br><span class="line">    <span class="built_in">console</span>.log(phrase);</span><br><span class="line">    phrase = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">sayHi();  <span class="comment">// undefined</span></span><br></pre></td></tr></table></figure>
+<p>但是有一点值的注意，虽然声明会提升到函数的开始，但是赋值并不会被提升，所以输出的结果就是一个未被赋值的变量，即：undefined。</p>
+<h3 id="1-4-IIFE"><a href="#1-4-IIFE" class="headerlink" title="1.4 IIFE"></a>1.4 IIFE</h3><p>在很久以前，JS中只有var这一种声明变量的方式，且没有快捷作用域，所以程序员就发明了一种模仿块级作用域的方法，这种方法叫做立即调用函数表达式（immediately-invoked function expressions，IIFE）例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">name</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;立即调用函数表达式&#x27;</span>);</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>现在我们已经没有理由需要这样的方法了。</p>
+</blockquote>
+<h3 id="1-5-全局对象"><a href="#1-5-全局对象" class="headerlink" title="1.5 全局对象"></a>1.5 全局对象</h3><p>全局对象提供可在任何地方调用的变量和函数。在浏览器中他的名字叫做 window 在nodejs中他的名字叫做global。不同的环境可能会有不同的名字， 所以JS 提出了一个标准名称叫做 globalThis。</p>
+<p>使用var 定义的变量，会成为全局对象的属性，函数声明也是同样的，但是不建议直接使用<code>window.xx</code> 调用。</p>
+<blockquote>
+<p>一般不建议使用全局变量，全局变量应该尽可能的少的使用。</p>
+</blockquote>
+<h3 id="1-6-使用-polyfills"><a href="#1-6-使用-polyfills" class="headerlink" title="1.6 使用 polyfills"></a>1.6 使用 polyfills</h3><p>有时候我们可以使用全局对象来做兼容性的工作，例如查看全局对象中是否含有 Promise对象，如果没有的话我们可以创建 polyfills，来添加环境中不支持但在现代浏览器标准中存在的对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="built_in">window</span>.Promise) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;当前正使用旧的浏览器!&quot;</span>);</span><br><span class="line">    <span class="comment">// 定制实现现代语言功能</span></span><br><span class="line">    <span class="built_in">window</span>.Promise = ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-总结"><a href="#2-总结" class="headerlink" title="2 总结"></a>2 总结</h2><p>var 和 let 的主要的两个区别：</p>
+<ul>
+<li>var 生明没有块级作用域，仅在当前函数内部可见，或者全局可见。</li>
+<li>var 变量的声明在函数开头就会被处理。</li>
+</ul>
+<p>在现代JS中尽可能的使用 const 或者 let。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-JS笔记之JS函数进阶(一)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%80)/">JS笔记之JS函数进阶(一)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%80)/" class="article-date">
+  <time datetime="2023-02-14T16:00:00.000Z" itemprop="datePublished">2023-02-15</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%80)/" rel="gallery_clelflpjx0003jwuwdzw33w9n">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <a id="more"></a>
+
+<h1 id="JS笔记之JS函数进阶-一"><a href="#JS笔记之JS函数进阶-一" class="headerlink" title="JS笔记之JS函数进阶(一)"></a>JS笔记之JS函数进阶(一)</h1><h2 id="1-函数rest参数"><a href="#1-函数rest参数" class="headerlink" title="1 函数rest参数"></a>1 函数rest参数</h2><p>在JS中很多内建的参数都支持传入无限个数的参数。</p>
+<p>当我们自己定义一个函数时， 也可以转入无限个数的参数，但是只能根据形参的个数来获取真正的参数，如何实现接收无限个参数或者接收数组形式的参数？</p>
+<p>可以在函数定义时声明一个数组来收集参数，语法格式为：<code>...变量名</code>， 这会声明一个数组，并指定一个名称为变量名，其中存有剩余的参数。三个点的含义就是将剩余的参数存储到指定的数组中。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sumAll</span>(<span class="params">...args</span>) </span>&#123; <span class="comment">// 数组名为 args</span></span><br><span class="line">    <span class="keyword">let</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> arg <span class="keyword">of</span> args) sum += arg;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>...args</code> 称为Rest 参数，他可以和其他的正常的函数同时使用，因为<code>...args</code> 会收集所有剩余的参数，因此，这种语法格式只能放在函数的末尾。</p>
+<p>在Python函数支持位置参数和关键字参数，同样可以使用<code>*args</code> 来接收不限个数的位置参数或者是使用<code>**kwargs</code>来接收不限制个数的关键字参数，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">sum_all</span>(<span class="params">*args: <span class="built_in">int</span></span>):</span></span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> args:</span><br><span class="line">        <span class="built_in">sum</span> += x</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">sum</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    print(sum_all(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>))  <span class="comment"># 10</span></span><br></pre></td></tr></table></figure>
+<p>在JS中还有一个特殊的参数对象areguments，可以在函数中被访问，该对象以参数在参数列中的索引作为键，存储所有的参数。areguments是一个类数组，也是一个可迭代对象，他不支持数组方法，而且他始终包含所有的参数，无法向数组那样直接对参数截取。因此当接受很多参数时最好使用Rest参数。</p>
+<blockquote>
+<p>另外箭头函数是没有areguments的。如果在剪头函数中访问 areguments 得到的是箭头函数的外部的普通函数的areguments。</p>
+<p>即箭头函数没有本身的this以及 areguments。</p>
+</blockquote>
+<h2 id="2-函数Spread语法"><a href="#2-函数Spread语法" class="headerlink" title="2 函数Spread语法"></a>2 函数Spread语法</h2><p>在上文中Rest参数是从多个参数中得到一个类数组对象，而Spread则与之相反，当我们有一个数组，如何将它作为多个参数的函数中去？</p>
+<p>Spread的语法和Rest参数语法很像，也是使用<code>...</code>，但是用途确实相反，当在函数中调用<code>...arr</code>时，他会把可迭代对象展开到参数列表中去，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">3</span>, <span class="number">5</span>, <span class="number">1</span>];</span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">Math</span>.max(...arr) ); <span class="comment">// 5（spread 语法把数组转换为参数列表）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 同样可以传入多个可迭代对象</span></span><br><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>, -<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = [<span class="number">8</span>, <span class="number">3</span>, -<span class="number">8</span>, <span class="number">1</span>];</span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">Math</span>.max(...arr1, ...arr2) ); <span class="comment">// 8</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 与常规的参数使用</span></span><br><span class="line"><span class="keyword">let</span> arr1 = [<span class="number">1</span>, -<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];</span><br><span class="line"><span class="keyword">let</span> arr2 = [<span class="number">8</span>, <span class="number">3</span>, -<span class="number">8</span>, <span class="number">1</span>];</span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">Math</span>.max(<span class="number">1</span>, ...arr1, <span class="number">2</span>, ...arr2, <span class="number">25</span>) ); <span class="comment">// 25</span></span><br></pre></td></tr></table></figure>
+<p>Spread 可以迭代任意的可迭代对象，例如字符串，Spread内部使用迭代器来收集元素，和for…of 的方式相同，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str1 = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log( [...str1] ); <span class="comment">// H,e,l,l,o</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Array.from 将可迭代对象转换为数组</span></span><br><span class="line"><span class="keyword">let</span> str2 = <span class="string">&quot;Hello&quot;</span>;</span><br><span class="line"><span class="built_in">console</span>.log( <span class="built_in">Array</span>.from(str2) ); <span class="comment">// H,e,l,l,o</span></span><br></pre></td></tr></table></figure>
+<p>上述的例字中Array.from 和[…str] 得到的结果一致，但是他们之间还有一个细微的差别：</p>
+<ul>
+<li>Array.from(str) 适用于类数组对象也适用于可迭代对象。</li>
+<li>Spread 语法只适用于可迭代对象。</li>
+</ul>
+<p>使用Spread也可以进行浅拷贝</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arrCopy = [...arr]; <span class="comment">// 将数组 spread 到参数列表中，然后将结果放到一个新数组</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">JSON</span>.stringify(arr) === <span class="built_in">JSON</span>.stringify(arrCopy)); <span class="comment">// 结果是一致的</span></span><br><span class="line"><span class="built_in">console</span>.log(arr === arrCopy);  <span class="comment">// 引用是不一致的</span></span><br><span class="line"></span><br><span class="line">arr.push(<span class="number">4</span>)</span><br><span class="line"><span class="built_in">console</span>.log(arr);</span><br><span class="line"><span class="built_in">console</span>.log(arrCopy);</span><br></pre></td></tr></table></figure>
+<p>使用同样的方式也可以复制一个对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span>, <span class="attr">c</span>: <span class="number">3</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> objCopy = &#123; ...obj &#125;; <span class="comment">// 将对象 spread 到参数列表中</span></span><br><span class="line">                          <span class="comment">// 然后将结果返回到一个新对象</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 两个对象中的内容相同吗？</span></span><br><span class="line">alert(<span class="built_in">JSON</span>.stringify(obj) === <span class="built_in">JSON</span>.stringify(objCopy)); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 两个对象相等吗？</span></span><br><span class="line">alert(obj === objCopy); <span class="comment">// false (not same reference)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改我们初始的对象不会修改副本：</span></span><br><span class="line">obj.d = <span class="number">4</span>;</span><br><span class="line">alert(<span class="built_in">JSON</span>.stringify(obj)); <span class="comment">// &#123;&quot;a&quot;:1,&quot;b&quot;:2,&quot;c&quot;:3,&quot;d&quot;:4&#125;</span></span><br><span class="line">alert(<span class="built_in">JSON</span>.stringify(objCopy)); <span class="comment">// &#123;&quot;a&quot;:1,&quot;b&quot;:2,&quot;c&quot;:3&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这种方式比使用 let arrCopy = Object.assign([], arr) 复制数组，或使用 let objCopy = Object.assign({}, obj) 复制对象来说更为简便。因此，只要情况允许，我们倾向于使用它</p>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h2><p>Rest 参数语法和Spread 语法的一个区别就是若<code>...</code>出现在函数参数列表的最后，那么他就是Rest参数，如果出现在函数调用或者类似的表达式中，那么就是Spread语法。</p>
+<p>可以使用这两种语法轻松的转换参数列表和参数数组。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-JS笔记之JS数据类型(七)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%83)/">JS笔记之JS数据类型(七)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%83)/" class="article-date">
+  <time datetime="2023-02-09T16:00:00.000Z" itemprop="datePublished">2023-02-10</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%83)/" rel="gallery_clelflpjz0007jwuwbyatb2pr">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <p>​                    </p>
+      
+      <a class="article-more-link" href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%83)/">
+        阅读更多...
+      </a>
+      
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-JS笔记之JS数据类型(八)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AB)/">JS笔记之JS数据类型(八)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AB)/" class="article-date">
+  <time datetime="2023-02-09T16:00:00.000Z" itemprop="datePublished">2023-02-10</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.1k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AB)/" rel="gallery_clelflpk8000ejwuw0jloca10">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <p>​                    </p>
+      
+      <a class="article-more-link" href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AB)/">
+        阅读更多...
+      </a>
+      
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
     <article id="post-JS笔记之JS数据类型(四)" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -204,7 +749,7 @@
 
 </article>
     
-    <article id="post-JS笔记之JS数据类型(三)" class="article article-type-post" itemscope
+    <article id="post-JS笔记之JS数据类型(五)" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -213,7 +758,7 @@
       
 
 <h2 itemprop="name">
-  <a class="article-title" href="/2023/01/31/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%89)/">JS笔记之JS数据类型(三)</a>
+  <a class="article-title" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/">JS笔记之JS数据类型(五)</a>
 </h2>
 
 
@@ -223,152 +768,8 @@
 
     
     <div class="article-meta">
-      <a href="/2023/01/31/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%89)/" class="article-date">
-  <time datetime="2023-01-31T09:10:52.000Z" itemprop="datePublished">2023-01-31</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">4k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">16</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/01/31/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%89)/" rel="gallery_cldu9z9o60001ycuwdk4m79w1">
-      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​                    </p>
-      
-      <a class="article-more-link" href="/2023/01/31/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%89)/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-Python第三方包Dynaconf" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/01/30/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85Dynaconf/">Python第三方包Dynaconf</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/01/30/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85Dynaconf/" class="article-date">
-  <time datetime="2023-01-30T06:40:25.000Z" itemprop="datePublished">2023-01-30</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Dynaconf/">Dynaconf</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.6k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/01/30/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85Dynaconf/" rel="gallery_cldit0olw000jbouw61toafyj">
-      <img src="https://tc.chaizz.com/f72d3a2aa07d11eda20f0242ac190002.svg" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​    </p>
-      
-      <a class="article-more-link" href="/2023/01/30/Python%E7%AC%AC%E4%B8%89%E6%96%B9%E5%8C%85Dynaconf/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dynaconf/" rel="tag">Dynaconf</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-JS笔记之JS数据类型(二)" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/01/29/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%8C)/">JS笔记之JS数据类型(二)</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/01/29/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%8C)/" class="article-date">
-  <time datetime="2023-01-29T08:14:32.000Z" itemprop="datePublished">2023-01-29</time>
+      <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/" class="article-date">
+  <time datetime="2023-02-06T07:38:59.000Z" itemprop="datePublished">2023-02-06</time>
 </a>
       
       &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">2k</span>字
@@ -385,7 +786,7 @@
   <div class="article-gallery-photos">
     
     
-    <a class="article-gallery-img" href="/2023/01/29/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%8C)/" rel="gallery_cldit0olv000hbouwhjngae15">
+    <a class="article-gallery-img" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/" rel="gallery_clelflpk00009jwuw8lq43kdw">
       <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
     </a>
     
@@ -396,7 +797,7 @@
       
       <p>​                    </p>
       
-      <a class="article-more-link" href="/2023/01/29/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%8C)/">
+      <a class="article-more-link" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/">
         阅读更多...
       </a>
       
@@ -418,7 +819,7 @@
 
 </article>
     
-    <article id="post-JS笔记之JS数据类型(一)" class="article article-type-post" itemscope
+    <article id="post-JS笔记之JS数据类型(六)" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -427,7 +828,7 @@
       
 
 <h2 itemprop="name">
-  <a class="article-title" href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%80)/">JS笔记之JS数据类型(一)</a>
+  <a class="article-title" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AD)/">JS笔记之JS数据类型(六)</a>
 </h2>
 
 
@@ -437,81 +838,11 @@
 
     
     <div class="article-meta">
-      <a href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%80)/" class="article-date">
-  <time datetime="2023-01-19T07:05:31.000Z" itemprop="datePublished">2023-01-19</time>
+      <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AD)/" class="article-date">
+  <time datetime="2023-02-06T07:38:59.000Z" itemprop="datePublished">2023-02-06</time>
 </a>
       
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">2.6k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">10</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%80)/" rel="gallery_cldit0olv000fbouwbazc31yj">
-      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​                    </p>
-      
-      <a class="article-more-link" href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%80)/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-JS笔记之JS对象基础知识(八)" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AB)/">JS笔记之JS对象基础知识(八)</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AB)/" class="article-date">
-  <time datetime="2023-01-19T03:24:41.000Z" itemprop="datePublished">2023-01-19</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.9k</span>字
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.6k</span>字
       &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
     </div>
     
@@ -525,7 +856,7 @@
   <div class="article-gallery-photos">
     
     
-    <a class="article-gallery-img" href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AB)/" rel="gallery_cldit0ols0008bouw3dpg6qsc">
+    <a class="article-gallery-img" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AD)/" rel="gallery_clelflpk0000bjwuwdh6b8dii">
       <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
     </a>
     
@@ -534,219 +865,9 @@
 </div>
 
       
-      <p>​          </p>
+      <p>​                    </p>
       
-      <a class="article-more-link" href="/2023/01/19/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AB)/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-JS笔记之JS对象基础知识(七)" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%83)/">JS笔记之JS对象基础知识(七)</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%83)/" class="article-date">
-  <time datetime="2023-01-18T06:54:42.000Z" itemprop="datePublished">2023-01-18</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.5k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%83)/" rel="gallery_cldit0olq0004bouw3ys48jtb">
-      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​          </p>
-      
-      <a class="article-more-link" href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%B8%83)/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-JS笔记之JS对象基础知识(六)" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AD)/">JS笔记之JS对象基础知识(六)</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AD)/" class="article-date">
-  <time datetime="2023-01-18T06:01:12.000Z" itemprop="datePublished">2023-01-18</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.1k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AD)/" rel="gallery_cldit0olt000abouw8op73nh1">
-      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​          </p>
-      
-      <a class="article-more-link" href="/2023/01/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E5%85%AD)/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-JS笔记之JS对象基础知识(五)" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%94)/">JS笔记之JS对象基础知识(五)</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%94)/" class="article-date">
-  <time datetime="2023-01-17T09:24:16.000Z" itemprop="datePublished">2023-01-17</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%94)/" rel="gallery_cldit0olr0005bouwgo0ghckl">
-      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​          </p>
-      
-      <a class="article-more-link" href="/2023/01/17/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%AF%B9%E8%B1%A1%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86(%E4%BA%94)/">
+      <a class="article-more-link" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AD)/">
         阅读更多...
       </a>
       
@@ -773,7 +894,7 @@
 
   
   <nav class="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
   
 </section>
@@ -793,7 +914,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">109.6k</span>字</span>
+    <span>全站共<span class="post-count">119.5k</span>字</span>
     <br>
     <div class="powered-by">
   

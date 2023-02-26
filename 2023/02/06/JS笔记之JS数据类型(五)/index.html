@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS数据类型(五) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS数据类型(五)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS数据类型(五)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/" class="article-date">
+  <time datetime="2023-02-06T07:38:59.000Z" itemprop="datePublished">2023-02-06</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">8</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​                    </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS数据类型-五"><a href="#JS笔记之JS数据类型-五" class="headerlink" title="JS笔记之JS数据类型(五)"></a>JS笔记之JS数据类型(五)</h1><h2 id="1-Map"><a href="#1-Map" class="headerlink" title="1 Map"></a>1 Map</h2><p>map 是一个带键的数据项的集合，他和object很像， 但是map允许任意类型的键，而对象的键只能是 字符串和symbol，不管用什么当做对象的key（除了symbol），都会被js转化为字符串。</p>
+<h3 id="1-1-方法"><a href="#1-1-方法" class="headerlink" title="1.1 方法"></a>1.1 方法</h3><ul>
+<li>new Map() ：创建一个map。</li>
+<li>map.set(key, value)：根据键设置值。map在创建时保留了值插入的顺序。</li>
+<li>map.get(key)：根据键来返回值，如果不存在key，则返回undefined。</li>
+<li>map.has(key)：如果key存在返回true，不存在返回false。</li>
+<li>map.delete(key)：删除指定的key。</li>
+<li>map.clear()：清空map。</li>
+<li>map.size：返回当前元素的个数。</li>
+</ul>
+<p>在使用map获取key的值或者设置值时 应该使用 map.get() 或者 map.set() 。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line"></span><br><span class="line">map.set(<span class="string">&#x27;1&#x27;</span>, <span class="string">&#x27;str1&#x27;</span>);   <span class="comment">// 字符串键</span></span><br><span class="line">map.set(<span class="number">1</span>, <span class="string">&#x27;num1&#x27;</span>);     <span class="comment">// 数字键</span></span><br><span class="line">map.set(<span class="literal">true</span>, <span class="string">&#x27;bool1&#x27;</span>); <span class="comment">// 布尔值键</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Map 则会保留键的类型，所以下面这两个结果不同：</span></span><br><span class="line">alert( map.get(<span class="number">1</span>)   ); <span class="comment">// &#x27;num1&#x27;</span></span><br><span class="line">alert( map.get(<span class="string">&#x27;1&#x27;</span>) ); <span class="comment">// &#x27;str1&#x27;</span></span><br><span class="line"></span><br><span class="line">alert( map.size ); <span class="comment">// 3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// map 使用对象作为key</span></span><br><span class="line"><span class="keyword">let</span> username = &#123;<span class="string">&#x27;name&#x27;</span>:<span class="string">&#x27;john&#x27;</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> visitsCountMap = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">visitsCountMap.set(<span class="string">&#x27;john&#x27;</span>, <span class="number">123</span>)</span><br></pre></td></tr></table></figure>
+<p>map比较键的方法：使用sameValueZero算法来比较键是否相等，他和严格等于 === 差不多，但区别是 NaN是等于NaN的，所以NaN也可以被用作键。</p>
+<p>map 在设置key的时候返回的是他自身，所以可以被链式调用，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mapObj = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">mapObj.set(<span class="string">&#x27;name&#x27;</span>, ‘张三).set(<span class="string">&#x27;age&#x27;</span>, <span class="number">18</span>).set(<span class="string">&#x27;sex&#x27;</span>, <span class="string">&#x27;m&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-Map-迭代"><a href="#1-2-Map-迭代" class="headerlink" title="1.2 Map 迭代"></a>1.2 Map 迭代</h3><p>在map里面循环可以使用下面的三个方法：</p>
+<ul>
+<li><p>map.keys() 遍历并返回一个包含所有键的可迭代对象。</p>
+</li>
+<li><p>map.values() 遍历并返回一个包含所有值的可迭代对象。</p>
+</li>
+<li><p>map.entries() 遍历并返回一个包含所有实体 [key, value] 的可迭代对象，for…of 在默认情况下才 就是使用的此方法。</p>
+</li>
+<li><p>map.forEach()  和数组一样，对每个键值对执行一个函数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 对每个键值对 (key, value) 运行 forEach 函数</span></span><br><span class="line">recipeMap.forEach( <span class="function">(<span class="params">value, key, map</span>) =&gt;</span> &#123;</span><br><span class="line">  alert(<span class="string">`<span class="subst">$&#123;key&#125;</span>: <span class="subst">$&#123;value&#125;</span>`</span>); <span class="comment">// cucumber: 500 etc</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="1-3-将对象转化为Map-gt-Object-entries"><a href="#1-3-将对象转化为Map-gt-Object-entries" class="headerlink" title="1.3 将对象转化为Map -&gt; Object.entries"></a>1.3 将对象转化为Map -&gt; Object.entries</h3><p>当new 一个Map() 对象时，我们可以使用一个带键值对的数组（或者其他的可迭代对象）进行初始化，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 键值对 [key, value] 数组</span></span><br><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>([</span><br><span class="line">  [<span class="string">&#x27;1&#x27;</span>,  <span class="string">&#x27;str1&#x27;</span>],</span><br><span class="line">  [<span class="number">1</span>,    <span class="string">&#x27;num1&#x27;</span>],</span><br><span class="line">  [<span class="literal">true</span>, <span class="string">&#x27;bool1&#x27;</span>]</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">alert( map.get(<span class="string">&#x27;1&#x27;</span>) ); <span class="comment">// str1</span></span><br></pre></td></tr></table></figure>
+<p>如果使用普通的对象来创建map，我们可以使用内建方法 Object.entries(obj)，该方法返回对象的键值对数组。</p>
+<h3 id="1-4-将Map转化为建对象-Object-fromEntries-obj"><a href="#1-4-将Map转化为建对象-Object-fromEntries-obj" class="headerlink" title="1.4 将Map转化为建对象 Object.fromEntries(obj)"></a>1.4 将Map转化为建对象 Object.fromEntries(obj)</h3><p>它与 Object.entries(obj)是相反的，给定一个具有[key, value] 的数组，他会根据数组创建一个对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> prices = <span class="built_in">Object</span>.fromEntries([</span><br><span class="line">  [<span class="string">&#x27;banana&#x27;</span>, <span class="number">1</span>],</span><br><span class="line">  [<span class="string">&#x27;orange&#x27;</span>, <span class="number">2</span>],</span><br><span class="line">  [<span class="string">&#x27;meat&#x27;</span>, <span class="number">4</span>]</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在 prices = &#123; banana: 1, orange: 2, meat: 4 &#125;</span></span><br><span class="line">alert(prices.orange); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>例如 将一个map的数组转化为一个普通对象传输给第三方的接口</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = <span class="built_in">Object</span>.fromEntries(map)</span><br></pre></td></tr></table></figure>
+<h2 id="2-set"><a href="#2-set" class="headerlink" title="2 set"></a>2 set</h2><p>set 是一个特殊的类型集合 – 值的集合，他没有键，而且他的值只能出现一次。</p>
+<h3 id="2-1-方法"><a href="#2-1-方法" class="headerlink" title="2.1 方法"></a>2.1 方法</h3><ul>
+<li>new Set(iterable)：  创建一个set，如果提供了一个可迭代对象（通常是数组），将会从数组里面复制到set中。有重复的值，自动删除。</li>
+<li>set.add(value)：添加一个值返回set 本身，可以像map那样链式调用。</li>
+<li>set.delete(value)： 删除值，存在返回true，不存在返回false。</li>
+<li>set.has(value)：如果value在set中，返回true，不在返回false。</li>
+<li>set.clear()：清空set。</li>
+<li>set.size：返回当前元素的个数。</li>
+</ul>
+<h3 id="2-2-set-迭代"><a href="#2-2-set-迭代" class="headerlink" title="2.2 set 迭代"></a>2.2 set 迭代</h3><p>可以使用for…of 或者 forEach 来迭代set</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> set = <span class="keyword">new</span> <span class="built_in">Set</span>([<span class="string">&quot;oranges&quot;</span>, <span class="string">&quot;apples&quot;</span>, <span class="string">&quot;bananas&quot;</span>]);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> value <span class="keyword">of</span> set) alert(value);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 与 forEach 相同：</span></span><br><span class="line">set.forEach(<span class="function">(<span class="params">value, valueAgain, set</span>) =&gt;</span> &#123;</span><br><span class="line">  alert(value);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在forEach的回调函数中有三个参数， 一个是value，另一个也是 value，最后是目标对象。</p>
+<p><strong>在map中的迭代方法在set中同样适用。</strong></p>
+<h2 id="3-WeakMap"><a href="#3-WeakMap" class="headerlink" title="3 WeakMap"></a>3 WeakMap</h2><p>在JS中 数组或者对象中的key 或者value，他们都是认为是可达的，如果一个对象被传入数组中，那么我们认为如果这个数组存在，那么这个对象也一定是可达的。在 map 中的 key或者是value 也是同样的道理。</p>
+<p>JS垃圾回收中JS引擎在值可达和被可能引用的时候，会将值保存在内存中。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> john = &#123; <span class="attr">name</span>: <span class="string">&quot;John&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 该对象能被访问，john 是它的引用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 覆盖引用</span></span><br><span class="line">john = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 该对象将会被从内存中清除</span></span><br></pre></td></tr></table></figure>
+<p>当某个对象作为map的键的时候， 我们也认为改对象是可达的，他会占用内存，且不会被垃圾回收。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> john = &#123; <span class="attr">name</span>: <span class="string">&quot;John&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> map = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">map.set(john, <span class="string">&quot;...&quot;</span>);</span><br><span class="line"></span><br><span class="line">john = <span class="literal">null</span>; <span class="comment">// 覆盖引用</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// john 被存储在了 map 中，</span></span><br><span class="line"><span class="comment">// 我们可以使用 map.keys() 来获取它，所以他不会被垃圾回收</span></span><br></pre></td></tr></table></figure>
+<p>WeakMap 和 Map 的区别</p>
+<ul>
+<li>在键上的区别<ul>
+<li>WeakMap  的键必须是对象，不能是原始值。</li>
+</ul>
+</li>
+<li>方法上的区别<ul>
+<li>只支持 has()  get () set() delete() 方法， 不支持 keys() values() entries()</li>
+<li>不能迭代。</li>
+</ul>
+</li>
+</ul>
+<p>WeakMap  的使用场景主要的使用场景：</p>
+<p><strong>额外数据的存储</strong>。</p>
+<blockquote>
+<p>假如要处理另一些代码的数据，或者是第三方库的数据并且要存储一些相关的数据，那么这时候这些数据就应该和这个对象共存亡。将这些数据存储到WeakMap 中，并使用该对象作为这些数据的键，当改对象对垃圾回收后，这些数据也会被回收。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> weakMap = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line"><span class="comment">// 如果 john</span></span><br><span class="line">weakMap.set(john, <span class="string">&#x27;some data&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<p><strong>做数据缓存</strong></p>
+<blockquote>
+<p> 可以缓存函数返回的结果，一遍多次电泳不需要重新计算。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> cache = <span class="keyword">new</span> <span class="built_in">WeakMap</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 计算并记结果</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!cache.has(obj)) &#123;</span><br><span class="line">    <span class="keyword">let</span> result = <span class="comment">/* calculate the result for */</span> obj;</span><br><span class="line">    cache.set(obj, result);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> cache.get(obj);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 📁 main.js</span></span><br><span class="line"><span class="keyword">let</span> obj = &#123;<span class="comment">/* some object */</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> result1 = process(obj);</span><br><span class="line"><span class="keyword">let</span> result2 = process(obj);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ……稍后，我们不再需要这个对象时：</span></span><br><span class="line">obj = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无法获取 cache.size，因为它是一个 WeakMap，</span></span><br><span class="line"><span class="comment">// 要么是 0，或即将变为 0</span></span><br><span class="line"><span class="comment">// 当 obj 被垃圾回收，缓存的数据也会被清除</span></span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<h2 id="4-WeakSet"><a href="#4-WeakSet" class="headerlink" title="4 WeakSet"></a>4 WeakSet</h2><p>WeakSet 和 Set 的区别</p>
+<ul>
+<li>WeakSet 的元素只能是对象。</li>
+<li>对象只有在其他某个地方能被访问的时候，再能六在 WeakSet中。</li>
+<li>只支持add() has() delete() 不支持size和 keys() ，并且不可迭代。</li>
+</ul>
+<p>weakSet也可以作为额外的空间，但是只能是针对<strong>是/否</strong>的事实。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> visitedSet = <span class="keyword">new</span> <span class="built_in">WeakSet</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> john = &#123; <span class="attr">name</span>: <span class="string">&quot;John&quot;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> pete = &#123; <span class="attr">name</span>: <span class="string">&quot;Pete&quot;</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> mary = &#123; <span class="attr">name</span>: <span class="string">&quot;Mary&quot;</span> &#125;;</span><br><span class="line"></span><br><span class="line">visitedSet.add(john); <span class="comment">// John 访问了我们</span></span><br><span class="line">visitedSet.add(pete); <span class="comment">// 然后是 Pete</span></span><br><span class="line">visitedSet.add(john); <span class="comment">// John 再次访问</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// visitedSet 现在有两个用户了</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查 John 是否来访过？</span></span><br><span class="line">alert(visitedSet.has(john)); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 检查 Mary 是否来访过？</span></span><br><span class="line">alert(visitedSet.has(mary)); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line">john = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// visitedSet 将被自动清理(即自动清除其中已失效的值 john)</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><ul>
+<li><p>map 是一个带有键的数据的集合。与普通的对象不同的是，他的键可以是任意数据类型。有不同结构的方法，例如：map.size</p>
+</li>
+<li><p>set 是一组唯一值的集合。</p>
+</li>
+<li><p>在map和set 迭代总是按照插入的顺序，所以不能说他们的元素是无序的，但也不能对元素重新排序，也不能按照编号来取数据。</p>
+</li>
+<li><p>WeakMap 类似于Map ，但是只能设置键为对象，并且这些对象一旦在其他地方无法访问，则这个对象就会被垃圾回收，且WeakMap 对应的值也会被删除回收。</p>
+</li>
+<li><p>WeakSet 类似于Set，但是只能存储对象，并且这些对象一旦在其他地方无法访问，那么也会在WeakSet中删除回收。</p>
+</li>
+<li><p>WeakMap WeakSet 被用作主要对象存储之外的辅助数据结构。例如缓存的使用场景。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%9B%9B)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS数据类型(四)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AD)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS数据类型(六)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">119.5k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

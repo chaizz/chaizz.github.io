@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS函数进阶(三) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS函数进阶(三)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS函数进阶(三)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%89)/" class="article-date">
+  <time datetime="2023-02-19T16:00:00.000Z" itemprop="datePublished">2023-02-20</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">930</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <a id="more"></a>
+
+<h1 id="JS笔记之JS函数进阶-三"><a href="#JS笔记之JS函数进阶-三" class="headerlink" title="JS笔记之JS函数进阶(三)"></a>JS笔记之JS函数进阶(三)</h1><p>在JS中 函数也是一种值，函数的类型就是Object，函数本身也包含自己的属性。</p>
+<h2 id="1-name-属性"><a href="#1-name-属性" class="headerlink" title="1 name 属性"></a>1 name 属性</h2><p>在创建一个函数时，我们可以根据函数名获取对应函数的name属性，直接创建一个具名函数或者使用命名表达式，来创建函数，函数名和命名表达式的变量名就是函数的name属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(sayHi.name); <span class="comment">// sayHi</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sayHi = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="built_in">console</span>.log(sayHi.name); <span class="comment">// sayHi（有名字！）</span></span><br></pre></td></tr></table></figure>
+<p>在对象中的函数同样也是具有该属性，当无法获取该属性时， name的值为空字符串。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数是在数组中创建的</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;];</span><br><span class="line"><span class="built_in">console</span>.log( arr[<span class="number">0</span>].name ); <span class="comment">// &lt;空字符串&gt;</span></span><br><span class="line"><span class="comment">// 引擎无法设置正确的名字，所以没有值</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-length-属性"><a href="#2-length-属性" class="headerlink" title="2 length 属性"></a>2 length 属性</h2><p>该属性返回的是函数入参的个数，但是不包含…rest的参数，属性 length 有时在操作其它函数的函数中用于做 内省/运行时检查（introspection）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params">a</span>) </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params">a, b</span>) </span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">many</span>(<span class="params">a, b, ...more</span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">alert(f1.length); <span class="comment">// 1</span></span><br><span class="line">alert(f2.length); <span class="comment">// 2</span></span><br><span class="line">alert(many.length); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-自定义属性"><a href="#3-自定义属性" class="headerlink" title="3 自定义属性"></a>3 自定义属性</h2><p>在函数内部还可以直接自定义属性，直接使用函数名.属性名， 这里的属性名和函数内部的变量名，是两个概念，他们之间没有关系。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">  </span><br><span class="line">    <span class="comment">// 计算调用次数</span></span><br><span class="line">    sayHi.counter++;</span><br><span class="line">  &#125;</span><br><span class="line">  sayHi.counter = <span class="number">0</span>; <span class="comment">// 初始值</span></span><br><span class="line">  </span><br><span class="line">  sayHi(); <span class="comment">// Hi</span></span><br><span class="line">  sayHi(); <span class="comment">// Hi</span></span><br><span class="line">  </span><br><span class="line">  <span class="built_in">console</span>.log( <span class="string">`Called <span class="subst">$&#123;sayHi.counter&#125;</span> times`</span> ); <span class="comment">// Called 2 times</span></span><br></pre></td></tr></table></figure>
+
+
+<p>函数的属性有时候会代替闭包，因为函数属性，可以在函数作用域内，保存局部的变量信息。</p>
+<h2 id="4-函数命名表达式"><a href="#4-函数命名表达式" class="headerlink" title="4 函数命名表达式"></a>4 函数命名表达式</h2><p>带有函数 (NFE，Named Function Expression) 指带有名字的表达式的术语。</p>
+<p>一个普通的函数</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> funcName = <span class="function"><span class="keyword">function</span> (<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>给这个函数加一个名字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> funcName = <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">params</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(params);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此时加名字和不加名字的区别就是：</p>
+<ul>
+<li>加名字可以在函数的内部调用，</li>
+<li>在函数的外部是不可见的。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">et sayHi = <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params">who</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (who) &#123;</span><br><span class="line">    alert(<span class="string">`Hello, <span class="subst">$&#123;who&#125;</span>`</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    func(<span class="string">&quot;Guest&quot;</span>); <span class="comment">// 使用 func 再次调用函数自身</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">sayHi(); <span class="comment">// Hello, Guest</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 但这不工作：</span></span><br><span class="line">func(); <span class="comment">// Error, func is not defined（在函数外不可见）</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-使用-new-Function-来创建函数"><a href="#5-使用-new-Function-来创建函数" class="headerlink" title="5 使用 new Function 来创建函数"></a>5 使用 new Function 来创建函数</h2><p>语法</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 该函数是通过给定的 arg1 arg2 参数 和 functionBody 创建的</span></span><br><span class="line"><span class="keyword">let</span> func = <span class="keyword">new</span> <span class="built_in">Function</span> ([arg1, arg2, ...argN], functionBody);</span><br></pre></td></tr></table></figure>
+<p>实际的例字</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 包含参数和函数体</span></span><br><span class="line"><span class="keyword">let</span> sum = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;return a + b&#x27;</span>);</span><br><span class="line">alert( sum(<span class="number">1</span>, <span class="number">2</span>) ); <span class="comment">// 3</span></span><br><span class="line"><span class="comment">// 只有函数体</span></span><br><span class="line"><span class="keyword">let</span> sayHi = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">&#x27;alert(&quot;Hello&quot;)&#x27;</span>);</span><br><span class="line">sayHi(); <span class="comment">// Hello</span></span><br></pre></td></tr></table></figure>
+<p>使用的场景：比如我们需要动态的从服务器获取一段代码来运行。</p>
+<h2 id="6-闭包"><a href="#6-闭包" class="headerlink" title="6 闭包"></a>6 闭包</h2><p>闭包是指使用一个特殊的属性，来记录函数自身得创建时的环境的函数，他具体执行了函数创建时的此法环境，但是我们使用 new Function 创建的函数，他并不指向当前的词法环境，而是全局环境。</p>
+<p>new Function 这种特性在实际中非常使用，想象一下我们必须通过一个字符串来创建一个函数。在编写脚本时我们不会知道该函数的代码（这也就是为什么我们不用常规方法创建函数），但在执行过程中会知道了。我们可能会从服务器或其他来源获取它。</p>
+<h2 id="7-总结"><a href="#7-总结" class="headerlink" title="7 总结"></a>7 总结</h2><ul>
+<li><p>new Function 语法：<code>let func = new Function ([arg1, arg2, ...argN], functionBody);</code></p>
+</li>
+<li><p>使用 new Function 创建的函数，的词法环境执行全局的环境。</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%9B%9B)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS函数进阶(四)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">119.5k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

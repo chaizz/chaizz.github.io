@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS数据类型(六) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS数据类型(六)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS数据类型(六)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AD)/" class="article-date">
+  <time datetime="2023-02-06T07:38:59.000Z" itemprop="datePublished">2023-02-06</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.6k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​                    </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS数据类型-六"><a href="#JS笔记之JS数据类型-六" class="headerlink" title="JS笔记之JS数据类型(六)"></a>JS笔记之JS数据类型(六)</h1><p>解构赋值是一种特殊的语法，他使可迭代对象拆包值一系列变量中，而只需要其中的一部分（与python的拆包类似）。</p>
+<h2 id="1-在数组中的解构"><a href="#1-在数组中的解构" class="headerlink" title="1 在数组中的解构"></a>1 在数组中的解构</h2><h3 id="1-1-基本语法"><a href="#1-1-基本语法" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [var1, var2] = arr;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 我们有一个存放了名字和姓氏的数组</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="string">&quot;John&quot;</span>, <span class="string">&quot;Smith&quot;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">// 解构赋值</span></span><br><span class="line"><span class="comment">// 设置 firstName = arr[0]</span></span><br><span class="line"><span class="comment">// 以及 surname = arr[1]</span></span><br><span class="line"><span class="keyword">let</span> [firstName, surname] = arr;</span><br><span class="line"></span><br><span class="line">alert(firstName); <span class="comment">// John</span></span><br><span class="line">alert(surname);  <span class="comment">// Smith</span></span><br></pre></td></tr></table></figure>
+<p>当结构语法配合spilt更加优雅</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [firstName, surname] = <span class="string">&quot;John Smith&quot;</span>.split(<span class="string">&#x27; &#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>结构并不意味着破坏，原有的数据对象自身没有被修改。</strong></p>
+<h3 id="1-2-忽略使用逗号的元素"><a href="#1-2-忽略使用逗号的元素" class="headerlink" title="1.2 忽略使用逗号的元素"></a>1.2 忽略使用逗号的元素</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不需要第二个元素， 剩下的元素也被跳过了。</span></span><br><span class="line"><span class="keyword">let</span> [firstName, , title] = [<span class="string">&quot;Julius&quot;</span>, <span class="string">&quot;Caesar&quot;</span>, <span class="string">&quot;Consul&quot;</span>, <span class="string">&quot;of the Roman Republic&quot;</span>];</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-3-解构的元素可以赋值给任何对象"><a href="#1-3-解构的元素可以赋值给任何对象" class="headerlink" title="1.3 解构的元素可以赋值给任何对象"></a>1.3 解构的元素可以赋值给任何对象</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;&#125;;</span><br><span class="line">[user.name, user.surname] = <span class="string">&quot;John Smith&quot;</span>.split(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line"></span><br><span class="line">alert(user.name); <span class="comment">// John</span></span><br><span class="line">alert(user.surname); <span class="comment">// Smith</span></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>Tips：使用解构交换两个变量的值</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> guest = <span class="string">&quot;Jane&quot;</span>;</span><br><span class="line"><span class="keyword">let</span> admin = <span class="string">&quot;Pete&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 让我们来交换变量的值：使得 guest = Pete，admin = Jane</span></span><br><span class="line">[guest, admin] = [admin, guest];</span><br><span class="line"></span><br><span class="line">alert(<span class="string">`<span class="subst">$&#123;guest&#125;</span> <span class="subst">$&#123;admin&#125;</span>`</span>); <span class="comment">// Pete Jane（成功交换！）</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="1-4-使用-…-解构"><a href="#1-4-使用-…-解构" class="headerlink" title="1.4 使用 … 解构"></a>1.4 使用 … 解构</h3><p>在解构时遇到很多元素，当左边没有右边长时，部分元素作为一个整体进行结构。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [name1, name2, ...rest] = [<span class="string">&quot;Julius&quot;</span>, <span class="string">&quot;Caesar&quot;</span>, <span class="string">&quot;Consul&quot;</span>, <span class="string">&quot;of the Roman Republic&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// rest 是包含从第三项开始的其余数组项的数组</span></span><br><span class="line">alert(rest[<span class="number">0</span>]); <span class="comment">// Consul</span></span><br><span class="line">alert(rest[<span class="number">1</span>]); <span class="comment">// of the Roman Republic</span></span><br><span class="line">alert(rest.length); <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
+<p>在Python中 是使用<code>*</code>代替<code>...</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name1, name2, *rest = [<span class="string">&quot;Julius&quot;</span>, <span class="string">&quot;Caesar&quot;</span>, <span class="string">&quot;Consul&quot;</span>, <span class="string">&quot;of the Roman Republic&quot;</span>];</span><br><span class="line"></span><br><span class="line">// rest 是包含从第三项开始的其余数组项的数组</span><br><span class="line">print(rest[<span class="number">0</span>]); // Consul</span><br><span class="line">print(rest[<span class="number">1</span>]); // of the Roman Republic</span><br><span class="line">print(<span class="built_in">len</span>(rest)); // <span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>当左边比右边长时， 多出的变量名默认为：undefined，也可以手动指定变量的默认值， 默认值可以是更复杂的表达式，或者是一个函数。这些表达式或者函数只有在变量未被赋值的时候在会执行计算。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [firstName, surname] = [];</span><br><span class="line">alert(firstName); <span class="comment">// undefined</span></span><br><span class="line">alert(surname); <span class="comment">// undefined</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动指定默认值</span></span><br><span class="line"><span class="keyword">let</span> [name = <span class="string">&quot;Guest&quot;</span>, surname = <span class="string">&quot;Anonymous&quot;</span>] = [<span class="string">&quot;Julius&quot;</span>];</span><br><span class="line">alert(name);    <span class="comment">// Julius（来自数组的值）</span></span><br><span class="line">alert(surname); <span class="comment">// Anonymous（默认值被使用了</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-在对象中的解构"><a href="#2-在对象中的解构" class="headerlink" title="2 在对象中的解构"></a>2 在对象中的解构</h2><h3 id="2-1-基本语法"><a href="#2-1-基本语法" class="headerlink" title="2.1 基本语法"></a>2.1 基本语法</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> &#123;var1, var2&#125; = &#123;<span class="attr">var1</span>:…, <span class="attr">var2</span>:…&#125;</span><br><span class="line"><span class="comment">// 在等号右侧是一个已经存在的对象。</span></span><br><span class="line"><span class="comment">// 等号左侧包含了对象相应属性的一个类对象“模式（pattern）”。在最简单的情况下，等号左侧的就是 &#123;...&#125; 中的变量名列表。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> options = &#123;</span><br><span class="line">  title: <span class="string">&quot;Menu&quot;</span>,</span><br><span class="line">  width: <span class="number">100</span>,</span><br><span class="line">  height: <span class="number">200</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> &#123;title, width, height&#125; = options;</span><br><span class="line"></span><br><span class="line">alert(title);  <span class="comment">// Menu</span></span><br><span class="line">alert(width);  <span class="comment">// 100</span></span><br><span class="line">alert(height); <span class="comment">// 200</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 对象的属性值 options.title options.width  options.theightitle  被赋值给 title width height</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-2-在等号左侧的-pattern-可以更加的复杂：指定属性和变量间的关系。"><a href="#2-2-在等号左侧的-pattern-可以更加的复杂：指定属性和变量间的关系。" class="headerlink" title="2.2 在等号左侧的 pattern 可以更加的复杂：指定属性和变量间的关系。"></a>2.2 在等号左侧的 pattern 可以更加的复杂：指定属性和变量间的关系。</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果我们想把一个属性赋值给另一个名字的变量，比如把 options.width 属性赋值给名为 w 的变量，那么我们可以使用冒号来设置变量名称：</span></span><br><span class="line"><span class="keyword">let</span> options = &#123;</span><br><span class="line">  title: <span class="string">&quot;Menu&quot;</span>,</span><br><span class="line">  width: <span class="number">100</span>,</span><br><span class="line">  height: <span class="number">200</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// &#123; sourceProperty: targetVariable &#125;</span></span><br><span class="line"><span class="keyword">let</span> &#123;<span class="attr">widthk</span>: w = <span class="string">&#x27;222&#x27;</span>, <span class="attr">height</span>: h, title&#125; = options;</span><br><span class="line"></span><br><span class="line"><span class="comment">// width -&gt; w</span></span><br><span class="line"><span class="comment">// height -&gt; h</span></span><br><span class="line"><span class="comment">// title -&gt; title</span></span><br><span class="line"></span><br><span class="line">alert(title);  <span class="comment">// Menu</span></span><br><span class="line">alert(w);      <span class="comment">// 100</span></span><br><span class="line">alert(h);      <span class="comment">// 200</span></span><br></pre></td></tr></table></figure>
+<p>其中冒号的语法是：<code>对象中的某个属性名：具体的变量名</code>，如果<code>对象中的某个属性名</code> 不在要解构的对象中，赋值得到的结果是：undefined。 同样也可以设置默认值，默认值是任意表达式或者函数。</p>
+<h3 id="2-3-对象结构对于多余的属性同样可以使用：…"><a href="#2-3-对象结构对于多余的属性同样可以使用：…" class="headerlink" title="2.3 对象结构对于多余的属性同样可以使用：…"></a>2.3 对象结构对于多余的属性同样可以使用：…</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> options = &#123;</span><br><span class="line">  title: <span class="string">&quot;Menu&quot;</span>,</span><br><span class="line">  height: <span class="number">200</span>,</span><br><span class="line">  width: <span class="number">100</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// title = 名为 title 的属性</span></span><br><span class="line"><span class="comment">// rest = 存有剩余属性的对象</span></span><br><span class="line"><span class="keyword">let</span> &#123;title, ...rest&#125; = options;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在 title=&quot;Menu&quot;, rest=&#123;height: 200, width: 100&#125;</span></span><br><span class="line">alert(rest.height);  <span class="comment">// 200</span></span><br><span class="line">alert(rest.width);   <span class="comment">// 100</span></span><br></pre></td></tr></table></figure>
+
+
+<p>在解构中如果预先定义了变量， 可能会遇到一些错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> title, width, height;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这一行发生了错误</span></span><br><span class="line">&#123;title, width, height&#125; = &#123;<span class="attr">title</span>: <span class="string">&quot;Menu&quot;</span>, <span class="attr">width</span>: <span class="number">200</span>, <span class="attr">height</span>: <span class="number">100</span>&#125;;</span><br></pre></td></tr></table></figure>
+<p>主要的问题是 JS 把主代码流，中的 {…} 当做一个代码块，为了告诉 JavaScript 这不是一个代码块，我们可以把整个赋值表达式用括号 <code>(...)</code> 包起来：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> title, width, height;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在就可以了</span></span><br><span class="line">(&#123;title, width, height&#125; = &#123;<span class="attr">title</span>: <span class="string">&quot;Menu&quot;</span>, <span class="attr">width</span>: <span class="number">200</span>, <span class="attr">height</span>: <span class="number">100</span>&#125;);</span><br><span class="line"></span><br><span class="line">alert( title ); <span class="comment">// Menu</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-嵌套解构"><a href="#3-嵌套解构" class="headerlink" title="3 嵌套解构"></a>3 嵌套解构</h2><p>如果一个独享或者数组中包括其他的对象或者数组，可以使用更负责的嵌套解构进行赋值。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> options = &#123;</span><br><span class="line">  size: &#123;</span><br><span class="line">    width: <span class="number">100</span>,</span><br><span class="line">    height: <span class="number">200</span></span><br><span class="line">  &#125;,</span><br><span class="line">  items: [<span class="string">&quot;Cake&quot;</span>, <span class="string">&quot;Donut&quot;</span>],</span><br><span class="line">  extra: <span class="literal">true</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 为了清晰起见，解构赋值语句被写成多行的形式</span></span><br><span class="line"><span class="keyword">let</span> &#123;</span><br><span class="line">  size: &#123; <span class="comment">// 把 size 赋值到这里</span></span><br><span class="line">    width,</span><br><span class="line">    height</span><br><span class="line">  &#125;,</span><br><span class="line">  items: [item1, item2], <span class="comment">// 把 items 赋值到这里</span></span><br><span class="line">  title = <span class="string">&quot;Menu&quot;</span> <span class="comment">// 在对象中不存在（使用默认值）</span></span><br><span class="line">&#125; = options;</span><br><span class="line"></span><br><span class="line">alert(title);  <span class="comment">// Menu</span></span><br><span class="line">alert(width);  <span class="comment">// 100</span></span><br><span class="line">alert(height); <span class="comment">// 200</span></span><br><span class="line">alert(item1);  <span class="comment">// Cake</span></span><br><span class="line">alert(item2);  <span class="comment">// Donu</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-智能参数函数"><a href="#4-智能参数函数" class="headerlink" title="4 智能参数函数"></a>4 智能参数函数</h2><p>有时候一个函数有很多的参数，大部分是可选的，我们可以使用一个对象来传递所有的参数，而函数负责把这个对象进行解构为对应的参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> options = &#123;</span><br><span class="line">  title: <span class="string">&quot;My menu&quot;</span>,</span><br><span class="line">  items: [<span class="string">&quot;Item1&quot;</span>, <span class="string">&quot;Item2&quot;</span>]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showMenu</span>(<span class="params">&#123;</span></span></span><br><span class="line"><span class="function"><span class="params">  title = <span class="string">&quot;Untitled&quot;</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">  width: w = <span class="number">100</span>,  <span class="regexp">//</span> width goes to w</span></span></span><br><span class="line"><span class="function"><span class="params">  height: h = <span class="number">200</span>, <span class="regexp">//</span> height goes to h</span></span></span><br><span class="line"><span class="function"><span class="params">  items: [item1, item2] <span class="regexp">//</span> items first element goes to item1, second to item2</span></span></span><br><span class="line"><span class="function"><span class="params">&#125;</span>) </span>&#123;</span><br><span class="line">  alert( <span class="string">`<span class="subst">$&#123;title&#125;</span> <span class="subst">$&#123;w&#125;</span> <span class="subst">$&#123;h&#125;</span>`</span> ); <span class="comment">// My Menu 100 200</span></span><br><span class="line">  alert( item1 ); <span class="comment">// Item1</span></span><br><span class="line">  alert( item2 ); <span class="comment">// Item2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showMenu(options);</span><br></pre></td></tr></table></figure>
+<p>上面输入的参数对象是确定了存在参数，如果想让所有的参数都是用默认值，那么在函数中直接传递一个空对象即可。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">showMenu(&#123;&#125;);</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">showMenu</span>(<span class="params">&#123; title = <span class="string">&quot;Menu&quot;</span>, width = <span class="number">100</span>, height = <span class="number">200</span> &#125; = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">  alert( <span class="string">`<span class="subst">$&#123;title&#125;</span> <span class="subst">$&#123;width&#125;</span> <span class="subst">$&#123;height&#125;</span>`</span> );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">showMenu(); <span class="comment">// Menu 100 200</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5 总结"></a>5 总结</h2><p>解构可以将一个对象或者数组（只要是可迭代对象）拆开赋值到多个变量上。</p>
+<p>解构对象的完成语法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> &#123;<span class="attr">prop</span> : varName = <span class="keyword">default</span>, ...rest&#125; = object</span><br><span class="line"><span class="comment">// prop：代表对象的key</span></span><br><span class="line"><span class="comment">// varName：要复制的变量名</span></span><br><span class="line"><span class="comment">// default：变量的默认值</span></span><br><span class="line"><span class="comment">// ...rest：其余的属性组成的对象</span></span><br></pre></td></tr></table></figure>
+<p>解构数组的完整语法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> [item1 = <span class="keyword">default</span>, item2, ...rest] = array</span><br><span class="line"></span><br><span class="line"><span class="comment">// item1：数组的第一个元素</span></span><br><span class="line"><span class="comment">// default：默认值</span></span><br><span class="line"><span class="comment">// item2：数组的第二个元素</span></span><br><span class="line"><span class="comment">// ...rest：其余的元素组成的数组</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS数据类型(五)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/01/31/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%89)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS数据类型(三)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">119.5k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

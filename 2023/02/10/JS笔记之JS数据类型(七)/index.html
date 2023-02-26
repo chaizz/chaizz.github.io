@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS数据类型(七) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS数据类型(七)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS数据类型(七)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%B8%83)/" class="article-date">
+  <time datetime="2023-02-09T16:00:00.000Z" itemprop="datePublished">2023-02-10</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​                    </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS数据类型-七"><a href="#JS笔记之JS数据类型-七" class="headerlink" title="JS笔记之JS数据类型(七)"></a>JS笔记之JS数据类型(七)</h1><h2 id="1-日期和时间"><a href="#1-日期和时间" class="headerlink" title="1 日期和时间"></a>1 日期和时间</h2><h3 id="1-1-创建日期"><a href="#1-1-创建日期" class="headerlink" title="1.1 创建日期"></a>1.1 创建日期</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 语法</span></span><br><span class="line"><span class="keyword">let</span> now = <span class="keyword">new</span> <span class="built_in">Date</span>()</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-Date-接收参数类型"><a href="#1-2-Date-接收参数类型" class="headerlink" title="1.2 Date() 接收参数类型"></a>1.2 Date() 接收参数类型</h3><ul>
+<li><p>int类型：代表距离 1970 年 1 月 1 日 UTC+0 之后经过的毫秒数，可以为负数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 0 表示 01.01.1970 UTC+0</span></span><br><span class="line"><span class="keyword">let</span> Jan01_1970 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">0</span>);</span><br><span class="line">alert( Jan01_1970 );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在增加 24 小时，得到 02.01.1970 UTC+0</span></span><br><span class="line"><span class="keyword">let</span> Jan02_1970 = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">24</span> * <span class="number">3600</span> * <span class="number">1000</span>);</span><br><span class="line">alert( Jan02_1970 );</span><br><span class="line"></span><br><span class="line"><span class="comment">// 31 Dec 1969</span></span><br><span class="line"><span class="keyword">let</span> Dec31_1969 = <span class="keyword">new</span> <span class="built_in">Date</span>(-<span class="number">24</span> * <span class="number">3600</span> * <span class="number">1000</span>);</span><br><span class="line">alert( Dec31_1969 );</span><br></pre></td></tr></table></figure></li>
+<li><p>str类型：将会自动解析为 时间字符串</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="string">&quot;2017-01-26&quot;</span>);</span><br><span class="line">alert(date);</span><br><span class="line"><span class="comment">// 未指定具体时间，所以假定时间为格林尼治标准时间（GMT）的午夜零点</span></span><br><span class="line"><span class="comment">// 并根据运行代码时的用户的时区进行调整</span></span><br><span class="line"><span class="comment">// 因此，结果可能是</span></span><br><span class="line"><span class="comment">// Thu Jan 26 2017 11:00:00 GMT+1100 (Australian Eastern Daylight Time)</span></span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line"><span class="comment">// Wed Jan 25 2017 16:00:00 GMT-0800 (Pacific Standard Time)</span></span><br></pre></td></tr></table></figure></li>
+<li><p>year, month, date, hours, minutes, seconds, ms：使用当前时区的给定组件创建日期，只有前两个参数是必须的，</p>
+<ul>
+<li>year 应该是四位数，为了兼容也接受两位数，例如：98 应该等于1998，强烈建议使用四位数。</li>
+<li>month 计数从 0（一月）开始，到 11（十二月）结束。</li>
+<li>date 是当月的具体某一天，如果缺失，默认为1。</li>
+<li>hours, minutes, seconds, ms 如果缺失默认为0.</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">2011</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>); <span class="comment">// 1 Jan 2011, 00:00:00</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">2011</span>, <span class="number">0</span>, <span class="number">1</span>); <span class="comment">// 同样，时分秒等均为默认值 0</span></span><br><span class="line"><span class="comment">// 时间度量精确到1毫秒</span></span><br><span class="line"><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">2011</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">567</span>);</span><br><span class="line">alert( date ); <span class="comment">// 1.01.2011, 02:03:04.567</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+<h3 id="1-3-获取日期组件"><a href="#1-3-获取日期组件" class="headerlink" title="1.3 获取日期组件"></a>1.3 获取日期组件</h3><ul>
+<li>getFullYear：从Date对象中获取年（四位数）。</li>
+<li>getMonth()：获取月份，从0 到11。</li>
+<li>getDate() 获取具体的日期。1 到 31。</li>
+<li>getHouers() 获取当天的小时。</li>
+<li>getMinutes() 获取分钟。</li>
+<li>getSeconds() 获取秒</li>
+<li>getMilliseconds() 获取毫秒。</li>
+<li>getDay() 获取一周中的第几天， 星期几，从0 到 6， 星期天是0。</li>
+<li>getTime() 返回自1970-1-1 00:00:00 UTC+0 开始到现在所经过的毫秒数。</li>
+<li>getTimezoneOffset() 返回UTC时间与本地时间的误差，以分钟为单位。</li>
+</ul>
+<h3 id="1-4-设置日期组件"><a href="#1-4-设置日期组件" class="headerlink" title="1.4 设置日期组件"></a>1.4 设置日期组件</h3><ul>
+<li>setFullYear(year, [month], [date])</li>
+<li>setMonth(month, [date])</li>
+<li>setDate(date)</li>
+<li>setHours(hour, [min], [sec], [ms])</li>
+<li>setMinutes(min, [sec], [ms])</li>
+<li>setSeconds(sec, [ms])</li>
+<li>setMilliseconds(ms)</li>
+<li>setTime(milliseconds)（使用自 1970-01-01 00:00:00 UTC+0 以来的毫秒数来设置整个日期）</li>
+</ul>
+<p>以上方法除了 setTime() 方法，都有UTC变体，例如：setUTCHours()。</p>
+<p>其中有的方法接受多个参数，不过不填的话，默认按照当前的时间。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> today = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line"></span><br><span class="line">today.setHours(<span class="number">0</span>);</span><br><span class="line">alert(today); <span class="comment">// 日期依然是今天，但是小时数被改为了 0  2023-02-09T16:53:33.757Z</span></span><br><span class="line"></span><br><span class="line">today.setHours(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">alert(today); <span class="comment">// 日期依然是今天，时间为 00:00:00。 2023-02-09T16:00:00.000Z</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-5-自动校准"><a href="#1-5-自动校准" class="headerlink" title="1.5 自动校准"></a>1.5 自动校准</h3><p>Date 的参数超过范围，它本身会自动校准。</p>
+<p>假设我们要在日期 “28 Feb 2016” 上加 2 天。结果可能是 “2 Mar” 或 “1 Mar”，因为存在闰年。但是我们不需要考虑这些，只需要直接加 2 天，剩下的 Date 对象会帮我们处理：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>(<span class="number">2016</span>, <span class="number">1</span>, <span class="number">28</span>);</span><br><span class="line">date.setDate(date.getDate() + <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">alert( date ); <span class="comment">// 1 Mar 2016</span></span><br></pre></td></tr></table></figure>
+<p>这个特性经常获取给定时间段后的时间。</p>
+<h3 id="1-6-日期转化为数字，日期差值。"><a href="#1-6-日期转化为数字，日期差值。" class="headerlink" title="1.6 日期转化为数字，日期差值。"></a>1.6 日期转化为数字，日期差值。</h3><p>当Date被转化为数字时， 获取的是时间戳，与getTime()相同，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> date = <span class="keyword">new</span> <span class="built_in">Date</span>();</span><br><span class="line"><span class="comment">// 使用一元运算符 将Date对象转化为数字 </span></span><br><span class="line">alert(+date);</span><br></pre></td></tr></table></figure>
+
+
+<p>日期可以相减，结果是以毫秒为单位的时间差，可以用作测试代码的执行速度。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> start = <span class="keyword">new</span> <span class="built_in">Date</span>(); <span class="comment">// 开始测量时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// do the job</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> doSomething = i * i * i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> end = <span class="keyword">new</span> <span class="built_in">Date</span>(); <span class="comment">// 结束测量时间</span></span><br><span class="line"></span><br><span class="line">alert( <span class="string">`The loop took <span class="subst">$&#123;end - start&#125;</span> ms`</span> );</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-7-Date-new"><a href="#1-7-Date-new" class="headerlink" title="1.7 Date.new()"></a>1.7 Date.new()</h3><p>在上文中，创建了两个Date对象，用来计算时间间隔，在JS中还有一个方法Date.new()，他会返回当前时间戳，相等于 new Date().getTime() 但是不会创建中间的Date对象，因此更快，不会对垃圾回收造成额外的压力，所以在使用JS编写游戏或者其他有性能要求的场景会使用到。</p>
+<p>因此上文中的 计算代码执行速度这种方式最好：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> start = <span class="built_in">Date</span>.now(); <span class="comment">// 从 1 Jan 1970 至今的时间戳</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// do the job</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">100000</span>; i++) &#123;</span><br><span class="line">  <span class="keyword">let</span> doSomething = i * i * i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> end = <span class="built_in">Date</span>.now(); <span class="comment">// 完成</span></span><br><span class="line"></span><br><span class="line">alert( <span class="string">`The loop took <span class="subst">$&#123;end - start&#125;</span> ms`</span> ); <span class="comment">// 相减的是时间戳，而不是日期</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-8-对字符串调用Date-parse"><a href="#1-8-对字符串调用Date-parse" class="headerlink" title="1.8 对字符串调用Date.parse"></a>1.8 对字符串调用Date.parse</h3><p>根据时间字符串获取对应的时间戳，字符串的格式为：YYYY-MM-DDTHH:mm:ss.sssZ，其中：T 是分隔符，Z 为 +- hh:mm 格式的时区，单个字符代表 UTC+0 时区，简短的形式也可以：YYYY，或者是 YYYY-MM-DD 或者YYYY-MM。</p>
+<p>Date.parse 返回的结果是时间戳，从 1970-01-01 00:00:00 起所经过的毫秒数，如果给点的字符串不正确，则返回NaN。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%B8%80)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS函数进阶(一)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/02/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%85%AB)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS数据类型(八)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">119.5k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
