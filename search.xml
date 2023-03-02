@@ -341,7 +341,8 @@
   <entry>
     <title>JS笔记之JS函数进阶(四)</title>
     <url>/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%9B%9B)/</url>
-    <content><![CDATA[<a id="more"></a>
+    <content><![CDATA[<p>​         </p>
+<a id="more"></a>
 
 <h1 id="JS笔记之JS函数进阶-四"><a href="#JS笔记之JS函数进阶-四" class="headerlink" title="JS笔记之JS函数进阶(四)"></a>JS笔记之JS函数进阶(四)</h1><h2 id="1-setTimeout-和-setInterval"><a href="#1-setTimeout-和-setInterval" class="headerlink" title="1 setTimeout 和 setInterval"></a>1 setTimeout 和 setInterval</h2><p>语法格式</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// setTimeout 第一个参数：一个函数或者是字符串代码(这个不常用)，第二个参数：时间间隔，代表多少秒后直行，剩下的参数：代表函数的参数。</span></span><br><span class="line"><span class="keyword">let</span> timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;&#125;, timeout [, arg1, arg2]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 和setTimeout 参数一致，只不过代表的含义为重复执行该函数，interval 是重复的间隔。</span></span><br><span class="line"><span class="keyword">let</span> timer2 = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;&#125;, interval [, arg1, arg2]);</span><br></pre></td></tr></table></figure>
