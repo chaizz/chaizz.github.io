@@ -134,6 +134,76 @@
 
 </article>
     
+    <article id="post-JS笔记之JS函数进阶(六) " class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/03/02/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%85%AD)%20/">JS笔记之JS函数进阶(六)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/02/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%85%AD)%20/" class="article-date">
+  <time datetime="2023-03-01T16:00:00.000Z" itemprop="datePublished">2023-03-02</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/03/02/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%85%AD)%20/" rel="gallery_cler91l0c0000s8uw9mp875vb">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <p>​        </p>
+      
+      <a class="article-more-link" href="/2023/03/02/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%85%AD)%20/">
+        阅读更多...
+      </a>
+      
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
     <article id="post-CSS弹性盒模型Flex知识巩固" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -320,9 +390,108 @@
 </div>
 
       
-      <p>​         </p>
+      <a id="more"></a>
+
+<h1 id="JS笔记之JS函数进阶-四"><a href="#JS笔记之JS函数进阶-四" class="headerlink" title="JS笔记之JS函数进阶(四)"></a>JS笔记之JS函数进阶(四)</h1><h2 id="1-setTimeout-和-setInterval"><a href="#1-setTimeout-和-setInterval" class="headerlink" title="1 setTimeout 和 setInterval"></a>1 setTimeout 和 setInterval</h2><p>语法格式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// setTimeout 第一个参数：一个函数或者是字符串代码(这个不常用)，第二个参数：时间间隔，代表多少秒后直行，剩下的参数：代表函数的参数。</span></span><br><span class="line"><span class="keyword">let</span> timer = <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;&#125;, timeout [, arg1, arg2]);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 和setTimeout 参数一致，只不过代表的含义为重复执行该函数，interval 是重复的间隔。</span></span><br><span class="line"><span class="keyword">let</span> timer2 = <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;&#125;, interval [, arg1, arg2]);</span><br></pre></td></tr></table></figure>
+<p>停止计时器使用clearTimeout(timer) 和 clearInterval(timer2)。</p>
+<p>使用 clearInterval 函数的调用间隔实际会代码设置的调用间隔要短，因为是在函数开始时就开始计算时间，这个间隔时间包括函数执行的时间，如果函数执行的比较慢，name就会等待函数执行完成，如果函数的执行时间小于执行间隔，那么实际的执行间隔就是：函数的执行时间+剩余的时间= Interval。</p>
+<p>使用clearTimeout 则不会出现这个问题，他是等待函数执行完毕，在进行下一次的函数调用。</p>
+<blockquote>
+<p>当一个函数传入 setInterval/setTimeout 时，将为其创建一个内部引用，并保存在调度程序中。这样，即使这个函数没有其他引用，也能防止垃圾回收器（GC）将其回收。</p>
+</blockquote>
+<h2 id="2-嵌套setTimeout"><a href="#2-嵌套setTimeout" class="headerlink" title="2 嵌套setTimeout"></a>2 嵌套setTimeout</h2><p>使用clearInterval 调用函数每次间隔都是一致的，如果想要更加的灵活的设置函数执行之间的间隔，可以将clearInterval 进行嵌套调用。一个常用的场景就是，我们调用接口获取失败后重试，可以设置不同的访问间隔，避免造成服务器压力过大。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> delay = <span class="number">5000</span>;</span><br><span class="line"><span class="keyword">let</span> timerId = <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> <span class="title">request</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;发送请求！&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">        <span class="comment">// 如果请求失败，下一次执行的间隔是当前的 2 倍</span></span><br><span class="line">        delay *= <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    timerId = <span class="built_in">setTimeout</span>(request, delay);</span><br><span class="line">&#125;, delay);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-零延时的setTimeout"><a href="#3-零延时的setTimeout" class="headerlink" title="3 零延时的setTimeout"></a>3 零延时的setTimeout</h2><p>setTimeout(func, 0) 或者是 setTimeout(func)，这种特性，叫做零延时调度，但是他需要在哦脚本执行完毕后执行。例如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> alert(<span class="string">&quot;World&quot;</span>));</span><br><span class="line">alert(<span class="string">&quot;Hello&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>以上的代码显示输出 Hello， 在输出 World。 </p>
+<blockquote>
+<p>但是在浏览器环境中，零延时并不为零，嵌套定时器的运行频率是受限制的。根据 HTML5 标准 所讲：“经过 5 重嵌套定时器之后，时间间隔被强制设定为至少 4 毫秒”。</p>
+</blockquote>
+<p><strong>任何 setTimeout 都只会在当前代码执行完毕之后才会执行。</strong></p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h2><ul>
+<li>setTimeout(func, delay, …args) 和 setInterval(func, delay, …args) 方法允许我们在 delay 毫秒之后运行 func 一次或以 delay 毫秒为时间间隔周期性运行 func。要取消函数的执行，我们应该调用 clearInterval/clearTimeout，并将 setInterval/setTimeout 返回的值作为入参传入。</li>
+<li>嵌套的 setTimeout 比 setInterval 用起来更加灵活，允许我们更精确地设置两次执行之间的时间。<br>零延时调度 setTimeout(func, 0)（与 setTimeout(func) 相同）用来调度需要尽快执行的调用，但是会在当前脚本执行完成后进行调用。</li>
+<li>浏览器会将 setTimeout 或 setInterval 的五层或更多层嵌套调用（调用五次之后）的最小延时限制在 4ms。这是历史遗留问题。</li>
+<li>请注意，所有的调度方法都不能 保证 确切的延时<ul>
+<li>例如，浏览器内的计时器可能由于许多原因而变慢：</li>
+<li>CPU 过载。</li>
+<li>浏览器页签处于后台模式。</li>
+<li>笔记本电脑用的是省电模式。</li>
+<li>所有这些因素，可能会将定时器的最小计时器分辨率（最小延迟）增加到 300ms 甚至 1000ms，具体以浏览器及其设置为准。</li>
+</ul>
+</li>
+</ul>
+
       
-      <a class="article-more-link" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%9B%9B)/">
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+
+    </footer>
+
+  </div>
+
+  
+
+  
+
+</article>
+    
+    <article id="post-JS笔记之JS函数进阶(五)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h2 itemprop="name">
+  <a class="article-title" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%94)/">JS笔记之JS函数进阶(五)</a>
+</h2>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%94)/" class="article-date">
+  <time datetime="2023-02-19T16:00:00.000Z" itemprop="datePublished">2023-02-20</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.8k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <a class="article-gallery-img" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%94)/" rel="gallery_cler91l0g0001s8uw3t0d2bga">
+      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    </a>
+    
+    
+  </div>
+</div>
+
+      
+      <p>​    </p>
+      
+      <a class="article-more-link" href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%94)/">
         阅读更多...
       </a>
       
@@ -624,152 +793,12 @@
 
 </article>
     
-    <article id="post-JS笔记之JS数据类型(四)" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%9B%9B)/">JS笔记之JS数据类型(四)</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%9B%9B)/" class="article-date">
-  <time datetime="2023-02-06T07:38:59.000Z" itemprop="datePublished">2023-02-06</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%9B%9B)/" rel="gallery_cldu9z9o30000ycuwdywufquv">
-      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​                    </p>
-      
-      <a class="article-more-link" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E5%9B%9B)/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-JS笔记之JS数据类型(五)" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/">JS笔记之JS数据类型(五)</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/" class="article-date">
-  <time datetime="2023-02-06T07:38:59.000Z" itemprop="datePublished">2023-02-06</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">2k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">8</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/" rel="gallery_clelflpk00009jwuw8lq43kdw">
-      <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​                    </p>
-      
-      <a class="article-more-link" href="/2023/02/06/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B(%E4%BA%94)/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
   </nav>
   
 </section>
@@ -789,7 +818,7 @@
     </ul>
 
     <br>
-    <span>全站共<span class="post-count">122.8k</span>字</span>
+    <span>全站共<span class="post-count">125.9k</span>字</span>
     <br>
     <div class="powered-by">
   

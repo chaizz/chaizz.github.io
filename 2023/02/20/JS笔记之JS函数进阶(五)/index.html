@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS函数进阶(五) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS函数进阶(五)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS函数进阶(五)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%94)/" class="article-date">
+  <time datetime="2023-02-19T16:00:00.000Z" itemprop="datePublished">2023-02-20</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.8k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​    </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS函数进阶-五"><a href="#JS笔记之JS函数进阶-五" class="headerlink" title="JS笔记之JS函数进阶(五)"></a>JS笔记之JS函数进阶(五)</h1><h2 id="1-JS函数应用缓存之透明缓存"><a href="#1-JS函数应用缓存之透明缓存" class="headerlink" title="1 JS函数应用缓存之透明缓存"></a>1 JS函数应用缓存之透明缓存</h2><p>当我们有一个函数运行非常慢且每次结果都一致的时候，可以用到包装器函数，用来保存他的运行结果。我们可以使用一个Map 对象，来保存函数第一次运行的结果。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">slow</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 这里可能会有重负载的 CPU 密集型工作</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`Called with <span class="subst">$&#123;x&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cachingDecorator</span>(<span class="params">func</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cache = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cache.has(x)) &#123;    <span class="comment">// 如果缓存中有对应的结果</span></span><br><span class="line">            <span class="keyword">return</span> cache.get(x); <span class="comment">// 从缓存中读取结果</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> result = func(x);  <span class="comment">// 否则就调用 func</span></span><br><span class="line"></span><br><span class="line">        cache.set(x, result);  <span class="comment">// 然后将结果缓存（记住）下来</span></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">slow = cachingDecorator(slow);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(slow(<span class="number">1</span>)); <span class="comment">// slow(1) 被缓存下来了，并返回结果</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Again: &quot;</span> + slow(<span class="number">1</span>)); <span class="comment">// 返回缓存中的 slow(1) 的结果</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(slow(<span class="number">2</span>)); <span class="comment">// slow(2) 被缓存下来了，并返回结果</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Again: &quot;</span> + slow(<span class="number">2</span>)); <span class="comment">// 返回缓存中的 slow(2) 的结果</span></span><br></pre></td></tr></table></figure>
+<p>上述代码段中：<code>cachingDecorator</code>方法中定义了一个map对象，然后返回了一个方法。Map对象的作用就是判断耗时的函数是否已经被调用过。返回的函数接受一个参数值，该值就是耗时函数的值，在函数中首先判断Map中是否有当前参数的一个对象，如果有则直接返回Map对象的值，如果没有则继续执行耗时函数，并把结果添加到Map对象中。</p>
+<p>我们可以将<code>cachingDecorator</code>称为装饰器，装饰器是一个特殊的函数，他接收一个函数，并返回一个函数。</p>
+<p>装饰器有几个好处：</p>
+<ul>
+<li>装饰器<code>cachingDecorator</code>是可重用的，我们可以将它应用于另外一个函数。</li>
+<li>缓存的逻辑是独立的，我们并没有修改耗时函数的复杂性。</li>
+<li>装饰器可以进行多个组合。</li>
+</ul>
+<p>在使用上面的装饰器时，有时我们可能会遇到一个问题，当这个耗时方法在对象中是，且在函数中使用<code>this</code>调用了对像中的其他的属性，例如一个方法 <code>someMethod</code>，我们要对这个对象的方法属性应用装饰器，那么就会出现如下的问题：</p>
+<p><code>TypeError: this.someMethod is not a function</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> worker = &#123;</span><br><span class="line">    <span class="function"><span class="title">someMethod</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">slow</span>(<span class="params">x</span>)</span> &#123;</span><br><span class="line">        <span class="comment">// 可怕的 CPU 过载任务</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Called with &quot;</span> + x);</span><br><span class="line">        <span class="keyword">return</span> x * <span class="built_in">this</span>.someMethod(); <span class="comment">// (*)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 和之前例子中的代码相同</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cachingDecorator</span>(<span class="params">func</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cache = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cache.has(x)) &#123;</span><br><span class="line">            <span class="keyword">return</span> cache.get(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> result = func(x); <span class="comment">// (**)</span></span><br><span class="line">        cache.set(x, result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(worker.slow(<span class="number">1</span>)); <span class="comment">// 原始方法有效</span></span><br><span class="line"></span><br><span class="line">worker.slow = cachingDecorator(worker.slow); <span class="comment">// 现在对其进行缓存</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(worker.slow(<span class="number">2</span>)); <span class="comment">// TypeError: this.someMethod is not a function</span></span><br></pre></td></tr></table></figure>
+<p>出现上面的问题，是因为此时好使函数中的<code>this</code>已经不再是原来的<code>worker</code>对象了，他指向了<code>global</code>，在全局对象中，自然没有<code>someMethod </code>这个方法。</p>
+<p>当我们将<code>worker.slow</code>赋值给一个变量时，也会出现上面的错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> func = worker.slow;</span><br><span class="line">func(<span class="number">2</span>); <span class="comment">// TypeError: this.someMethod is not a function</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-使用-“func-call”-设定上下文"><a href="#2-使用-“func-call”-设定上下文" class="headerlink" title="2 使用 “func.call” 设定上下文"></a>2 使用 “func.call” 设定上下文</h2><p>他允许调用一个显示设置this的函数，运行func，提供第一参数作为该函数的this对象，后端面的作为参数。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">let</span> user = &#123; <span class="attr">name</span>: <span class="string">&quot;John&quot;</span> &#125;;</span><br><span class="line">  <span class="keyword">let</span> admin = &#123; <span class="attr">name</span>: <span class="string">&quot;Admin&quot;</span> &#125;;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 使用 call 将不同的对象传递为 &quot;this&quot;</span></span><br><span class="line">  sayHi.call( user ); <span class="comment">// John</span></span><br><span class="line">  sayHi.call( admin ); <span class="comment">// Admin</span></span><br></pre></td></tr></table></figure>
+<p>在上述的包装器中使用<code>func.call()</code> 来解决<code>TypeError: this.someMethod is not a function</code> 的错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> worker = &#123;</span><br><span class="line">    <span class="function"><span class="title">someMethod</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">slow</span>(<span class="params">x</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Called with &quot;</span> + x);</span><br><span class="line">        <span class="keyword">return</span> x * <span class="built_in">this</span>.someMethod(); <span class="comment">// (*)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cachingDecorator</span>(<span class="params">func</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cache = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">x</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (cache.has(x)) &#123;</span><br><span class="line">            <span class="keyword">return</span> cache.get(x);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">let</span> result = func.call(<span class="built_in">this</span>, x); <span class="comment">// 现在 &quot;this&quot; 被正确地传递了</span></span><br><span class="line">        cache.set(x, result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">worker.slow = cachingDecorator(worker.slow); <span class="comment">// 现在对其进行缓存</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(worker.slow(<span class="number">2</span>)); <span class="comment">// 工作正常</span></span><br><span class="line"><span class="built_in">console</span>.log(worker.slow(<span class="number">2</span>)); <span class="comment">// 工作正常，没有调用原始函数（使用的缓存）</span></span><br></pre></td></tr></table></figure>
+<p>上述<code>func.call()</code>的调佣详细过程：</p>
+<ol>
+<li><code>cachingDecorator</code> 装饰器函数接受的方法是 <code>worker.slow</code>。</li>
+<li>此时， 装饰器中的 <code>function(x)</code> 就是<code>worker.slow</code>。</li>
+<li>当执行<code>worker.slow(2)</code>，<code>this</code> 就是的方法前的对象，也就是<code>.</code>之前的对象<code>worker</code>。</li>
+</ol>
+<h2 id="3-传递多个参数"><a href="#3-传递多个参数" class="headerlink" title="3 传递多个参数"></a>3 传递多个参数</h2><p>上述中的装饰器只接受一个参数，我们使用一个参数作为Map对象的key，但是当有多个参数时如何存储缓存呢？</p>
+<ol>
+<li>自定义一个可以使用多个参数作为key的Map对象。</li>
+<li>使用嵌套Map，即一个 cache.get(x) 是另一个Map的key cache.get(x).get(b)。</li>
+<li>将两个值合并为一个，并将其hash。</li>
+</ol>
+<p>第三种实现方式：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> worker = &#123;</span><br><span class="line">    <span class="function"><span class="title">slow</span>(<span class="params">min, max</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`Called with <span class="subst">$&#123;min&#125;</span>,<span class="subst">$&#123;max&#125;</span>`</span>);</span><br><span class="line">        <span class="keyword">return</span> min + max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">cachingDecorator</span>(<span class="params">func, hash</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> cache = <span class="keyword">new</span> <span class="built_in">Map</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> key = hash(<span class="built_in">arguments</span>); <span class="comment">// (*)</span></span><br><span class="line">        <span class="keyword">if</span> (cache.has(key)) &#123;</span><br><span class="line">            <span class="keyword">return</span> cache.get(key);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> result = func.call(<span class="built_in">this</span>, ...arguments); <span class="comment">// (**)</span></span><br><span class="line"></span><br><span class="line">        cache.set(key, result);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hash</span>(<span class="params">args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> args[<span class="number">0</span>] + <span class="string">&#x27;,&#x27;</span> + args[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">worker.slow = cachingDecorator(worker.slow, hash);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(worker.slow(<span class="number">3</span>, <span class="number">5</span>)); <span class="comment">// works</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&quot;Again &quot;</span> + worker.slow(<span class="number">3</span>, <span class="number">5</span>)); <span class="comment">// same (cached)</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-func-apply"><a href="#4-func-apply" class="headerlink" title="4 func.apply"></a>4 func.apply</h2><p>使用<code>func.apply()</code> 同样可以实现<code>func.call()</code>的方法，使用的方法为：<code>func.apply(this, arguments)</code> 代替 <code>func.call(this, ...arguments</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">func.call(context, ...args);</span><br><span class="line">func.apply(context, args);</span><br></pre></td></tr></table></figure>
+<p><code>apply </code>和 <code>call</code> 只有一个关于 <code>args</code> 的细微的差别：</p>
+<ul>
+<li>Spread 语法 <code>...</code> 允许将 <strong>可迭代对象</strong> <code>args</code> 作为列表传递给 <code>call</code>。</li>
+<li><code>apply</code> 只接受 <strong>类数组</strong> <code>args</code>。</li>
+</ul>
+<p>对于一个即可迭代又是类数组的对象，例如一个真正的数组，我是用apply可能会更快，因为大多数JS引擎内部对其进行了优化。</p>
+<h2 id="5-呼叫转移"><a href="#5-呼叫转移" class="headerlink" title="5 呼叫转移"></a>5 呼叫转移</h2><p>将所有的参数连同上下文一起传递给另一个函数被称为”呼叫转移（call fowarding）”</p>
+<p>最简单的语法为：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> wrapper = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> func.apply(<span class="built_in">this</span>, <span class="built_in">arguments</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="6-借用一种方法"><a href="#6-借用一种方法" class="headerlink" title="6 借用一种方法"></a>6 借用一种方法</h2><p>针对上文中的<code>hash</code>函数做一个改进，他只接受两个参数，如果是任意数量的参数如何处理呢？</p>
+<p>一般数组对象转化为字符串时可以使用<code>arr.join()</code>方法，但是在这合理无法使用，因为参数<code>args</code>并不是一个真正的数组。但是我们可以一个技巧来借用数组的<code>join()</code>方法：<code>[].join().call(args)</code>，这种方法叫做方法借用。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">hash</span>(<span class="params">args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> [].join.call(args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个技巧主要是从数组<code>[].join</code>借取<code>join</code>方法，并使用 <code>[].join.call</code> 在 <code>args</code> 的上下文中运行它。</p>
+<h2 id="7-装饰器和函数属性"><a href="#7-装饰器和函数属性" class="headerlink" title="7 装饰器和函数属性"></a>7 装饰器和函数属性</h2><p>在使用装饰器的时候，注意一点如果原始函数有属性，则装饰后的函数不在提供这些属性。如果需要保留原始函数的属性等信息，需要使用特殊的<code>Proxy</code>对象来包装函数。</p>
+<h2 id="8-总结"><a href="#8-总结" class="headerlink" title="8 总结"></a>8 总结</h2><p>装饰器是一个围绕改变函数行为的包装器，主要工作还是由函数来完成。</p>
+<p><code>func.call(context, arg1, arg2)</code> 用给定的上下文和参数调用函数。</p>
+<p><code>func.apply(context, arg1, arg2)</code> 调用 <code>func</code> 将 <code>context</code> 作为 <code>this</code> 和类数组的 <code>args</code> 传递给参数列表。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/02/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E5%9B%9B)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS函数进阶(四)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/02/15/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E5%87%BD%E6%95%B0%E8%BF%9B%E9%98%B6(%E4%BA%8C)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS函数进阶(一)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">125.9k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
