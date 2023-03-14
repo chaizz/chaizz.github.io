@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS类(五) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS类(五)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS类(五)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/13/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E4%BA%94)/" class="article-date">
+  <time datetime="2023-03-12T16:00:00.000Z" itemprop="datePublished">2023-03-13</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.1k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​         </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS类-五"><a href="#JS笔记之JS类-五" class="headerlink" title="JS笔记之JS类(五)"></a>JS笔记之JS类(五)</h1><h2 id="1-类检查-instanceof"><a href="#1-类检查-instanceof" class="headerlink" title="1 类检查 instanceof"></a>1 类检查 instanceof</h2><p>instanceof 操作符用于检查一个对象是否属于某个特定的 class。同时，它还考虑了继承。</p>
+<p>在许多情况下，可能都需要进行此类检查。例如，它可以被用来构建一个 <strong>多态性（polymorphic）</strong> 的函数，该函数根据参数的类型对参数进行不同的处理。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">obj <span class="keyword">instanceof</span> Class</span><br><span class="line"><span class="comment">//如果 obj 隶属于 Class 类（或 Class 类的衍生类），则返回 true。</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">例如：</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rabbit</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> rabbit = <span class="keyword">new</span> Rabbit();</span><br><span class="line"></span><br><span class="line"><span class="comment">// rabbit 是 Rabbit class 的对象吗？</span></span><br><span class="line"><span class="built_in">console</span>.log( rabbit <span class="keyword">instanceof</span> Rabbit ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>还可以与构造函数一起使用:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这里是构造函数，而不是 class</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">alert( <span class="keyword">new</span> Rabbit() <span class="keyword">instanceof</span> Rabbit ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<p>与内建的类一起使用：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line">alert( arr <span class="keyword">instanceof</span> <span class="built_in">Array</span> ); <span class="comment">// true</span></span><br><span class="line">alert( arr <span class="keyword">instanceof</span> <span class="built_in">Object</span> ); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通常，<code>instanceof</code> 在检查中会将原型链考虑在内。此外，我们还可以在静态方法 <code>Symbol.hasInstance</code> 中设置自定义逻辑。</p>
+</blockquote>
+<h2 id="2-obj-instanceof-Class-的-算法逻辑如下："><a href="#2-obj-instanceof-Class-的-算法逻辑如下：" class="headerlink" title="2 obj instanceof Class 的 算法逻辑如下："></a>2 obj instanceof Class 的 算法逻辑如下：</h2><ol>
+<li><p>如果Class 有静态方法：Symbol.hasInstance，那么就直接调用这个方法，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 设置 instanceOf 检查</span></span><br><span class="line"><span class="comment">// 并假设具有 canEat 属性的都是 animal</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> [<span class="built_in">Symbol</span>.hasInstance](obj) &#123;</span><br><span class="line">        <span class="keyword">if</span> (obj.canEat) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> obj = &#123; <span class="attr">canEat</span>: <span class="literal">true</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(obj <span class="keyword">instanceof</span> Animal); <span class="comment">// true：Animal[Symbol.hasInstance](obj) 被调用</span></span><br></pre></td></tr></table></figure></li>
+<li><p>大多数 class 没有 Symbol.hasInstance。在这种情况下，标准的逻辑是：使用 obj instanceOf Class 检查 Class.prototype 是否等于 obj 的原型链中的原型之一。也就是在Class 的原型链上一步一步的比较。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">obj.__proto__ === Class.prototype?</span><br><span class="line">obj.__proto__.__proto__ === Class.prototype?</span><br><span class="line">obj.__proto__.__proto__.__proto__ === Class.prototype?</span><br><span class="line">...</span><br><span class="line"><span class="comment">// 如果任意一个的答案为 true，则返回 true</span></span><br><span class="line"><span class="comment">// 否则，如果我们已经检查到了原型链的尾端，则返回 false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承中的比较</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rabbit</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> rabbit = <span class="keyword">new</span> Rabbit();</span><br><span class="line"><span class="built_in">console</span>.log(rabbit <span class="keyword">instanceof</span> Animal); <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// rabbit.__proto__ === Animal.prototype（无匹配）</span></span><br><span class="line"><span class="comment">// rabbit.__proto__.__proto__ === Animal.prototype（匹配！）</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+</li>
+</ol>
+<p>这里还要提到一个方法 <a href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/object/isPrototypeOf">objA.isPrototypeOf(objB)</a>，如果 <code>objA</code> 处在 <code>objB</code> 的原型链中，则返回 <code>true</code>。所以，可以将 <code>obj instanceof Class</code> 检查改为 <code>Class.prototype.isPrototypeOf(obj)</code>。</p>
+<p>这很有趣，但是 <code>Class</code> 的 constructor 自身是不参与检查的！检查过程只和原型链以及 <code>Class.prototype</code> 有关。</p>
+<p>创建对象后如果更改对象的 prototype 属性，那么示例就不再是类的示例了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Rabbit</span>(<span class="params"></span>) </span>&#123; &#125;</span><br><span class="line"><span class="keyword">let</span> rabbit = <span class="keyword">new</span> Rabbit();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 修改了 prototype</span></span><br><span class="line">Rabbit.prototype = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...再也不是 rabbit 了！</span></span><br><span class="line"><span class="built_in">console</span>.log(rabbit <span class="keyword">instanceof</span> Rabbit); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-使用-Object-prototype-toString-方法来揭示类型"><a href="#3-使用-Object-prototype-toString-方法来揭示类型" class="headerlink" title="3 使用 Object.prototype.toString 方法来揭示类型"></a>3 使用 Object.prototype.toString 方法来揭示类型</h2><p>一个普通的对象被转化为字符串时得到的结果是：[Object Object]，这是通过toString方法实现的，但是此处有一个隐藏功能，可以使toString变得更加强大，可以将其作为 typeof 的增强版或者 instanceof 的替代方法来使用。</p>
+<p>按照 规范 所讲，内建的 toString 方法可以被从对象中提取出来，并在任何其他值的上下文中执行。其结果取决于该值。</p>
+<ul>
+<li>对于 number 类型，结果是 <code>[object Number]</code></li>
+<li>对于 boolean 类型，结果是 <code>[object Boolean]</code></li>
+<li>对于 <code>null</code>：<code>[object Null]</code></li>
+<li>对于 <code>undefined</code>：<code>[object Undefined]</code></li>
+<li>对于数组：<code>[object Array]</code></li>
+<li>……等（可自定义）</li>
+</ul>
+<p>例如</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 方便起见，将 toString 方法复制到一个变量中</span></span><br><span class="line"><span class="keyword">let</span> objectToString = <span class="built_in">Object</span>.prototype.toString;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 它是什么类型的？</span></span><br><span class="line"><span class="keyword">let</span> arr = [];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在内部，toString 的算法会检查 this，并返回相应的结果</span></span><br><span class="line"><span class="built_in">console</span>.log( objectToString.call(arr) ); <span class="comment">// [object Array]</span></span><br><span class="line"><span class="built_in">console</span>.log( objectToString.call(<span class="number">123</span>) ); <span class="comment">// [object Number]</span></span><br><span class="line"><span class="built_in">console</span>.log( objectToString.call(<span class="literal">null</span>) ); <span class="comment">// [object Null]</span></span><br><span class="line"><span class="built_in">console</span>.log( objectToString.call(<span class="built_in">console</span>.log) ); <span class="comment">// [object Function]</span></span><br></pre></td></tr></table></figure>
+
+
+<p>可以使用特殊的对象属性，Symbol.toStringTag 自定义对象的 toString 方法的行为。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">    [<span class="built_in">Symbol</span>.toStringTag]: <span class="string">&quot;User&quot;</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(&#123;&#125;.toString.call(user)); <span class="comment">// [object User]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 特定于环境的对象和类的 toStringTag：</span></span><br><span class="line">alert( <span class="built_in">window</span>[<span class="built_in">Symbol</span>.toStringTag]); <span class="comment">// Window</span></span><br><span class="line">alert( XMLHttpRequest.prototype[<span class="built_in">Symbol</span>.toStringTag] ); <span class="comment">// XMLHttpRequest</span></span><br><span class="line"></span><br><span class="line">alert( &#123;&#125;.toString.call(<span class="built_in">window</span>) ); <span class="comment">// [object Window]</span></span><br><span class="line">alert( &#123;&#125;.toString.call(<span class="keyword">new</span> XMLHttpRequest()) ); <span class="comment">// [object XMLHttpRequest]</span></span><br></pre></td></tr></table></figure>
+<p>正如我们所看到的，输出结果恰好是 <code>Symbol.toStringTag</code>（如果存在），只不过被包裹进了 <code>[object ...]</code> 里。所以，如果我们想要获取内建对象的类型，并希望把该信息以字符串的形式返回，而不只是检查类型的话，我们可以用 <code>&#123;&#125;.toString.call</code> 替代 <code>instanceof</code>。</p>
+<p>类型检查方法：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">用于</th>
+<th align="left">返回值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>typeof</code></td>
+<td align="left">原始数据类型</td>
+<td align="left">string</td>
+</tr>
+<tr>
+<td align="left"><code>&#123;&#125;.toString</code></td>
+<td align="left">原始数据类型，内建对象，包含 <code>Symbol.toStringTag</code> 属性的对象</td>
+<td align="left">string</td>
+</tr>
+<tr>
+<td align="left"><code>instanceof</code></td>
+<td align="left">对象</td>
+<td align="left">true/false</td>
+</tr>
+</tbody></table>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/03/13/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E5%9B%9B)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS类(四)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/03/10/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E4%B8%89)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS类(三)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">132k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

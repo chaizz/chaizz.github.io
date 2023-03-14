@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS类(四) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS类(四)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS类(四)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/13/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E5%9B%9B)/" class="article-date">
+  <time datetime="2023-03-12T16:00:00.000Z" itemprop="datePublished">2023-03-13</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">2.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">8</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​         </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS类-四"><a href="#JS笔记之JS类-四" class="headerlink" title="JS笔记之JS类(四)"></a>JS笔记之JS类(四)</h1><h2 id="1-私有的和受保护的属性和方法"><a href="#1-私有的和受保护的属性和方法" class="headerlink" title="1 私有的和受保护的属性和方法"></a>1 私有的和受保护的属性和方法</h2><p>面向对象编程最重要的原则之一 —— 将内部接口与外部接口分隔开来。</p>
+<p>在 JavaScript 中，有两种类型的对象字段（属性和方法）：</p>
+<ul>
+<li>公共的：可从任何地方访问。它们构成了外部接口。到目前为止，我们只使用了公共的属性和方法。</li>
+<li>私有的：只能从类的内部访问。这些用于内部接口。</li>
+</ul>
+<p>首先创建一个咖啡机类:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoffeeMachine</span> </span>&#123;</span><br><span class="line">    waterAmount = <span class="number">0</span>; <span class="comment">// 内部的水量</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">power</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.power = power;</span><br><span class="line">        alert(<span class="string">`Created a coffee-machine, power: <span class="subst">$&#123;power&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建咖啡机</span></span><br><span class="line"><span class="keyword">let</span> coffeeMachine = <span class="keyword">new</span> CoffeeMachine(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加水</span></span><br><span class="line">coffeeMachine.waterAmount = <span class="number">200</span>;</span><br></pre></td></tr></table></figure>
+<p>现在咖啡机的 waterAmount 和  power 是公共的属性，我们可以从外部轻易的修改，我们将 <code>waterAmount</code> 属性更改为受保护的属性，以对其进行更多控制。</p>
+<h2 id="2-受保护的属性"><a href="#2-受保护的属性" class="headerlink" title="2 受保护的属性"></a>2 受保护的属性</h2><p><strong>受保护的属性通常以下划线 <code>_</code> 作为前缀。</strong>这并不是强制的，但是是程序的约个约定俗称的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoffeeMachine</span> </span>&#123;</span><br><span class="line">    _waterAmount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">set</span> <span class="title">waterAmount</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (value &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            value = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>._waterAmount = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">get</span> <span class="title">waterAmount</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>._waterAmount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">power</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>._power = power;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建咖啡机</span></span><br><span class="line"><span class="keyword">let</span> coffeeMachine = <span class="keyword">new</span> CoffeeMachine(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 加水</span></span><br><span class="line">coffeeMachine.waterAmount = -<span class="number">10</span>; <span class="comment">// _waterAmount 将变为 0，而不是 -10</span></span><br></pre></td></tr></table></figure>
+<p>现在访问已受到控制，因此将水量的值设置为小于零的数变得不可能。</p>
+<p>设置只读属性，将咖啡机的 power属性设置为在开始创建之后就不可更改。我们值需要设施getter属性。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoffeeMachine</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">power</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>._power = power;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">get</span> <span class="title">power</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>._power;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建咖啡机</span></span><br><span class="line"><span class="keyword">let</span> coffeeMachine = <span class="keyword">new</span> CoffeeMachine(<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">alert(<span class="string">`Power is: <span class="subst">$&#123;coffeeMachine.power&#125;</span>W`</span>); <span class="comment">// 功率是：100W</span></span><br><span class="line"></span><br><span class="line">coffeeMachine.power = <span class="number">25</span>; <span class="comment">// Error（没有 setter）</span></span><br></pre></td></tr></table></figure>
+<p>在上述的代码中我们使用了 getter和setter语法，但是我们大多数使用get…/set… 这中函数：因为函数更灵活。它们可以接受多个参数，但是并没有严格约定使用那种方式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoffeeMachine</span> </span>&#123;</span><br><span class="line">    _waterAmount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">setWaterAmount</span>(<span class="params">value</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (value &lt; <span class="number">0</span>) value = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">this</span>._waterAmount = value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">getWaterAmount</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>._waterAmount;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> CoffeeMachine().setWaterAmount(<span class="number">100</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>受保护的字段是可以被继承的</strong></p>
+<p>如果我们继承 <code>class MegaMachine extends CoffeeMachine</code>，那么什么都无法阻止我们从新的类中的方法访问 <code>this._waterAmount</code> 或 <code>this._power</code>。</p>
+<p>所以受保护的字段是自然可被继承的。</p>
+</blockquote>
+<h2 id="3-私有的属性"><a href="#3-私有的属性" class="headerlink" title="3 私有的属性"></a>3 私有的属性</h2><p><strong>私有属性和方法应该以 <code>#</code> 开头。它们只在类的内部可被访问。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoffeeMachine</span> </span>&#123;</span><br><span class="line">    #waterLimit = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line">    #<span class="function"><span class="title">fixWaterAmount</span>(<span class="params">value</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (value &lt; <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span> (value &gt; <span class="built_in">this</span>.#waterLimit) <span class="keyword">return</span> <span class="built_in">this</span>.#waterLimit;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">setWaterAmount</span>(<span class="params">value</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.#waterLimit = <span class="built_in">this</span>.#fixWaterAmount(value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">print</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="built_in">this</span>.#waterLimit);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> coffeeMachine = <span class="keyword">new</span> CoffeeMachine();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 不能从类的外部访问类的私有属性和方法</span></span><br><span class="line"><span class="comment">// Private field &#x27;#fixWaterAmount&#x27; must be declared in an enclosing class</span></span><br><span class="line">coffeeMachine.#fixWaterAmount(<span class="number">123</span>); <span class="comment">// Error</span></span><br><span class="line">coffeeMachine.#waterLimit = <span class="number">1000</span>; <span class="comment">// Error</span></span><br><span class="line">coffeeMachine.print()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在语言级别，<code>#</code> 是该字段为私有的特殊标志。我们无法从外部或从继承的类中访问它。</p>
+<p>私有字段与公共字段不会发生冲突。我们可以同时拥有私有的 <code>#waterAmount</code> 和公共的 <code>waterAmount</code> 字段。例如 让waterAmount成为#waterAmount 的访问器。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CoffeeMachine</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    #waterAmount = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">get</span> <span class="title">waterAmount</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.#waterAmount;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">set</span> <span class="title">waterAmount</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (value &lt; <span class="number">0</span>) value = <span class="number">0</span>;</span><br><span class="line">        <span class="built_in">this</span>.#waterAmount = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> machine = <span class="keyword">new</span> CoffeeMachine();</span><br><span class="line"></span><br><span class="line">machine.waterAmount = <span class="number">100</span>;</span><br><span class="line">alert(machine.#waterAmount); <span class="comment">// Error</span></span><br></pre></td></tr></table></figure>
+<p>与受保护的字段不同，私有字段由语言本身强制执行。当我们需要继承CoffeeMachine时， 私有字段不会被继承，需要依赖属性访问器<code>waterAmount</code> getter/setter。</p>
+<p>许多种情况下，我们经常会扩展某个有私有属性的类，这种私有属性太限制，所以我们还是常常使用受保护的属性，即使它们不受语言语法的支持。</p>
+<blockquote>
+<p><strong>私有字段不能通过 this[name] 访问</strong></p>
+<p>私有字段很特别。</p>
+<p>正如我们所知道的，通常我们可以使用 <code>this[name]</code> 访问字段：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="function"><span class="title">sayHi</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> fieldName = <span class="string">&quot;name&quot;</span>;</span><br><span class="line">    alert(<span class="string">`Hello, <span class="subst">$&#123;<span class="built_in">this</span>[fieldName]&#125;</span>`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于私有字段来说，这是不可能的：<code>this[&#39;#name&#39;]</code> 不起作用。这是确保私有性的语法限制。</p>
+</blockquote>
+<h2 id="4-扩展内建类"><a href="#4-扩展内建类" class="headerlink" title="4 扩展内建类"></a>4 扩展内建类</h2><p>内建的 Array, Map 对象也是可以扩展的。例如我们扩展了一个内建的Array 对象：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PowerArray</span> <span class="keyword">extends</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">isEmpty</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.length === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> PowerArray(<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">50</span>);</span><br><span class="line"><span class="built_in">console</span>.log(arr.isEmpty()); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> filteredArr = arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item &gt;= <span class="number">10</span>);</span><br><span class="line"><span class="built_in">console</span>.log(filteredArr); <span class="comment">// 10, 50</span></span><br><span class="line"><span class="built_in">console</span>.log(filteredArr.isEmpty()); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+
+<p>在上述代码中， 我们发现 PowerArray 的 arr 实例，具有Array的方法 filter, 由filter 得到的新数组具有PowerArray 的 isEmpty 方法。所以我们得知 arr.filter它内部使用的是arr.constructor， 来创建新的数组，因此我们才可以在结果数组上继续使用isEmpty方法。</p>
+<p>我们可以给这个类添加一个特殊的静态访问器方法，Symbol.species，如果存在，则返回JS 在内部用来在 <code>map</code> 和 <code>filter</code> 等方法中创建新实体的 <code>constructor</code>。如果我们希望像 <code>map</code> 或 <code>filter</code> 这样的内建方法返回常规数组，我们可以在 <code>Symbol.species</code> 中返回 <code>Array</code>，就像这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PowerArray</span> <span class="keyword">extends</span> <span class="title">Array</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">isEmpty</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.length === <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 内建方法将使用这个作为 constructor</span></span><br><span class="line">    <span class="keyword">static</span> get [<span class="built_in">Symbol</span>.species]() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">Array</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> PowerArray(<span class="number">1</span>, <span class="number">2</span>, <span class="number">5</span>, <span class="number">10</span>, <span class="number">50</span>);</span><br><span class="line"><span class="built_in">console</span>.log(arr.isEmpty()); <span class="comment">// false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// filter 使用 arr.constructor[Symbol.species] 作为 constructor 创建新数组</span></span><br><span class="line"><span class="keyword">let</span> filteredArr = arr.filter(<span class="function"><span class="params">item</span> =&gt;</span> item &gt;= <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// filteredArr 不是 PowerArray，而是 Array</span></span><br><span class="line"><span class="built_in">console</span>.log(filteredArr.isEmpty()); <span class="comment">// Error: filteredArr.isEmpty is not a function</span></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>其他集合，例如 <code>Map</code> 和 <code>Set</code> 的工作方式类似。它们也使用 <code>Symbol.species</code>。</p>
+</blockquote>
+<h2 id="5-内建类没有静态方法继承"><a href="#5-内建类没有静态方法继承" class="headerlink" title="5 内建类没有静态方法继承"></a>5 内建类没有静态方法继承</h2><p>内建对象有它们自己的静态方法，例如 <code>Object.keys</code>，<code>Array.isArray</code> 等。</p>
+<p>如我们所知道的，原生的类互相扩展。例如，<code>Array</code> 扩展自 <code>Object</code>。</p>
+<p>通常，当一个类扩展另一个类时，静态方法和非静态方法都会被继承。这已经在 <a href="https://zh.javascript.info/static-properties-methods#statics-and-inheritance">静态属性和静态方法</a> 中详细地解释过了。</p>
+<p>但内建类却是一个例外。它们相互间不继承静态方法。</p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6 总结"></a>6 总结</h2><p>就面向对象编程（OOP）而言，内部接口与外部接口的划分被称为 <a href="https://en.wikipedia.org/wiki/Encapsulation_(computer_programming)">封装</a>。</p>
+<p>它具有以下优点：</p>
+<ul>
+<li><p>保护用户，使他们不会误伤自己</p>
+<p>想象一下，有一群开发人员在使用一个咖啡机。这个咖啡机是由“最好的咖啡机”公司制造的，工作正常，但是保护罩被拿掉了。因此内部接口暴露了出来。所有的开发人员都是文明的 —— 他们按照预期使用咖啡机。但其中的一个人，约翰，他认为自己是最聪明的人，并对咖啡机的内部做了一些调整。然而，咖啡机两天后就坏了。这肯定不是约翰的错，而是那个取下保护罩并让约翰进行操作的人的错。编程也一样。如果一个 class 的使用者想要改变那些本不打算被从外部更改的东西 —— 后果是不可预测的。</p>
+</li>
+<li><p>可支持性</p>
+<p>编程的情况比现实生活中的咖啡机要复杂得多，因为我们不只是购买一次。我们还需要不断开发和改进代码。<strong>如果我们严格界定内部接口，那么这个 class 的开发人员可以自由地更改其内部属性和方法，甚至无需通知用户。</strong>如果你是这样的 class 的开发者，那么你会很高兴知道可以安全地重命名私有变量，可以更改甚至删除其参数，因为没有外部代码依赖于它们。对于用户来说，当新版本问世时，应用的内部可能被进行了全面检修，但如果外部接口相同，则仍然很容易升级。</p>
+</li>
+<li><p>隐藏复杂性</p>
+<p>人们喜欢使用简单的东西。至少从外部来看是这样。内部的东西则是另外一回事了。程序员也不例外。<strong>当实施细节被隐藏，并提供了简单且有据可查的外部接口时，总是很方便的。</strong></p>
+</li>
+</ul>
+<p>为了隐藏内部接口，我们使用受保护的或私有的属性：</p>
+<ul>
+<li>受保护的字段以 <code>_</code> 开头。这是一个众所周知的约定，不是在语言级别强制执行的。程序员应该只通过它的类和从它继承的类中访问以 <code>_</code> 开头的字段。</li>
+<li>私有字段以 <code>#</code> 开头。JavaScript 确保我们只能从类的内部访问它们。</li>
+</ul>
+<p>目前，各个浏览器对私有字段的支持不是很好，但可以用 polyfill 解决。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2023/03/13/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E4%BA%94)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS类(五)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">132k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
