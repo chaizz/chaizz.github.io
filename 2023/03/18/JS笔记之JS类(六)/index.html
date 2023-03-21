@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS类(六) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS类(六)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS类(六)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E5%85%AD)/" class="article-date">
+  <time datetime="2023-03-17T16:00:00.000Z" itemprop="datePublished">2023-03-18</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.3k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​         </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS类-六"><a href="#JS笔记之JS类-六" class="headerlink" title="JS笔记之JS类(六)"></a>JS笔记之JS类(六)</h1><p>在JS中类只能扩展一个类， 每个对象只能有一个[[prototype]],但是有些时候，会让人感到限制，例如我们有一个User类和一个EventEmitter类来实现事件生成，并且想将EventEmitter的功能添加到User类中，以便用户可以触发事件。</p>
+<p>有一个概念可以帮我们， 叫做 mixins， 在维基百科中 mixin是一个可以被其他的类使用，而无需继承的方法的类。</p>
+<p>换句话说就是 mixin 提供了一些特殊的方法，但是我们不单独使用它，而是用它来将这些行为添加到其他的类中，</p>
+<h2 id="1-一个Mixin实例"><a href="#1-一个Mixin实例" class="headerlink" title="1 一个Mixin实例"></a>1 一个Mixin实例</h2><p>在JS中构造一个mixin最简单的方法就是构造一个拥有使用方法的对象，以便我们可以轻松的将这些实用的方法合并到任何类的原型中。例如这个名为sayHiMixin的mixin用于给User添加一些语言功能。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// mixin</span></span><br><span class="line"><span class="keyword">let</span> sayHiMixin = &#123;</span><br><span class="line">    <span class="function"><span class="title">sayHi</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>(<span class="string">`Hello <span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">sayBye</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>(<span class="string">`Bye <span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用法：</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">name</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拷贝方法</span></span><br><span class="line"><span class="built_in">Object</span>.assign(User.prototype, sayHiMixin);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在 User 可以打招呼了</span></span><br><span class="line"><span class="keyword">new</span> User(<span class="string">&quot;Dude&quot;</span>).sayHi(); <span class="comment">// Hello Dude!</span></span><br></pre></td></tr></table></figure>
+<p>在这里没有使用继承，而只是一个简单的拷贝，所以User可以从另一个类继承，还可以包括mixin来”mix-in”其他的方法，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">Object</span>.assign(User.prototype, sayHiMixin);</span><br></pre></td></tr></table></figure>
+<p>Mixin可以在自己的内部进行继承，例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sayMixin = &#123;</span><br><span class="line">    <span class="function"><span class="title">say</span>(<span class="params">phrase</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>(phrase);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> sayHiMixin = &#123;</span><br><span class="line">    __proto__: sayMixin, <span class="comment">// (或者，我们可以在这儿使用 Object.setPrototypeOf 来设置原型)</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">sayHi</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="comment">// 调用父类方法</span></span><br><span class="line">        <span class="built_in">super</span>.say(<span class="string">`Hello <span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>`</span>); <span class="comment">// (*)</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="function"><span class="title">sayBye</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>.say(<span class="string">`Bye <span class="subst">$&#123;<span class="built_in">this</span>.name&#125;</span>`</span>); <span class="comment">// (*)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">name</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 拷贝方法</span></span><br><span class="line"><span class="built_in">Object</span>.assign(User.prototype, sayHiMixin);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 现在 User 可以打招呼了</span></span><br><span class="line"><span class="keyword">new</span> User(<span class="string">&quot;Dude&quot;</span>).sayHi(); <span class="comment">// Hello Dude!</span></span><br></pre></td></tr></table></figure>
+
+
+<p>在sayHiMixin内部对父类的方法，super.say()的调用会在mixin的原型中查找方法，而不是在class中查找。</p>
+<p><img src="https://tc.chaizz.com/tc/image-20230318164932986.png" alt="image-20230318164932986"></p>
+<p>这是因为方法sayHi和sayBye最初是在sayHiMixin中创建的，因此即使复制了他们，但是他们的[[homeObject]]内部属性扔引用的sayHiMixin。</p>
+<p>当 super 在 [[HomeObject]].[[Prototype]] 中寻找父方法时，意味着它搜索的是 sayHiMixin.[[Prototype]]，而不是 User.[[Prototype]]。</p>
+<h2 id="2-EventMixin"><a href="#2-EventMixin" class="headerlink" title="2 EventMixin"></a>2 EventMixin</h2><p>许多浏览器对象的一个重要功能就是可以生成事件，事件是向任何有需要的人“广播信息”的好方法。</p>
+<p>我们将构造一个对象，能够轻松的将与事件相关的函数添加到任意的calss或者是object中。</p>
+<ol>
+<li>Mixin提供.trigger(name,[…data])方法，以在发生重要的事情时，生成一个事件。name参数（arguments）是事件的名称，[…data] 是可选的带有事件数据的其他参数。</li>
+<li>此外还有.on(name,handler)方法，他为具有给定名称的事件添加了handler函数作为监听器，（listener）当具有给定name的事件触发时将调用该方法，并从.trigger调用中参数（arguments）。</li>
+<li>还有.off(name, handler)方法，他会删除handler监听器（listener）。</li>
+</ol>
+<p>田家湾mixin后，对象user能够在访客登录时，生成事件login, 另一个对象，例如calender可能希望监听此类事件以便为登录的人添加日历。</p>
+<p>或者当一个菜单选项被选中时，menu可以生成select事件，其他对象可以分配处理程序以对该事件作出反应。诸如此类。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> eventMixin = &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 订阅事件，用法：</span></span><br><span class="line"><span class="comment">     *  menu.on(&#x27;select&#x27;, function(item) &#123; ... &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="title">on</span>(<span class="params">eventName, handler</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">this</span>._eventHandlers) <span class="built_in">this</span>._eventHandlers = &#123;&#125;;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">this</span>._eventHandlers[eventName]) &#123;</span><br><span class="line">            <span class="built_in">this</span>._eventHandlers[eventName] = [];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">this</span>._eventHandlers[eventName].push(handler);</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 取消订阅，用法：</span></span><br><span class="line"><span class="comment">     *  menu.off(&#x27;select&#x27;, handler)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="title">off</span>(<span class="params">eventName, handler</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> handlers = <span class="built_in">this</span>._eventHandlers?.[eventName];</span><br><span class="line">        <span class="keyword">if</span> (!handlers) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; handlers.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (handlers[i] === handler) &#123;</span><br><span class="line">                handlers.splice(i--, <span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成具有给定名称和数据的事件</span></span><br><span class="line"><span class="comment">     *  this.trigger(&#x27;select&#x27;, data1, data2);</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="title">trigger</span>(<span class="params">eventName, ...args</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="built_in">this</span>._eventHandlers?.[eventName]) &#123;</span><br><span class="line">            <span class="keyword">return</span>; <span class="comment">// 该事件名称没有对应的事件处理程序（handler）</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 调用事件处理程序（handler）</span></span><br><span class="line">        <span class="built_in">this</span>._eventHandlers[eventName].forEach(<span class="function"><span class="params">handler</span> =&gt;</span> handler.apply(<span class="built_in">this</span>, args));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>用法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建一个 class</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Menu</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">choose</span>(<span class="params">value</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.trigger(<span class="string">&quot;select&quot;</span>, value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 添加带有事件相关方法的 mixin</span></span><br><span class="line"><span class="built_in">Object</span>.assign(Menu.prototype, eventMixin);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> menu = <span class="keyword">new</span> Menu();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 添加一个事件处理程序（handler），在被选择时被调用：</span></span><br><span class="line">menu.on(<span class="string">&quot;select&quot;</span>, <span class="function"><span class="params">value</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">`Value selected: <span class="subst">$&#123;value&#125;</span>`</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发事件 =&gt; 运行上述的事件处理程序（handler）并显示：</span></span><br><span class="line"><span class="comment">// 被选中的值：123</span></span><br><span class="line">menu.choose(<span class="string">&quot;123&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h2><p>Mixin是一个通用的面向对象的变成术语，一个包含其他类的方法的类。</p>
+<p>JS不支持多继承，但是可以通过将方法拷贝到原型中来实现，mixin。我们可以使用mixin作为一种通过添加多种行为来扩充类的方法。</p>
+<p>如果 Mixins 意外覆盖了现有类的方法，那么它们可能会成为一个冲突点。因此，通常应该仔细考虑 mixin 的命名方法，以最大程度地降低发生这种冲突的可能性。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/03/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86(%E4%B8%80)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS错误处理(一).md
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/03/13/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E5%9B%9B)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS类(四)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">137.6k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

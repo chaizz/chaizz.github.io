@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS错误处理(二).md |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS错误处理(二)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS错误处理(二).md
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/21/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86(%E4%BA%8C)/" class="article-date">
+  <time datetime="2023-03-20T16:00:00.000Z" itemprop="datePublished">2023-03-21</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.6k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​         </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS错误处理-二"><a href="#JS笔记之JS错误处理-二" class="headerlink" title="JS笔记之JS错误处理(二)"></a>JS笔记之JS错误处理(二)</h1><p>在我们开发的时候 经常需要我们自己定义的类来反应我们在程序中遇到的错误。比如在网络请求中我们是用HttpError，在操作数据库中我么使用DbError等等。</p>
+<p>我们一般都会创建自己的自定义异常，他们都支持最基本的Error属性，例如 message、name、并且最好有stack。但是他们也有自己的属性，例如HttpError队形可能有一个statusCode属性。</p>
+<p>JavaScript 允许将 throw 与任何参数一起使用，所以从技术上讲，我们自定义的 error 不需要从 Error 中继承。但是，如果我们继承，那么就可以使用 obj instanceof Error 来识别 error 对象。因此，最好继承它。</p>
+<p>随着项目的增大，我们定义的异常，可能会越来越细分， 形成一个层次结构，例如：HttpTimeoutError 可能继承自 HttpError，等等。</p>
+<h2 id="1-扩展Error"><a href="#1-扩展Error" class="headerlink" title="1 扩展Error"></a>1 扩展Error</h2><p>例如当我们读一个一个用户的信息的json数据，有时候即使JSON的数据格式是正确的，但是数据却不一定是是我们想要的得到的数据，可能会缺少些必要的数据。</p>
+<p>我们可以定义一个函数，来解析数据并且验证数据，如果没有得到我们要求的数据，那么就会抛出一个error，但是这个error不是 语法错误等，而是类似 ValidationError的错误对象。且是一个类，他可能继承自Error，且包含具体的错误信息等。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ValidationError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 调用了父类的 constructor。JavaScript 要求我们在子类的 constructor 中调用 super，所以这是必须的。</span></span><br><span class="line">    <span class="comment">// 父类的 constructor 设置了 message 属性。</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">message</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(message); <span class="comment">// (1)</span></span><br><span class="line">        <span class="comment">// 父类的 constructor 还将 name 属性的值设置为了 &quot;Error&quot;，</span></span><br><span class="line">        <span class="comment">// 所以在这一行中，我们将其重置为了ValidationError</span></span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&quot;ValidationError&quot;</span>; <span class="comment">// (2)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们在解析json中使用它：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readUser</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> user = <span class="built_in">JSON</span>.parse(json);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!user.age) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ValidationError(<span class="string">&quot;No field: age&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!user.name) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> ValidationError(<span class="string">&quot;No field: name&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// try..catch 的工作示例</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> user = readUser(<span class="string">&#x27;&#123; &quot;age&quot;: 25 &#125;&#x27;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="keyword">if</span> (err <span class="keyword">instanceof</span> ValidationError) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Invalid data: &quot;</span> + err.message); <span class="comment">// Invalid data: No field: name</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (err <span class="keyword">instanceof</span> <span class="built_in">SyntaxError</span>) &#123; <span class="comment">// (*)</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;JSON Syntax Error: &quot;</span> + err.message);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> err; <span class="comment">// 未知的 error，再次抛出 (**)</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的try…cacth中既捕获了json解析的错误。也能捕获我们自定义的异常。在最后一中，，我们再次抛出了err。</p>
+<h2 id="2-深入继承"><a href="#2-深入继承" class="headerlink" title="2 深入继承"></a>2 深入继承</h2><p>在数据中很多数据都有可能出错，我们可以为错误创建根据的异常对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ValidationError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">message</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(message);</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&quot;ValidationError&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PropertyRequiredError</span> <span class="keyword">extends</span> <span class="title">ValidationError</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">property</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(<span class="string">&quot;No property: &quot;</span> + property);</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&quot;PropertyRequiredError&quot;</span>;</span><br><span class="line">        <span class="built_in">this</span>.property = property;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用法</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readUser</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> user = <span class="built_in">JSON</span>.parse(json);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!user.age) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> PropertyRequiredError(<span class="string">&quot;age&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!user.name) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> PropertyRequiredError(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> user;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// try..catch 的工作示例</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> user = readUser(<span class="string">&#x27;&#123; &quot;age&quot;: 25 &#125;&#x27;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="keyword">if</span> (err <span class="keyword">instanceof</span> ValidationError) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Invalid data: &quot;</span> + err.message); <span class="comment">// Invalid data: No property: name</span></span><br><span class="line">        <span class="built_in">console</span>.log(err.name); <span class="comment">// PropertyRequiredError</span></span><br><span class="line">        <span class="built_in">console</span>.log(err.property); <span class="comment">// name</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (err <span class="keyword">instanceof</span> <span class="built_in">SyntaxError</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;JSON Syntax Error: &quot;</span> + err.message);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> err; <span class="comment">// 未知 error，将其再次抛出</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个类 PropertyRequiredError 使用起开很简单，我们只需要传递属性名， new PropertyRequiredError(property)， 人类刻度的message是 constructor 生成的。</p>
+<blockquote>
+<p>​    Tips：在 PropertyRequiredError constructor 中的 this.name 是通过手动重新赋值的。这可能会变得有些乏味 —— 在每个自定义 error 类中都要进行 this.name = <class name> 赋值操作。可以通过创建自己的“基础错误（basic error）”类来避免这种情况，在基础错误类上进行 <code>this.name = this.constructor.name</code> 赋值，然后让我们的所有的异常类 都继承自这个基础错误类。</class></p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">message</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(message);</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="built_in">this</span>.constructor.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ValidationError</span> <span class="keyword">extends</span> <span class="title">MyError</span> </span>&#123; &#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PropertyRequiredError</span> <span class="keyword">extends</span> <span class="title">ValidationError</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">property</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(<span class="string">&quot;No property: &quot;</span> + property);</span><br><span class="line">        <span class="built_in">this</span>.property = property;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// name 是对的</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="keyword">new</span> PropertyRequiredError(<span class="string">&quot;field&quot;</span>).name); <span class="comment">// PropertyRequiredError</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-包装异常"><a href="#3-包装异常" class="headerlink" title="3 包装异常"></a>3 包装异常</h2><p>我们扩展了ValidationError，PropertyRequiredError 未来可能会有其他的更多的类，try…catch.. 中使用了多个if else语句进行检查，这种方法并不是很优雅，那么有没有哟中比较高级的方法。答案是有的， 这种方法叫做包装异常。例如将上面的读取数据的例子进行包装：</p>
+<ol>
+<li>创建一个新的类ReadError，来表示一般的数据读取Error。</li>
+<li>函数readUser 将捕获内部发生的数据读取 error，例如 ValidationError 和 SyntaxError，并生成一个 ReadError 来进行替代。</li>
+<li>对象ReadError 会把原始的error 的引用，保存在其cause中。</li>
+</ol>
+<p>经过上面的包装之后，再次调用 上面的 readUser 只需要检查 ReadError，而不必检查每种数据读取 error。并且，如果需要更多 error 细节，那么可以检查 readUser 的 cause 属性。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReadError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">message, cause</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(message);</span><br><span class="line">        <span class="built_in">this</span>.cause = cause;</span><br><span class="line">        <span class="built_in">this</span>.name = <span class="string">&#x27;ReadError&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ValidationError</span> <span class="keyword">extends</span> <span class="title">Error</span> </span>&#123; <span class="comment">/*...*/</span> &#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PropertyRequiredError</span> <span class="keyword">extends</span> <span class="title">ValidationError</span> </span>&#123; <span class="comment">/* ... */</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">validateUser</span>(<span class="params">user</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!user.age) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> PropertyRequiredError(<span class="string">&quot;age&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!user.name) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> PropertyRequiredError(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">readUser</span>(<span class="params">json</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> user;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        user = <span class="built_in">JSON</span>.parse(json);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="keyword">if</span> (err <span class="keyword">instanceof</span> <span class="built_in">SyntaxError</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ReadError(<span class="string">&quot;Syntax Error&quot;</span>, err);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> err;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        validateUser(user);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="keyword">if</span> (err <span class="keyword">instanceof</span> ValidationError) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ReadError(<span class="string">&quot;Validation Error&quot;</span>, err);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> err;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    readUser(<span class="string">&#x27;&#123;bad json&#125;&#x27;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="keyword">if</span> (e <span class="keyword">instanceof</span> ReadError) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(e);</span><br><span class="line">        <span class="comment">// Original error: SyntaxError: Unexpected token b in JSON at position 1</span></span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;Original error: &quot;</span> + e.cause);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> e;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h2><ol>
+<li>我们可以从Error和其他的内建error中进行继承，我们只需要注意name属性，以及调用super。</li>
+<li>我们可以使用 instanceof 来检查特定的 error。但有时我们有来自第三方库的 error 对象，并且在这儿没有简单的方法来获取它的类。那么可以将 name 属性用于这一类的检查。</li>
+<li>包装异常是一项广泛应用的技术：用于处理低级别异常并创建高级别 error 而不是各种低级别 error 的函数。在上面的示例中，低级别异常有时会成为该对象的属性，例如 err.cause，但这不是严格要求的。</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2023/03/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86(%E4%B8%80)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS错误处理(一).md</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">137.6k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

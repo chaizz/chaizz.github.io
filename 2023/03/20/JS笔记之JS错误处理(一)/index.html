@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    JS笔记之JS错误处理(一).md |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-JS笔记之JS错误处理(一)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  JS笔记之JS错误处理(一).md
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/20/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86(%E4%B8%80)/" class="article-date">
+  <time datetime="2023-03-19T16:00:00.000Z" itemprop="datePublished">2023-03-20</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">2.5k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">10</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​         </p>
+<a id="more"></a>
+
+<h1 id="JS笔记之JS错误处理-一"><a href="#JS笔记之JS错误处理-一" class="headerlink" title="JS笔记之JS错误处理(一)"></a>JS笔记之JS错误处理(一)</h1><p>在编程中很难能够一次性写出完美的代码，错误确实经常性的，在JS中可以使用try…catch能够使我们捕获错误。</p>
+<h2 id="1-try…catch语法"><a href="#1-try…catch语法" class="headerlink" title="1 try…catch语法"></a>1 try…catch语法</h2><p>try…catch 结构由两部分组成：try 和 catch：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 代码...</span></span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 错误捕获</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>他的执行步骤是：</p>
+<ol>
+<li>首先执行try…的代码。</li>
+<li>如果第一步没有错误，则忽略catch(err)…的代码，跳过catch…的代码，执行try的末尾继续执行。</li>
+<li>如果第一步错误，则try…停止执行，代码则跳转带catch(err)的开头，变量err(可以是任何名称)将包含一个error对象，该对象包含了所发生事件的详细信息。</li>
+</ol>
+<p>所以 try…catch(err)… try后面的代码不会导致程序停止。一些例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 没有 error 的例子：显示 alert (1) 和 (2)：</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;开始执行 try 中的内容&#x27;</span>);  <span class="comment">// (1) &lt;--</span></span><br><span class="line">    <span class="comment">// ...这里没有 error</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;try 中的内容执行完毕&#x27;</span>);   <span class="comment">// (2) &lt;--</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;catch 被忽略，因为没有 error&#x27;</span>); <span class="comment">// (3)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 包含 error 的例子：显示 (1) 和 (3) 行的 alert 中的内容：</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;开始执行 try 中的内容&#x27;</span>);  <span class="comment">// (1) &lt;--</span></span><br><span class="line">    lalala; <span class="comment">// error，变量未定义！</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;try 的末尾（未执行到此处）&#x27;</span>);  <span class="comment">// (2)</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`出现了 error！`</span>); <span class="comment">// (3) &lt;--</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>Tips：try…catch… 仅仅对运行时的error有效，也就是说要想try…catch能够工作，代码必须是可执行的，如果包含语法错误，那么try..catch将无法工作。</p>
+<p>JS引擎首先会读取代码，然后运行它，在读取阶段发生的错误，被称为解析时间（parse-time）错误，并且无法修复，因为引擎无法理解代码。</p>
+</blockquote>
+<p>所以try…catch只能处理有效代码中出现的错误，这列错误成为运行时的错误(runtime errors)，也被称为异常。</p>
+<p>如果在”计划的”代码中发生异常，例如在setTimeout中，则try…catch不会捕获到异常。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        noSuchVariable; <span class="comment">// 脚本将在这里停止运行</span></span><br><span class="line">    &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;不工作&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为 try…catch 包裹了计划要执行的函数，该函数本身要稍后才执行，这时引擎已经离开了try…catch 结构。</p>
+<p>如果要捕获到计划的函数的异常，那么try…catch 必须在这个函数内。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        noSuchVariable; <span class="comment">// try...catch 处理 error 了！</span></span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;error 被在这里捕获了！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-Error对象"><a href="#2-Error对象" class="headerlink" title="2 Error对象"></a>2 Error对象</h2><p>发生错误时JS会生成一个包含此error的详细信息的对象，然后将该对象作为参数传递给catch，对于所有的内建的 error对象有两个主要的属性: name、message。 </p>
+<p>name:error的名称，例如对于一个未定义的变量，名称是“ReferenceError”。</p>
+<p>message: 关于error的详细文字描述。</p>
+<p>还有其他的非标准的属性，在大多数环境下可用，其中被广泛使用和支持的是：</p>
+<p>stack: 代表当前的调用栈，用于调试目的的一个字符串，其中包含有关导致 error 的嵌套调用序列的信息。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    lalala; <span class="comment">// error, variable is not defined!</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err.name); <span class="comment">// ReferenceError</span></span><br><span class="line">    <span class="built_in">console</span>.log(err.message); <span class="comment">// lalala is not defined</span></span><br><span class="line">    <span class="built_in">console</span>.log(err.stack); <span class="comment">// ReferenceError: lalala is not defined at (...call stack)</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 也可以将一个 error 作为整体显示出来</span></span><br><span class="line">    <span class="comment">// error 信息被转换为像 &quot;name: message&quot; 这样的字符串</span></span><br><span class="line">    <span class="built_in">console</span>.log(err); <span class="comment">// ReferenceError: lalala is not defined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可选的catch绑定</p>
+<p>这是一个新的特性，如果我们不需要error的信息，catch也可以忽略他。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; <span class="keyword">catch</span> &#123; <span class="comment">// &lt;-- 没有 (err)</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-try…catch的真实用例"><a href="#3-try…catch的真实用例" class="headerlink" title="3 try…catch的真实用例"></a>3 try…catch的真实用例</h2><p>当我们接受来自网络、服务器或是其他来源的json数据，我们会使用 JSON.parse(str)来讲字符串解析为JS对象。</p>
+<p>但是如果json字符串无法解析，那么就会生成一个error，所以这个时候就需要try…catch来尝试解析这个json字符串，即使发生了错误我们也能主动的捕获。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> json = <span class="string">&quot;&#123; bad json &#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> user = <span class="built_in">JSON</span>.parse(json); <span class="comment">// &lt;-- 当出现 error 时...</span></span><br><span class="line">    <span class="built_in">console</span>.log(user.name); <span class="comment">// 不工作</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="comment">// ...执行会跳转到这里并继续执行</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;很抱歉，数据有错误，我们会尝试再请求一次。&quot;</span>);</span><br><span class="line">    <span class="built_in">console</span>.log(err.name);</span><br><span class="line">    <span class="built_in">console</span>.log(err.message);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>这里我们将错误输出了，我们可以做更多的事情，例如新发送一个网络请求，或者将日志发送到记录日志的设备。</p>
+<h2 id="4-输出自定义的错误"><a href="#4-输出自定义的错误" class="headerlink" title="4 输出自定义的错误"></a>4 输出自定义的错误</h2><p>有时候我们可能知道这里容易出问题，那么如何输出我们自定义的错误呢？</p>
+<p>使用 throw 操作符， 语法：<code>throw &lt;object error&gt;</code>技术上我们可以将任何东西用作于error，甚至可以是一个原型类型数据，又或者是字符串或数字，但是最好使用对象，最好具有name和message属性的对象。 某种程度上和内建的Error对象保持兼容。</p>
+<p>JS中有很多内建的标准 error 的构造器：Error，SyntaxError，ReferenceError，TypeError 等。我们也可以使用它们来创建 error 对象。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> error = <span class="keyword">new</span> <span class="built_in">Error</span>(message);</span><br><span class="line"><span class="comment">// 或</span></span><br><span class="line"><span class="keyword">let</span> error = <span class="keyword">new</span> <span class="built_in">SyntaxError</span>(message);</span><br><span class="line"><span class="keyword">let</span> error = <span class="keyword">new</span> <span class="built_in">ReferenceError</span>(message);</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+<p>内建的error对象， name属性刚刚好就是构造器的名字，message 就是构造器的参数。</p>
+<p>例如我们使用内建的错误对象，构造一个我们自己的错误：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> json = <span class="string">&#x27;&#123; &quot;age&quot;: 30 &#125;&#x27;</span>; <span class="comment">// 不完整的数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> user = <span class="built_in">JSON</span>.parse(json); <span class="comment">// &lt;-- 没有 error</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!user.name) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">SyntaxError</span>(<span class="string">&quot;数据不全：没有 name&quot;</span>); <span class="comment">// (*)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(user.name);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;JSON Error: &quot;</span> + err.message); <span class="comment">// JSON Error: 数据不全：没有 name</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="5-再次抛出error"><a href="#5-再次抛出error" class="headerlink" title="5 再次抛出error"></a>5 再次抛出error</h2><p>在上述的例子中 try…catch 用于捕获 数据不正确的error, 但是 try…代码块可能会继续抛出其他的错误。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> json = <span class="string">&#x27;&#123; &quot;age&quot;: 30 &#125;&#x27;</span>; <span class="comment">// 不完整的数据</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    user = <span class="built_in">JSON</span>.parse(json); <span class="comment">// &lt;-- 忘记在 user 前放置 &quot;let&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;JSON Error: &quot;</span> + err); <span class="comment">// JSON Error: ReferenceError: user is not defined</span></span><br><span class="line">    <span class="comment">// (实际上并没有 JSON Error)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际上，catch会捕获到所有来自于try…代码块的error，上面的代码中 错误已经不再是 json error 了， 是其他的错误，但是错误信息还是 JSON Error。</p>
+<p>为了避免此类的问题，我们采用“重新抛出技术”，规则很简单：</p>
+<p>catch 只处理他知道的error，并抛出其他的error。</p>
+<p>再次抛出的技术可以理解为：</p>
+<ol>
+<li>catch 捕获所有的error。</li>
+<li>在catch(err){…} 块中，我们对error对象err进行分析。</li>
+<li>如果我们不知道如何处理它，那么我们就throw err。</li>
+</ol>
+<p>通常我们可以使用instanceif 操作符判断错误类型：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    user = &#123; <span class="comment">/*...*/</span> &#125;;</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="keyword">if</span> (err <span class="keyword">instanceof</span> <span class="built_in">ReferenceError</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;ReferenceError&#x27;</span>); <span class="comment">// 访问一个未定义（undefined）的变量产生了 &quot;ReferenceError&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们还可以从err.name 属性中获取错误类型的类名，所有的原生的错误都有这个类型，另一种方式是读取err.constructor.name。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> json = <span class="string">&#x27;&#123; &quot;age&quot;: 30 &#125;&#x27;</span>; <span class="comment">// 不完整的数据</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> user = <span class="built_in">JSON</span>.parse(json);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!user.name) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">SyntaxError</span>(<span class="string">&quot;数据不全：没有 name&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    blabla(); <span class="comment">// 预料之外的 error</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(user.name);</span><br><span class="line"></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">	<span class="comment">//     if (err.constructor.name == &quot;SyntaxError&quot;) &#123;</span></span><br><span class="line">    <span class="keyword">if</span> (err <span class="keyword">instanceof</span> <span class="built_in">SyntaxError</span>) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&quot;JSON Error: &quot;</span> + err.message);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">throw</span> err; <span class="comment">// 再次抛出 (*)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="6-try…catch…finally"><a href="#6-try…catch…finally" class="headerlink" title="6 try…catch…finally"></a>6 try…catch…finally</h2><p>try…catch 还有一个代码结构， finally的代码所有的情况都会被执行，</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">   ... 尝试执行的代码 ...</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">   ... 处理 error ...</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">   ... 总是会执行的代码 ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num = +prompt(<span class="string">&quot;输入一个正整数？&quot;</span>, <span class="number">35</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> diff, result;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">fib</span>(<span class="params">n</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span> || <span class="built_in">Math</span>.trunc(n) != n) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;不能是负数，并且必须是整数。&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n &lt;= <span class="number">1</span> ? n : fib(n - <span class="number">1</span>) + fib(n - <span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> start = <span class="built_in">Date</span>.now();</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    result = fib(num);</span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    result = <span class="number">0</span>;</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    diff = <span class="built_in">Date</span>.now() - start;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(result || <span class="string">&quot;出现了 error&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">`执行花费了 <span class="subst">$&#123;diff&#125;</span>ms`</span>);</span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>Tips: 变量和 try…catch…finally 中的局部变量</p>
+<p>请注意，上面代码中的 result 和 diff 变量都是在 try…catch 之前 声明的。</p>
+<p>否则，如果我们使用 let 在 try 块中声明变量，那么该变量将只在 try 块中可见。</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">        <span class="comment">/* ... */</span></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;finally&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(func()); <span class="comment">// 先执行 finally 中的 console.log，然后执行这个 console.log</span></span><br></pre></td></tr></table></figure>
+
+
+<p>没有catch…finally 结构也很有用，当我们不想在这处理error，但是需要确保我们启动的处理需要被完成。</p>
+<h2 id="7-全局的catch"><a href="#7-全局的catch" class="headerlink" title="7 全局的catch"></a>7 全局的catch</h2><p>在浏览器中我们可以讲一个函数赋值给特殊的 window.onerror 属性，该函数在发生未捕获的error时执行。</p>
+<p>语法如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">message, url, line, col, error</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">// message: error 信息。</span></span><br><span class="line"><span class="comment">// url :发生 error 的脚本的 URL。</span></span><br><span class="line"><span class="comment">// line，col: 发生 error 处的代码的行号和列号。</span></span><br><span class="line"><span class="comment">//  error:error 对象。</span></span><br></pre></td></tr></table></figure>
+
+
+<p>例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">window</span>.onerror = <span class="function"><span class="keyword">function</span> (<span class="params">message, url, line, col, error</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        alert(<span class="string">`<span class="subst">$&#123;message&#125;</span>\n At <span class="subst">$&#123;line&#125;</span>:<span class="subst">$&#123;col&#125;</span> of <span class="subst">$&#123;url&#125;</span>`</span>);</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">readData</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        badFunc(); <span class="comment">// 啊，出问题了！</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    readData();</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>全局错误处理程序的作用通常不是回复程序的方法，而是在程序发生错误的时候，将错误消息发送给开发者。</p>
+<h2 id="8-总结"><a href="#8-总结" class="headerlink" title="8 总结"></a>8 总结</h2><p>try…catch 结构允许我们处理执行过程中出现的error, 从字面上拉看他允许尝试运行代码，并捕获其中可能发生的error。</p>
+<p>error 对象包括以下属性：</p>
+<ol>
+<li>name error名称的字符串。</li>
+<li>message 人类可读的错误信息。</li>
+<li>stack error发生时的调用栈。</li>
+</ol>
+<p>如果需要error对象，也可以直接使用 try{…}catch {…}。</p>
+<p>我们可以使用throw 抛出自己根据内建对象定义的错误对象。</p>
+<p>再次抛出  throwing 是一种错误处理的常用模式。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/03/21/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86(%E4%BA%8C)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      JS笔记之JS错误处理(二).md
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/03/18/JS%E7%AC%94%E8%AE%B0%E4%B9%8BJS%E7%B1%BB(%E5%85%AD)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">JS笔记之JS类(六)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">137.6k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
