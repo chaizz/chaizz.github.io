@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    js笔记之Promise(三) |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-js笔记之Promise(三)" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  js笔记之Promise(三)
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/27/js%E7%AC%94%E8%AE%B0%E4%B9%8BPromise(%E4%B8%89)/" class="article-date">
+  <time datetime="2023-03-26T16:00:00.000Z" itemprop="datePublished">2023-03-27</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.7k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">7</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/ec55444c4a1211edac740242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="js笔记之Promise-三"><a href="#js笔记之Promise-三" class="headerlink" title="js笔记之Promise(三)"></a>js笔记之Promise(三)</h1><h2 id="1-使用-promise-进行错误处理"><a href="#1-使用-promise-进行错误处理" class="headerlink" title="1 使用 promise 进行错误处理"></a>1 使用 promise 进行错误处理</h2><p>promise链在错误中处理中非常强大，当一个 promise 被 reject 时，控制权将移交至最近的 rejection 处理程序。这在实际开发中非常方便。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">&#x27;https://no-such-server.blabla&#x27;</span>) <span class="comment">// reject</span></span><br><span class="line">    .then(<span class="function"><span class="params">response</span> =&gt;</span> response.json())</span><br><span class="line">    .catch(<span class="function"><span class="params">err</span> =&gt;</span> <span class="built_in">console</span>.log(err)) <span class="comment">// TypeError: Failed to fetch（这里的文字可能有所不同）</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-隐式的try…catch"><a href="#2-隐式的try…catch" class="headerlink" title="2 隐式的try…catch"></a>2 隐式的try…catch</h2><p>在 executor 周围的“隐式 <code>try..catch</code>”自动捕获了 error，并将其变为 rejected promise。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&quot;ok&quot;</span>);</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">result</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;Whoops!&quot;</span>); <span class="comment">// reject 这个 promise</span></span><br><span class="line">&#125;).catch(alert); <span class="comment">// Error: Whoops!</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-再次抛出（Rethrowing）"><a href="#2-再次抛出（Rethrowing）" class="headerlink" title="2 再次抛出（Rethrowing）"></a>2 再次抛出（Rethrowing）</h2><p>在平常的try…catch中，在catch中遇到我们无法处理的错误我们可以再次的抛出异常，对于promise来 说也是可以的。</p>
+<p>如果在promise的.catch中使用throw， 那么控制权就会移交到下一个error的处理程序，如果正常处理error并且正常完成，那么就会到最近的then处理程序。下面是一个例子:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 执行流：catch -&gt; then</span></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;Whoops!&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;).catch(<span class="function"><span class="keyword">function</span> (<span class="params">error</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;The error is handled, continue normally&quot;</span>);</span><br><span class="line"></span><br><span class="line">&#125;).then(<span class="function">() =&gt;</span> <span class="built_in">console</span>.log(<span class="string">&quot;Next successful handler runs&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="3-未处理的-rejection"><a href="#3-未处理的-rejection" class="headerlink" title="3 未处理的 rejection"></a>3 未处理的 rejection</h2><p>如果一个error没有被处理，会发生什么？此时程序就会像正常开发中抛出了一个错误一样，脚本停止，然后生成一个全局的异常。</p>
+<p>如果出现了一个 error，并且在这没有 .catch，那么 unhandledrejection 处理程序就会被触发，并获取具有 error 相关信息的 event 对象，所以我们就能做一些后续处理了。</p>
+<p>通常此类 error 是无法恢复的，所以我们最好的解决方案是将问题告知用户，并且可以将事件报告给服务器。</p>
+<p>在 Node.js 等非浏览器环境中，有其他用于跟踪未处理的 error 的方法。</p>
+<h2 id="4-Promise-all"><a href="#4-Promise-all" class="headerlink" title="4 Promise.all"></a>4 Promise.all</h2><p>并行执行多个promise, 并等待所有的promise都准备就绪，例如并行下载几个url。</p>
+<p>语法：<code>let promise = Promise.all(iterable);</code>，他接受一个可迭代对象，通常是一个项为promise的数组。并返回一个新的promise，当所有的promise 都 resolve时，新的promise才会resolve。并且其结果数组就是将成为新的promise的结果。</p>
+<p>注意：结果数组中元素的顺序和在源promise中的顺序相同，不管每个promise执行时间的长短。</p>
+<p>一个常见的技巧是：讲一个任务数组映射到一个promise, 然后将其包裹到promise.all。例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> urls = [</span><br><span class="line">    <span class="string">&#x27;https://api.github.com/users/iliakan&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://api.github.com/users/remy&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://api.github.com/users/jeresig&#x27;</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将每个 url 映射（map）到 fetch 的 promise 中</span></span><br><span class="line"><span class="keyword">let</span> requests = urls.map(<span class="function"><span class="params">url</span> =&gt;</span> fetch(url));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Promise.all 等待所有任务都 resolved</span></span><br><span class="line"><span class="built_in">Promise</span>.all(requests)</span><br><span class="line">    .then(<span class="function"><span class="params">responses</span> =&gt;</span> responses.forEach(</span><br><span class="line">        response =&gt; alert(<span class="string">`<span class="subst">$&#123;response.url&#125;</span>: <span class="subst">$&#123;response.status&#125;</span>`</span>)</span><br><span class="line">    ));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>又或者另外一个例子：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> names = [<span class="string">&#x27;iliakan&#x27;</span>, <span class="string">&#x27;remy&#x27;</span>, <span class="string">&#x27;jeresig&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> requests = names.map(<span class="function"><span class="params">name</span> =&gt;</span> fetch(<span class="string">`https://api.github.com/users/<span class="subst">$&#123;name&#125;</span>`</span>));</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.all(requests)</span><br><span class="line">    .then(<span class="function"><span class="params">responses</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">// 所有响应都被成功 resolved</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> response <span class="keyword">of</span> responses) &#123;</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;response.url&#125;</span>: <span class="subst">$&#123;response.status&#125;</span>`</span>); <span class="comment">// 对应每个 url 都显示 200</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> responses;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="comment">// 将响应数组映射（map）到 response.json() 数组中以读取它们的内容</span></span><br><span class="line">    .then(<span class="function"><span class="params">responses</span> =&gt;</span> <span class="built_in">Promise</span>.all(responses.map(<span class="function"><span class="params">r</span> =&gt;</span> r.json())))</span><br><span class="line">    <span class="comment">// 所有 JSON 结果都被解析：&quot;users&quot; 是它们的数组</span></span><br><span class="line">    .then(<span class="function"><span class="params">users</span> =&gt;</span> users.forEach(<span class="function"><span class="params">user</span> =&gt;</span> <span class="built_in">console</span>.log(user.name)));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>如果任意一个 promise 被 reject，由 <code>Promise.all</code> 返回的 promise 就会立即 reject，并且带有的就是这个 error。</strong></p>
+<p>且其他的promise也会被忽略，它们的结果也被忽略。</p>
+</blockquote>
+<h2 id="5-Promise-allSettled"><a href="#5-Promise-allSettled" class="headerlink" title="5 Promise.allSettled"></a>5 Promise.allSettled</h2><p>此API等待所有的 promise 都被 settle，无论结果如何，结果数组都具有一下：</p>
+<ul>
+<li><code>&#123;status:&quot;fulfilled&quot;, value:result&#125;</code> 对于成功的响应，</li>
+<li><code>&#123;status:&quot;rejected&quot;, reason:error&#125;</code> 对于 error。</li>
+</ul>
+<p>一个例子：我们想要获取（fetch）多个用户的信息。即使其中一个请求失败，我们仍然对其他的感兴趣。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> urls = [</span><br><span class="line">    <span class="string">&#x27;https://api.github.com/users/iliakan&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://api.github.com/users/remy&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;https://no-such-url&#x27;</span></span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="built_in">Promise</span>.allSettled(urls.map(<span class="function"><span class="params">url</span> =&gt;</span> fetch(url)))</span><br><span class="line">    .then(<span class="function"><span class="params">results</span> =&gt;</span> &#123; <span class="comment">// (*)</span></span><br><span class="line">        results.forEach(<span class="function">(<span class="params">result, num</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (result.status == <span class="string">&quot;fulfilled&quot;</span>) &#123;</span><br><span class="line">                alert(<span class="string">`<span class="subst">$&#123;urls[num]&#125;</span>: <span class="subst">$&#123;result.value.status&#125;</span>`</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (result.status == <span class="string">&quot;rejected&quot;</span>) &#123;</span><br><span class="line">                alert(<span class="string">`<span class="subst">$&#123;urls[num]&#125;</span>: <span class="subst">$&#123;result.reason&#125;</span>`</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p>对于以上的每个 promise，我们都得到了其状态（status）和 <code>value/reason</code>。</p>
+<h2 id="6-Promise-race"><a href="#6-Promise-race" class="headerlink" title="6 Promise.race"></a>6 Promise.race</h2><p>与 <code>Promise.all</code> 类似，但只等待第一个 settled 的 promise 并获取其结果（或 error）。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.race([</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="number">1</span>), <span class="number">1000</span>)),</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;Whoops!&quot;</span>)), <span class="number">2000</span>)),</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="number">3</span>), <span class="number">3000</span>))</span><br><span class="line">]).then(alert); <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
+<p>在这里第一个 promise 最快，所以它变成了结果。第一个 settled 的 promise “赢得了比赛”之后，所有进一步的 result/error 都会被忽略。</p>
+<h2 id="7-Pomise-any"><a href="#7-Pomise-any" class="headerlink" title="7 Pomise.any"></a>7 Pomise.any</h2><p>与 Promise.race 类似，区别在于 Promise.any 只等待第一个 fulfilled 的 promise，并将这个 fulfilled 的 promise 返回。如果给出的 promise 都 rejected，那么返回的 promise 会带有 AggregateError —— 一个特殊的 error 对象，在其 errors 属性中存储着所有 promise error。</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.any([</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&quot;Whoops!&quot;</span>)), <span class="number">1000</span>)),</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="number">1</span>), <span class="number">2000</span>)),</span><br><span class="line">    <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> resolve(<span class="number">3</span>), <span class="number">3000</span>))</span><br><span class="line">]).then(alert); <span class="comment">// 1</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里的第一个 promise 是最快的，但 rejected 了，所以第二个 promise 则成为了结果。在第一个 fulfilled 的 promise “赢得比赛”后，所有进一步的结果都将被忽略。</p>
+<h2 id="8-Promise-resolve"><a href="#8-Promise-resolve" class="headerlink" title="8 Promise.resolve"></a>8 Promise.resolve</h2><p>在现代的代码中，很少需要使用 Promise.resolve 和 Promise.reject 方法，因为 async/await 语法使它们变得有些过时了。</p>
+<p><code>Promise.resolve(value)</code> 用结果 <code>value</code> 创建一个 resolved 的 promise。</p>
+<p>语法：<code>let promise = new Promise(resolve =&gt; resolve(value));</code></p>
+<p>大概的使用场景：当一个函数被期望返回一个 promise 时，这个方法用于兼容性。（译注：这里的兼容性是指，我们直接从缓存中获取了当前操作的结果 <code>value</code>，但是期望返回的是一个 promise，所以可以使用 <code>Promise.resolve(value)</code> 将 <code>value</code> “封装”进 promise，以满足期望返回一个 promise 的这个需求。）</p>
+<h2 id="9-Promise-reject"><a href="#9-Promise-reject" class="headerlink" title="9 Promise.reject"></a>9 Promise.reject</h2><p><code>Promise.reject(error)</code> 用 <code>error</code> 创建一个 rejected 的 promise。</p>
+<p>语法：<code>let promise = new Promise((resolve, reject) =&gt; reject(error));</code></p>
+<p>实际上，这个方法几乎从未被使用过。</p>
+<p>总结：</p>
+<ul>
+<li><code>catch</code> 处理 promise 中的各种 error：在 <code>reject()</code> 调用中的，或者在处理程序中抛出的 error。</li>
+<li>如果给定 <code>.then</code> 的第二个参数（即 error 处理程序），那么 <code>.then</code> 也会以相同的方式捕获 error。</li>
+<li>在任何情况下我们都应该有 <code>unhandledrejection</code> 事件处理程序（用于浏览器，以及其他环境的模拟），以跟踪未处理的 error 并告知用户（可能还有我们的服务器）有关信息，以使我们的应用程序永远不会“死掉”。</li>
+</ul>
+<p>​    </p>
+<ul>
+<li><code>Promise</code> 类有 6 种静态方法：<code>Promise.all</code> 可能是在实战中使用最多的。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/" rel="tag">JavaScript</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  
+  <a href="/2023/03/27/js%E7%AC%94%E8%AE%B0%E4%B9%8BPromise(%E4%BA%94)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">js笔记之Promise(五)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">145.1k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

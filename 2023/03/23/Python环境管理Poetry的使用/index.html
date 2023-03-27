@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    Python环境管理Poetry的使用 |
+    
+    八方</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-Python环境管理Poetry的使用" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  Python环境管理Poetry的使用
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2023/03/23/Python%E7%8E%AF%E5%A2%83%E7%AE%A1%E7%90%86Poetry%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2023-03-22T16:00:00.000Z" itemprop="datePublished">2023-03-23</time>
+</a>
+      
+<div class="article-category">
+  <a class="article-category-link" href="/categories/Poetry/">Poetry</a>
+</div>
+
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://tc.chaizz.com/8aa11db4ca1611ed8b330242ac190002.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​    </p>
+<a id="more"></a>
+
+<h1 id="Python环境管理Poetry的使用"><a href="#Python环境管理Poetry的使用" class="headerlink" title="Python环境管理Poetry的使用"></a>Python环境管理Poetry的使用</h1><blockquote>
+<p>Poetry 是 Python 中依赖管理和打包的工具。他可以管理项目中的第三包的依赖（安装/更新）。T同时也提供了一个锁定文件以确保可重复安装，并且可以构建项目以供分发。</p>
+</blockquote>
+<p>poetry的Python版本要求为 3.7+，且是多平台的。</p>
+<h2 id="1-安装-在windows平台下"><a href="#1-安装-在windows平台下" class="headerlink" title="1 安装 (在windows平台下)"></a>1 安装 (在windows平台下)</h2><h3 id="1-1-安装Poetry"><a href="#1-1-安装Poetry" class="headerlink" title="1.1 安装Poetry"></a>1.1 安装Poetry</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">Invoke-WebRequest</span> <span class="literal">-Uri</span> https://install.python<span class="literal">-poetry</span>.org <span class="literal">-UseBasicParsing</span>).Content | python -</span><br></pre></td></tr></table></figure>
+<p>根据官网安装的提示：如果是在Microsoft Store上安装的python，需要将上面的py替换为python，但是我直接安装，提示 <code>py : 无法将“py”项识别为 cmdlet、函数、脚本文件或可运行程序的名称</code>。必须要把py替换为python。</p>
+<p>使用 <code>poetry --version</code> 检查版本， 如果提示版本号则安装成功。</p>
+<h3 id="1-2-更新Poetry"><a href="#1-2-更新Poetry" class="headerlink" title="1.2 更新Poetry"></a>1.2 更新Poetry</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry self update</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-卸载Poetry"><a href="#1-3-卸载Poetry" class="headerlink" title="1.3 卸载Poetry"></a>1.3 卸载Poetry</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">Invoke-WebRequest</span> <span class="literal">-Uri</span> https://install.python<span class="literal">-poetry</span>.org <span class="literal">-UseBasicParsing</span>).Content | python - -<span class="literal">-uninstall</span></span><br></pre></td></tr></table></figure>
+<h3 id="1-4-配置poetry"><a href="#1-4-配置poetry" class="headerlink" title="1.4 配置poetry"></a>1.4 配置poetry</h3><p>poetry 安装后默认的缓存路径个虚拟环境路径在:</p>
+<p><code>C:\Users\&lt;your name&gt;\AppData\Local\pypoetry\Cache</code> 为了不占用C盘空间，修改默认的虚拟环境的目录。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 此处直接修改 cache-dir 就会修改 cache-dir 和 virtualenvs.path 的路径</span></span><br><span class="line">poetry config cache<span class="literal">-dir</span> D:\\poetry_enev </span><br></pre></td></tr></table></figure>
+<p>通过 <code>poetry config --list</code> 查看已经修改成功</p>
+<p><img src="https://tc.chaizz.com/33b9dcacca2011ed8b330242ac190002.png"></p>
+<blockquote>
+<p>取消之前的修改：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry config cache<span class="literal">-dir</span> -<span class="literal">-unset</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="2-使用poetry创建一个新项目"><a href="#2-使用poetry创建一个新项目" class="headerlink" title="2 使用poetry创建一个新项目"></a>2 使用poetry创建一个新项目</h2><ol>
+<li><p>直接使用poetry 创建项目 </p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry new project_name </span><br></pre></td></tr></table></figure>
+<p>自动创建一个project_name的文件件，项目名称也叫做project_name。</p>
+</li>
+<li><p>添加python依赖</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在pyproject.toml 同目录下</span></span><br><span class="line">poetry add numpy </span><br></pre></td></tr></table></figure>
+<p>安装的包和版本都会在  pyproject.toml 中</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[tool.poetry.dependencies]</span></span><br><span class="line"><span class="attr">python</span> = <span class="string">&quot;^3.9&quot;</span></span><br><span class="line"><span class="attr">numpy</span> = <span class="string">&quot;^1.24.2&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>运行项目或者文件</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry run python run.py </span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h2 id="3-在现有项目中使用poetry"><a href="#3-在现有项目中使用poetry" class="headerlink" title="3 在现有项目中使用poetry"></a>3 在现有项目中使用poetry</h2><ol>
+<li><p>在某个目录下 使用poetry init</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry init</span><br></pre></td></tr></table></figure>
+<p>使用这种交互式的方式创建项目，根据选项设置完成之后，在对应的目录下同样会生成 pyproject.toml 文件。</p>
+</li>
+<li><p>添加依赖和运行项目和==使用poetry创建一个新项目==与一致。</p>
+</li>
+</ol>
+<h2 id="4-拿到一个使用poetry管理依赖的新项目"><a href="#4-拿到一个使用poetry管理依赖的新项目" class="headerlink" title="4 拿到一个使用poetry管理依赖的新项目"></a>4 拿到一个使用poetry管理依赖的新项目</h2><ol>
+<li><p>在pyproject.toml同目录下</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry install</span><br></pre></td></tr></table></figure></li>
+<li><p>如果要将依赖跟新到最新版本</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry update</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<blockquote>
+<p>Tips: 使用poetry时会生成 poetry.lock，此文件推荐上传到git版本控制中，</p>
+</blockquote>
+<h2 id="5-手动管理依赖"><a href="#5-手动管理依赖" class="headerlink" title="5 手动管理依赖"></a>5 手动管理依赖</h2><ol>
+<li><p>在 pyproject.toml文件同目录下，进入虚拟环境</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry shell</span><br></pre></td></tr></table></figure>
+<p>使用此命令，进入当前的项目虚拟环境，接下来就像平常使用python一样了。</p>
+</li>
+<li><p>退出</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">deactivate </span><br><span class="line"><span class="comment"># 或者直接退出 这个是shell</span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<h2 id="6-管理环境"><a href="#6-管理环境" class="headerlink" title="6 管理环境"></a>6 管理环境</h2><ol>
+<li><p>获取当前的虚拟环境的基本信息</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry env info</span><br></pre></td></tr></table></figure></li>
+<li><p>切换虚拟环境</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry env use 具体的环境的python可执行文件路径</span><br></pre></td></tr></table></figure></li>
+<li><p>删除环境</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry env remove </span><br></pre></td></tr></table></figure>
+
+
+
+
+</li>
+</ol>
+<h2 id="7-在Pycharm中配置poetry环境"><a href="#7-在Pycharm中配置poetry环境" class="headerlink" title="7 在Pycharm中配置poetry环境"></a>7 在Pycharm中配置poetry环境</h2><ol>
+<li><p>一般拿到一个含有poetry环境的项目，使用pycharm打开，会自动识别poetry解释器。如果没有识别 需要手动添加，如下图所示：</p>
+<ol>
+<li>基础解释器：选择对应虚拟环境的Python可执行文件。</li>
+<li>Poetry可执行文件，选择安装在本地的Poetry可执行文件。</li>
+</ol>
+<p><img src="https://tc.chaizz.com/tc/image-20230327103659866.png"></p>
+</li>
+<li><p>配置完毕，打开pycharm底部导航栏控制台，即可显示当前虚拟环境前缀，接下来就可以操作就按照正常的流程执行了。</p>
+</li>
+</ol>
+<h2 id="8-更改poetry的pypi源"><a href="#8-更改poetry的pypi源" class="headerlink" title="8 更改poetry的pypi源"></a>8 更改poetry的pypi源</h2><p>通常国内下载一些包比较慢，这时我们可以更新poetry的源来使用国内的镜像。默认的情况下poetry使用的是pypi来下载包.</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --default 设置为默认源</span></span><br><span class="line"><span class="comment"># 阿里源：</span></span><br><span class="line">poetry source add ali https://mirrors.aliyun.com/pypi/simple/ -<span class="literal">-default</span></span><br><span class="line"><span class="comment"># 腾讯源：</span></span><br><span class="line">poetry source add tencent https://mirrors.cloud.tencent.com/pypi/simple/ </span><br><span class="line"><span class="comment"># 清华源：</span></span><br><span class="line">poetry source add  tsinghua  https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple/</span><br></pre></td></tr></table></figure>
+<p>删除源</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">poetry source remove 源的名字</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h2 id="9-总结"><a href="#9-总结" class="headerlink" title="9 总结"></a>9 总结</h2><p>一般情况下我们使用poetry管理项目，无非就是两种情况：新建项目，可以使用<code>poetry new 项目名称</code>, 或者是在旧的项目上使用poetry，那么就是用<code>poetry init </code> 使用交互式初始化一个项目。</p>
+<p>平常安装依赖或者是更新依赖 就使用 <code>poetry add/update 依赖名</code></p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Poetry/" rel="tag">Poetry</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2023/03/25/js%E7%AC%94%E8%AE%B0%E4%B9%8BPromise(%E4%BA%8C)/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      js笔记之Promise(二)
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2023/03/22/js%E7%AC%94%E8%AE%B0%E4%B9%8BPromise(%E4%B8%80)/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">js笔记之Promise(一)</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+<div class="gitalk" id="gitalk-container"></div>
+
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
+
+<script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: 'ceb5a19aef4907ca2362',
+    clientSecret: '62c8c01805a5fa79987d98bffd005fe06ebb8ae0',
+    repo: 'blogtalk',
+    owner: 'chaizz',
+    admin: ['chaizz'],
+    // id: location.pathname,      // Ensure uniqueness and length less than 50
+    id: md5(location.pathname),
+    distractionFreeMode: false,  // Facebook-like distraction free mode
+    pagerDirection: 'last'
+  })
+
+  gitalk.render('gitalk-container')
+</script>
+
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>八方 &copy; 2023</li>
+      
+        <li>豫ICP备20008035号-1</li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">145.1k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="八方"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
