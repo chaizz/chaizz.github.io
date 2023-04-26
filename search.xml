@@ -4126,6 +4126,82 @@
       </tags>
   </entry>
   <entry>
+    <title>前端包管理器之pnpm</title>
+    <url>/2022/08/18/%E5%89%8D%E7%AB%AF%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E4%B9%8Bpnpm/</url>
+    <content><![CDATA[<p>​          </p>
+<a id="more"></a>
+
+<h1 id="前端包管理器之pnpm"><a href="#前端包管理器之pnpm" class="headerlink" title="前端包管理器之pnpm"></a>前端包管理器之pnpm</h1><p><a href="https://pnpm.io/zh/motivation">pnpm</a> 正如他官网的口号一样：速度快、节省磁盘空间的软件包管理器。</p>
+<p>主要解决了npm的一些痛点：</p>
+<ul>
+<li>如果有多个项目，那么使用npm的情况下每个项目就会有各自的依赖，可能会造成依赖的重复，浪费磁盘空间。</li>
+<li>不同版本的依赖，存储在同一位置，且不会因为版本的不同而修改保存依赖包的所有文件。</li>
+</ul>
+<p>最终的体现结果就是依赖的存储空间变少了，速速也会变快，官方声称构建速度是同类构建工具的将近2倍。</p>
+<h2 id="1-安装pnpm"><a href="#1-安装pnpm" class="headerlink" title="1 安装pnpm"></a>1 安装pnpm</h2><p>建议写卸载现有的npm,node和nvm等其他的包管理器，和node版本管理器。</p>
+<p>没有安装nodejs的情况下安装</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="built_in">iwr</span> https://get.pnpm.io/install.ps1 <span class="literal">-useb</span> | <span class="built_in">iex</span></span><br></pre></td></tr></table></figure>
+<p>已经安装了npm的情况下安装, 直接全局安装。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm install <span class="literal">-g</span> pnpm</span><br></pre></td></tr></table></figure>
+<p>安装后修改如果嫌pnpm的命令长，可以改为短命令：pn</p>
+<p>在windows中只需要两步：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1、使用管理员打开终端</span></span><br><span class="line">notepad <span class="variable">$profile</span>.AllUsersAllHosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、在 profile.ps1 文件里加入：</span></span><br><span class="line"><span class="built_in">set-alias</span> <span class="literal">-name</span> pn <span class="literal">-value</span> pnpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存后，打开新的窗口直接使用 pn -v</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-pnpm的常用命令"><a href="#2-pnpm的常用命令" class="headerlink" title="2 pnpm的常用命令"></a>2 pnpm的常用命令</h2><p>大部分都和npm一致, 少数会有区别</p>
+<h3 id="2-1-node环境管理"><a href="#2-1-node环境管理" class="headerlink" title="2.1 node环境管理"></a>2.1 node环境管理</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看有哪些可安装的node版本</span></span><br><span class="line">pn env list -<span class="literal">-remote</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看本地已经安装的node版本 或者是  pn env ls</span></span><br><span class="line">pn env list </span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装/切换具体的node lts 版本, 或者指定版本号， 或者是 latest最新稳定版本   --global 可以简写为-g 和npm使用 别名差不多。 </span></span><br><span class="line">pn env use -<span class="literal">-global</span> lts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除指定版本的node</span></span><br><span class="line">pn env remove -<span class="literal">-global</span> <span class="number">14.0</span>.<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-2-设置-pnpm-配置"><a href="#2-2-设置-pnpm-配置" class="headerlink" title="2.2  设置 pnpm 配置"></a>2.2  设置 pnpm 配置</h3><p>Windows路径为：<strong>C:\Users&lt;UserName&gt;.npmrc</strong>，可以手动打开进行配置</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 列出当前配置   -g 列出全局配置</span></span><br><span class="line">pn config list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 pnpm 的源</span></span><br><span class="line"><span class="comment"># 淘宝</span></span><br><span class="line">pn config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 腾讯</span></span><br><span class="line">pn config <span class="built_in">set</span> registry http://mirrors.cloud.tencent.com/npm/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 华为</span></span><br><span class="line">pn config <span class="built_in">set</span> registry https://repo.huaweicloud.com/repository/npm/</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-安装-更新-卸载包和相关依赖"><a href="#2-3-安装-更新-卸载包和相关依赖" class="headerlink" title="2.3 安装/更新/卸载包和相关依赖"></a>2.3 安装/更新/卸载包和相关依赖</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -g 全局安装  -D 保存到 devDependencies</span></span><br><span class="line">pn add <span class="literal">-g</span> pkg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新包</span></span><br><span class="line"><span class="comment"># 在不带参数的情况下使用时，将更新所有依赖关系</span></span><br><span class="line">pn update pkg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载 -g 全局卸载</span></span><br><span class="line">pn remove <span class="literal">-g</span> pkg</span><br><span class="line"><span class="comment"># 别名：rm, uninstall, un</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+]]></content>
+      <tags>
+        <tag>pnpm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>前端包管理器之npm</title>
+    <url>/2022/08/18/%E5%89%8D%E7%AB%AF%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E4%B9%8Bnpm/</url>
+    <content><![CDATA[<p>​          </p>
+<a id="more"></a>
+
+<h1 id="前端包管理器之npm"><a href="#前端包管理器之npm" class="headerlink" title="前端包管理器之npm"></a>前端包管理器之npm</h1><p>npm是一个软件注册中心，有大量的开发者和组织将软件上传到npm。npm是由三部分构成， website、cli、register。 我们最常用的就是npm cli。</p>
+<h2 id="1-安装npm"><a href="#1-安装npm" class="headerlink" title="1 安装npm"></a>1 安装npm</h2><p>要使用npm, 需要安装node.js和npm软件，node.js 是一个异步事件驱动的 JavaScript 运行时。</p>
+<p>node.js 就像其他的语言一样，有很多的版本， npm官网推荐使用<code>nvm</code>–一个node版本管理器，为了解决nodejs各种版本不兼容的问题，类似Python的conda。</p>
+<p>nvm: 一个node版本管理器， 提供不同版本的node和npm安装。</p>
+<p>node.js: 一个JavaScript运行时。</p>
+<p>npm: 一个前端包管理器。</p>
+<h2 id="2-安装nvm"><a href="#2-安装nvm" class="headerlink" title="2 安装nvm"></a>2 安装nvm</h2><p>在windwos上安装 nvm <a href="https://github.com/coreybutler/nvm-windows">Github地址</a>，<a href="https://github.com/coreybutler/nvm-windows/releases">下载地址</a>。 直接下载 .exe 可执行文件进行安装。</p>
+<p>常用命令：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">nvm version <span class="comment"># 显示nvm的版本</span></span><br><span class="line"></span><br><span class="line">nvm list <span class="comment"># 列出当前系统安装的node.js 版本列表，使用【*】开头的代表，正在使用的版本。</span></span><br><span class="line"></span><br><span class="line">nvm list available <span class="comment"># 列出可供下载的nodejs版本</span></span><br><span class="line"></span><br><span class="line">nvm url </span><br><span class="line"></span><br><span class="line">nvm install &lt;版本号&gt;  [--<span class="type">insecure</span>]   <span class="comment"># 安装指定版本的nodejs， 加上--insecure绕过远程验证。</span></span><br><span class="line"></span><br><span class="line">nvm root &lt;path&gt;: <span class="comment"># 设置nvm存放不同版本node.js的目录。如果&lt;path&gt;未设置，将显示当前根目录。</span></span><br><span class="line"></span><br><span class="line">nvm node_mirror &lt;node_mirror_url&gt; <span class="comment"># 设置node国内镜像：https://npmmirror.com/mirrors/node/</span></span><br><span class="line"></span><br><span class="line">nvm npm_mirror &lt;npm_mirror_url&gt; <span class="comment"># 设置npm国内镜像：https://npmmirror.com/mirrors/npm/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以上三个配置也可以到nvm的安装路径下的settings.txt设置</span></span><br></pre></td></tr></table></figure>
+<p>使用nvm install nodejs版本号。 即可安装和nodejs匹配的npm。</p>
+<h2 id="3-npm的常用命令"><a href="#3-npm的常用命令" class="headerlink" title="3 npm的常用命令"></a>3 npm的常用命令</h2><h3 id="3-1-查询npm的版本"><a href="#3-1-查询npm的版本" class="headerlink" title="3.1 查询npm的版本"></a>3.1 查询npm的版本</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm <span class="literal">-v</span> </span><br></pre></td></tr></table></figure>
+<h3 id="3-2-初始化或更新一个包"><a href="#3-2-初始化或更新一个包" class="headerlink" title="3.2 初始化或更新一个包"></a>3.2 初始化或更新一个包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm init </span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成它而不让它问任何问题</span></span><br><span class="line">npm init <span class="literal">-y</span> </span><br></pre></td></tr></table></figure>
+<h3 id="3-3-安装一个包"><a href="#3-3-安装一个包" class="headerlink" title="3.3 安装一个包"></a>3.3 安装一个包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm installl package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 别名 i，add, in, ins, inst, insta, instal, isnt, isnta, isntal, isntall</span></span><br><span class="line"><span class="comment"># npm install package -g   全局安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># npm i package@latest 指定最新版本， 或者版本号</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-4-全新安装项目-（安装一个干净的项目）"><a href="#3-4-全新安装项目-（安装一个干净的项目）" class="headerlink" title="3.4 全新安装项目 （安装一个干净的项目）"></a>3.4 全新安装项目 （安装一个干净的项目）</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm ci</span><br><span class="line"><span class="comment"># 别名: clean-install, ic, install-clean, isntall-clean</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 此命令与 npm install 类似，不同之处在于它旨在用于自动化环境，例如测试平台、持续集成和部署——或任何您希望确保对依赖项进行全新安装的情况。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#使用 npm install 和 npm ci 的主要区别是：</span></span><br><span class="line"><span class="comment"># 1.该项目必须具有现有的 package-lock.json 或 npm-shrinkwrap.json。</span></span><br><span class="line"><span class="comment"># 2. 如果包锁中的依赖项与 package.json 中的依赖项不匹配，npm ci 将退出并出错，而不是更新包锁。</span></span><br><span class="line"><span class="comment"># 3. npm ci 一次只能安装整个项目： 不能使用此命令添加单个依赖项。</span></span><br><span class="line"><span class="comment"># 4. 如果 node_modules 已经存在，它将在 npm ci 开始安装之前自动删除。</span></span><br><span class="line"><span class="comment"># 5. 它永远不会写入 package.json 或任何包锁： 安装基本上被冻结了。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-5-管理-npm-配置文件"><a href="#3-5-管理-npm-配置文件" class="headerlink" title="3.5 管理 npm 配置文件"></a>3.5 管理 npm 配置文件</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> &lt;key&gt;=&lt;value&gt; [&lt;<span class="type">key</span>&gt;=&lt;<span class="type">value</span>&gt; <span class="type">...</span>]</span><br><span class="line">npm config get [&lt;<span class="type">key</span>&gt; [&lt;<span class="type">key</span>&gt; <span class="type">...</span>]]</span><br><span class="line">npm config delete &lt;key&gt; [&lt;<span class="type">key</span>&gt; <span class="type">...</span>]</span><br><span class="line">npm config list [--<span class="type">json</span>]</span><br><span class="line">npm config edit</span><br><span class="line">npm config fix</span><br><span class="line"><span class="comment"># 别名: c</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-6-列出安装的包"><a href="#3-6-列出安装的包" class="headerlink" title="3.6 列出安装的包"></a>3.6 列出安装的包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm <span class="built_in">ls</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># npm ls --all 列出所有包的依赖</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-7-启动一个包"><a href="#3-7-启动一个包" class="headerlink" title="3.7 启动一个包"></a>3.7 启动一个包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm <span class="built_in">start</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 这将运行在包的 &quot;scripts&quot; 对象的 &quot;start&quot; 属性中指定的预定义命令。如果 &quot;scripts&quot; 对象没有定义 &quot;start&quot; 属性，npm 将运行 node server.js。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-8-停止一个包"><a href="#3-8-停止一个包" class="headerlink" title="3.8 停止一个包"></a>3.8 停止一个包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm stop </span><br><span class="line"></span><br><span class="line"><span class="comment"># 这将运行在包的 &quot;scripts&quot; 对象的 &quot;stop&quot; 属性中指定的预定义命令。与 npm start 不同，如果未定义 &quot;stop&quot; 属性，则不会运行默认脚本。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-9-测试一个包"><a href="#3-9-测试一个包" class="headerlink" title="3.9 测试一个包"></a>3.9 测试一个包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm test </span><br><span class="line"><span class="comment"># 这将运行在包的 &quot;scripts&quot; 对象的 &quot;test&quot; 属性中指定的预定义命令。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-10-卸载一个包"><a href="#3-10-卸载一个包" class="headerlink" title="3.10 卸载一个包"></a>3.10 卸载一个包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm uninstall package</span><br><span class="line"><span class="comment"># 别名： unlink, remove, rm, r, un</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这将卸载一个包，完全删除代表它安装的所有 npm。</span></span><br><span class="line"><span class="comment"># 它还会从 package.json 中的 dependencies、devDependencies、optionalDependencies 和 peerDependencies 对象中删除包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 --no-save  不会从package.json、npm-shrinkwrap.json 或 package-lock.json 文件中删除。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-11-更新包"><a href="#3-11-更新包" class="headerlink" title="3.11 更新包"></a>3.11 更新包</h3><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm update package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 别名: up, upgrade, udpate</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 此命令会将列出的所有包更新到最新版本（由 tag 配置 指定），同时尊重包及其依赖项的 semver 约束（如果它们也需要相同的包）。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 它还将安装缺少的包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果指定了 -g 标志，此命令将更新全局安装的包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果未指定包名称，则将更新指定位置（全局或本地）中的所有包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 请注意，默认情况下，npm update 不会更新项目 package.json 中直接依赖项的 semver 值，如果你还想更新 package.json 中的值，你可以运行： npm update --save</span></span><br></pre></td></tr></table></figure>
+
+
+<p>详细的命令来自 <a href="https://npm.nodejs.cn/">npm中文网</a>。</p>
+]]></content>
+      <tags>
+        <tag>npm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSS溢出</title>
     <url>/2022/08/17/CSS%E6%BA%A2%E5%87%BA/</url>
     <content><![CDATA[<p>​          </p>

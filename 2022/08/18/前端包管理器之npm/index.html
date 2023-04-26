@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    前端包管理器之npm |
+    
+    由来同一梦</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-前端包管理器之npm" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  前端包管理器之npm
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/08/18/%E5%89%8D%E7%AB%AF%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E4%B9%8Bnpm/" class="article-date">
+  <time datetime="2022-08-17T16:00:00.000Z" itemprop="datePublished">2022-08-18</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.2k</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">4</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://origin.chaizz.com/npm_run.png" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="前端包管理器之npm"><a href="#前端包管理器之npm" class="headerlink" title="前端包管理器之npm"></a>前端包管理器之npm</h1><p>npm是一个软件注册中心，有大量的开发者和组织将软件上传到npm。npm是由三部分构成， website、cli、register。 我们最常用的就是npm cli。</p>
+<h2 id="1-安装npm"><a href="#1-安装npm" class="headerlink" title="1 安装npm"></a>1 安装npm</h2><p>要使用npm, 需要安装node.js和npm软件，node.js 是一个异步事件驱动的 JavaScript 运行时。</p>
+<p>node.js 就像其他的语言一样，有很多的版本， npm官网推荐使用<code>nvm</code>–一个node版本管理器，为了解决nodejs各种版本不兼容的问题，类似Python的conda。</p>
+<p>nvm: 一个node版本管理器， 提供不同版本的node和npm安装。</p>
+<p>node.js: 一个JavaScript运行时。</p>
+<p>npm: 一个前端包管理器。</p>
+<h2 id="2-安装nvm"><a href="#2-安装nvm" class="headerlink" title="2 安装nvm"></a>2 安装nvm</h2><p>在windwos上安装 nvm <a href="https://github.com/coreybutler/nvm-windows">Github地址</a>，<a href="https://github.com/coreybutler/nvm-windows/releases">下载地址</a>。 直接下载 .exe 可执行文件进行安装。</p>
+<p>常用命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">nvm version <span class="comment"># 显示nvm的版本</span></span><br><span class="line"></span><br><span class="line">nvm list <span class="comment"># 列出当前系统安装的node.js 版本列表，使用【*】开头的代表，正在使用的版本。</span></span><br><span class="line"></span><br><span class="line">nvm list available <span class="comment"># 列出可供下载的nodejs版本</span></span><br><span class="line"></span><br><span class="line">nvm url </span><br><span class="line"></span><br><span class="line">nvm install &lt;版本号&gt;  [--<span class="type">insecure</span>]   <span class="comment"># 安装指定版本的nodejs， 加上--insecure绕过远程验证。</span></span><br><span class="line"></span><br><span class="line">nvm root &lt;path&gt;: <span class="comment"># 设置nvm存放不同版本node.js的目录。如果&lt;path&gt;未设置，将显示当前根目录。</span></span><br><span class="line"></span><br><span class="line">nvm node_mirror &lt;node_mirror_url&gt; <span class="comment"># 设置node国内镜像：https://npmmirror.com/mirrors/node/</span></span><br><span class="line"></span><br><span class="line">nvm npm_mirror &lt;npm_mirror_url&gt; <span class="comment"># 设置npm国内镜像：https://npmmirror.com/mirrors/npm/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 以上三个配置也可以到nvm的安装路径下的settings.txt设置</span></span><br></pre></td></tr></table></figure>
+<p>使用nvm install nodejs版本号。 即可安装和nodejs匹配的npm。</p>
+<h2 id="3-npm的常用命令"><a href="#3-npm的常用命令" class="headerlink" title="3 npm的常用命令"></a>3 npm的常用命令</h2><h3 id="3-1-查询npm的版本"><a href="#3-1-查询npm的版本" class="headerlink" title="3.1 查询npm的版本"></a>3.1 查询npm的版本</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="literal">-v</span> </span><br></pre></td></tr></table></figure>
+<h3 id="3-2-初始化或更新一个包"><a href="#3-2-初始化或更新一个包" class="headerlink" title="3.2 初始化或更新一个包"></a>3.2 初始化或更新一个包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm init </span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成它而不让它问任何问题</span></span><br><span class="line">npm init <span class="literal">-y</span> </span><br></pre></td></tr></table></figure>
+<h3 id="3-3-安装一个包"><a href="#3-3-安装一个包" class="headerlink" title="3.3 安装一个包"></a>3.3 安装一个包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">npm installl package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 别名 i，add, in, ins, inst, insta, instal, isnt, isnta, isntal, isntall</span></span><br><span class="line"><span class="comment"># npm install package -g   全局安装</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># npm i package@latest 指定最新版本， 或者版本号</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-4-全新安装项目-（安装一个干净的项目）"><a href="#3-4-全新安装项目-（安装一个干净的项目）" class="headerlink" title="3.4 全新安装项目 （安装一个干净的项目）"></a>3.4 全新安装项目 （安装一个干净的项目）</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">npm ci</span><br><span class="line"><span class="comment"># 别名: clean-install, ic, install-clean, isntall-clean</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 此命令与 npm install 类似，不同之处在于它旨在用于自动化环境，例如测试平台、持续集成和部署——或任何您希望确保对依赖项进行全新安装的情况。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#使用 npm install 和 npm ci 的主要区别是：</span></span><br><span class="line"><span class="comment"># 1.该项目必须具有现有的 package-lock.json 或 npm-shrinkwrap.json。</span></span><br><span class="line"><span class="comment"># 2. 如果包锁中的依赖项与 package.json 中的依赖项不匹配，npm ci 将退出并出错，而不是更新包锁。</span></span><br><span class="line"><span class="comment"># 3. npm ci 一次只能安装整个项目： 不能使用此命令添加单个依赖项。</span></span><br><span class="line"><span class="comment"># 4. 如果 node_modules 已经存在，它将在 npm ci 开始安装之前自动删除。</span></span><br><span class="line"><span class="comment"># 5. 它永远不会写入 package.json 或任何包锁： 安装基本上被冻结了。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-5-管理-npm-配置文件"><a href="#3-5-管理-npm-配置文件" class="headerlink" title="3.5 管理 npm 配置文件"></a>3.5 管理 npm 配置文件</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> &lt;key&gt;=&lt;value&gt; [&lt;<span class="type">key</span>&gt;=&lt;<span class="type">value</span>&gt; <span class="type">...</span>]</span><br><span class="line">npm config get [&lt;<span class="type">key</span>&gt; [&lt;<span class="type">key</span>&gt; <span class="type">...</span>]]</span><br><span class="line">npm config delete &lt;key&gt; [&lt;<span class="type">key</span>&gt; <span class="type">...</span>]</span><br><span class="line">npm config list [--<span class="type">json</span>]</span><br><span class="line">npm config edit</span><br><span class="line">npm config fix</span><br><span class="line"><span class="comment"># 别名: c</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-6-列出安装的包"><a href="#3-6-列出安装的包" class="headerlink" title="3.6 列出安装的包"></a>3.6 列出安装的包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="built_in">ls</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># npm ls --all 列出所有包的依赖</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-7-启动一个包"><a href="#3-7-启动一个包" class="headerlink" title="3.7 启动一个包"></a>3.7 启动一个包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="built_in">start</span> </span><br><span class="line"></span><br><span class="line"><span class="comment"># 这将运行在包的 &quot;scripts&quot; 对象的 &quot;start&quot; 属性中指定的预定义命令。如果 &quot;scripts&quot; 对象没有定义 &quot;start&quot; 属性，npm 将运行 node server.js。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-8-停止一个包"><a href="#3-8-停止一个包" class="headerlink" title="3.8 停止一个包"></a>3.8 停止一个包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm stop </span><br><span class="line"></span><br><span class="line"><span class="comment"># 这将运行在包的 &quot;scripts&quot; 对象的 &quot;stop&quot; 属性中指定的预定义命令。与 npm start 不同，如果未定义 &quot;stop&quot; 属性，则不会运行默认脚本。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-9-测试一个包"><a href="#3-9-测试一个包" class="headerlink" title="3.9 测试一个包"></a>3.9 测试一个包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm test </span><br><span class="line"><span class="comment"># 这将运行在包的 &quot;scripts&quot; 对象的 &quot;test&quot; 属性中指定的预定义命令。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-10-卸载一个包"><a href="#3-10-卸载一个包" class="headerlink" title="3.10 卸载一个包"></a>3.10 卸载一个包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall package</span><br><span class="line"><span class="comment"># 别名： unlink, remove, rm, r, un</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 这将卸载一个包，完全删除代表它安装的所有 npm。</span></span><br><span class="line"><span class="comment"># 它还会从 package.json 中的 dependencies、devDependencies、optionalDependencies 和 peerDependencies 对象中删除包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 --no-save  不会从package.json、npm-shrinkwrap.json 或 package-lock.json 文件中删除。</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-11-更新包"><a href="#3-11-更新包" class="headerlink" title="3.11 更新包"></a>3.11 更新包</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">npm update package</span><br><span class="line"></span><br><span class="line"><span class="comment"># 别名: up, upgrade, udpate</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 此命令会将列出的所有包更新到最新版本（由 tag 配置 指定），同时尊重包及其依赖项的 semver 约束（如果它们也需要相同的包）。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 它还将安装缺少的包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果指定了 -g 标志，此命令将更新全局安装的包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果未指定包名称，则将更新指定位置（全局或本地）中的所有包。</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 请注意，默认情况下，npm update 不会更新项目 package.json 中直接依赖项的 semver 值，如果你还想更新 package.json 中的值，你可以运行： npm update --save</span></span><br></pre></td></tr></table></figure>
+
+
+<p>详细的命令来自 <a href="https://npm.nodejs.cn/">npm中文网</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/npm/" rel="tag">npm</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2022/08/18/%E5%89%8D%E7%AB%AF%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E4%B9%8Bpnpm/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      前端包管理器之pnpm
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2022/08/17/CSS%E6%BA%A2%E5%87%BA/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">CSS溢出</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>由来同一梦 &copy; 2023</li>
+      
+        <li><a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备20008035号-1</a></li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">149.9k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="由来同一梦"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>
+    前端包管理器之pnpm |
+    
+    由来同一梦</title>
+  
+  <link rel="shortcut icon" href="/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<script src="/js/pace.min.js"></script>
+
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body>
+  <main class="content">
+    <section class="outer">
+  <article id="post-前端包管理器之pnpm" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+      
+
+<h1 class="article-title" itemprop="name">
+  前端包管理器之pnpm
+</h1>
+
+
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2022/08/18/%E5%89%8D%E7%AB%AF%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E4%B9%8Bpnpm/" class="article-date">
+  <time datetime="2022-08-17T16:00:00.000Z" itemprop="datePublished">2022-08-18</time>
+</a>
+      
+      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">594</span>字
+      &emsp;<i class="fe fe-clock"></i> <span class="post-count">2</span>分钟
+    </div>
+    
+
+    
+    
+<div class="tocbot"></div>
+
+    
+
+    <div class="article-entry" itemprop="articleBody">
+      
+      
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+    
+    <img src="https://origin.chaizz.com/dbf0a4d4e40411ed8b5f0242ac190002.jpg" itemprop="image">
+    
+    
+  </div>
+</div>
+
+      
+      <p>​          </p>
+<a id="more"></a>
+
+<h1 id="前端包管理器之pnpm"><a href="#前端包管理器之pnpm" class="headerlink" title="前端包管理器之pnpm"></a>前端包管理器之pnpm</h1><p><a href="https://pnpm.io/zh/motivation">pnpm</a> 正如他官网的口号一样：速度快、节省磁盘空间的软件包管理器。</p>
+<p>主要解决了npm的一些痛点：</p>
+<ul>
+<li>如果有多个项目，那么使用npm的情况下每个项目就会有各自的依赖，可能会造成依赖的重复，浪费磁盘空间。</li>
+<li>不同版本的依赖，存储在同一位置，且不会因为版本的不同而修改保存依赖包的所有文件。</li>
+</ul>
+<p>最终的体现结果就是依赖的存储空间变少了，速速也会变快，官方声称构建速度是同类构建工具的将近2倍。</p>
+<h2 id="1-安装pnpm"><a href="#1-安装pnpm" class="headerlink" title="1 安装pnpm"></a>1 安装pnpm</h2><p>建议写卸载现有的npm,node和nvm等其他的包管理器，和node版本管理器。</p>
+<p>没有安装nodejs的情况下安装</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">iwr</span> https://get.pnpm.io/install.ps1 <span class="literal">-useb</span> | <span class="built_in">iex</span></span><br></pre></td></tr></table></figure>
+<p>已经安装了npm的情况下安装, 直接全局安装。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">-g</span> pnpm</span><br></pre></td></tr></table></figure>
+<p>安装后修改如果嫌pnpm的命令长，可以改为短命令：pn</p>
+<p>在windows中只需要两步：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1、使用管理员打开终端</span></span><br><span class="line">notepad <span class="variable">$profile</span>.AllUsersAllHosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2、在 profile.ps1 文件里加入：</span></span><br><span class="line"><span class="built_in">set-alias</span> <span class="literal">-name</span> pn <span class="literal">-value</span> pnpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存后，打开新的窗口直接使用 pn -v</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="2-pnpm的常用命令"><a href="#2-pnpm的常用命令" class="headerlink" title="2 pnpm的常用命令"></a>2 pnpm的常用命令</h2><p>大部分都和npm一致, 少数会有区别</p>
+<h3 id="2-1-node环境管理"><a href="#2-1-node环境管理" class="headerlink" title="2.1 node环境管理"></a>2.1 node环境管理</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看有哪些可安装的node版本</span></span><br><span class="line">pn env list -<span class="literal">-remote</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看本地已经安装的node版本 或者是  pn env ls</span></span><br><span class="line">pn env list </span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装/切换具体的node lts 版本, 或者指定版本号， 或者是 latest最新稳定版本   --global 可以简写为-g 和npm使用 别名差不多。 </span></span><br><span class="line">pn env use -<span class="literal">-global</span> lts</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除指定版本的node</span></span><br><span class="line">pn env remove -<span class="literal">-global</span> <span class="number">14.0</span>.<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-2-设置-pnpm-配置"><a href="#2-2-设置-pnpm-配置" class="headerlink" title="2.2  设置 pnpm 配置"></a>2.2  设置 pnpm 配置</h3><p>Windows路径为：<strong>C:\Users&lt;UserName&gt;.npmrc</strong>，可以手动打开进行配置</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出当前配置   -g 列出全局配置</span></span><br><span class="line">pn config list</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 pnpm 的源</span></span><br><span class="line"><span class="comment"># 淘宝</span></span><br><span class="line">pn config <span class="built_in">set</span> registry https://registry.npmmirror.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 腾讯</span></span><br><span class="line">pn config <span class="built_in">set</span> registry http://mirrors.cloud.tencent.com/npm/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 华为</span></span><br><span class="line">pn config <span class="built_in">set</span> registry https://repo.huaweicloud.com/repository/npm/</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-安装-更新-卸载包和相关依赖"><a href="#2-3-安装-更新-卸载包和相关依赖" class="headerlink" title="2.3 安装/更新/卸载包和相关依赖"></a>2.3 安装/更新/卸载包和相关依赖</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -g 全局安装  -D 保存到 devDependencies</span></span><br><span class="line">pn add <span class="literal">-g</span> pkg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新包</span></span><br><span class="line"><span class="comment"># 在不带参数的情况下使用时，将更新所有依赖关系</span></span><br><span class="line">pn update pkg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载 -g 全局卸载</span></span><br><span class="line">pn remove <span class="literal">-g</span> pkg</span><br><span class="line"><span class="comment"># 别名：rm, uninstall, un</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+      
+    </div>
+    <footer class="article-footer">
+        
+<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/pnpm/" rel="tag">pnpm</a></li></ul>
+
+        
+          <div style="text-align:center;color: #ccc;font-size:14px;">------------- 本文结束&nbsp;<i class="fe fe-smile"></i>&nbsp;感谢您的阅读 -------------</div>
+        
+
+    </footer>
+
+  </div>
+
+  
+  
+<nav class="article-nav">
+  
+  <a href="/2022/08/18/CSS%E8%83%8C%E6%99%AF%E5%92%8C%E8%BE%B9%E6%A1%86/" class="article-nav-link">
+    <strong class="article-nav-caption">前一篇</strong>
+    <div class="article-nav-title">
+      
+      CSS背景和边框
+      
+    </div>
+  </a>
+  
+  
+  <a href="/2022/08/18/%E5%89%8D%E7%AB%AF%E5%8C%85%E7%AE%A1%E7%90%86%E5%99%A8%E4%B9%8Bnpm/" class="article-nav-link">
+    <strong class="article-nav-caption">后一篇</strong>
+    <div class="article-nav-title">前端包管理器之npm</div>
+  </a>
+  
+</nav>
+
+  
+
+  
+  
+  
+  
+
+</article>
+</section>
+    <footer class="footer">
+  <div class="outer" style="text-align:center">
+
+    <ul class="list-inline">
+      <li>由来同一梦 &copy; 2023</li>
+      
+        <li><a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备20008035号-1</a></li>
+      
+      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
+
+      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
+    </ul>
+
+    <br>
+    <span>全站共<span class="post-count">149.9k</span>字</span>
+    <br>
+    <div class="powered-by">
+  
+	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
+  
+    <i class="fe fe-bookmark"></i>文章访问量:<span id="busuanzi_value_page_pv"></span>
+  
+</div>
+
+    <br>
+    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
+<script>
+    var now = new Date(); 
+    function createtime() { 
+        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
+        now.setTime(now.getTime()+250); 
+        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
+        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
+        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
+        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
+        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
+        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
+    } 
+	setInterval("createtime()",250);
+</script>
+
+
+
+  </div>
+</footer>
+  </main>
+  <aside class="sidebar">
+    <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/hexo.svg" alt="由来同一梦"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">首页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link nav-item-search" title="搜索">
+        <i class="fe fe-search"></i>
+        搜索
+      </a>
+    </li>
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      <div class="totop" id="totop">
+  <i class="fe fe-rocket"></i>
+</div>
+    </li>
+    <li class="nav-item">
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+  </aside>
+  
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/copybtn.js"></script>
+
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+  });
+</script>
+
+
+
+<script src="/js/ocean.js"></script>
+
+</body>
+
+</html>
