@@ -1,932 +1,497 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>由来同一梦 - www.chaizz.com</title><meta name="author" content="chaizz"><meta name="copyright" content="chaizz"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="由来同一梦">
+<meta property="og:url" content="https://www.chaizz.com/page/10/index.html">
+<meta property="og:site_name" content="由来同一梦">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.chaizz.com/img/web_favicon.png">
+<meta property="article:author" content="chaizz">
+<meta property="article:tag" content="编程开发指南、Pythonista、Gopher">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.chaizz.com/img/web_favicon.png"><link rel="shortcut icon" href="/img/web_favicon.png"><link rel="canonical" href="https://www.chaizz.com/page/10/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?13af81cf139fdeee0643fec99868e236";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":300},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: chaizz","link":"链接: ","source":"来源: 由来同一梦","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '由来同一梦',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-07-30 22:39:39'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
 
-<head>
-  <meta charset="utf-8">
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
   
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <title>
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    由来同一梦</title>
-  
-  <link rel="shortcut icon" href="/favicon.ico">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<script src="/js/pace.min.js"></script>
-
-<meta name="generator" content="Hexo 5.3.0"></head>
-
-<body>
-  <main class="content">
-    <section class="jumbotron">
-  <div class="video">
-    
-    <div class="video-frame">
-      <img src="/images/ocean/overlay-hero.png" alt="Decorative image frame">
-    </div>
-    
-    <div class="video-media">
-    <img src="https://tc.chaizz.com/6ecc03d428c711ec9d7c5254006b8f1d.jpeg">
-      <div class="video-overlay"></div>
-    </div>
-    <div class="video-inner text-center text-white">
-      <h1><a href="/">由来同一梦</a></h1>
-      <p>www.chaizz.com</p>
-      <div><img src="/images/hexo-inverted.svg" class="brand" alt="由来同一梦"></div>
-    </div>
-    <div class="video-learn-more">
-      <a class="anchor" href="#landingpage"><i class="fe fe-mouse"></i></a>
-    </div>
-  </div>
-</section>
-<div id="landingpage">
-  <section class="outer">
-  <article class="articles">
-    
-    <h1 class="page-type-title"></h1>
-    
-    
-    <article id="post-Ubuntu安装mysql-python插件" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/">Ubuntu安装mysql-python插件</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/" class="article-date">
-  <time datetime="2021-02-02T08:04:56.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/MySQL-Python/">MySQL-Python</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">58</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/" rel="gallery_cl9h3n0oy003ngkuw3qtf1u7l">
-      <img src="https://tc.chaizz.combdf5bb7222ee11edb23e0242ac190002.jpg" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​      </p>
-      
-      <a class="article-more-link" href="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL-Python/" rel="tag">MySQL-Python</a></li></ul>
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/web_favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa-solid fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa-solid fa-image"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fa-solid fa-film"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="由来同一梦"><img class="site-icon" src="/img/web_favicon.png"/><span class="site-name">由来同一梦</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fa-solid fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa-solid fa-image"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fa-solid fa-film"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/Linux%20%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/" title="Linux文件目录">Linux文件目录</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T08:12:13.000Z" title="发表于 2021-02-02 16:12:13">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Linux/">Linux</a></span></div><div class="content">
 
-        
 
-    </footer>
 
-  </div>
 
+
+/bin：bin是Binary的缩写, 这个目录存放着最经常使用的命令。
+
+/boot：这里存放的是启动Linux时使用的一些核心文件，包括一些连接文件以及镜像文件。
+
+/dev ：dev是Device(设备)的缩写, 该目录下存放的是Linux的外部设备，在Linux中访问设备的方式和访问文件的方式是相同的。
+
+/etc：这个目录用来存放所有的系统管理所需要的配置文件和子目录。
+
+/home：用户的主目录，在Linux中，每个用户都有一个自己的目录，一般该目录名是以用户的账号命名的。
+
+/lib：这个目录里存放着系统最基本的动态连接共享库，其作用类似于Windows里的DLL文件。几乎所有的应用程序都需要用到这些共享库。
+
+/lost+found：这个目录一般情况下是空的，当系统非法关机后，这里就存放了一些文件。
+
+/media：linux系统会自动识别一些设备，例如U盘、光驱等等，当识别后，linux会把识别的设备挂载到这个目录下。
+
+/mnt：系统提供该目录是为了让用户临时挂载别的文件系统的，我们可以将光驱挂载在/mnt/上，然后进入该目录就可以查看光驱里的内容了。
+ ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/Ubuntu%E5%AE%89%E8%A3%85mysql-python%E6%8F%92%E4%BB%B6/" title="Ubuntu安装mysql-python插件">Ubuntu安装mysql-python插件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T08:04:56.000Z" title="发表于 2021-02-02 16:04:56">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/MySQL-Python/">MySQL-Python</a></span></div><div class="content">​      
+
+
+
+运行FLASK 提示 ：ERROR:flask.app:No module named MySQLdb
+
+安装 mysql-python1pip install mysql-python
+遇到问题
+接下来安装依赖包1sudo apt-get install libmysqlclient-dev
+如果还是不行安装依赖12sudo apt-get install python-devsudo apt-get install python-MySQLdb
+
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/" title="Centos7.5源码安装postgresql-12">Centos7.5源码安装postgresql-12</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T07:58:26.000Z" title="发表于 2021-02-02 15:58:26">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/PostgreSQL/">PostgreSQL</a></span></div><div class="content">​          
+
+
+源码安装
+首先安装readline 和readline-devel
+12yum install readline yum install readline-devel
+虽然已经安装了readline，但是不安装readlene-devel 在执行 ./configure --prefix=/opt/postgresql 的时候会提示，configure: error: readline library not found。
+
+接下来在执行 
+12./configure --prefix=/opt/postgresqlmake &amp;&amp; make install
+将postgresql 加入环境变量，打开文件 /etc/profile  在末尾添加
+123export PG_HOME=/opt/postgresql  #为安装postgresql的地址export PATH=$PG_HOME/bin:$PATHsource /etc/profile    #更新环境变量
+创建postgresql 的用户以及用户组 可创建可不创建
+123groupa ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/" title="Python压缩图片作为缩略图">Python压缩图片作为缩略图</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T07:54:36.000Z" title="发表于 2021-02-02 15:54:36">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Python/">Python</a></span></div><div class="content">​           
+
+
+将图片压缩，作为缩略图，代码如下
+123# coding=utf-8from PIL import Imageimport shutil
+123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081import osfrom PIL import ImageFileImageFile.LOAD_TRUNCATED_IMAGES = True    #   OSError: image file is truncated   图像被截断错误def resize_by_size(infile):    &quot;&quot;&quot;按照生成图片文件大小进行处理(单位KB)&quot;&quot;&quot;    file_name = infile.split(&#x27;/&#x27;)[-1]    if  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/" title="flaskshell创建索引出错">flaskshell创建索引出错</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T07:51:12.000Z" title="发表于 2021-02-02 15:51:12">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Flask/">Flask</a></span></div><div class="content">​    
+
+
+遇到的问题：flask 环境中使用 flask shell  使用flask Whoosh 创建索引失败
+解决办法 ：export FLASK_APP=manage.py
+flask shell 
+
+然后导出 flask 创建的whoosh的whoosh对象
+12from 项目内的文件 import whooshwhoosh.create_index()
+
+​    
+</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/Python-Elestatcsearch/" title="Python + Elestatcsearch">Python + Elestatcsearch</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T07:45:49.000Z" title="发表于 2021-02-02 15:45:49">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Elestaticsearch/">Elestaticsearch</a></span></div><div class="content">​       
+
+
+
+Elasticsearch ElasticSearch是一个基于Lucene的搜索服务器。它提供了一个分布式多用户能力的全文搜索引擎，基于RESTful web接口。Elasticsearch是用Java语言开发的，并作为Apache许可条款下的开放源码发布，是一种流行的企业级搜索引擎。ElasticSearch用于云计算中，能够达到实时搜索，稳定，可靠，快速，安装使用方便。官方客户端在Java、.NET（C#）、PHP、Python、Apache Groovy、Ruby和许多其他语言中都是可用的。根据DB-Engines的排名显示，Elasticsearch是最受欢迎的企业搜索引擎，其次是Apache Solr，也是基于Lucene。 
+有关概念cluster：代表一个集群，集群中有多个节点，其中有一个为主节点，这个主节点是可以通过选举产生的，主从节点是对于集群内部来说的。es的一个概念就是去中心化，字面上理解就是无中心节点，这是对于集群外部来说的，因为从外部来看es集群，在逻辑上是个整体，你与任何一个节点的通信和与整个es集群通信是等价的。
+shards：代 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/aarch64%E6%9E%B6%E6%9E%84-Linux-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85rocketmq-client-cpp%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85Python3.8%E6%96%87%E6%A1%A3/" title="Aarch64架构-Linux-编译安装rocketmq-client-cpp">Aarch64架构-Linux-编译安装rocketmq-client-cpp</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T07:42:51.000Z" title="发表于 2021-02-02 15:42:51">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/rocketmq/">rocketmq</a></span></div><div class="content">​      
+
+
+Aarch64架构-Linux-编译安装rocketmq-client-cpp1、安装 Rocketmq-client-cpp 所需工具
+gcc-c++ 4.8.2: c++ compiler while need support C++11
+cmake 2.8.0: build jsoncpp require it
+automake 1.11.1: build libevent require it
+autoconf 2.65: build libevent require it
+libtool 2.2.6: build libevent require it
+
+1.1 检查各项工具是否可用12345g++ -v# 如下提示代表已经安装， 需要指定gcc 版本为 4.8.2 (4.8.5 也可以安装成功)gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1) 
+123cmake  -version安装地址：https://zhuanlan.zhihu.com/p/110793004
+123automake --ve ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" title="两台linux 互相传输文件">两台linux 互相传输文件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-02T07:42:51.000Z" title="发表于 2021-02-02 15:42:51">2021-02-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Linux/">Linux</a></span></div><div class="content">​          
+
+
+
+百度百科rsync是linux系统下的数据镜像备份工具。使用快速增量备份工具Remote Sync可以远程同步，支持本地复制，或者与其他SSH、rsync主机同步。它的特性如下：
+可以镜像保存整个目录树和文件系统。
+
+可以很容易做到保持原来文件的权限、时间、软硬链接等等。
+
+无须特殊权限即可安装。
+
+快速：第一次同步时 rsync 会复制全部内容，但在下一次只传输修改过的文件。rsync 在传输数据的过程中可以实行压缩及解压缩操作，因此可以使用更少的带宽。
+
+安全：可以使用scp、ssh等方式来传输文件，当然也可以通过直接的socket连接。
+
+支持匿名传输，以方便进行网站镜像。 
+
+
+
+1、Rsync参数说明
+使用 rsync + ssh 进行加密传输  
+1rsync -avzhe ssh /home/ubuntu/remote_test ubuntu@193.112.102.63:/home/ubuntu/remote_test
+参数设置  
+123456789101112131415161718192021222324252627282930313 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" title="CDN的工作原理">CDN的工作原理</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-01T06:45:39.000Z" title="发表于 2021-02-01 14:45:39">2021-02-01</time></span></div><div class="content">CDN访问的两个阶段
+1.域名解析
+2.内容请求
+
+
+
+使用CDN得两种方式：
+手工上传静态资源文件到CDN
+tongguo Tengine 把本机的静态资源开放发哦web上，CDN自动回流到Tengine。
+
+以手工上传静态文件为例：Django其用户CDN静态资源加速的步骤。
+生成静态文件上传到阿里元OSS。
+配置CDN域名，回源地址指向OSS Bucket，配置Referer 防盗链的白名单。
+配置OSS Buket 的匿名可以读。
+设置STATIC_URL， 直接指向CDN地址，同时注释掉 OssStaticStorage。
+
+</div></div></div><div class="recent-post-item"><div class="recent-post-info"><a class="article-title" href="/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/" title="Django之美：dajngo的常用插件">Django之美：dajngo的常用插件</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2021-02-01T06:45:39.000Z" title="发表于 2021-02-01 14:45:39">2021-02-01</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/Django/">Django</a></span></div><div class="content">​       
+
+
+Djgnao 常用扩展
+django_debug_toolbar ：提供一个可以查看debug信息的面板（包括SQL执行时间，页面耗时）
+
+django-silk：django性能瓶颈分析
+
+Simple-UI ：于Element UI 和 VUE 的django admin 主题。
+
+haystack django ：模块化搜索方案
+
+django-notifications：发送消息通知插件
+
+django markdown editor ：Markdown 编辑器
+
+django-crispy-forms：Crispy 表单，以一种非常优雅的、干净的方式来创建表单。
+
+django-simple-captcha：Django验证码
+
+
+</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/9/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/#content-inner">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/#content-inner">11</a><a class="extend next" rel="next" href="/page/11/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/web_favicon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">chaizz</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">101</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">39</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">27</div></a></div><a id="card-info-btn" href="https://github.com/chaizz"><i class="fa-brands fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/chaizz" target="_blank" title="Github"><i class="fa-brands fa-github"></i></a><a class="social-icon" href="https://twitter.com/zenter13407245" target="_blank" title="Twitter"><i class="fa-brands fa-twitter"></i></a><a class="social-icon" href="mailto:chaizzok@163.com" target="_blank" title="Email"><i class="fa-solid fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my  Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/07/30/%E4%BD%BF%E7%94%A8butterfly%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E6%96%87%E7%AB%A0%E7%9A%84Format/" title="使用butterfly主题设置文章的Format"><img src="https://origin.chaizz.com/undraw_online_art_re_f1pk.svg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用butterfly主题设置文章的Format"/></a><div class="content"><a class="title" href="/2023/07/30/%E4%BD%BF%E7%94%A8butterfly%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E6%96%87%E7%AB%A0%E7%9A%84Format/" title="使用butterfly主题设置文章的Format">使用butterfly主题设置文章的Format</a><time datetime="2023-07-30T11:22:45.000Z" title="发表于 2023-07-30 19:22:45">2023-07-30</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/04/06/%E5%BC%80%E5%8F%91%E5%89%8D%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B7%A5%E4%BD%9C%E4%B9%8B%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83%E7%AF%87/" title="开发前的基础工作之系统环境篇【Pythonista】">开发前的基础工作之系统环境篇【Pythonista】</a><time datetime="2023-04-05T16:00:00.000Z" title="发表于 2023-04-06 00:00:00">2023-04-06</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/03/27/js%E7%AC%94%E8%AE%B0%E4%B9%8BPromise(%E4%B8%89)/" title="js笔记之Promise(三)">js笔记之Promise(三)</a><time datetime="2023-03-26T16:00:00.000Z" title="发表于 2023-03-27 00:00:00">2023-03-27</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/03/27/js%E7%AC%94%E8%AE%B0%E4%B9%8BPromise(%E4%BA%94)/" title="js笔记之Promise(五)">js笔记之Promise(五)</a><time datetime="2023-03-26T16:00:00.000Z" title="发表于 2023-03-27 00:00:00">2023-03-27</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2023/03/27/js%E7%AC%94%E8%AE%B0%E4%B9%8BPromise(%E5%85%AD)/" title="js笔记之Promise(六)">js笔记之Promise(六)</a><time datetime="2023-03-26T16:00:00.000Z" title="发表于 2023-03-27 00:00:00">2023-03-27</time></div></div></div></div><div class="card-widget" id="card-newest-comments"><div class="item-headline"><i class="fas fa-comment-dots"></i><span>最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a>
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Django/"><span class="card-category-list-name">Django</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Docker/"><span class="card-category-list-name">Docker</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Dynaconf/"><span class="card-category-list-name">Dynaconf</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Elestaticsearch/"><span class="card-category-list-name">Elestaticsearch</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Flask/"><span class="card-category-list-name">Flask</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Hexo/"><span class="card-category-list-name">Hexo</span><span class="card-category-list-count">1</span></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Hexo/%E6%95%99%E7%A8%8B/"><span class="card-category-list-name">教程</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Jupyter-notebook/"><span class="card-category-list-name">Jupyter-notebook</span><span class="card-category-list-count">1</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/Obsdian/" style="font-size: 1.1em; color: #999">Obsdian</a> <a href="/tags/Django/" style="font-size: 1.1em; color: #999">Django</a> <a href="/tags/Hexo/" style="font-size: 1.1em; color: #999">Hexo</a> <a href="/tags/Docker/" style="font-size: 1.3em; color: #99a1ac">Docker</a> <a href="/tags/HTTP%E3%80%81%E5%89%8D%E7%AB%AF/" style="font-size: 1.1em; color: #999">HTTP、前端</a> <a href="/tags/Kubernets/" style="font-size: 1.1em; color: #999">Kubernets</a> <a href="/tags/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" style="font-size: 1.1em; color: #999">Python压缩图片</a> <a href="/tags/Miniconda/" style="font-size: 1.1em; color: #999">Miniconda</a> <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E7%BD%AE/" style="font-size: 1.1em; color: #999">系统设置</a> <a href="/tags/VitePress/" style="font-size: 1.1em; color: #999">VitePress</a> <a href="/tags/Dynaconf/" style="font-size: 1.1em; color: #999">Dynaconf</a> <a href="/tags/Linux/" style="font-size: 1.23em; color: #999ea6">Linux</a> <a href="/tags/pnpm/" style="font-size: 1.1em; color: #999">pnpm</a> <a href="/tags/PostgreSQL/" style="font-size: 1.1em; color: #999">PostgreSQL</a> <a href="/tags/CSS/" style="font-size: 1.43em; color: #99a6b9">CSS</a> <a href="/tags/Flask/" style="font-size: 1.17em; color: #999c9f">Flask</a> <a href="/tags/PEP8/" style="font-size: 1.1em; color: #999">PEP8</a> <a href="/tags/Javascript/" style="font-size: 1.23em; color: #999ea6">Javascript</a> <a href="/tags/MySQL-Python/" style="font-size: 1.1em; color: #999">MySQL-Python</a> <a href="/tags/Oracle/" style="font-size: 1.1em; color: #999">Oracle</a> <a href="/tags/Python/" style="font-size: 1.1em; color: #999">Python</a> <a href="/tags/Kuboard/" style="font-size: 1.1em; color: #999">Kuboard</a> <a href="/tags/MySQL/" style="font-size: 1.37em; color: #99a4b2">MySQL</a> <a href="/tags/npm/" style="font-size: 1.1em; color: #999">npm</a> <a href="/tags/ORACLE-APEX/" style="font-size: 1.1em; color: #999">ORACLE-APEX</a> <a href="/tags/YoloV5/" style="font-size: 1.17em; color: #999c9f">YoloV5</a> <a href="/tags/RabbitMQ/" style="font-size: 1.1em; color: #999">RabbitMQ</a> <a href="/tags/Redis/" style="font-size: 1.17em; color: #999c9f">Redis</a> <a href="/tags/%E9%9D%A2%E8%AF%95/" style="font-size: 1.1em; color: #999">面试</a> <a href="/tags/rocketmq/" style="font-size: 1.1em; color: #999">rocketmq</a> <a href="/tags/OOPD/" style="font-size: 1.1em; color: #999">OOPD</a> <a href="/tags/JavaScript/" style="font-size: 1.5em; color: #99a9bf">JavaScript</a> <a href="/tags/Sublime-Text/" style="font-size: 1.1em; color: #999">Sublime Text</a> <a href="/tags/Elestaticsearch/" style="font-size: 1.1em; color: #999">Elestaticsearch</a> <a href="/tags/Poetry/" style="font-size: 1.1em; color: #999">Poetry</a> <a href="/tags/%E6%95%99%E7%A8%8B/" style="font-size: 1.1em; color: #999">教程</a> <a href="/tags/Butterfly/" style="font-size: 1.1em; color: #999">Butterfly</a> <a href="/tags/Typora/" style="font-size: 1.1em; color: #999">Typora</a> <a href="/tags/Jupyter-notebook/" style="font-size: 1.1em; color: #999">Jupyter-notebook</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span><a class="card-more-btn" href="/archives/" title="查看更多">
+    <i class="fas fa-angle-right"></i></a></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/07/"><span class="card-archive-list-date">七月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/04/"><span class="card-archive-list-date">四月 2023</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/03/"><span class="card-archive-list-date">三月 2023</span><span class="card-archive-list-count">17</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/02/"><span class="card-archive-list-date">二月 2023</span><span class="card-archive-list-count">11</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/01/"><span class="card-archive-list-date">一月 2023</span><span class="card-archive-list-count">12</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/11/"><span class="card-archive-list-date">十一月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">14</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">101</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2018-06-06T16:00:00.000Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">150.4k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2023-07-30T14:39:38.372Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2023 By chaizz</div><div class="framework-info"><span>框架 </span><a href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a href="https://beian.miit.gov.cn" target="_blank">豫ICP备20008035号-1</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/blueimp-md5/js/md5.min.js"></script><script>window.addEventListener('load', () => {
+  const changeContent = (content) => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[图片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[链接]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代码]') // replace code
+    content = content.replace(/<[^>]+>/g,"") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0,150) + '...'
+    }
+    return content
+  }
+
+  const getIcon = (icon, mail) => {
+    if (icon) return icon
+    let defaultIcon = '?d=monsterid'
+    let iconUrl = `https://gravatar.loli.net/avatar/${md5(mail.toLowerCase()) + defaultIcon}`
+    return iconUrl
+  }
+
+  const generateHtml = array => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class=\'aside-list-item\'>'
+
+        if (true) {
+          const name = 'src'
+          result += `<a href='${array[i].url}' class='thumbnail'><img ${name}='${array[i].avatar}' alt='${array[i].nick}'></a>`
+        }
+
+        result += `<div class='content'>
+        <a class='comment' href='${array[i].url}' title='${array[i].content}'>${array[i].content}</a>
+        <div class='name'><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '没有评论'
+    }
+
+    let $dom = document.querySelector('#card-newest-comments .aside-list')
+    $dom.innerHTML= result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh($dom)
+  }
+
+  const getComment = () => {
+    const serverURL = 'https://4SEwLwp1.api.lncldglobal.com'
+
+    var settings = {
+      "method": "GET",
+      "headers": {
+        "X-LC-Id": '4SEwLwp1vYlCcdjjxySHSX6F-gzGzoHsz',
+        "X-LC-Key": 'JDB6yA8UoL1ITzJSzuQNJPqH',
+        "Content-Type": "application/json"
+      },
+    }
+
+    fetch(`${serverURL}/1.1/classes/Comment?limit=6&order=-createdAt`,settings)
+      .then(response => response.json())
+      .then(data => {
+        const valineArray = data.results.map(function (e) {
+          return {
+            'avatar': getIcon(e.QQAvatar, e.mail),
+            'content': changeContent(e.comment),
+            'nick': e.nick,
+            'url': e.url + '#' + e.objectId,
+            'date': e.updatedAt,
+          }
+        })
+        saveToLocal.set('valine-newest-comments', JSON.stringify(valineArray), 10/(60*24))
+        generateHtml(valineArray)
+      }).catch(e => {
+        const $dom = document.querySelector('#card-newest-comments .aside-list')
+        $dom.textContent= "无法获取评论，请确认相关配置是否正确"
+      }) 
+  }
+
+  const newestCommentInit = () => {
+    if (document.querySelector('#card-newest-comments .aside-list')) {
+      const data = saveToLocal.get('valine-newest-comments')
+      if (data) {
+        generateHtml(JSON.parse(data))
+      } else {
+        getComment()
+      }
+    }
+  }
+
+  newestCommentInit()
+  document.addEventListener('pjax:complete', newestCommentInit)
+})</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="false"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
   
-
-  
-
-</article>
-    
-    <article id="post-Centos7-5源码安装postgresql-12" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/">Centos7.5源码安装postgresql-12</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/" class="article-date">
-  <time datetime="2021-02-02T07:58:26.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/PostgreSQL/">PostgreSQL</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">774</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">3</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/" rel="gallery_cl9h3n0o1000sgkuwh5t280ir">
-      <img src="https://tc.chaizz.com/b894ccf022f211edb23e0242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​          </p>
-      
-      <a class="article-more-link" href="/2021/02/02/Centos7-5%E6%BA%90%E7%A0%81%E5%AE%89%E8%A3%85postgresql-12/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PostgreSQL/" rel="tag">PostgreSQL</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-Python压缩图片作为缩略图" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/">Python压缩图片作为缩略图</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/" class="article-date">
-  <time datetime="2021-02-02T07:54:36.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Python/">Python</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">467</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">2</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/" rel="gallery_cl9h3n0os002xgkuw7vc03was">
-      <img src="https://tc.chaizz.com/1c078eb22dca11ed9d170242ac190002.jpg" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​           </p>
-      
-      <a class="article-more-link" href="/2021/02/02/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87%E4%BD%9C%E4%B8%BA%E7%BC%A9%E7%95%A5%E5%9B%BE/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python%E5%8E%8B%E7%BC%A9%E5%9B%BE%E7%89%87/" rel="tag">Python压缩图片</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-flaskshell创建索引出错" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/">flaskshell创建索引出错</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/" class="article-date">
-  <time datetime="2021-02-02T07:51:12.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Flask/">Flask</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">55</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/" rel="gallery_cl9h3n0p0003tgkuw46zr02gr">
-      <img src="https://tc.chaizz.com/a59930a4250a11ed94870242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​    </p>
-      
-      <a class="article-more-link" href="/2021/02/02/flaskshell%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E5%87%BA%E9%94%99/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Flask/" rel="tag">Flask</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-Python-Elestatcsearch" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/02/Python-Elestatcsearch/">Python + Elestatcsearch</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/02/Python-Elestatcsearch/" class="article-date">
-  <time datetime="2021-02-02T07:45:49.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Elestaticsearch/">Elestaticsearch</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">842</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">2</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/02/Python-Elestatcsearch/" rel="gallery_cl9h3n0os002vgkuw9sfp3ttv">
-      <img src="https://tc.chaizz.com/344d34bc250b11ed94870242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​       </p>
-      
-      <a class="article-more-link" href="/2021/02/02/Python-Elestatcsearch/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Elestaticsearch/" rel="tag">Elestaticsearch</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-aarch64架构-Linux-编译安装rocketmq-client-cpp以及安装Python3.8文档" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/02/aarch64%E6%9E%B6%E6%9E%84-Linux-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85rocketmq-client-cpp%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85Python3.8%E6%96%87%E6%A1%A3/">Aarch64架构-Linux-编译安装rocketmq-client-cpp</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/02/aarch64%E6%9E%B6%E6%9E%84-Linux-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85rocketmq-client-cpp%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85Python3.8%E6%96%87%E6%A1%A3/" class="article-date">
-  <time datetime="2021-02-02T07:42:51.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/rocketmq/">rocketmq</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">1.1k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">5</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/02/aarch64%E6%9E%B6%E6%9E%84-Linux-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85rocketmq-client-cpp%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85Python3.8%E6%96%87%E6%A1%A3/" rel="gallery_cl9h3n0oz003rgkuwhl70hu7z">
-      <img src="https://tc.chaizz.com/8b22790222f211edb23e0242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​      </p>
-      
-      <a class="article-more-link" href="/2021/02/02/aarch64%E6%9E%B6%E6%9E%84-Linux-%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85rocketmq-client-cpp%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85Python3.8%E6%96%87%E6%A1%A3/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/rocketmq/" rel="tag">rocketmq</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-两台linux-互相传输文件" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">两台linux 互相传输文件</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" class="article-date">
-  <time datetime="2021-02-02T07:42:51.000Z" itemprop="datePublished">2021-02-02</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Linux/">Linux</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">2.3k</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">9</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/" rel="gallery_cl9h3n0p1003zgkuw2h665505">
-      <img src="https://tc.chaizz.com/2a01872622f211edb23e0242ac190002.png" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​          </p>
-      
-      <a class="article-more-link" href="/2021/02/02/%E4%B8%A4%E5%8F%B0linux-%E4%BA%92%E7%9B%B8%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-CDN工作原理" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">CDN的工作原理</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/" class="article-date">
-  <time datetime="2021-02-01T06:45:39.000Z" itemprop="datePublished">2021-02-01</time>
-</a>
-      
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">146</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-      
-      <h3 id="CDN访问的两个阶段"><a href="#CDN访问的两个阶段" class="headerlink" title="CDN访问的两个阶段"></a>CDN访问的两个阶段</h3><ul>
-<li>1.域名解析</li>
-<li>2.内容请求</li>
-</ul>
-      
-      <a class="article-more-link" href="/2021/02/01/CDN%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP%E3%80%81%E5%89%8D%E7%AB%AF/" rel="tag">HTTP、前端</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-Django之美：dajngo的常用插件" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/">Django之美：dajngo的常用插件</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/" class="article-date">
-  <time datetime="2021-02-01T06:45:39.000Z" itemprop="datePublished">2021-02-01</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/Django/">Django</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">109</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/" rel="gallery_cl9h3n0o2000wgkuw3xyh96ro">
-      <img src="https://tc.chaizz.com/13a29924250a11ed94870242ac190002.jpg" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​       </p>
-      
-      <a class="article-more-link" href="/2021/02/01/Django%E4%B9%8B%E7%BE%8E%EF%BC%9Adajngo%E7%9A%84%E5%B8%B8%E7%94%A8%E6%8F%92%E4%BB%B6/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Django/" rel="tag">Django</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-    <article id="post-Mysql 8.0 数据库无法远程连接" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-      
-
-<h2 itemprop="name">
-  <a class="article-title" href="/2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/">MySQL 8.0 连接数据库错误</a>
-</h2>
-
-
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/" class="article-date">
-  <time datetime="2021-02-01T06:45:39.000Z" itemprop="datePublished">2021-02-01</time>
-</a>
-      
-<div class="article-category">
-  <a class="article-category-link" href="/categories/MySQL/">MySQL</a>
-</div>
-
-      &emsp;<i class="fe fe-bar-chart"></i> <span class="post-count">77</span>字
-      &emsp;<i class="fe fe-clock"></i> <span class="post-count">1</span>分钟
-    </div>
-    
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
-      
-      
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-    
-    <a class="article-gallery-img" href="/2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/" rel="gallery_cl9h3n0oq002ogkuwd05s6rp4">
-      <img src="https://tc.chaizz.combdf5bb7222ee11edb23e0242ac190002.jpg" itemprop="image">
-    </a>
-    
-    
-  </div>
-</div>
-
-      
-      <p>​       </p>
-      
-      <a class="article-more-link" href="/2021/02/01/Mysql%208.0%20%E6%95%B0%E6%8D%AE%E5%BA%93%E6%97%A0%E6%B3%95%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/">
-        阅读更多...
-      </a>
-      
-      
-    </div>
-    <footer class="article-footer">
-        
-<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MySQL/" rel="tag">MySQL</a></li></ul>
-
-        
-
-    </footer>
-
-  </div>
-
-  
-
-  
-
-</article>
-    
-  </article>
-  
-
-  
-  <nav class="page-nav">
-    <a class="extend prev" rel="prev" href="/page/9/">上一页</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span>
-  </nav>
-  
-</section>
-</div>
-
-    <footer class="footer">
-  <div class="outer" style="text-align:center">
-
-    <ul class="list-inline">
-      <li>由来同一梦 &copy; 2023</li>
-      
-        <li><a href="https://beian.miit.gov.cn/" target="_blank">豫ICP备20008035号-1</a></li>
-      
-      <li>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></li>
-
-      <li>theme  <a href="https://github.com/zhwangart/hexo-theme-ocean">Ocean</a></li>
-    </ul>
-
-    <br>
-    <span>全站共<span class="post-count">150.1k</span>字</span>
-    <br>
-    <div class="powered-by">
-  
-    <span id="busuanzi_container_site_pv">访问量:<span id="busuanzi_value_site_pv"></span></span>
-  
-	&emsp;<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">访客数:<span id="busuanzi_value_site_uv"></span></span>&emsp;
-  
-</div>
-
-    <br>
-    <span id="timeDate">载入天数...</span><span id="times">载入时分秒...</span>
-<script>
-    var now = new Date(); 
-    function createtime() { 
-        var grt= new Date("01/01/2019 00:00:00");//此处修改你的建站时间或者网站上线时间 
-        now.setTime(now.getTime()+250); 
-        days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days); 
-        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours); 
-        if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum); 
-        mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;} 
-        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum); 
-        snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;} 
-        document.getElementById("timeDate").innerHTML = "本站已安全运行 "+dnum+" 天 "; 
-        document.getElementById("times").innerHTML = hnum + " 小时 " + mnum + " 分 " + snum + " 秒"; 
-    } 
-	setInterval("createtime()",250);
-</script>
-
-
-
-  </div>
-</footer>
-  </main>
-  <aside class="sidebar">
-    <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/hexo.svg" alt="由来同一梦"></a>
-  </div>
-  
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">首页</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">归档</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/categories">分类</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags">标签</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/about">关于</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link nav-item-search" title="搜索">
-        <i class="fe fe-search"></i>
-        搜索
-      </a>
-    </li>
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      <div class="totop" id="totop">
-  <i class="fe fe-rocket"></i>
-</div>
-    </li>
-    <li class="nav-item">
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-  </aside>
-  
-<script src="/js/jquery-2.0.3.min.js"></script>
-
-
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
-
-
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/copybtn.js"></script>
-
-
-
-
-
-
-<script src="/js/ocean.js"></script>
-
-</body>
-
-</html>
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
