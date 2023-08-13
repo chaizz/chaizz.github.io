@@ -187,13 +187,12 @@
 </tbody></table>
 ]]></content>
       <categories>
-        <category>Hexo</category>
-        <category>教程</category>
+        <category>建站</category>
+        <category>hexo</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
         <tag>Butterfly</tag>
-        <tag>教程</tag>
       </tags>
   </entry>
   <entry>
@@ -4201,6 +4200,10 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">|--docs</span><br><span class="line">|	|--guide</span><br><span class="line">|	|	|--guide-<span class="number">1.</span>md</span><br><span class="line">|	|	|--guide-<span class="number">2.</span>md</span><br><span class="line">|	|	|--guide-<span class="number">3.</span>md</span><br><span class="line">|	|--.<span class="property">vitepress</span></span><br><span class="line">|	|	|--config.<span class="property">js</span></span><br><span class="line">|	|--public</span><br><span class="line">|	|	|--logo.<span class="property">svg</span></span><br><span class="line">|	|--css</span><br><span class="line">|	|	|--index.<span class="property">md</span></span><br><span class="line">|	|--js</span><br><span class="line">|	|	|--index.<span class="property">md</span></span><br><span class="line">|	|--index.<span class="property">md</span></span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>建站</category>
+        <category>VitePress</category>
+      </categories>
       <tags>
         <tag>VitePress</tag>
       </tags>
@@ -4421,10 +4424,11 @@
 
 ]]></content>
       <categories>
-        <category>Sublime Text</category>
+        <category>软件</category>
+        <category>SublimeText</category>
       </categories>
       <tags>
-        <tag>Sublime Text</tag>
+        <tag>SublimeText</tag>
       </tags>
   </entry>
   <entry>
@@ -8009,6 +8013,7 @@ show index from index_user;
 <p>点击OK ，重启Typora上传图片即可上传到七牛云了。</p>
 ]]></content>
       <categories>
+        <category>写作</category>
         <category>Typora</category>
       </categories>
       <tags>
@@ -8370,7 +8375,8 @@ show index from index_user;
 
 ]]></content>
       <categories>
-        <category>RabbitMQ</category>
+        <category>Linux</category>
+        <category>安装RabbitMQ</category>
       </categories>
       <tags>
         <tag>RabbitMQ</tag>
@@ -8577,6 +8583,7 @@ show index from index_user;
 </ul>
 ]]></content>
       <categories>
+        <category>Linux</category>
         <category>YoloV5</category>
       </categories>
       <tags>
@@ -8996,6 +9003,7 @@ show index from index_user;
 
 ]]></content>
       <categories>
+        <category>Linux</category>
         <category>MySQL-Python</category>
       </categories>
       <tags>
