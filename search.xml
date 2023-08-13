@@ -104,7 +104,8 @@
 </ul>
 ]]></content>
       <categories>
-        <category>产品思维</category>
+        <category>产品</category>
+        <category>敏捷开发</category>
       </categories>
       <tags>
         <tag>OOPD</tag>
@@ -574,7 +575,8 @@
 <p><em>来自于AI</em></p>
 ]]></content>
       <categories>
-        <category>pytest</category>
+        <category>Python</category>
+        <category>Pytest</category>
       </categories>
       <tags>
         <tag>pytest</tag>
@@ -627,6 +629,7 @@
 </ul>
 ]]></content>
       <categories>
+        <category>Pythonista</category>
         <category>Pycharm</category>
       </categories>
       <tags>
@@ -818,7 +821,6 @@
       </categories>
       <tags>
         <tag>Pythonista</tag>
-        <tag>环境配置</tag>
       </tags>
   </entry>
   <entry>
@@ -896,6 +898,10 @@
 <li><code>Promise</code> 类有 6 种静态方法：<code>Promise.all</code> 可能是在实战中使用最多的。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Promise</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -934,6 +940,10 @@
 <p>因此，<code>.then/catch/finally</code> 处理程序总是在当前代码完成后才会被调用。</p>
 <p>如果我们需要确保一段代码在 <code>.then/catch/finally</code> 之后被执行，我们可以将它添加到链式调用的 <code>.then</code> 中。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Promise</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1026,6 +1036,10 @@
 <p>这两个关键字一起提供了一个很好的用来编写异步代码的框架，这种代码易于阅读也易于编写。</p>
 <p>有了 <code>async/await</code> 之后，我们就几乎不需要使用 <code>promise.then/catch</code>，但是不要忘了它们是基于 promise 的，因为有些时候（例如在最外层作用域）我们不得不使用这些方法。并且，当我们需要同时等待需要任务时，<code>Promise.all</code> 是很好用的。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Promise</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1048,6 +1062,10 @@
 <p>我们将其称为 <code>promisify(f)</code>：它接受一个需要被 promise 化的函数 <code>f</code>，并返回一个包装（wrapper）函数。</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// promisify(f, true) 来获取结果数组</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">promisify</span>(<span class="params">f, manyArgs = <span class="literal">false</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">function</span> <span class="title function_">callback</span>(<span class="params">err, ...results</span>) &#123; <span class="comment">// 我们自定义的 f 的回调</span></span><br><span class="line">                <span class="keyword">if</span> (err) &#123;</span><br><span class="line">                    <span class="title function_">reject</span>(err);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="comment">// 如果 manyArgs 被指定，则使用所有回调的结果 resolve</span></span><br><span class="line">                    <span class="title function_">resolve</span>(manyArgs ? results : results[<span class="number">0</span>]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            args.<span class="title function_">push</span>(callback);</span><br><span class="line"></span><br><span class="line">            f.<span class="title function_">call</span>(<span class="variable language_">this</span>, ...args);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用法：</span></span><br><span class="line">f = <span class="title function_">promisify</span>(f, <span class="literal">true</span>);</span><br><span class="line"><span class="title function_">f</span>(...).<span class="title function_">then</span>(<span class="function"><span class="params">arrayOfResults</span> =&gt;</span> ..., <span class="function"><span class="params">err</span> =&gt;</span> ...);</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Promise</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1133,6 +1151,10 @@
 </ul>
 <p>在现代 JavaScript 中，generator 很少被使用。但有时它们会派上用场，因为函数在执行过程中与调用代码交换数据的能力是非常独特的。而且，当然，它们非常适合创建可迭代对象。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Generator</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1171,6 +1193,10 @@
 <p>如果 <code>.then</code>（或 <code>catch/finally</code> 都可以）处理程序返回一个 promise，那么链的其余部分将会等待，直到它状态变为 settled。当它被 settled 后，其 result（或 error）将被进一步传递下去。</p>
 <h2 id="3-总结："><a href="#3-总结：" class="headerlink" title="3 总结："></a>3 总结：</h2><p><img src="https://tc.chaizz.com/tc/image-20230325231946264.png" alt="image-20230325231946264"></p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Promise</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1268,7 +1294,8 @@
 <p>平常安装依赖或者是更新依赖 就使用 <code>poetry add/update 依赖名</code>。</p>
 ]]></content>
       <categories>
-        <category>Poetry</category>
+        <category>Python</category>
+        <category>包管理器</category>
       </categories>
       <tags>
         <tag>Poetry</tag>
@@ -1366,6 +1393,10 @@
 <p>我们可以这样使用这个函数：</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line">promise.<span class="title function_">then</span>(</span><br><span class="line">    <span class="function"><span class="params">script</span> =&gt;</span> <span class="title function_">alert</span>(<span class="string">`<span class="subst">$&#123;script.src&#125;</span> is loaded!`</span>),</span><br><span class="line">    <span class="function"><span class="params">error</span> =&gt;</span> <span class="title function_">alert</span>(<span class="string">`Error: <span class="subst">$&#123;error.message&#125;</span>`</span>)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">promise.<span class="title function_">then</span>(<span class="function"><span class="params">script</span> =&gt;</span> <span class="title function_">alert</span>(<span class="string">&#x27;Another handler...&#x27;</span>));</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Promise</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1416,6 +1447,10 @@
 <li>包装异常是一项广泛应用的技术：用于处理低级别异常并创建高级别 error 而不是各种低级别 error 的函数。在上面的示例中，低级别异常有时会成为该对象的属性，例如 err.cause，但这不是严格要求的。</li>
 </ol>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>异常</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1547,6 +1582,10 @@
 <p>我们可以使用throw 抛出自己根据内建对象定义的错误对象。</p>
 <p>再次抛出  throwing 是一种错误处理的常用模式。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>异常</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1598,6 +1637,10 @@
 <p>JS不支持多继承，但是可以通过将方法拷贝到原型中来实现，mixin。我们可以使用mixin作为一种通过添加多种行为来扩充类的方法。</p>
 <p>如果 Mixins 意外覆盖了现有类的方法，那么它们可能会成为一个冲突点。因此，通常应该仔细考虑 mixin 的命名方法，以最大程度地降低发生这种冲突的可能性。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>类</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1688,6 +1731,10 @@
 </ul>
 <p>目前，各个浏览器对私有字段的支持不是很好，但可以用 polyfill 解决。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>类</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1776,6 +1823,10 @@
 </tr>
 </tbody></table>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>类</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1828,6 +1879,10 @@
 <p>静态属性和方法是可被继承的。</p>
 <p>对于 <code>class B extends A</code>，类 <code>B</code> 的 prototype 指向了 <code>A</code>：<code>B.[[Prototype]] = A</code>。因此，如果一个字段在 <code>B</code> 中没有找到，会继续在 <code>A</code> 中查找。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>类</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1891,6 +1946,10 @@
 <p>重写一个 constructor：在使用 <code>this</code> 之前，我们必须在 <code>Child</code> 的 constructor 中将父 constructor 调用为 <code>super()</code>。</p>
 <p>重写一个方法：我们可以在一个 <code>Child</code> 方法中使用 <code>super.method()</code> 来调用 <code>Parent</code> 方法。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>类</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -1970,6 +2029,10 @@
 
 <p>技术上来说，<code>MyClass</code> 是一个函数（我们提供作为 <code>constructor</code> 的那个），而 methods、getters 和 setters 都被写入了 <code>MyClass.prototype</code>。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>类</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2037,6 +2100,10 @@
 <li>一个函数不能被重绑定（re-bound）。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>函数</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2173,6 +2240,10 @@
 <p>效果：</p>
 <p><img src="https://tc.chaizz.com/tc/image-20230302214940526.png" alt="image-20230302214940526"></p>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>布局</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -2235,6 +2306,10 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>函数</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2281,6 +2356,10 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>函数</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2360,6 +2439,10 @@
 <p><code>func.call(context, arg1, arg2)</code> 用给定的上下文和参数调用函数。</p>
 <p><code>func.apply(context, arg1, arg2)</code> 调用 <code>func</code> 将 <code>context</code> 作为 <code>this</code> 和类数组的 <code>args</code> 传递给参数列表。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>函数</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2410,6 +2493,10 @@
 </ul>
 <p>在现代JS中尽可能的使用 const 或者 let。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>函数</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2456,6 +2543,10 @@
 <h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3 总结"></a>3 总结</h2><p>Rest 参数语法和Spread 语法的一个区别就是若<code>...</code>出现在函数参数列表的最后，那么他就是Rest参数，如果出现在函数调用或者类似的表达式中，那么就是Spread语法。</p>
 <p>可以使用这两种语法轻松的转换参数列表和参数数组。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>函数</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2540,6 +2631,10 @@
 <h3 id="1-8-对字符串调用Date-parse"><a href="#1-8-对字符串调用Date-parse" class="headerlink" title="1.8 对字符串调用Date.parse"></a>1.8 对字符串调用Date.parse</h3><p>根据时间字符串获取对应的时间戳，字符串的格式为：YYYY-MM-DDTHH:mm:ss.sssZ，其中：T 是分隔符，Z 为 +- hh:mm 格式的时区，单个字符代表 UTC+0 时区，简短的形式也可以：YYYY，或者是 YYYY-MM-DD 或者YYYY-MM。</p>
 <p>Date.parse 返回的结果是时间戳，从 1970-01-01 00:00:00 起所经过的毫秒数，如果给点的字符串不正确，则返回NaN。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2612,6 +2707,10 @@
 <li>如果独享具有toJson方法，那么会被 JSON.stringify 调用。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2665,6 +2764,10 @@
 <p>有索引和length属性的兑现我们称之为类数组对象，这种对象可能有其他的方法，但是没有数组的内建方法。</p>
 <p>array.from(obj[,mapFn, thisAsg]) 将可迭代对象或者类数组对象转化为真正的数组, 然后我们就可以使用对应的数组方法。可选参数 mapFn 和 thisArg 允许我们将函数应用到每个元素。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2791,6 +2894,10 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -2875,6 +2982,10 @@
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> [item1 = <span class="keyword">default</span>, item2, ...rest] = array</span><br><span class="line"></span><br><span class="line"><span class="comment">// item1：数组的第一个元素</span></span><br><span class="line"><span class="comment">// default：默认值</span></span><br><span class="line"><span class="comment">// item2：数组的第二个元素</span></span><br><span class="line"><span class="comment">// ...rest：其余的元素组成的数组</span></span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3076,6 +3187,10 @@
 <p>arr.flat(depth)/arr.flatMap(fn) 从多维数组创建一个新的扁平数组。</p>
 <p>of(element0[,element1[,elementN]]) 基于可变数量的参数创建一个新的 Array 实例，而不需要考虑参数的数量或类型。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3172,7 +3287,8 @@
 <h2 id="4-Dynaconf的详细配置"><a href="#4-Dynaconf的详细配置" class="headerlink" title="4 Dynaconf的详细配置"></a>4 Dynaconf的详细配置</h2><p><a href="https://www.dynaconf.com/configuration/">Dynaconfg详细配置</a></p>
 ]]></content>
       <categories>
-        <category>Dynaconf</category>
+        <category>Python</category>
+        <category>Package</category>
       </categories>
       <tags>
         <tag>Dynaconf</tag>
@@ -3365,6 +3481,10 @@
 
 
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3517,6 +3637,10 @@
 <li>使用小数时损失精度。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>基础</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3632,6 +3756,10 @@
 <p>所有这些方法都必须返回一个原始值才能工作（如果已定义）。</p>
 <p><strong>在实际使用中，通常只实现 <code>obj.toString()</code> 作为字符串转换的“全能”方法就足够了，该方法应该返回对象的“人类可读”表示，用于日志记录或调试。</strong></p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3708,6 +3836,10 @@
 </ol>
 <p>从技术上说，symbol 不是 100% 隐藏的。有一个内建方法 <a href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertySymbols">Object.getOwnPropertySymbols(obj)</a> 允许我们获取所有的 symbol。还有一个名为 <a href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/Reflect/ownKeys">Reflect.ownKeys(obj)</a> 的方法可以返回一个对象的 <strong>所有</strong> 键，包括 symbol。但大多数库、内建方法和语法结构都没有使用这些方法。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3777,6 +3909,10 @@
 </ul>
 <p>我们应该谨慎的使用<code>?.</code>，根据我们的代码逻辑，仅在当做部分不存在的可接受的条件下使用最好。且该语法格式是JS新出的特性，可能会存在兼容问题，旧式浏览器可能需要 polyfills。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3844,6 +3980,10 @@
 <li>构造函数只能使用<code>new</code>来调用，这样就意味着在创建了一个空的对象<code>this</code>, 并且最后返回了这个<code>this</code>。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3899,6 +4039,10 @@
 <li>箭头函数有些特别：它们没有 <code>this</code>。在箭头函数内部访问到的 <code>this</code> 都是从外部获取的。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3946,6 +4090,10 @@
 <li><strong>闲时收集（Idle-time collection）</strong>—— 垃圾收集器只会在 CPU 空闲时尝试运行，以减少可能对代码执行的影响。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -3986,6 +4134,10 @@
 <p>所有通过被拷贝的引用的操作（如添加、删除属性）都作用在同一个对象上。</p>
 <p>为了创建“真正的拷贝”（一个克隆），我们可以使用 <code>Object.assign</code> 来做所谓的“浅拷贝”（嵌套对象被通过引用进行拷贝）或者使用“深拷贝”函数，例如 <a href="https://lodash.com/docs#cloneDeep">_.cloneDeep(obj)</a>。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -4115,6 +4267,10 @@
 
 
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>对象</category>
+      </categories>
       <tags>
         <tag>JavaScript</tag>
       </tags>
@@ -4255,6 +4411,10 @@
 <p><strong>注：</strong>如上所述，默认情况下，所有事件处理程序都是在冒泡阶段注册的，这在大多数情况下更有意义。如果您真的想在捕获阶段注册一个事件，那么可以通过使用<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener"><code>addEventListener()</code></a>注册您的处理程序，并将可选的第三个属性设置为 true。</p>
 <h2 id="3-延伸"><a href="#3-延伸" class="headerlink" title="3 延伸"></a>3 延伸</h2><h3 id="事件委托"><a href="#事件委托" class="headerlink" title="事件委托"></a>事件委托</h3><p>正式因为冒泡的机制， 所以我们可以利用该机制，实现下面这样的行为：如果你想要在大量子元素中单击任何一个都可以运行一段代码，您可以将事件监听器设置在其父节点上，并让子节点上发生的事件冒泡到父节点上，而不是每个子节点单独设置事件监听器。这种行为称之为事件委托。这个概念的更多的例子-<a href="https://davidwalsh.name/event-delegate">How JavaScript Event Delegation Works</a>。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>事件</category>
+      </categories>
       <tags>
         <tag>Javascript</tag>
       </tags>
@@ -4361,6 +4521,10 @@
 <p><code>async</code> 和 <code>await</code> 关键字使得从一系列连续的异步函数调用中建立一个操作变得更加容易，避免了创建显式 Promise 链，并允许你像编写异步代码那样编写同步代码。</p>
 <p>Promise 在所有现代浏览器的最新版本中都可以使用；唯一会出现支持问题的地方是 Opera Mini 和 IE11 及更早的版本。</p>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>Promise</category>
+      </categories>
       <tags>
         <tag>Javascript</tag>
       </tags>
@@ -4398,6 +4562,10 @@
 <li>如果脚本需要等待页面解析，且依赖于其它脚本，调用这些脚本时应使用 <code>defer</code>，将关联的脚本按所需顺序置于 HTML 中。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+        <category>调用策略</category>
+      </categories>
       <tags>
         <tag>Javascript</tag>
       </tags>
@@ -4613,6 +4781,10 @@
 
 
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>动画</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -4668,6 +4840,10 @@
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@media</span> <span class="keyword">not</span> all <span class="keyword">and</span> (<span class="attribute">orientation</span>: landscape) &#123;</span><br><span class="line">    <span class="selector-tag">body</span> &#123;</span><br><span class="line">        <span class="attribute">color</span>: blue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>媒体查询</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -4786,6 +4962,10 @@
 <p>表格布局：表格的布局方式，可以用在非表格内容上，可以使用<code>display:table</code>和相关属性在非表格元素上使用。</p>
 <p>多列布局：<code>multi-column-layout</code>属性可以让快按照列布局，类似报纸的形式。</p>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>布局</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -4882,6 +5062,10 @@
 
 <h3 id="3-4-列与内容折断"><a href="#3-4-列与内容折断" class="headerlink" title="3.4 列与内容折断"></a>3.4 列与内容折断</h3><p>使用对列布局时把内容放入多列布局容器内，内容被拆成碎块放进列中，从而影响阅读体验。可以在列上使用这一属性避免<code>break-inside:avoid</code>。 现阶段旧属性 <code>page-break-inside: avoid</code> 能够获得更好的浏览器支持。</p>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>布局</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -5072,6 +5256,10 @@
 
 
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>文本样式</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -5178,6 +5366,10 @@
 </tr>
 </tbody></table>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>背景和边框</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -5225,6 +5417,10 @@
 
 
 ]]></content>
+      <categories>
+        <category>前端包管理器</category>
+        <category>pnpm</category>
+      </categories>
       <tags>
         <tag>pnpm</tag>
       </tags>
@@ -5272,6 +5468,10 @@
 
 <p>详细的命令来自 <a href="https://npm.nodejs.cn/">npm中文网</a>。</p>
 ]]></content>
+      <categories>
+        <category>前端包管理器</category>
+        <category>npm</category>
+      </categories>
       <tags>
         <tag>npm</tag>
       </tags>
@@ -5297,6 +5497,10 @@
 <p>以上的情况确实显示滚动条，但是横向也显示了滚动条，如果只希望在Y轴上显示可以使用<code>overflow-y: scroll</code>。同理x轴：<code>overflow-x: scroll</code>。</p>
 <p>使用<code>overflow: auto</code>，由浏览器决定是否显示滚动条。桌面浏览器一般仅仅会在有足以引起溢出的内容的时候这么做。</p>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>溢出</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -5376,6 +5580,10 @@
 </ul>
 <p>但是，它不会跳转到新行，如果显式添加 <code>width</code> 和 <code>height</code> 属性，它只会变得比其内容更大。</p>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>盒模型</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -5454,6 +5662,10 @@
 <li>用户样式表中的<code>!important</code> 声明</li>
 </ol>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>层叠与继承</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -5912,6 +6124,10 @@
 
 <p>使用关系选择器可以将以上任意选择器组合起来，达到选择某个元素的目的。</p>
 ]]></content>
+      <categories>
+        <category>CSS</category>
+        <category>选择器</category>
+      </categories>
       <tags>
         <tag>CSS</tag>
       </tags>
@@ -5999,7 +6215,8 @@
 </ul>
 ]]></content>
       <categories>
-        <category>Kubernets</category>
+        <category>K8S</category>
+        <category>Kuboard</category>
       </categories>
       <tags>
         <tag>Kuboard</tag>
@@ -6120,6 +6337,7 @@
 <p>重新初始化是需要执行 <code>kubeadm reset</code> ，此命令是还原由 <code>kubeadm init</code> 或 <code>kubeadm join</code> 所做的更改。</p>
 ]]></content>
       <categories>
+        <category>K8S</category>
         <category>Kubernets</category>
       </categories>
       <tags>
@@ -6177,6 +6395,7 @@
 <h1 id="3、"><a href="#3、" class="headerlink" title="3、"></a>3、</h1><h1 id="4、闭包"><a href="#4、闭包" class="headerlink" title="4、闭包"></a>4、闭包</h1>]]></content>
       <categories>
         <category>Python</category>
+        <category>基础</category>
       </categories>
       <tags>
         <tag>Python</tag>
@@ -6211,6 +6430,7 @@
 ]]></content>
       <categories>
         <category>Docker</category>
+        <category>部署</category>
       </categories>
       <tags>
         <tag>MySQL</tag>
@@ -6223,6 +6443,9 @@
 
 <p>敬请期待…</p>
 ]]></content>
+      <categories>
+        <category>Pulsar</category>
+      </categories>
       <tags>
         <tag>pulsar</tag>
       </tags>
@@ -6364,10 +6587,11 @@
 <p><img src="https://tc.chaizz.com/a47dc42c486b11ec9d7c5254006b8f1d.png"></p>
 ]]></content>
       <categories>
+        <category>数据库</category>
         <category>MySQL</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
+        <tag>MySQL索引问题</tag>
       </tags>
   </entry>
   <entry>
@@ -7235,6 +7459,7 @@
 ]]></content>
       <categories>
         <category>面试</category>
+        <category>Python</category>
       </categories>
       <tags>
         <tag>面试</tag>
@@ -7262,10 +7487,11 @@
 <h2 id="3-多张表联合查询，是先查小表还是大表？"><a href="#3-多张表联合查询，是先查小表还是大表？" class="headerlink" title="3 多张表联合查询，是先查小表还是大表？"></a>3 多张表联合查询，是先查小表还是大表？</h2><p>小表驱动大表的思想：两表查询结果的笛卡尔乘积，越小越好，它的中间结果就会小一些，减少内存的消耗。所以在连接查询的时候左表建议是小表。</p>
 ]]></content>
       <categories>
+        <category>数据库</category>
         <category>MySQL</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
+        <tag>MySQL性能优化</tag>
       </tags>
   </entry>
   <entry>
@@ -7524,10 +7750,11 @@ show index from index_user;
 </ul>
 ]]></content>
       <categories>
+        <category>数据库</category>
         <category>MySQL</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
+        <tag>MySQL索引原理</tag>
       </tags>
   </entry>
   <entry>
@@ -7665,10 +7892,11 @@ show index from index_user;
 <p><code>select ... for update </code> 会使用行级别锁。</p>
 ]]></content>
       <categories>
+        <category>数据库</category>
         <category>MySQL</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
+        <tag>MySQL事物与锁</tag>
       </tags>
   </entry>
   <entry>
@@ -7725,10 +7953,11 @@ show index from index_user;
 <p>InndDB 解决幻读：是通过间隙锁+锁住本身的数据（next-key），间隙锁锁住一段范围，所以其他事务无法对这段范围的数据进行插入删除等操作，所以就不存在幻读的问题。</p>
 ]]></content>
       <categories>
+        <category>数据库</category>
         <category>MySQL</category>
       </categories>
       <tags>
-        <tag>MySQL</tag>
+        <tag>MySQLMVCC</tag>
       </tags>
   </entry>
   <entry>
@@ -8407,6 +8636,7 @@ show index from index_user;
 </ol>
 ]]></content>
       <categories>
+        <category>写作</category>
         <category>Obsdian</category>
       </categories>
       <tags>
@@ -8459,7 +8689,7 @@ show index from index_user;
 </blockquote>
 ]]></content>
       <categories>
-        <category>Miniconda</category>
+        <category>Miniconda库</category>
       </categories>
       <tags>
         <tag>Miniconda</tag>
@@ -8607,7 +8837,8 @@ show index from index_user;
 <p>接下来重启Navicat 即可。</p>
 ]]></content>
       <categories>
-        <category>Oracle</category>
+        <category>软件</category>
+        <category>Navicat</category>
       </categories>
       <tags>
         <tag>Oracle</tag>
@@ -8785,7 +9016,8 @@ show index from index_user;
 </blockquote>
 ]]></content>
       <categories>
-        <category>ORACLE-APEX</category>
+        <category>CentOS</category>
+        <category>安装ORACLE-APEX</category>
       </categories>
       <tags>
         <tag>ORACLE-APEX</tag>
@@ -8835,7 +9067,8 @@ show index from index_user;
 <p>一个函数的粒度应该尽可能细，不要让一个函数做太多的事情。所以，对待一个复杂的函数，我们需要尽可能地把它拆分成几个功能简单的函数，然后合并起来。</p>
 ]]></content>
       <categories>
-        <category>PEP8</category>
+        <category>Python</category>
+        <category>代码规范</category>
       </categories>
       <tags>
         <tag>PEP8</tag>
@@ -8916,12 +9149,12 @@ show index from index_user;
   </entry>
   <entry>
     <title>Linux文件目录</title>
-    <url>/2021/02/02/Linux%20%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/</url>
+    <url>/2021/02/02/Linux%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/</url>
     <content><![CDATA[<span id="more"></span>
 
 
 
-<p><img src="/2021/02/02/Linux%20%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/linuxfile.jpg"></p>
+<p><img src="/2021/02/02/Linux%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95/linuxfile.jpg"></p>
 <ul>
 <li><p><strong>/bin</strong>：<br>bin是Binary的缩写, 这个目录存放着最经常使用的命令。</p>
 </li>
@@ -9040,7 +9273,8 @@ show index from index_user;
 
 ]]></content>
       <categories>
-        <category>pip</category>
+        <category>Pypi</category>
+        <category>mysqlclient</category>
       </categories>
       <tags>
         <tag>mysqlclient</tag>
@@ -9159,7 +9393,8 @@ show index from index_user;
 <p>参考材料：<a href> https://www.cnblogs.com/littleatp/p/10542137.html </a></p>
 ]]></content>
       <categories>
-        <category>PostgreSQL</category>
+        <category>CentOS</category>
+        <category>安装PostgreSQL</category>
       </categories>
       <tags>
         <tag>PostgreSQL</tag>
@@ -9179,6 +9414,7 @@ show index from index_user;
 ]]></content>
       <categories>
         <category>Python</category>
+        <category>Pillow</category>
       </categories>
       <tags>
         <tag>Python</tag>
@@ -9334,7 +9570,7 @@ flask shell
 <h2 id><a href="#" class="headerlink" title></a></h2><h2 id="其他问题："><a href="#其他问题：" class="headerlink" title="其他问题："></a>其他问题：</h2><p><a href="https://blog.csdn.net/qq_34174198/article/details/120663608">https://blog.csdn.net/qq_34174198/article/details/120663608</a></p>
 ]]></content>
       <categories>
-        <category>rocketmq</category>
+        <category>编译安装RocketMQ</category>
       </categories>
       <tags>
         <tag>rocketmq</tag>
@@ -9440,10 +9676,11 @@ flask shell
 </ul>
 ]]></content>
       <categories>
-        <category>网络</category>
+        <category>计算机网络</category>
+        <category>CDN</category>
       </categories>
       <tags>
-        <tag>网络</tag>
+        <tag>计算机网络</tag>
       </tags>
   </entry>
   <entry>
@@ -9505,6 +9742,7 @@ flask shell
 
 ]]></content>
       <categories>
+        <category>数据库</category>
         <category>MySQL</category>
       </categories>
       <tags>
