@@ -9267,4 +9267,78 @@ flask shell
         <tag>MySQL</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Pythonista开发前的基础工作之浏览器篇</title>
+    <url>/2023/09/29/Pythonista%E5%BC%80%E5%8F%91%E5%89%8D%E7%9A%84%E5%9F%BA%E7%A1%80%E5%B7%A5%E4%BD%9C%E4%B9%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AF%87/</url>
+    <content><![CDATA[<p>​    </p>
+<a id="more"></a>
+
+<h1 id="Pythonista开发前的基础工作之浏览器篇"><a href="#Pythonista开发前的基础工作之浏览器篇" class="headerlink" title="Pythonista开发前的基础工作之浏览器篇"></a>Pythonista开发前的基础工作之浏览器篇</h1><h2 id="1-浏览器的选择"><a href="#1-浏览器的选择" class="headerlink" title="1 浏览器的选择"></a>1 浏览器的选择</h2><p>浏览器这个东西因人而异，每个人的使用习惯不一样，根据自己的习惯选择就好。</p>
+<p>目前的主流浏览器有：<a href="https://www.google.com/chrome/">Chrome</a>、<a href="https://www.microsoft.com/edge">Edge</a>、<a href="https://www.apple.com/tw/safari/">Safari</a>、<a href="https://www.mozilla.org/firefox/new/">Firefox</a>。</p>
+<p>之前还听说过一个浏览器叫做<a href="https://arc.net/">ARC</a>，使用习惯好像上面那些传统的浏览器不一致，比较新颖。不过目前好像不支持windows，也没用过，使用过的小伙伴可以说一下感受。</p>
+<blockquote>
+<p>我的选择：<strong>Chrome</strong>。</p>
+</blockquote>
+<p>之前参考过一篇<a href="https://tw93.fun/2023-08-20/edge.html">文章</a>，然后倒腾了下Edge dev版本, 使用的侧边栏的形式，也是使用了大概两周，但是在一些方面感觉还是不如<strong>Chrome</strong>用的顺手，就又换了回去。</p>
+<h2 id="2-浏览器设置"><a href="#2-浏览器设置" class="headerlink" title="2 浏览器设置"></a>2 浏览器设置</h2><p>首先Google账号必须要设置的，不使用账号登录的话，同步功能无法很好的使用。</p>
+<p>浏览器的一些具体配置，首先打开浏览器的设置界面：  </p>
+<p>第一栏<code>您与Google</code>-&gt; <code>同步功能和 Google 服务</code>的<code>允许登录</code>和<code>改进搜索建议</code>是开启的，其他选项都是关闭的。</p>
+<p><img src="https://origin.chaizz.com/tc/image-20230929232249560.png"></p>
+<p>第三栏<code>隐私与安全</code>-&gt;<code>隐私保护指南</code>里面<code>历史同步记录</code>是开的，保护级别为<code>标准保护</code>，第三方 Cookie 偏好设置为<code>在无痕模式下阻止第三方 Cookie</code>。</p>
+<p><code>隐私与安全</code>-&gt;<code>广告隐私权设置</code>里面的所有能选择的按钮，我全是关的。最近Google出了这个推送广告服务，看来要和百度如出一辙了。</p>
+<p>第四栏<code>性能</code>-&gt;<code>内存节省程序</code> 设置为开。</p>
+<p>其他的就没有特别的设置了。</p>
+<h2 id="3-扩展程序"><a href="#3-扩展程序" class="headerlink" title="3 扩展程序"></a>3 扩展程序</h2><p>扩展程序我安装的比较多，都是将一些常用的打开， 不常用的关闭， 等到需要用的时候，再打开使用，也能节省一点内存。</p>
+<p>常用的一些扩展</p>
+<ul>
+<li><strong>AdGuard 广告拦截器</strong> - 拦截广告，感觉效果很好 - <a href="https://chrome.google.com/webstore/detail/adguard-adblocker/bgnkhhnnamicmpeenaelnjfhikgbkllg">地址</a></li>
+<li><strong>IDM Integration Module</strong> - 下载器，无敌好用 - <a href="https://chrome.google.com/webstore/detail/idm-integration-module/ngpampappnmepgilojfohadhhmbhlaek">地址</a></li>
+<li><strong>PureTwitte</strong>r - 用来绿化X的，屏蔽一些黄推 - <a href="https://chrome.google.com/webstore/detail/puretwitter/nflidllhiamnebgbgoemadhhfdpbbpbi">地址</a></li>
+<li><strong>Vue.js devtools</strong> - vuedebug工具 - <a href="https://chrome.google.com/webstore/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd">地址</a></li>
+<li><strong>沉浸式翻译</strong> - 翻译工具 - <a href="https://chrome.google.com/webstore/detail/immersive-translate-web-p/bpoadfkcbjbfhfodiogcnhhhpibjhbnh">地址</a></li>
+<li><strong>沙拉查词-聚合词典划词翻译</strong> - 划词翻译 - <a href="https://chrome.google.com/webstore/detail/%E6%B2%99%E6%8B%89%E6%9F%A5%E8%AF%8D-%E8%81%9A%E5%90%88%E8%AF%8D%E5%85%B8%E5%88%92%E8%AF%8D%E7%BF%BB%E8%AF%91/cdonnmffkdaoajfknoeeecmchibpmkmg">地址</a></li>
+<li><strong>稀土掘金</strong> - 一般我会用来当做浏览器首页 - <a href="https://chrome.google.com/webstore/detail/%E7%A8%80%E5%9C%9F%E6%8E%98%E9%87%91/lecdifefmmfjnjjinhaennhdlmcaeeeb">地址</a></li>
+<li><strong>类似的网站</strong> - 查询类型的网站 - <a href="https://chrome.google.com/webstore/detail/similar-sites-discover-re/necpbmbhhdiplmfhmjicabdeighkndkn">地址</a></li>
+<li><strong>篡改猴</strong> - 就是油猴，后续也会介绍一些常用的脚本 - <a href="https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo">地址</a> </li>
+<li><strong>购物党自动比价工具</strong> - 购物比价，不过现在都不在网页上购物了， 有时候会打开看看价格走势 - <a href="https://chrome.google.com/webstore/detail/%E8%B4%AD%E7%89%A9%E5%85%9A%E8%87%AA%E5%8A%A8%E6%AF%94%E4%BB%B7%E5%B7%A5%E5%85%B7/jgphnjokjhjlcnnajmfjlacjnjkhleah">地址</a></li>
+</ul>
+<p>不常用的扩展：</p>
+<ul>
+<li><strong>AI沉浸翻译和YouTube/Netflix双字幕</strong> - 这个东西可以在看外文视频网站时打开实时翻译，是一个很不错的学英语的工具 - <a href="https://chrome.google.com/webstore/detail/ai-translator-and-youtube/mjdbhokoopacimoekfgkcoogikbfgngb">地址</a></li>
+<li><strong>Axure RP Extension for Chrome</strong> - 查看原型时使用 - <a href="https://chrome.google.com/webstore/detail/axure-rp-extension-for-ch/dogkpdfcklifaemcdfbildhcofnopogp">地址</a></li>
+<li><strong>Dark Reader</strong> - 使没有夜间主题的网站手动变为夜间主题 - <a href="https://chrome.google.com/webstore/detail/dark-reader/eimadpbcbfnmbkopoojfekhnkhdbieeh">地址</a></li>
+<li><strong>GitZip for github</strong> - 可以单独下载github仓库的文件夹 - <a href="https://chrome.google.com/webstore/detail/gitzip-for-github/ffabmkklhbepgcgfonabamgnfafbdlkn">地址</a></li>
+<li><strong>JSON格式化工具</strong> - 美化web端的json - <a href="https://chrome.google.com/webstore/detail/json%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%B7%A5%E5%85%B7/hldkiepdcdeibnadnpiekpbdgbgbalob">地址</a></li>
+<li><strong>Minimal Theme for Twitter</strong> - x的美化主题 - <a href="https://chrome.google.com/webstore/detail/minimal-theme-for-twitter/pobhoodpcipjmedfenaigbeloiidbflp">地址</a></li>
+<li><strong>Nimbus 截幕 &amp; 屏幕录像机</strong> - 使用这个工具一般用来网页录屏，截图都用Snipaste - <a href="https://chrome.google.com/webstore/detail/nimbus-screenshot-screen/bpconcjcammlapcogcnnelfmaeghhagj">地址</a></li>
+<li><strong>Simple Allow Copy</strong> - 解除网站复制的，一些油猴脚本也可以实现 - <a href="https://chrome.google.com/webstore/detail/simple-allow-copy/aefehdhdciieocakfobpaaolhipkcpgc">地址</a></li>
+<li><strong>Volume Master</strong> - 可以增大网页播放器音量 - <a href="https://chrome.google.com/webstore/detail/volume-master/jghecgabfgfdldnmbfkhmffcabddioke">地址</a></li>
+<li><strong>XPath Helper</strong> - 爬虫必备 - <a href="https://chrome.google.com/webstore/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl">地址</a></li>
+<li><strong>捕捉网页截图</strong> - 网页截图工具，保存为PDF - <a href="https://chrome.google.com/webstore/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg">地址</a></li>
+<li><strong>猫抓</strong> - 网页媒体休嗅探工具 - <a href="https://chrome.google.com/webstore/detail/%E7%8C%AB%E6%8A%93/jfedfbgedapdagkghmgibemcoggfppbb">地址</a></li>
+</ul>
+<h2 id="4-油猴脚本"><a href="#4-油猴脚本" class="headerlink" title="4 油猴脚本"></a>4 油猴脚本</h2><ul>
+<li><strong>anti-redirect</strong> - 去除重定向 - <a href="https://greasyfork.org/zh-CN/scripts/11915-anti-redirect">地址</a></li>
+<li><strong>HTML5视频播放器增强脚本</strong> - 很强大的H5播放器，平时看视频可以超高倍速 - <a href="https://greasyfork.org/zh-CN/scripts/381682-html5%E8%A7%86%E9%A2%91%E6%92%AD%E6%94%BE%E5%99%A8%E5%A2%9E%E5%BC%BA%E8%84%9A%E6%9C%AC">地址</a></li>
+<li><strong>Twitter Block Porn</strong> - 同样是屏蔽黄推的 -<a href="https://greasyfork.org/zh-CN/scripts/470359-twitter-block-porn">地址</a></li>
+<li><strong>V2EX Polish</strong> - 美化V2ex - <a href="https://greasyfork.org/zh-CN/scripts/459848-v2ex-polish-%E4%BD%93%E9%AA%8C%E6%9B%B4%E7%8E%B0%E4%BB%A3%E5%8C%96%E7%9A%84-v2ex">地址</a></li>
+<li><strong>百度网盘千千下载助手</strong> - 百度网盘下载助手结合IDM可直接满速下载，**需要关注公众号 **- <a href="https://greasyfork.org/zh-CN/scripts/463171-%E7%99%BE%E5%BA%A6%E7%BD%91%E7%9B%98%E5%8D%83%E5%8D%83%E4%B8%8B%E8%BD%BD%E5%8A%A9%E6%89%8B">地址</a></li>
+<li><strong>知乎修改器</strong> - 美化知乎 - <a href="https://greasyfork.org/zh-CN/scripts/423404-%E7%9F%A5%E4%B9%8E%E4%BF%AE%E6%94%B9%E5%99%A8-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0-%E5%8A%AA%E5%8A%9B%E5%AE%9E%E7%8E%B0%E5%8A%9F%E8%83%BD%E6%9C%80%E5%85%A8%E7%9A%84%E7%9F%A5%E4%B9%8E%E9%85%8D%E7%BD%AE%E6%8F%92%E4%BB%B6">地址</a></li>
+<li><strong>知乎隐藏标题</strong> - 在浏览知乎时隐藏知乎的标题 - <a href="https://greasyfork.org/zh-CN/scripts/476351-%E7%9F%A5%E4%B9%8E%E9%9A%90%E8%97%8F%E6%A0%87%E9%A2%98">地址</a></li>
+<li><strong>网盘直链下载助手</strong> - 百度网盘下载助手结合IDM可直接满速下载，**需要关注公众号 ** - <a href="https://greasyfork.org/zh-CN/scripts/436446-%E7%BD%91%E7%9B%98%E7%9B%B4%E9%93%BE%E4%B8%8B%E8%BD%BD%E5%8A%A9%E6%89%8B">地址</a></li>
+<li><strong>CSDN广告完全过滤</strong> - 免登陆直接复制等 - <a href="https://greasyfork.org/zh-CN/scripts/378351-%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0-csdn%E5%B9%BF%E5%91%8A%E5%AE%8C%E5%85%A8%E8%BF%87%E6%BB%A4-%E4%BA%BA%E6%80%A7%E5%8C%96%E8%84%9A%E6%9C%AC%E4%BC%98%E5%8C%96-%E4%B8%8D%E7%94%A8%E5%86%8D%E7%99%BB%E5%BD%95%E4%BA%86-%E8%AE%A9%E4%BD%A0%E4%BD%93%E9%AA%8C%E4%BB%A4%E4%BA%BA%E6%83%8A%E5%96%9C%E7%9A%84%E5%B4%AD%E6%96%B0csdn">地址</a></li>
+</ul>
+<h2 id="5-配置同步"><a href="#5-配置同步" class="headerlink" title="5 配置同步"></a>5 配置同步</h2><p>Chrome的设置和扩展在Chrome的同步数据中都可以打开， 进行直接同步。</p>
+<p>油猴脚本的同步需要打开脚本管理面板的同步设置：</p>
+<p><code>点击油猴插件图标</code> -&gt; <code>点击管理面板</code> -&gt; <code>右上角点击设置按钮</code> -&gt; <code>第一栏通用-&gt;配置模式-&gt;选择初学者或者高级</code> -&gt; <code>下拉会发现 同步脚本 栏</code> -&gt; <code>开启启用脚本</code> -&gt; <code>可选择同步类型，默认浏览器就行</code> -&gt; <code>点击现在运行即可同步</code></p>
+<p>建议在两个电脑之间同步脚本时，先将一个脚本列表清空在进行同步， 否则可能会导致冲突。</p>
+]]></content>
+      <categories>
+        <category>开发环境配置</category>
+        <category>浏览器配置</category>
+      </categories>
+      <tags>
+        <tag>开发环境配置</tag>
+      </tags>
+  </entry>
 </search>
