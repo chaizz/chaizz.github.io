@@ -1238,22 +1238,15 @@
 </li>
 </ul>
 <h2 id="3-插件"><a href="#3-插件" class="headerlink" title="3 插件"></a>3 插件</h2><ul>
-<li><p>.ignore  忽略文件</p>
-</li>
-<li><p>Translation 翻译插件， 需要自己设置翻译SDK的key </p>
-</li>
-<li><p>Atom Material Icons   一个好看的文件夹主题</p>
-</li>
-<li><p>GitToolBox    git 相关插件， 显示历史修改人等</p>
-</li>
-<li><p>One Dark Theme  黑色主题</p>
-</li>
-<li><p>Tabnine AI Code Completion AI开发助手</p>
-</li>
-<li><p>sourcery  基于AI的编码助手</p>
-</li>
-<li><p>LeetCode Editor leetcode 插件</p>
-</li>
+<li>.ignore  忽略文件</li>
+<li>Translation 翻译插件， 需要自己设置翻译SDK的key </li>
+<li>Atom Material Icons   一个好看的文件夹主题</li>
+<li>GitToolBox    git 相关插件， 显示历史修改人等</li>
+<li>One Dark Theme  黑色主题</li>
+<li>Tabnine AI Code Completion AI开发助手</li>
+<li>sourcery  基于AI的编码助手</li>
+<li>LeetCode Editor leetcode 插件</li>
+<li>Git Commit Message Helper 提交规范</li>
 </ul>
 <h2 id="4-代码模板"><a href="#4-代码模板" class="headerlink" title="4 代码模板"></a>4 代码模板</h2><ul>
 <li><p>设置 -&gt; 编辑器 -&gt; 文件和代码模板 -&gt; Python Script </p>
